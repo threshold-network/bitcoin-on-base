@@ -32,24 +32,6 @@ const toUsdBalance = (token: TokenState) => {
 export const tokenSlice = createSlice({
   name: "tokens",
   initialState: {
-    [Token.Keep]: {
-      loading: false,
-      balance: 0,
-      conversionRate: 4.87,
-      text: Token.Keep,
-      icon: "KEEP_CIRCLE_BRAND",
-      usdConversion: 0,
-      usdBalance: "0",
-    },
-    [Token.Nu]: {
-      loading: false,
-      balance: 0,
-      conversionRate: 2.66,
-      text: Token.Nu,
-      icon: "NU_CIRCLE_BRAND",
-      usdConversion: 0,
-      usdBalance: "0",
-    },
     [Token.T]: {
       loading: false,
       balance: 0,

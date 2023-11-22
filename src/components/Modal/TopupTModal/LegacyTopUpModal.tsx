@@ -47,7 +47,6 @@ const LegacyTopUpModal: FC<BaseModalProps & { stake: StakeData }> = ({
   closeModal,
   stake,
 }) => {
-  const tBalance = useTokenBalance(Token.T)
   const { openModal } = useModal()
   // TODO find a solution to style bullets with chakra theme.
   const bulletColor = useColorModeValue("gray.700", "gray.300")
@@ -99,7 +98,7 @@ const LegacyTopUpModal: FC<BaseModalProps & { stake: StakeData }> = ({
                 onSubmitForm={onSubmitForm}
                 label="Top-up amount"
                 submitButtonText="Top-up"
-                maxTokenAmount={tBalance}
+                maxTokenAmount={1}
                 shouldDisplayMaxAmountInLabel
               />
             </TabPanel>

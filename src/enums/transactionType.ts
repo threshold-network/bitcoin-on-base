@@ -1,8 +1,4 @@
 export enum TransactionType {
-  ApproveKeep = "APPROVE_KEEP",
-  ApproveNu = "APPROVE_NU",
-  UpgradeKeep = "UPGRADE_KEEP",
-  UpgradeNu = "UPGRADE_NU",
   ApproveT = "APPROVE_T",
 }
 

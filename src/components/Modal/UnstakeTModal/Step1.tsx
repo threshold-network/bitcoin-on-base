@@ -24,7 +24,7 @@ import { TokenAmountForm } from "../../Forms"
 import KeepCircleBrand from "../../../static/icons/KeepCircleBrand"
 import NuCircleBrand from "../../..//static/icons/NuCircleBrand"
 import { useModal } from "../../../hooks/useModal"
-import { BaseModalProps, UpgredableToken } from "../../../types"
+import { BaseModalProps } from "../../../types"
 import { StakeData } from "../../../types/staking"
 import { ModalType, Token, UnstakeType } from "../../../enums"
 import withBaseModal from "../withBaseModal"
@@ -60,10 +60,6 @@ const UnstakeTModal: FC<BaseModalProps & { stake: StakeData }> = ({
   const hasNuStake = stake.nuInTStake !== "0"
   const hasKeepStake = stake.keepInTStake !== "0"
   const hasLegacyStake = hasNuStake || hasKeepStake
-
-  const getLegacyTabTitle = (token: UpgredableToken) => {
-    return `Unstake legacy ${hasKeepStake && hasNuStake ? token : ""} stake`
-  }
 
   const unstakeAllBtnHelperText = useMemo(() => {
     const suffix =
@@ -116,21 +112,6 @@ const UnstakeTModal: FC<BaseModalProps & { stake: StakeData }> = ({
           <DeauthorizeInfo stakingProvider={stake.stakingProvider} />
         </InfoBox>
         <Tabs isFitted>
-          <TabList mb="8">
-            <Tab onClick={() => setUnstakeType(UnstakeType.NATIVE)}>
-              Unstake T
-            </Tab>
-            {hasKeepStake && (
-              <Tab onClick={() => setUnstakeType(UnstakeType.LEGACY_KEEP)}>
-                {getLegacyTabTitle(Token.Keep)}
-              </Tab>
-            )}
-            {hasNuStake && (
-              <Tab onClick={() => setUnstakeType(UnstakeType.LEGACY_NU)}>
-                {getLegacyTabTitle(Token.Nu)}
-              </Tab>
-            )}
-          </TabList>
           <TabPanels>
             <TabPanel>
               <TokenAmountForm

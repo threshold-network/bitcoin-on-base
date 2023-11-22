@@ -48,8 +48,6 @@ export type TokenActionTypes =
 
 export interface UseTokenState {
   (): {
-    keep: TokenState
-    nu: TokenState
     t: TokenState
     tbtc: TokenState
     tbtcv2: TokenState
@@ -81,5 +79,3 @@ export interface UseErc20Interface {
     contract: Contract | null
   }
 }
-
-export type UpgredableToken = Token.Nu | Token.Keep

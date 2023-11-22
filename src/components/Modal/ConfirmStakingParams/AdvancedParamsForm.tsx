@@ -81,7 +81,7 @@ type AdvancedParamsFormProps = {
   innerRef: Ref<FormikProps<FormValues>>
   checkIfProviderUsed: (
     stakingProvider: string
-  ) => Promise<{ isProviderUsedForKeep: boolean; isProviderUsedForT: boolean }>
+  ) => Promise<{ isProviderUsedForT: boolean }>
   onSubmitForm: (values: FormValues) => void
 } & ComponentProps
 
@@ -99,12 +99,12 @@ const AdvancedParamsForm = withFormik<AdvancedParamsFormProps, FormValues>({
     if (!errors.stakingProvider) {
       let validationMsg: string | undefined = ""
       try {
-        const { isProviderUsedForKeep, isProviderUsedForT } =
-          await checkIfProviderUsed(values.stakingProvider)
-        validationMsg =
-          isProviderUsedForKeep || isProviderUsedForT
-            ? "Provider address is already in use."
-            : undefined
+        const { isProviderUsedForT } = await checkIfProviderUsed(
+          values.stakingProvider
+        )
+        validationMsg = isProviderUsedForT
+          ? "Provider address is already in use."
+          : undefined
       } catch (error) {
         console.error("`AdvancedParamsForm` validation error.", error)
         validationMsg = (error as Error)?.message

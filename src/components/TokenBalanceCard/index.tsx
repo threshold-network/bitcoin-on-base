@@ -19,8 +19,6 @@ export type TokenBalanceCardProps = {
 >
 
 const tokenToIconMap = {
-  [Token.Keep]: KeepCircleBrand,
-  [Token.Nu]: NuCircleBrand,
   [Token.T]: T,
   [Token.TBTCV2]: tBTCFillBlack,
 }

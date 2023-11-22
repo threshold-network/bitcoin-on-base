@@ -10,24 +10,8 @@ import { Token } from "../../enums"
 export const transactionSlice = createSlice({
   name: "transactions",
   initialState: {
-    [TransactionType.ApproveKeep]: {
-      token: Token.Keep,
-      status: TransactionStatus.Idle,
-    },
-    [TransactionType.ApproveNu]: {
-      token: Token.Nu,
-      status: TransactionStatus.Idle,
-    },
     [TransactionType.ApproveT]: {
       token: Token.T,
-      status: TransactionStatus.Idle,
-    },
-    [TransactionType.UpgradeKeep]: {
-      token: Token.Keep,
-      status: TransactionStatus.Idle,
-    },
-    [TransactionType.UpgradeNu]: {
-      token: Token.Nu,
       status: TransactionStatus.Idle,
     },
   } as Record<TransactionType, TransactionInfo>,

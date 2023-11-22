@@ -60,7 +60,6 @@ export const useErc20TokenContract: UseErc20Interface = (
           setTokenBalance(token, balance.toString())
           setTokenLoading(token, false)
         } catch (error) {
-          setTokenLoading(Token.Nu, false)
           console.log(
             `Error: Fetching ${token} balance failed for ${account}`,
             error
