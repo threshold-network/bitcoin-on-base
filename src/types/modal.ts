@@ -43,7 +43,6 @@ import NewStakerAuthorizeStakingApplicationModal from "../components/Modal/NewSt
 import MapOperatorToStakingProviderModal from "../components/Modal/MapOperatorToStakingProviderModal"
 import MapOperatorToStakingProviderConfirmationModal from "../components/Modal/MapOperatorToStakingProviderConfirmationModal"
 import { MapOperatorToStakingProviderSuccess } from "../components/Modal/MapOperatorToStakingProviderSuccessModal"
-import AnalyticsModal from "../components/Modal/AnalyticsModal"
 import {
   GenerateNewDepositAddress,
   InitiateUnminting,
@@ -91,7 +90,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.ConfirmDeauthorization]: ConfirmDeauthorization,
   [ModalType.DeauthorizationCompleted]: DeauthorizationCompleted,
   [ModalType.DeauthorizationInitiated]: DeauthorizationInitiated,
-  [ModalType.Analytics]: AnalyticsModal,
   [ModalType.NewTBTCApp]: NewTBTCApp,
   [ModalType.FeedbackSubmission]: FeedbackSubmissionModal,
   [ModalType.GenerateNewDepositAddress]: GenerateNewDepositAddress,
