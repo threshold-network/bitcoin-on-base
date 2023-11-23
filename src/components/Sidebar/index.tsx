@@ -3,7 +3,6 @@ import {
   IoHomeSharp,
   IoLockClosedOutline,
   IoLockClosedSharp,
-  IoSwapHorizontalSharp,
   IoChatbubbleEllipsesOutline,
   IoChatbubbleEllipsesSharp,
 } from "react-icons/all"
@@ -29,12 +28,6 @@ const Sidebar = () => {
         activeIcon: IoHomeSharp,
         passiveIcon: IoHomeOutlineSharp,
         href: "/overview",
-      },
-      {
-        text: "Upgrade",
-        activeIcon: IoSwapHorizontalSharp,
-        passiveIcon: IoSwapHorizontalSharp,
-        href: upgradeHref,
       },
       {
         text: "Staking",
