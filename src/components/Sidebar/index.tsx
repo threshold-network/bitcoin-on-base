@@ -1,6 +1,5 @@
 import { NavItemDetail } from "./NavItem"
 import {
-  IoHomeSharp,
   IoLockClosedOutline,
   IoLockClosedSharp,
   IoSwapHorizontalSharp,
@@ -11,7 +10,6 @@ import { useLocation } from "react-router-dom"
 import { useMemo } from "react"
 import DesktopSidebar from "./DesktopSidebar"
 import MobileSidebar from "./MobileSidebar"
-import { IoHomeOutlineSharp } from "../../static/icons/IoHomeOutlineSharp"
 import useUpgradeHref from "../../hooks/useUpgradeHref"
 import { tBTCFill } from "../../static/icons/tBTCFill"
 import { tBTCOutline } from "../../static/icons/tBTCOutline"
@@ -24,12 +22,6 @@ const Sidebar = () => {
 
   const navItems: NavItemDetail[] = useMemo(() => {
     const navItems = [
-      {
-        text: "Overview",
-        activeIcon: IoHomeSharp,
-        passiveIcon: IoHomeOutlineSharp,
-        href: "/overview",
-      },
       {
         text: "Upgrade",
         activeIcon: IoSwapHorizontalSharp,
