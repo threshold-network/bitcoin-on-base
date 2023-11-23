@@ -2,21 +2,25 @@ import { useState, useCallback, useMemo } from "react"
 import { BigNumberish } from "ethers"
 import { formatUnits } from "@ethersproject/units"
 import {
+  useKeepBondingContract,
   useMulticall,
   useMulticallContract,
   useAssetPoolContract,
+  useKeepAssetPoolContract,
   useTStakingContract,
+  useKeepTokenStakingContract,
 } from "../web3/hooks"
 import { useETHData } from "./useETHData"
 import { useToken } from "./useToken"
 import { Token } from "../enums"
 import { toUsdBalance } from "../utils/getUsdBalance"
-import { useKeepBondingContract } from "../web3/hooks/useKeepBondingContract"
 
 interface TvlRawData {
   ecdsaTvl: string
   tbtcv1Tvl: string
   coveragePoolTvl: string
+  keepCoveragePoolTvl: string
+  keepStakingTvl: string
   tStakingTvl: string
   tBTC: string
   // TODO: add PRE and NU TVL
@@ -26,6 +30,8 @@ interface TvlData {
   ecdsa: string
   tbtcv1: string
   coveragePool: string
+  keepCoveragePool: string
+  keepStaking: string
   tStaking: string
   tBTC: string
   total: string
@@ -36,6 +42,8 @@ const initialState = {
   tbtcv1Tvl: "0",
   tBTC: "0",
   coveragePoolTvl: "0",
+  keepCoveragePoolTvl: "0",
+  keepStakingTvl: "0",
   tStakingTvl: "0",
 }
 
@@ -49,17 +57,22 @@ export const useFetchTvl = (): [
     ecdsaTvl,
     tbtcv1Tvl: tbtcTvl,
     coveragePoolTvl,
+    keepCoveragePoolTvl,
+    keepStakingTvl,
     tStakingTvl,
     tBTC: tBTCTvl,
   } = rawData
 
   const eth = useETHData()
+  const keep = useToken(Token.Keep)
   const tbtcv1 = useToken(Token.TBTC)
   const t = useToken(Token.T)
   const keepBonding = useKeepBondingContract()
   const multicall = useMulticallContract()
   const assetPool = useAssetPoolContract()
+  const keepAssetPool = useKeepAssetPoolContract()
   const tTokenStaking = useTStakingContract()
+  const keepTokenStaking = useKeepTokenStakingContract()
   const tBTCToken = useToken(Token.TBTCV2)
 
   const fetchOnChainData = useMulticall([
@@ -78,6 +91,17 @@ export const useFetchTvl = (): [
       address: assetPool?.address!,
       interface: assetPool?.interface!,
       method: "totalValue",
+    },
+    {
+      address: keepAssetPool?.address!,
+      interface: keepAssetPool?.interface!,
+      method: "totalValue",
+    },
+    {
+      address: keep.contract?.address!,
+      interface: keep.contract?.interface!,
+      method: "balanceOf",
+      args: [keepTokenStaking?.address],
     },
     {
       address: t.contract?.address!,
@@ -100,6 +124,8 @@ export const useFetchTvl = (): [
       ethInKeepBonding,
       tbtcv1TokenTotalSupply,
       coveragePoolTvl,
+      keepCoveragePoolTvl,
+      keepStaking,
       tStaking,
       tBTCTokenTotalSupply,
     ] = chainData.map((amount: BigNumberish) => amount.toString())
@@ -108,6 +134,8 @@ export const useFetchTvl = (): [
       ecdsaTvl: ethInKeepBonding,
       tbtcv1Tvl: tbtcv1TokenTotalSupply,
       coveragePoolTvl: coveragePoolTvl,
+      keepCoveragePoolTvl: keepCoveragePoolTvl,
+      keepStakingTvl: keepStaking,
       tStakingTvl: tStaking,
       tBTC: tBTCTokenTotalSupply,
     }
@@ -127,23 +155,44 @@ export const useFetchTvl = (): [
       t.usdConversion
     )
 
+    const keepCoveragePool = toUsdBalance(
+      formatUnits(keepCoveragePoolTvl),
+      keep.usdConversion
+    )
+
+    const keepStaking = toUsdBalance(
+      formatUnits(keepStakingTvl),
+      keep.usdConversion
+    )
+
     const tStaking = toUsdBalance(formatUnits(tStakingTvl), t.usdConversion)
 
     return {
       ecdsa: ecdsa.toString(),
       tbtcv1: tbtcv1USD.toString(),
       coveragePool: coveragePool.toString(),
+      keepCoveragePool: keepCoveragePool.toString(),
+      keepStaking: keepStaking.toString(),
       tStaking: tStaking.toString(),
       tBTC: tBTCUSD.toString(),
       total: ecdsa
         .addUnsafe(tbtcv1USD)
         .addUnsafe(coveragePool)
+        .addUnsafe(keepCoveragePool)
+        .addUnsafe(keepStaking)
         .addUnsafe(tStaking)
         .addUnsafe(tBTCUSD)
         .toString(),
     } as TvlData
   }, [
+    ecdsaTvl,
+    keepCoveragePoolTvl,
+    tbtcTvl,
+    keepStakingTvl,
+    tStakingTvl,
+    tBTCTvl,
     eth.usdPrice,
+    keep.usdConversion,
     tbtcv1.usdConversion,
     t.usdConversion,
     tBTCToken.usdConversion,

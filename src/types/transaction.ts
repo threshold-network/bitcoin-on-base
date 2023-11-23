@@ -7,6 +7,10 @@ export interface UseTransaction {
       type: TransactionType,
       status: TransactionStatus
     ) => TransactionActionTypes
+    keepApproval: TransactionInfo
+    nuApproval: TransactionInfo
+    keepUpgrade: TransactionInfo
+    nuUpgrade: TransactionInfo
   }
 }
 
