@@ -6,7 +6,7 @@ import { AddressZero } from "../utils"
 
 export const PRE_DEPLOYMENT_BLOCK = supportedChainId === "1" ? 14141140 : 0
 
-const PRE_ADDRESSESS = {
+const PRE_ADDRESSES = {
   // https://etherscan.io/address/0x7E01c9c03FD3737294dbD7630a34845B0F70E5Dd
   [ChainID.Ethereum.valueOf().toString()]:
     "0x7E01c9c03FD3737294dbD7630a34845B0F70E5Dd",
@@ -24,5 +24,5 @@ const PRE_ADDRESSESS = {
 } as Record<string, string>
 
 export const usePREContract = () => {
-  return useContract(PRE_ADDRESSESS[supportedChainId], SimplePREApplicationABI)
+  return useContract(PRE_ADDRESSES[supportedChainId], SimplePREApplicationABI)
 }

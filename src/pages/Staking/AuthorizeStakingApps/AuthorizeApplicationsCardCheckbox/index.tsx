@@ -222,7 +222,7 @@ export const AuthorizeApplicationsCardCheckboxBase: FC<
 
   const onAuthorizeApp = async (tokenAmount: string) => {
     if (status === "to-authorize") {
-      // We want to display different modals for the authroization and for the
+      // We want to display different modals for the authorization and for the
       // increase aturhoziation.
       openModal(ModalType.AuthorizeStakingApps, {
         stakingProvider,

@@ -246,7 +246,7 @@ export interface ITBTC {
   findAllUnspentTransactionOutputs(): Promise<BitcoinUtxo[]>
 
   /**
-   * Gets estimated fees that will be payed during a reveal and estimated amount
+   * Gets estimated fees that will be paid during a reveal and estimated amount
    * of tBTC token that will be minted.
    * @param depositAmount Amount of BTC that will be revealed in Satoshi.
    * @returns Treasury fee, optimistic mint fee and estimated amount of tBTC
@@ -402,7 +402,7 @@ export interface ITBTC {
   ): Promise<RedemptionsCompletedEvent[]>
 
   /**
-   * Gets estimated fees that will be payed during a redemption and estimated
+   * Gets estimated fees that will be paid during a redemption and estimated
    * amount of BTC that will be redeemed.
    * @param redemptionAmount Amount of tbtc requested for redemption in ERC20
    * standard.
@@ -973,7 +973,7 @@ export class TBTC implements ITBTC {
         status,
         txHash: event.txHash,
         // We need to get an amount from an event because if the redemption was
-        // handled sucesfully the `getRedemptionRequest` returns `0`. The
+        // handled successfully the `getRedemptionRequest` returns `0`. The
         // `amount` in event is in satoshi, so here we convert to token
         // precision.
         amount: fromSatoshiToTokenPrecision(event.amount).toString(),

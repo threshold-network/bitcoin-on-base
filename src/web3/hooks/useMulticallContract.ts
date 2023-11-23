@@ -10,7 +10,7 @@ const MULTICALL_ABI = [
 
 // Addresses exported from:
 // https://github.com/makerdao/multicall#multicall-contract-addresses
-const MULTICALL_ADDRESSESS = {
+const MULTICALL_ADDRESSES = {
   [ChainID.Ethereum.valueOf()]: "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
   [ChainID.Goerli.valueOf()]: "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
   [ChainID.Localhost.valueOf()]:
@@ -19,7 +19,7 @@ const MULTICALL_ADDRESSESS = {
 
 export const useMulticallContract = () => {
   return useContract(
-    MULTICALL_ADDRESSESS[Number(supportedChainId)],
+    MULTICALL_ADDRESSES[Number(supportedChainId)],
     MULTICALL_ABI
   )
 }

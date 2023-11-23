@@ -6,7 +6,7 @@ import {
 import { defaultTheme } from "@threshold-network/components"
 
 // TODO: probably we should add a new color schema: `magic` and use
-// `colorSchema` prop instead of `variant` becasue `magic` can be `solid` and
+// `colorSchema` prop instead of `variant` because `magic` can be `solid` and
 // `otuline`. See:
 // https://www.figma.com/file/zZi2fYDUjWEMPQJWAt8VWv/Threshold-DS?node-id=2356%3A20781
 const variantMagic: SystemStyleFunction = (props) => {

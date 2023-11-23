@@ -6,7 +6,7 @@ import { AddressZero } from "../utils"
 
 export const DEPLOYMENT_BLOCK = supportedChainId === "1" ? 15146501 : 0
 
-const CONTRACT_ADDRESSESS = {
+const CONTRACT_ADDRESSES = {
   // https://etherscan.io/address/0xea7ca290c7811d1cc2e79f8d706bd05d8280bd37
   [ChainID.Ethereum.valueOf().toString()]:
     "0xeA7CA290c7811d1cC2e79f8d706bD05d8280BD37",
@@ -19,7 +19,7 @@ const CONTRACT_ADDRESSESS = {
 
 export const useMerkleDropContract = () => {
   return useContract(
-    CONTRACT_ADDRESSESS[supportedChainId],
+    CONTRACT_ADDRESSES[supportedChainId],
     CumulativeMerkleDropABI
   )
 }

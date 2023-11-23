@@ -38,7 +38,7 @@ export const MULTICALL_ABI = [
   "function getEthBalance(address addr) view returns (uint256 balance)",
   "function getCurrentBlockTimestamp() view returns (uint256 timestamp)",
 ]
-export const MULTICALL_ADDRESSESS = {
+export const MULTICALL_ADDRESSES = {
   1: "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
   5: "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
   1337: process.env.REACT_APP_MULTICALL_ADDRESS || AddressZero,
@@ -48,7 +48,7 @@ export class Multicall implements IMulticall {
   private _multicall: Contract
 
   constructor(config: EthereumConfig) {
-    const address = MULTICALL_ADDRESSESS[config.chainId]
+    const address = MULTICALL_ADDRESSES[config.chainId]
     if (!address) {
       throw new Error("Unsupported chain id")
     }

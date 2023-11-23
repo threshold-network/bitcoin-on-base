@@ -5,7 +5,7 @@ import {
   IMulticall,
   Multicall,
   MULTICALL_ABI,
-  MULTICALL_ADDRESSESS,
+  MULTICALL_ADDRESSES,
 } from ".."
 import { getContract } from "../../utils"
 
@@ -35,7 +35,7 @@ describe("Multicall test", () => {
 
   test("should create the instance correctly", () => {
     expect(getContract).toHaveBeenCalledWith(
-      MULTICALL_ADDRESSESS[config.chainId],
+      MULTICALL_ADDRESSES[config.chainId],
       MULTICALL_ABI,
       config.providerOrSigner,
       config.account
@@ -50,7 +50,7 @@ describe("Multicall test", () => {
     }).toThrowError("Unsupported chain id")
   })
 
-  test("should agregate contract calls into a single result", async () => {
+  test("should aggregate contract calls into a single result", async () => {
     const call1EncodeData = "0x123"
     const call2EncodeData = "0x456"
     const call1DecodeResult = "1"
