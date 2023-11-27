@@ -5,12 +5,11 @@ import { useTokenState } from "../../../hooks/useTokenState"
 import InfoBox from "../../../components/InfoBox"
 import TokenBalance from "../../../components/TokenBalance"
 import { StakingContractLearnMore } from "../../../components/Link"
-import { useStakingState } from "../../../hooks/useStakingState"
 import ButtonLink from "../../../components/ButtonLink"
 
 const StakingOverview: FC = () => {
   const { t } = useTokenState()
-  const { stakedBalance } = useStakingState()
+  const stakedBalance = "1" // Note: temporary solution, it will be removed in separate PR
 
   return (
     <CardTemplate title="STAKING" height="fit-content">

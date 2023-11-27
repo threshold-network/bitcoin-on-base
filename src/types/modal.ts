@@ -18,7 +18,6 @@ import {
 } from "../components/Modal/ClaimingRewards"
 import TbtcRecoveryFileModalModal from "../components/Modal/TbtcRecoveryFileModal"
 import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
-import DeauthorizeApplicationModal from "../components/Modal/DeauthorizeApplicationModal"
 import AnalyticsModal from "../components/Modal/AnalyticsModal"
 import {
   GenerateNewDepositAddress,
@@ -42,7 +41,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.ClaimingRewardsSuccess]: ClaimRewardsSuccessModal,
   [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,
   [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
-  [ModalType.DeauthorizeApplication]: DeauthorizeApplicationModal,
   [ModalType.Analytics]: AnalyticsModal,
   [ModalType.NewTBTCApp]: NewTBTCApp,
   [ModalType.FeedbackSubmission]: FeedbackSubmissionModal,

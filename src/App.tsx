@@ -40,13 +40,6 @@ import { useCheckBonusEligibility } from "./hooks/useCheckBonusEligibility"
 import { useFetchStakingRewards } from "./hooks/useFetchStakingRewards"
 import { isSameETHAddress } from "./web3/utils"
 import { ThresholdProvider } from "./contexts/ThresholdContext"
-import {
-  useSubscribeToAuthorizationIncreasedEvent,
-  useSubscribeToAuthorizationDecreaseApprovedEvent,
-  useSubscribeToAuthorizationDecreaseRequestedEvent,
-  useSubscribeToOperatorRegisteredEvent,
-  useSubscribeToOperatorStatusUpdatedEvent,
-} from "./hooks/staking-applications"
 import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
 import { usePosthog } from "./hooks/posthog"
 import { featureFlags } from "./constants"
@@ -68,15 +61,6 @@ const Web3EventHandlerComponent = () => {
   useSubscribeToStakedEvent()
   useSubscribeToUnstakedEvent()
   useSubscribeToToppedUpEvent()
-  useSubscribeToAuthorizationIncreasedEvent()
-  useSubscribeToAuthorizationDecreaseApprovedEvent("tbtc")
-  useSubscribeToAuthorizationDecreaseApprovedEvent("randomBeacon")
-  useSubscribeToAuthorizationDecreaseRequestedEvent("tbtc")
-  useSubscribeToAuthorizationDecreaseRequestedEvent("randomBeacon")
-  useSubscribeToOperatorRegisteredEvent("tbtc")
-  useSubscribeToOperatorRegisteredEvent("randomBeacon")
-  useSubscribeToOperatorStatusUpdatedEvent("randomBeacon")
-  useSubscribeToOperatorStatusUpdatedEvent("tbtc")
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
   useSubscribeToOptimisticMintingRequestedEvent()
