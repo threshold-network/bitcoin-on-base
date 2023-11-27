@@ -2,7 +2,6 @@ import { createSelector } from "@reduxjs/toolkit"
 import { BigNumber } from "ethers"
 import { RootState } from ".."
 import { BonusEligibility } from "../../types"
-import { selectStakes } from "../staking"
 
 export const selectTotalRewardsBalance = (state: RootState) =>
   state.rewards.totalRewardsBalance
@@ -46,20 +45,10 @@ export const selectRewardsByStakingProvider = createSelector(
 )
 
 export const selectAccumulatedRewardsPerBeneficiary = createSelector(
-  [selectInterimRewards, selectStakes],
-  (rewards, stakes) => {
-    const beneficiaryRewards: { [beneficiary: string]: string } = {}
-    for (const stake of stakes) {
-      if (!rewards[stake.stakingProvider]) {
-        continue
-      }
-      const reward = rewards[stake.stakingProvider]
-      const prevAmount = BigNumber.from(
-        beneficiaryRewards[stake.beneficiary] || "0"
-      )
-      beneficiaryRewards[stake.beneficiary] = prevAmount.add(reward).toString()
+  [selectInterimRewards, () => {}],
+  () => {
+    return {
+      aaa: "bbb", // TODO: Temporary solution, remove in the future
     }
-
-    return beneficiaryRewards
   }
 )

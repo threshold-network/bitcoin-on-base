@@ -1,5 +1,6 @@
 import { threshold } from "./getThresholdLib"
-import { StakingAppName } from "../store/staking-applications"
+
+type StakingAppName = any // TODO: Temporary solution, remove in the future
 
 const stakingAppNameToAppLabel: Record<StakingAppName, string> = {
   tbtc: "tBTC",

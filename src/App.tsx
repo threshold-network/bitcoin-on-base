@@ -32,12 +32,7 @@ import { useSubscribeToContractEvent } from "./web3/hooks/useSubscribeToContract
 import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
 import { useVendingMachineContract } from "./web3/hooks/useVendingMachineContract"
 import { useModal } from "./hooks/useModal"
-import { useSubscribeToStakedEvent } from "./hooks/useSubscribeToStakedEvent"
-import { useSubscribeToUnstakedEvent } from "./hooks/useSubscribeToUnstakedEvent"
-import { useSubscribeToToppedUpEvent } from "./hooks/useSubscribeToToppedUpEvent"
 import { pages } from "./pages"
-import { useCheckBonusEligibility } from "./hooks/useCheckBonusEligibility"
-import { useFetchStakingRewards } from "./hooks/useFetchStakingRewards"
 import { isSameETHAddress } from "./web3/utils"
 import { ThresholdProvider } from "./contexts/ThresholdContext"
 import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
@@ -58,9 +53,6 @@ const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.Nu)
   useSubscribeToERC20TransferEvent(Token.T)
   useSubscribeToERC20TransferEvent(Token.TBTCV2)
-  useSubscribeToStakedEvent()
-  useSubscribeToUnstakedEvent()
-  useSubscribeToToppedUpEvent()
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
   useSubscribeToOptimisticMintingRequestedEvent()
@@ -155,8 +147,6 @@ const AppBody = () => {
   }, [dispatch])
 
   usePosthog()
-  useCheckBonusEligibility()
-  useFetchStakingRewards()
   useSaveConnectedAddressToStore()
   useSentry()
 

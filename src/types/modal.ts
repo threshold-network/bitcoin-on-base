@@ -10,8 +10,6 @@ import {
   TransactionIsPending,
   TransactionIsWaitingForConfirmation,
 } from "../components/Modal/TransactionModal"
-import { LegacyTopUpModal, TopupTModal } from "../components/Modal/TopupTModal"
-import TopupTSuccessModal from "../components/Modal/TopupTSuccessModal"
 import {
   ClaimingRewards,
   ClaimRewardsSuccessModal,
@@ -34,9 +32,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionFailed]: TransactionFailed,
   [ModalType.UpgradeToT]: UpgradeToT,
   [ModalType.UpgradedToT]: UpgradeToTSuccess,
-  [ModalType.TopupT]: TopupTModal,
-  [ModalType.TopupLegacyStake]: LegacyTopUpModal,
-  [ModalType.TopupTSuccess]: TopupTSuccessModal,
   [ModalType.ClaimingRewards]: ClaimingRewards,
   [ModalType.ClaimingRewardsSuccess]: ClaimRewardsSuccessModal,
   [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,

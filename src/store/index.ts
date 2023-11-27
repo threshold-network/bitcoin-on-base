@@ -12,7 +12,7 @@ import { ethSlice } from "./eth"
 import { rewardsSlice } from "./rewards"
 import { tbtcSlice, registerTBTCListeners } from "./tbtc"
 import { listenerMiddleware } from "./listener"
-import { accountSlice, registerAccountListeners } from "./account"
+import { accountSlice } from "./account"
 
 const combinedReducer = combineReducers({
   account: accountSlice.reducer,
@@ -34,7 +34,6 @@ export const resetStoreAction = () => ({
 const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
   if (action.type === APP_RESET_STORE) {
     listenerMiddleware.clearListeners()
-    registerAccountListeners()
     registerTBTCListeners()
     state = {
       eth: { ...state.eth },
