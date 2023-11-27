@@ -36,12 +36,6 @@ const Sidebar = () => {
         passiveIcon: IoSwapHorizontalSharp,
         href: upgradeHref,
       },
-      {
-        text: "Staking",
-        activeIcon: IoLockClosedSharp,
-        passiveIcon: IoLockClosedOutline,
-        href: "/staking/how-it-works",
-      },
     ]
 
     if (featureFlags.TBTC_V2) {
