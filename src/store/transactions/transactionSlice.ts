@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { PayloadAction } from "@reduxjs/toolkit/dist/createAction"
+import { Token } from "../../enums"
 import { TransactionStatus, TransactionType } from "../../enums/transactionType"
 import {
   SetTransactionStatusPayload,
   TransactionInfo,
 } from "../../types/transaction"
-import { PayloadAction } from "@reduxjs/toolkit/dist/createAction"
-import { Token } from "../../enums"
 
 export const transactionSlice = createSlice({
   name: "transactions",
@@ -20,14 +20,6 @@ export const transactionSlice = createSlice({
     },
     [TransactionType.ApproveT]: {
       token: Token.T,
-      status: TransactionStatus.Idle,
-    },
-    [TransactionType.UpgradeKeep]: {
-      token: Token.Keep,
-      status: TransactionStatus.Idle,
-    },
-    [TransactionType.UpgradeNu]: {
-      token: Token.Nu,
       status: TransactionStatus.Idle,
     },
   } as Record<TransactionType, TransactionInfo>,
