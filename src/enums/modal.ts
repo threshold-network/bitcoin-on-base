@@ -5,8 +5,6 @@ export enum ModalType {
   TransactionIsPending = "TRANSACTION_IS_PENDING",
   TransactionIsWaitingForConfirmation = "TRANSACTION_IS_WAITING_FOR_CONFIRMATION",
   TransactionFailed = "TRANSACTION_FAILED",
-  ClaimingRewards = "CLAIMING_REWARDS",
-  ClaimingRewardsSuccess = "CLAIMING_REWARDS_SUCCESS",
   TbtcRecoveryJson = "TBTC_RECOVERY_JSON",
   TbtcMintingConfirmation = "TBTC_MINTING_CONFIRMATION",
   Analytics = "ANALYTICS",

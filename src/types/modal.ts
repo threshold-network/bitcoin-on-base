@@ -10,10 +10,6 @@ import {
   TransactionIsPending,
   TransactionIsWaitingForConfirmation,
 } from "../components/Modal/TransactionModal"
-import {
-  ClaimingRewards,
-  ClaimRewardsSuccessModal,
-} from "../components/Modal/ClaimingRewards"
 import TbtcRecoveryFileModalModal from "../components/Modal/TbtcRecoveryFileModal"
 import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
 import AnalyticsModal from "../components/Modal/AnalyticsModal"
@@ -32,8 +28,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionFailed]: TransactionFailed,
   [ModalType.UpgradeToT]: UpgradeToT,
   [ModalType.UpgradedToT]: UpgradeToTSuccess,
-  [ModalType.ClaimingRewards]: ClaimingRewards,
-  [ModalType.ClaimingRewardsSuccess]: ClaimRewardsSuccessModal,
   [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,
   [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
   [ModalType.Analytics]: AnalyticsModal,
