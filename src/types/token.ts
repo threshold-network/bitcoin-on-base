@@ -19,11 +19,6 @@ export interface SetTokenBalanceActionPayload {
   balance: number | string
 }
 
-export interface SetTokenConversionRateActionPayload {
-  token: Token
-  conversionRate: string | number
-}
-
 export interface SetTokenLoadingActionPayload {
   token: Token
   loading: boolean
@@ -37,14 +32,7 @@ export interface SetTokenLoading {
   payload: SetTokenLoadingActionPayload
 }
 
-export interface SetTokenConversionRate {
-  payload: SetTokenConversionRateActionPayload
-}
-
-export type TokenActionTypes =
-  | SetTokenBalance
-  | SetTokenLoading
-  | SetTokenConversionRate
+export type TokenActionTypes = SetTokenBalance | SetTokenLoading
 
 export interface UseTokenState {
   (): {
@@ -56,10 +44,6 @@ export interface UseTokenState {
     setTokenBalance: (
       token: Token,
       balance: number | string
-    ) => TokenActionTypes
-    setTokenConversionRate: (
-      token: Token,
-      conversionRate: number | string
     ) => TokenActionTypes
     setTokenLoading: (token: Token, loading: boolean) => TokenActionTypes
     fetchTokenPriceUSD: (token: Token) => void

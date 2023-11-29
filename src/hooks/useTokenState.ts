@@ -3,7 +3,6 @@ import {
   setTokenBalance as setTokenBalanceAction,
   setTokenLoading as setTokenLoadingAction,
   fetchTokenPriceUSD as fetchTokenPriceAction,
-  setTokenConversionRate as setTokenConversionRateAction,
 } from "../store/tokens"
 import { RootState } from "../store"
 import { Token } from "../enums"
@@ -17,11 +16,6 @@ export const useTokenState: UseTokenState = () => {
   const tbtcv2 = useSelector((state: RootState) => state.token[Token.TBTCV2])
 
   const dispatch = useDispatch()
-
-  const setTokenConversionRate = (
-    token: Token,
-    conversionRate: number | string
-  ) => dispatch(setTokenConversionRateAction({ token, conversionRate }))
 
   const setTokenBalance = (token: Token, balance: number | string) =>
     dispatch(setTokenBalanceAction({ token, balance }))
@@ -41,6 +35,5 @@ export const useTokenState: UseTokenState = () => {
     fetchTokenPriceUSD,
     setTokenBalance,
     setTokenLoading,
-    setTokenConversionRate,
   }
 }
