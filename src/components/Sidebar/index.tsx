@@ -11,16 +11,12 @@ import { useMemo } from "react"
 import DesktopSidebar from "./DesktopSidebar"
 import MobileSidebar from "./MobileSidebar"
 import { IoHomeOutlineSharp } from "../../static/icons/IoHomeOutlineSharp"
-import useUpgradeHref from "../../hooks/useUpgradeHref"
 import { tBTCFill } from "../../static/icons/tBTCFill"
 import { tBTCOutline } from "../../static/icons/tBTCOutline"
 import { featureFlags } from "../../constants"
 
 const Sidebar = () => {
   const { pathname } = useLocation()
-
-  const upgradeHref = useUpgradeHref()
-
   const navItems: NavItemDetail[] = useMemo(() => {
     const navItems = [
       {
@@ -56,7 +52,7 @@ const Sidebar = () => {
     }
 
     return navItems
-  }, [pathname, upgradeHref])
+  }, [pathname])
 
   return (
     <>
