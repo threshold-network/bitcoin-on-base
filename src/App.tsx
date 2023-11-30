@@ -16,8 +16,6 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom"
-import { BigNumberish } from "@ethersproject/bignumber"
-import { Event } from "@ethersproject/contracts"
 import { TokenContextProvider } from "./contexts/TokenContext"
 import theme from "./theme"
 import reduxStore, { resetStoreAction } from "./store"
@@ -25,13 +23,10 @@ import ModalRoot from "./components/Modal"
 import Sidebar from "./components/Sidebar"
 import Navbar from "./components/Navbar"
 import { fetchETHPriceUSD } from "./store/eth"
-import { PageComponent, UpgredableToken } from "./types"
-import { ModalType, Token } from "./enums"
+import { PageComponent } from "./types"
+import { Token } from "./enums"
 import getLibrary from "./web3/library"
-import { useSubscribeToContractEvent } from "./web3/hooks/useSubscribeToContractEvent"
 import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
-import { useVendingMachineContract } from "./web3/hooks/useVendingMachineContract"
-import { useModal } from "./hooks/useModal"
 import { useSubscribeToStakedEvent } from "./hooks/useSubscribeToStakedEvent"
 import { useSubscribeToUnstakedEvent } from "./hooks/useSubscribeToUnstakedEvent"
 import { useSubscribeToToppedUpEvent } from "./hooks/useSubscribeToToppedUpEvent"
@@ -60,7 +55,6 @@ import {
 import { useSentry } from "./hooks/sentry"
 
 const Web3EventHandlerComponent = () => {
-  useSubscribeToVendingMachineContractEvents()
   useSubscribeToERC20TransferEvent(Token.Keep)
   useSubscribeToERC20TransferEvent(Token.Nu)
   useSubscribeToERC20TransferEvent(Token.T)
@@ -83,47 +77,6 @@ const Web3EventHandlerComponent = () => {
   useSubscribeToRedemptionRequestedEvent()
 
   return <></>
-}
-
-// TODO: Let's move this to its own hook like useKeep, useT, etc
-const useSubscribeToVendingMachineContractEvents = () => {
-  const { account } = useWeb3React()
-  const { openModal } = useModal()
-  const keepVendingMachine = useVendingMachineContract(Token.Keep)
-  const nuVendingMachine = useVendingMachineContract(Token.Nu)
-
-  const onEvent = (
-    token: UpgredableToken,
-    wrappedTokenAmount: BigNumberish,
-    tTokenAmount: BigNumberish,
-    event: Event
-  ) => {
-    openModal(ModalType.UpgradedToT, {
-      upgradedAmount: wrappedTokenAmount.toString(),
-      receivedAmount: tTokenAmount.toString(),
-      transactionHash: event.transactionHash,
-      token,
-    })
-  }
-
-  useSubscribeToContractEvent(
-    keepVendingMachine,
-    "Wrapped",
-    // @ts-ignore
-    (recipient, wrappedTokenAmount, tTokenAmount, event) => {
-      onEvent(Token.Keep, wrappedTokenAmount, tTokenAmount, event)
-    },
-    [account as string]
-  )
-  useSubscribeToContractEvent(
-    nuVendingMachine,
-    "Wrapped",
-    // @ts-ignore
-    (recipient, wrappedTokenAmount, tTokenAmount, event) => {
-      onEvent(Token.Nu, wrappedTokenAmount, tTokenAmount, event)
-    },
-    [account as string]
-  )
 }
 
 const AppBody = () => {

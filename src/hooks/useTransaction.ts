@@ -11,12 +11,6 @@ export const useTransaction: UseTransaction = () => {
   const nuApproval = useSelector(
     (state: RootState) => state.transaction[TransactionType.ApproveNu]
   )
-  const keepUpgrade = useSelector(
-    (state: RootState) => state.transaction[TransactionType.UpgradeKeep]
-  )
-  const nuUpgrade = useSelector(
-    (state: RootState) => state.transaction[TransactionType.UpgradeNu]
-  )
 
   const dispatch = useDispatch()
 
@@ -29,7 +23,5 @@ export const useTransaction: UseTransaction = () => {
     setTransactionStatus,
     keepApproval,
     nuApproval,
-    keepUpgrade,
-    nuUpgrade,
   }
 }
