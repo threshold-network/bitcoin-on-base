@@ -1,8 +1,6 @@
 import { NavItemDetail } from "./NavItem"
 import {
   IoHomeSharp,
-  IoLockClosedOutline,
-  IoLockClosedSharp,
   IoChatbubbleEllipsesOutline,
   IoChatbubbleEllipsesSharp,
 } from "react-icons/all"
@@ -24,12 +22,6 @@ const Sidebar = () => {
         activeIcon: IoHomeSharp,
         passiveIcon: IoHomeOutlineSharp,
         href: "/overview",
-      },
-      {
-        text: "Staking",
-        activeIcon: IoLockClosedSharp,
-        passiveIcon: IoLockClosedOutline,
-        href: "/staking/how-it-works",
       },
     ]
 
