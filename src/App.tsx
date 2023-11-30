@@ -126,9 +126,9 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="*" element={<Layout />}>
-        <Route index element={<Navigate to="overview" />} />
+        <Route index element={<Navigate to="tBTC" />} />
         {pages.map(renderPageComponent)}
-        <Route path="*" element={<Navigate to="overview" />} />
+        <Route path="*" element={<Navigate to="tBTC" />} />
       </Route>
     </Routes>
   )
