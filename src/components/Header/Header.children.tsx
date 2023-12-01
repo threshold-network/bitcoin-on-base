@@ -96,18 +96,19 @@ export function UserPanel(props: UserPanelProps) {
   } = props
   return isConnected && !!accountAddress ? (
     <HStack
-      spacing={6}
+      spacing={0}
+      mr={-10}
       alignSelf={"stretch"}
       divider={<StackDivider borderColor={"#2E2E36"} />}
       fontWeight={"black"}
     >
-      <Text fontWeight={"black"}>
+      <Text fontWeight={"black"} px={6}>
         {balance}{" "}
         <Text as={"span"} opacity={"50%"}>
           BTC
         </Text>
       </Text>
-      <HStack as="button" onClick={onDisconnectClick}>
+      <HStack as="button" onClick={onDisconnectClick} px={10}>
         <BitcoinIcon size={24} />
         <Text as={"span"}>{shortenAddress(accountAddress)}</Text>
       </HStack>
