@@ -10,7 +10,7 @@ import PageLayout from "../../PageLayout"
 
 const HowItWorksPage: PageComponent = (props) => {
   return (
-    <PageLayout>
+    <PageLayout renderLeft={null} renderRight={null}>
       <Banner />
       <TbtcBridgeCard mb="4" />
       <SimpleGrid columns={{ base: 1, xl: 2 }} spacing="4">

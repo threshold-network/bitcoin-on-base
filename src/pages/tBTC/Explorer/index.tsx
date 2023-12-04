@@ -61,7 +61,7 @@ export const ExplorerPage: PageComponent = () => {
   }, [fetchTvl])
 
   return (
-    <PageLayout>
+    <PageLayout renderLeft={null}>
       <Card
         as="section"
         bgImage={tBTCExplorerBg}
