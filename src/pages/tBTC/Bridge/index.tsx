@@ -1,36 +1,24 @@
 import { useEffect } from "react"
-import { Grid, Box } from "@threshold-network/components"
 import { PageComponent } from "../../../types"
-import { TbtcBalanceCard } from "./TbtcBalanceCard"
-import { MintUnmintNav } from "./MintUnmintNav"
-import { BridgeActivityCard } from "./BridgeActivityCard"
 import { useModal } from "../../../hooks/useModal"
 import { ModalType } from "../../../enums"
 import { useTBTCTerms } from "../../../hooks/useTBTCTerms"
-import { useAppDispatch, useAppSelector } from "../../../hooks/store"
-import { selectBridgeActivity, tbtcSlice } from "../../../store/tbtc"
+import { useAppDispatch } from "../../../hooks/store"
+import { tbtcSlice } from "../../../store/tbtc"
 import { useWeb3React } from "@web3-react/core"
 import { Outlet } from "react-router"
 import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
-
-const gridTemplateAreas = {
-  base: `
-    "main"
-    "aside"
-    `,
-  xl: `"aside main"`,
-}
+import PageLayout from "../../PageLayout"
+import { useLocation } from "react-router-dom"
+import { MintingTimeline } from "./Minting/MintingTimeline"
 
 const TBTCBridge: PageComponent = (props) => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
-  const bridgeActivity = useAppSelector(selectBridgeActivity)
-  const isBridgeActivityFetching = useAppSelector(
-    (state) => state.tbtc.bridgeActivity.isFetching
-  )
   const { account } = useWeb3React()
+  const { pathname } = useLocation()
 
   useEffect(() => {
     if (!hasUserResponded) openModal(ModalType.NewTBTCApp)
@@ -46,24 +34,20 @@ const TBTCBridge: PageComponent = (props) => {
     )
   }, [dispatch, account])
 
+  const shouldRenderSidebars = pathname.startsWith("/tBTC/mint/deposit")
+
   return (
-    <Grid
-      gridTemplateAreas={gridTemplateAreas}
-      gridTemplateColumns={{ base: "1fr", xl: "25% 1fr" }}
-      gap="5"
+    <PageLayout
+      renderTop={<h1>TODO: My balance component</h1>}
+      renderLeft={shouldRenderSidebars ? <MintingTimeline /> : null}
+      renderRight={
+        shouldRenderSidebars ? (
+          <h2>TODO: Transaction history + Knowledgebase component</h2>
+        ) : null
+      }
     >
-      <Box gridArea="main" minW="0">
-        <MintUnmintNav w="100%" gridArea="nav" mb="5" pages={props.pages!} />
-        <Outlet />
-      </Box>
-      <Box gridArea="aside">
-        <TbtcBalanceCard gridArea="balance-card" mb="5" />
-        <BridgeActivityCard
-          data={bridgeActivity}
-          isFetching={isBridgeActivityFetching}
-        />
-      </Box>
-    </Grid>
+      <Outlet />
+    </PageLayout>
   )
 }
 

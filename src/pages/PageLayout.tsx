@@ -1,40 +1,37 @@
-import { FC } from "react"
-import { Container, ContainerProps } from "@threshold-network/components"
-import { Outlet } from "react-router-dom"
-import SubNavigationPills from "../components/SubNavigationPills"
-import { PageComponent } from "../types"
 import useDocumentTitle from "../hooks/useDocumentTitle"
+import { Grid, Flex, Box } from "@threshold-network/components"
+import { PropsWithChildren } from "react"
+import { PageComponent } from "../types"
 
-export interface PageLayoutProps extends ContainerProps {
-  pages?: PageComponent[]
-  title?: string
+type PageLayoutRenderProps = {
+  [key in "renderTop" | "renderLeft" | "renderRight"]?: Nullable<JSX.Element>
 }
 
-const PageLayout: FC<PageLayoutProps> = ({
-  pages,
-  title,
-  children,
-  ...restProps
-}) => {
+interface PageLayoutProps extends PropsWithChildren<PageLayoutRenderProps> {
+  title?: string
+  pages?: PageComponent[]
+}
+
+export default function PageLayout(props: PageLayoutProps) {
+  const { renderTop, renderLeft, renderRight, children, title, ...restProps } =
+    props
+
   useDocumentTitle(`Threshold - ${title}`)
-  const links = pages
-    ? pages.filter((_) => !_.route.hideFromMenu).map((_) => _.route)
-    : []
+  console.log({ renderLeft, renderRight, renderTop })
+  const outletContainerColumnSpan = [
+    renderLeft === null || renderLeft !== undefined ? 2 : 1,
+    renderRight === null || renderRight !== undefined ? 4 : 5,
+  ].join("/")
 
   return (
-    <>
-      {links.length > 0 && <SubNavigationPills links={links} />}
-      <Container
-        maxW={{ base: "2xl", xl: "6xl" }}
-        mt="6.25rem"
-        my={16}
-        {...restProps}
-      >
-        {children}
-        <Outlet />
-      </Container>
-    </>
+    <Flex flexFlow={"column"} alignItems={"normal"} bg={"black"} {...restProps}>
+      {/* <Header /> */}
+      {!!renderTop && <Box px={"224px"}>{renderTop}</Box>}
+      <Grid px={"224px"} templateColumns={"repeat(4, .5fr)"} w={"full"}>
+        {!!renderLeft && <Box>{renderLeft}</Box>}
+        <Box gridColumn={outletContainerColumnSpan}>{children}</Box>
+        {!!renderRight && <Box>{renderRight}</Box>}
+      </Grid>
+    </Flex>
   )
 }
-
-export default PageLayout

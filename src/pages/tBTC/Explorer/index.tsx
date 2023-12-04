@@ -47,6 +47,7 @@ import {
   useFetchRecentDeposits,
   useFetchTBTCMetrics,
 } from "../../../hooks/tbtc"
+import PageLayout from "../../PageLayout"
 
 const MINTS_TO_DISPLAY = 10
 
@@ -60,7 +61,7 @@ export const ExplorerPage: PageComponent = () => {
   }, [fetchTvl])
 
   return (
-    <>
+    <PageLayout>
       <Card
         as="section"
         bgImage={tBTCExplorerBg}
@@ -150,7 +151,7 @@ export const ExplorerPage: PageComponent = () => {
           Showing {MINTS_TO_DISPLAY} out of {metrics.totalMints} transactions
         </BodySm>
       </Card>
-    </>
+    </PageLayout>
   )
 }
 

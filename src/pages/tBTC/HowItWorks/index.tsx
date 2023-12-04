@@ -6,10 +6,11 @@ import { MintingTimelineCard } from "./MintingTimelineCard"
 import { JSONFileCard } from "./JSONFileCard"
 import { Banner } from "./Banner"
 import { PageComponent } from "../../../types"
+import PageLayout from "../../PageLayout"
 
 const HowItWorksPage: PageComponent = (props) => {
   return (
-    <>
+    <PageLayout>
       <Banner />
       <TbtcBridgeCard mb="4" />
       <SimpleGrid columns={{ base: 1, xl: 2 }} spacing="4">
@@ -20,7 +21,7 @@ const HowItWorksPage: PageComponent = (props) => {
           <AuditsCard />
         </VStack>
       </SimpleGrid>
-    </>
+    </PageLayout>
   )
 }
 
