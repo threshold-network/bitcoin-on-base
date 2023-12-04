@@ -4,6 +4,8 @@ import { ReactNode } from "react"
 const HORIZONTAL_PADDING = 224
 const BORDER = "1px solid #1A1A22"
 
+//TODO: Remove stale layout components eg. `./Bridge/BridgeLayout.tsx` etc...
+
 interface PageLayoutProps {
   /**
    * Render slot for content aligned at the top.
