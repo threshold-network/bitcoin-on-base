@@ -15,9 +15,3 @@ export enum CoingeckoID {
   // TODO: add prope tbtc-v2 id when it lands on coingecko
   TBTCV2 = "tbtc",
 }
-
-export enum TConversionRates {
-  KEEP = 4.87,
-  NU = 3.46,
-  T = 1,
-}
