@@ -10,7 +10,6 @@ import { useTokensBalanceCall } from "../hooks/useTokensBalanceCall"
 import { Token } from "../enums"
 import { TokenState } from "../types"
 import { useTBTCTokenContract } from "../web3/hooks"
-import { useVendingMachineRatio } from "../web3/hooks/useVendingMachineRatio"
 import { useFetchOwnerStakes } from "../hooks/useFetchOwnerStakes"
 import { useTBTCv2TokenContract } from "../web3/hooks/useTBTCv2TokenContract"
 import { featureFlags } from "../constants"
@@ -37,15 +36,12 @@ export const TokenContextProvider: React.FC = ({ children }) => {
   const t = useT()
   const tbtc = useTBTCTokenContract()
   const tbtcv2 = useTBTCv2TokenContract()
-  const nuConversion = useVendingMachineRatio(Token.Nu)
-  const keepConversion = useVendingMachineRatio(Token.Keep)
   const { active, chainId, account } = useWeb3React()
   const fetchOwnerStakes = useFetchOwnerStakes()
 
   const {
     fetchTokenPriceUSD,
     setTokenBalance,
-    setTokenConversionRate,
     keep: keepData,
     nu: nuData,
     t: tData,
@@ -61,14 +57,6 @@ export const TokenContextProvider: React.FC = ({ children }) => {
     tokenContracts,
     active ? account! : AddressZero
   )
-
-  //
-  // SET T CONVERSION RATE FOR KEEP, NU
-  //
-  React.useEffect(() => {
-    setTokenConversionRate(Token.Nu, nuConversion)
-    setTokenConversionRate(Token.Keep, keepConversion)
-  }, [nuConversion, keepConversion])
 
   //
   // SET USD PRICE

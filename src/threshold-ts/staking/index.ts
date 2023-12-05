@@ -12,7 +12,7 @@ import {
   isSameETHAddress,
   ZERO,
 } from "../utils"
-import { IVendingMachines } from "../vending-machine"
+import { IVendingMachines, VendingMachines } from "../vending-machine"
 
 // Note: Must be in the same order as here:
 // https://github.com/threshold-network/solidity-contracts/blob/main/contracts/staking/IStaking.sol#L30-L
@@ -127,11 +127,7 @@ export class Staking implements IStaking {
   private _vendingMachines: IVendingMachines
   public readonly STAKING_CONTRACT_DEPLOYMENT_BLOCK: number
 
-  constructor(
-    config: EthereumConfig,
-    multicall: IMulticall,
-    vendingMachines: IVendingMachines
-  ) {
+  constructor(config: EthereumConfig, multicall: IMulticall) {
     this.STAKING_CONTRACT_DEPLOYMENT_BLOCK = config.chainId === 1 ? 14113768 : 0
     this._staking = getContract(
       TokenStaking.address,
@@ -157,7 +153,7 @@ export class Staking implements IStaking {
       config.account
     )
     this._multicall = multicall
-    this._vendingMachines = vendingMachines
+    this._vendingMachines = new VendingMachines(config)
   }
 
   async authorizedStake(

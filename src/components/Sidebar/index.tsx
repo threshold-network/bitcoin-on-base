@@ -2,7 +2,6 @@ import { NavItemDetail } from "./NavItem"
 import {
   IoLockClosedOutline,
   IoLockClosedSharp,
-  IoSwapHorizontalSharp,
   IoChatbubbleEllipsesOutline,
   IoChatbubbleEllipsesSharp,
 } from "react-icons/all"
@@ -10,24 +9,14 @@ import { useLocation } from "react-router-dom"
 import { useMemo } from "react"
 import DesktopSidebar from "./DesktopSidebar"
 import MobileSidebar from "./MobileSidebar"
-import useUpgradeHref from "../../hooks/useUpgradeHref"
 import { tBTCFill } from "../../static/icons/tBTCFill"
 import { tBTCOutline } from "../../static/icons/tBTCOutline"
 import { featureFlags } from "../../constants"
 
 const Sidebar = () => {
   const { pathname } = useLocation()
-
-  const upgradeHref = useUpgradeHref()
-
   const navItems: NavItemDetail[] = useMemo(() => {
     const navItems = [
-      {
-        text: "Upgrade",
-        activeIcon: IoSwapHorizontalSharp,
-        passiveIcon: IoSwapHorizontalSharp,
-        href: upgradeHref,
-      },
       {
         text: "Staking",
         activeIcon: IoLockClosedSharp,
@@ -55,7 +44,7 @@ const Sidebar = () => {
     }
 
     return navItems
-  }, [pathname, upgradeHref])
+  }, [pathname])
 
   return (
     <>

@@ -2,10 +2,6 @@ import { ModalType } from "../enums"
 import { ElementType } from "react"
 import SelectWalletModal from "../components/Modal/SelectWalletModal"
 import {
-  TransactionIdle as UpgradeToT,
-  TransactionSuccess as UpgradeToTSuccess,
-} from "../components/Modal/UpgradeToTModal"
-import {
   TransactionFailed,
   TransactionIsPending,
   TransactionIsWaitingForConfirmation,
@@ -56,8 +52,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionIsWaitingForConfirmation]:
     TransactionIsWaitingForConfirmation,
   [ModalType.TransactionFailed]: TransactionFailed,
-  [ModalType.UpgradeToT]: UpgradeToT,
-  [ModalType.UpgradedToT]: UpgradeToTSuccess,
   [ModalType.ConfirmStakingParams]: ConfirmStakingParams,
   [ModalType.StakeSuccess]: StakingSuccessModal,
   [ModalType.StakeSuccessOLD]: StakeSuccessOldModal,

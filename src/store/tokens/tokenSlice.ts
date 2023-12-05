@@ -5,7 +5,6 @@ import { CoingeckoID, Token } from "../../enums/token"
 import {
   TokenState,
   SetTokenBalanceActionPayload,
-  SetTokenConversionRateActionPayload,
   SetTokenLoadingActionPayload,
 } from "../../types/token"
 import { exchangeAPI } from "../../utils/exchangeAPI"
@@ -35,7 +34,6 @@ export const tokenSlice = createSlice({
     [Token.Keep]: {
       loading: false,
       balance: 0,
-      conversionRate: 4.87,
       text: Token.Keep,
       icon: "KEEP_CIRCLE_BRAND",
       usdConversion: 0,
@@ -44,7 +42,6 @@ export const tokenSlice = createSlice({
     [Token.Nu]: {
       loading: false,
       balance: 0,
-      conversionRate: 2.66,
       text: Token.Nu,
       icon: "NU_CIRCLE_BRAND",
       usdConversion: 0,
@@ -53,7 +50,6 @@ export const tokenSlice = createSlice({
     [Token.T]: {
       loading: false,
       balance: 0,
-      conversionRate: 1,
       text: Token.T,
       icon: "T_CIRCLE_BRAND",
       usdConversion: 0,
@@ -87,18 +83,6 @@ export const tokenSlice = createSlice({
       state[token].balance = balance
       state[token].usdBalance = toUsdBalance(state[token])
     },
-    setTokenConversionRate: (
-      state,
-      action: PayloadAction<SetTokenConversionRateActionPayload>
-    ) => {
-      const { token, conversionRate } = action.payload
-
-      const formattedConversionRate = numeral(
-        +conversionRate / 10 ** 15
-      ).format("0.0000")
-
-      state[token].conversionRate = formattedConversionRate
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTokenPriceUSD.fulfilled, (state, action) => {
@@ -110,5 +94,4 @@ export const tokenSlice = createSlice({
   },
 })
 
-export const { setTokenBalance, setTokenLoading, setTokenConversionRate } =
-  tokenSlice.actions
+export const { setTokenBalance, setTokenLoading } = tokenSlice.actions
