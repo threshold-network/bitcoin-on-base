@@ -1,7 +1,7 @@
 import {
-  Grid,
-  Flex,
   Box,
+  Flex,
+  Grid,
   SystemStyleObject,
 } from "@threshold-network/components"
 import { ReactNode } from "react"
@@ -68,7 +68,7 @@ export default function PageLayout(props: PageLayoutProps) {
     renderTop,
     renderLeft,
     renderRight,
-    backgroundVariant = "secondary",
+    backgroundVariant = "primary",
     children,
     ...restProps
   } = props
