@@ -5,7 +5,6 @@ import { TokenIcon } from "../static/icons/tokenIconMap"
 
 export interface TokenState {
   loading: boolean
-  conversionRate: number | string
   text: string
   icon: TokenIcon
   balance: number | string
