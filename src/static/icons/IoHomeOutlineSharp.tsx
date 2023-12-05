@@ -1,4 +1,5 @@
 import { createIcon } from "@chakra-ui/icons"
+import { IconType } from "react-icons"
 
 export const IoHomeOutlineSharp = createIcon({
   displayName: "IoHomeOutlineSharp",
@@ -23,4 +24,4 @@ export const IoHomeOutlineSharp = createIcon({
       />
     </svg>
   ),
-})
+}) as IconType
