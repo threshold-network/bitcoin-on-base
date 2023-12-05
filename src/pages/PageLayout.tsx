@@ -9,7 +9,7 @@ import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.
 import SECONDARY_BACKGROUND_PATH from "../static/images/layout-background-secondary.svg"
 
 const HORIZONTAL_PADDING = "13.625rem" // 218px
-const BORDER = "1px solid #1A1A22"
+const BORDER = "1px solid hsla(0, 0%, 100%, 10%)"
 
 //TODO: Remove stale layout components eg. `./Bridge/BridgeLayout.tsx` etc...
 
