@@ -7,7 +7,7 @@ import { ExternalHref } from "../../enums"
 import { RecentDeposit } from "../../hooks/tbtc"
 import Link from "../Link"
 
-export type TvlProps = {
+type TvlProps = {
   tvl: string
   tvlInUSD: string
 }
@@ -28,7 +28,7 @@ export const Tvl: FC<TvlProps> = ({ tvl, tvlInUSD }) => {
   )
 }
 
-export type ProtocolHistoryProps = {
+type ProtocolHistoryProps = {
   deposits: RecentDeposit[]
 }
 

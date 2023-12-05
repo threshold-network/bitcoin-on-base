@@ -3,14 +3,12 @@ import { IMulticall, Multicall } from "./multicall"
 import { IStaking, Staking } from "./staking"
 import { ITBTC, TBTC } from "./tbtc"
 import { ThresholdConfig } from "./types"
-import { IVendingMachines, VendingMachines } from "./vending-machine"
 
 export class Threshold {
   config!: ThresholdConfig
   multicall!: IMulticall
   staking!: IStaking
   multiAppStaking!: MultiAppStaking
-  vendingMachines!: IVendingMachines
   tbtc!: ITBTC
 
   constructor(config: ThresholdConfig) {

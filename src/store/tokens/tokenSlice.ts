@@ -34,7 +34,6 @@ export const tokenSlice = createSlice({
     [Token.Keep]: {
       loading: false,
       balance: 0,
-      conversionRate: 4.87,
       text: Token.Keep,
       icon: "KEEP_CIRCLE_BRAND",
       usdConversion: 0,
@@ -43,7 +42,6 @@ export const tokenSlice = createSlice({
     [Token.Nu]: {
       loading: false,
       balance: 0,
-      conversionRate: 2.66,
       text: Token.Nu,
       icon: "NU_CIRCLE_BRAND",
       usdConversion: 0,
@@ -52,7 +50,6 @@ export const tokenSlice = createSlice({
     [Token.T]: {
       loading: false,
       balance: 0,
-      conversionRate: 1,
       text: Token.T,
       icon: "T_CIRCLE_BRAND",
       usdConversion: 0,
