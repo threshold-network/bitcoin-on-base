@@ -37,6 +37,10 @@ jobs:
       - name: Build contracts
         run: yarn build
 
-      # TODO: uncomment once the tests are fixed
-      # - name: Run tests
-      #   run: yarn test
+      # We're excluding tests that are currently failing and need adjustments.
+      - name: Run tests
+        run: |
+          yarn test \
+            --testPathIgnorePatterns=mas.test.ts useSendTransaction.test.ts \
+            staking.test.ts tbtc.test.ts getStakingAppLabel.test.ts \
+            useFetchTvl.test.tsx
