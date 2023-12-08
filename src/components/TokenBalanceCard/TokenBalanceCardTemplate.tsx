@@ -1,5 +1,15 @@
 import { FC } from "react"
-import { HStack, Icon, Card, LabelSm } from "@threshold-network/components"
+import {
+  HStack,
+  Icon,
+  Card,
+  LabelSm,
+  VStack,
+  LabelMd,
+  LabelLg,
+  H2,
+  Text,
+} from "@threshold-network/components"
 import TokenBalance, { TokenBalanceProps } from "../TokenBalance"
 // import AddToMetamaskButton from "../AddToMetamaskButton"
 import { Contract } from "@ethersproject/contracts"
@@ -22,12 +32,11 @@ type Props = {
 >
 
 const TokenBalanceCardTemplate: FC<Props> = ({
-  icon,
   title,
+  tokenSymbol,
   tokenBalance,
   usdBalance,
   contract,
-  tokenSymbol,
   tokenDecimals,
   tokenFormat,
   withHigherPrecision,
@@ -37,25 +46,32 @@ const TokenBalanceCardTemplate: FC<Props> = ({
   ...restProps
 }) => {
   return (
-    <Card {...restProps} as="section">
-      <HStack as="header" mb="4">
-        <Icon boxSize="16px" as={icon} />
-        <LabelSm>{title}</LabelSm>
+    <VStack spacing={1} alignItems="flex-start" {...restProps}>
+      <H2
+        fontSize={16}
+        lineHeight="24px"
+        color="#808080"
+        fontWeight="medium"
+        textTransform="capitalize"
+      >
+        {title}
+      </H2>
+      <HStack alignItems="baseline" fontSize={24} lineHeight="40px">
+        <TokenBalance
+          tokenAmount={tokenBalance}
+          usdBalance={usdBalance}
+          tokenDecimals={tokenDecimals}
+          tokenFormat={tokenFormat}
+          withHigherPrecision={withHigherPrecision}
+          precision={precision}
+          higherPrecision={higherPrecision}
+          isEstimated
+          fontWeight="black"
+          color="white"
+        />
+        <Text color="#808080">{tokenSymbol}</Text>
       </HStack>
-      <TokenBalance
-        tokenAmount={tokenBalance}
-        usdBalance={usdBalance}
-        tokenSymbol={tokenSymbol}
-        withSymbol={withSymbol}
-        tokenDecimals={tokenDecimals}
-        tokenFormat={tokenFormat}
-        withUSDBalance
-        withHigherPrecision={withHigherPrecision}
-        precision={precision}
-        higherPrecision={higherPrecision}
-      />
-      {/* <AddToMetamaskButton contract={contract} /> */}
-    </Card>
+    </VStack>
   )
 }
 
