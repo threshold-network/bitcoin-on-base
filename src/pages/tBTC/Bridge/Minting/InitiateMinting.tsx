@@ -4,14 +4,11 @@ import { FC } from "react"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { ModalType } from "../../../../enums"
 import { useModal } from "../../../../hooks/useModal"
-import { MintingStep } from "../../../../types/tbtc"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
+import { BridgeProcessTitle } from "../components/BridgeProcessTitle"
 
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
-  onPreviousStepClick: (previosuStep: MintingStep) => void
-}> = ({ utxo, onPreviousStepClick }) => {
+}> = ({ utxo }) => {
   const { openModal } = useModal()
 
   const confirmDespotAndMint = async () => {
@@ -20,14 +17,7 @@ const InitiateMintingComponent: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.ProvideData}
-        onPreviousStepClick={onPreviousStepClick}
-      />
-      <BridgeProcessCardSubTitle
-        stepText="Step 3"
-        subTitle="Initiate minting"
-      />
+      <BridgeProcessTitle />
       <BodyMd color="gray.500" mb={6}>
         This step requires you to sign a transaction in your Ethereum wallet.
       </BodyMd>

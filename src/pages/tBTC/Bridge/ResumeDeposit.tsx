@@ -1,4 +1,3 @@
-import { FC, useEffect } from "react"
 import {
   BodyLg,
   BodyMd,
@@ -9,24 +8,25 @@ import {
 } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
 import { FormikErrors, FormikProps, withFormik } from "formik"
-import { RecoveryJsonFileData } from "../../../components/Modal/TbtcRecoveryFileModal"
+import { FC, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { PageComponent } from "../../../types"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
-import { BridgeContractLink } from "../../../components/tBTC"
-import { useTbtcState } from "../../../hooks/useTbtcState"
-import { MintingStep } from "../../../types/tbtc"
 import { Form } from "../../../components/Forms"
-import {
-  isSameETHAddress,
-  isAddress,
-  parseJSONFile,
-  InvalidJSONFileError,
-} from "../../../web3/utils"
-import { getErrorsObj } from "../../../utils/forms"
-import { useTBTCDepositDataFromLocalStorage } from "../../../hooks/tbtc"
-import { useThreshold } from "../../../contexts/ThresholdContext"
 import HelperErrorText from "../../../components/Forms/HelperErrorText"
+import { RecoveryJsonFileData } from "../../../components/Modal/TbtcRecoveryFileModal"
+import { BridgeContractLink } from "../../../components/tBTC"
+import { useThreshold } from "../../../contexts/ThresholdContext"
+import { useTBTCDepositDataFromLocalStorage } from "../../../hooks/tbtc"
+import { useTbtcState } from "../../../hooks/useTbtcState"
+import { PageComponent } from "../../../types"
+import { MintingStep } from "../../../types/tbtc"
+import { getErrorsObj } from "../../../utils/forms"
+import {
+  InvalidJSONFileError,
+  isAddress,
+  isSameETHAddress,
+  parseJSONFile,
+} from "../../../web3/utils"
+import { BridgeProcessTitle } from "./components/BridgeProcessTitle"
 
 export const ResumeDepositPage: PageComponent = () => {
   const { updateState } = useTbtcState()
@@ -70,10 +70,7 @@ export const ResumeDepositPage: PageComponent = () => {
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.InitiateMinting}
-        onPreviousStepClick={navigateToMintPage}
-      />
+      <BridgeProcessTitle />
       <BodyLg>
         <Box as="span" fontWeight="600" color="brand.500">
           Resume Minting

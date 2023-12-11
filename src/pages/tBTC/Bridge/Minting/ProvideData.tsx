@@ -6,8 +6,7 @@ import {
   useColorModeValue,
 } from "@threshold-network/components"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
+import { BridgeProcessTitle } from "../components/BridgeProcessTitle"
 import { Form, FormikInput } from "../../../../components/Forms"
 import {
   getErrorsObj,
@@ -161,15 +160,7 @@ export const ProvideDataComponent: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle onPreviousStepClick={onPreviousStepClick} />
-      <BridgeProcessCardSubTitle
-        stepText="Step 1"
-        subTitle="Generate a Deposit Address"
-      />
-      <BodyMd color={textColor} mb={12}>
-        Based on these two addresses, the system will generate for you a unique
-        BTC deposit address. There is no minting limit.
-      </BodyMd>
+      <BridgeProcessTitle />
       <MintingProcessForm
         innerRef={formRef}
         formId="tbtc-minting-data-form"
