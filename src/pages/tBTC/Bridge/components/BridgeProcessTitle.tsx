@@ -1,5 +1,11 @@
 import { FC } from "react"
-import { HStack, Divider, Flex, Text } from "@threshold-network/components"
+import {
+  HStack,
+  Divider,
+  Flex,
+  Text,
+  FlexProps,
+} from "@threshold-network/components"
 import { IconType } from "react-icons"
 import { FiArrowRight as PlainArrowIcon } from "react-icons/fi"
 import { BitcoinDuotone as BitcoinIcon } from "../../../../static/icons/BitcoinDuotone"
@@ -37,7 +43,7 @@ const ChainName: FC<{ label: string; icon: IconType }> = ({
   </HStack>
 )
 
-export const BridgeProcessTitle: FC = (props) => {
+export const BridgeProcessTitle: FC<FlexProps> = (props) => {
   return (
     <Flex
       flexDirection="row"

@@ -12,11 +12,11 @@ import { FC, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Form } from "../../../components/Forms"
 import HelperErrorText from "../../../components/Forms/HelperErrorText"
-import { RecoveryJsonFileData } from "../../../components/Modal/TbtcRecoveryFileModal"
 import { BridgeContractLink } from "../../../components/tBTC"
 import { useThreshold } from "../../../contexts/ThresholdContext"
 import { useTBTCDepositDataFromLocalStorage } from "../../../hooks/tbtc"
 import { useTbtcState } from "../../../hooks/useTbtcState"
+import { DepositScriptParameters } from "../../../threshold-ts/tbtc"
 import { PageComponent } from "../../../types"
 import { MintingStep } from "../../../types/tbtc"
 import { getErrorsObj } from "../../../utils/forms"
@@ -27,6 +27,10 @@ import {
   parseJSONFile,
 } from "../../../web3/utils"
 import { BridgeProcessTitle } from "./components/BridgeProcessTitle"
+
+type RecoveryJsonFileData = DepositScriptParameters & {
+  btcRecoveryAddress: string
+}
 
 export const ResumeDepositPage: PageComponent = () => {
   const { updateState } = useTbtcState()
