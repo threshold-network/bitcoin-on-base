@@ -45,16 +45,14 @@ const MintingProcessFormBase: FC<ComponentProps & FormikProps<FormValues>> = ({
       <FormikInput
         name="ethAddress"
         label="Base Address"
-        // TODO: Update placeholder and tooltip copies
+        // TODO: Update placeholder and tooltip (???) copies
         placeholder="Address where you'll receive your tBTC"
-        tooltip="Base address is prepopulated with your wallet address. This is the address where you'll receive your tBTC."
         isReadOnly={true}
       />
       <FormikInput
         name="btcRecoveryAddress"
         label="BTC Recovery Address"
-        // TODO: Update placeholder and tooltip copies
-        tooltip={`This address needs to start with ${resolvedBTCAddressPrefix}. Recovery Address is a BTC address where your BTC funds are sent back if something exceptional happens with your deposit. A Recovery Address cannot be a multi-sig or an exchange address. Funds claiming is done by using the JSON file`}
+        // TODO: Update placeholder and tooltip (???) copies
         placeholder={`BTC Address should start with ${resolvedBTCAddressPrefix}`}
       />
     </VStack>
@@ -225,7 +223,7 @@ export const ProvideDataComponent: FC = () => {
         >
           Continue
         </Button>
-        <BodyMd textAlign="center">
+        <BodyMd textAlign="center" color="white">
           tBTC is a 1-1 representation of Bitcoin on Base. You can revert
           anytime.
         </BodyMd>
