@@ -194,7 +194,7 @@ export const ProvideDataComponent: FC = () => {
 
       updateState("mintingStep", MintingStep.Deposit)
     },
-    [setShouldDownloadDepositReceipt]
+    [shouldDownloadDepositReceipt]
   )
 
   return (

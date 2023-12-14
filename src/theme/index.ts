@@ -13,6 +13,7 @@ import { Timeline } from "./Timeline"
 import { DotsLoadingIndicator } from "./DotsLoadingIndicator"
 import { Tooltip } from "./Tooltip"
 import { Button } from "./Button"
+import { CheckListItem } from "./CheckListItem"
 
 // TODO: Review theme, add colors, add fonts
 
@@ -50,6 +51,7 @@ const index = extendTheme({
     DotsLoadingIndicator,
     Tooltip,
     Button,
+    CheckListItem,
   },
 })
 
