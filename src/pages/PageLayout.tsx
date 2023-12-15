@@ -5,6 +5,7 @@ import {
   SystemStyleObject,
 } from "@threshold-network/components"
 import { ReactNode } from "react"
+import { Header } from "../components/Header"
 import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.svg"
 import SECONDARY_BACKGROUND_PATH from "../static/images/layout-background-secondary.svg"
 
@@ -87,7 +88,7 @@ export default function PageLayout(props: PageLayoutProps) {
       sx={getBackgroundStyles(backgroundVariant)}
       {...restProps}
     >
-      {/* <Header /> */}
+      <Header />
       {!!renderTop && (
         <Box px={HORIZONTAL_PADDING} py={6} borderBottom={BORDER}>
           {renderTop}

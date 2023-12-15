@@ -17,6 +17,7 @@ import {
   Stack,
   StackDivider,
   useColorModeValue,
+  VStack,
 } from "@threshold-network/components"
 import {
   createContext,
@@ -187,128 +188,44 @@ export const DepositDetails: PageComponent = () => {
         mintingFee,
       }}
     >
-      <BridgeProcessDetailsCard
-        isProcessCompleted={mintingProgressStep === "completed"}
-      >
-        {(isFetching || !data) && !error && (
-          <BridgeProcessDetailsPageSkeleton />
-        )}
-        {error && <>{error}</>}
-        {!isFetching && !!data && !error && (
-          <>
-            <Stack
-              direction={{
-                base: "column",
-                xl: "row",
-              }}
-              divider={<StackDivider />}
-              spacing={4}
-            >
-              <Flex flexDirection="column" w={{ base: "100%", xl: "65%" }}>
-                <BridgeProcessTitle />
-                <Flex mb="4" alignItems="center" textStyle="bodyLg">
-                  <BodyLg>
-                    <Box
-                      as="span"
-                      fontWeight="600"
-                      color={depositStatusTextColor}
-                    >
-                      {mintingProgressStep === "completed"
-                        ? "Minted"
-                        : "Minting"}
-                    </Box>
-                    {mintingProgressStep !== "completed" && ` - In progress...`}
-                  </BodyLg>{" "}
-                  <InlineTokenBalance
-                    tokenAmount={amount || "0"}
-                    tokenSymbol="tBTC"
-                    withSymbol
-                    ml="auto"
-                  />
-                </Flex>
-                <DepositDetailsTimeline
-                  // isCompleted
-                  inProgressStep={mintingProgressStep}
-                />
-                {mintingProgressStep !== "completed" && (
-                  <Alert status="info" my={6}>
-                    <AlertIcon />
-                    <AlertDescription>
-                      It is safe to close this window. Minting will continue as
-                      a background process and will not be interrupted.
-                    </AlertDescription>
-                  </Alert>
-                )}
-                <StepSwitcher />
-              </Flex>
-              <Flex
-                w={{ base: "100%", xl: "35%" }}
-                mb={{ base: "20", xl: "unset" }}
-                direction="column"
-              >
-                <LabelSm mb="8" mt={{ xl: 2 }}>
-                  Transaction History
-                </LabelSm>
-                <Badge
-                  size="sm"
-                  colorScheme="yellow"
-                  variant="solid"
-                  display="flex"
-                  alignItems="center"
-                  alignSelf="flex-start"
-                  mb="4"
-                >
-                  <Icon as={TimeIcon} /> ~3 hours minting time
-                </Badge>
-                <List color="gray.500" spacing="2" mb="20">
-                  {transactions
-                    .filter((item) => !!item.txHash)
-                    .map((item) => (
-                      <ListItem key={item.txHash}>
-                        <BodySm>
-                          {item.label}{" "}
-                          <ViewInBlockExplorer
-                            id={item.txHash!}
-                            type={ExplorerDataType.TRANSACTION}
-                            chain={item.chain}
-                            text="transaction"
-                          />
-                          .
-                        </BodySm>
-                      </ListItem>
-                    ))}
-                </List>
-                {mintingProgressStep !== "completed" && (
-                  <>
-                    <BridgeProcessIndicator
-                      bridgeProcess="mint"
-                      mt="auto"
-                      mb="10"
-                    />
-                    <BridgeProcessResource
-                      {...stepToResourceData[mintingProgressStep]}
-                    />
-                  </>
-                )}
-              </Flex>
-            </Stack>
+      {(isFetching || !data) && !error && <BridgeProcessDetailsPageSkeleton />}
+      {error && <>{error}</>}
+      {!isFetching && !!data && !error && (
+        <>
+          <BridgeProcessTitle />
+          <VStack align="stretch" spacing="10" px="20" my="10">
+            <Flex mb="4" alignItems="center" textStyle="bodyLg">
+              <BodyLg>
+                <Box as="span" fontWeight="600" color={depositStatusTextColor}>
+                  {mintingProgressStep === "completed" ? "Minted" : "Minting"}
+                </Box>
+                {mintingProgressStep !== "completed" && ` - In progress...`}
+              </BodyLg>{" "}
+              <InlineTokenBalance
+                tokenAmount={amount || "0"}
+                tokenSymbol="tBTC"
+                withSymbol
+                ml="auto"
+              />
+            </Flex>
+            <DepositDetailsTimeline
+              // isCompleted
+              inProgressStep={mintingProgressStep}
+            />
             {mintingProgressStep !== "completed" && (
-              <>
-                <Divider />
-                <Flex mt="8" alignItems="center">
-                  <BodyLg>
-                    Eager to start a new mint while waiting for this one? You
-                    can now.
-                  </BodyLg>
-                  <ButtonLink size="lg" to="/tBTC/mint" marginLeft="auto">
-                    New Mint
-                  </ButtonLink>
-                </Flex>
-              </>
+              <Alert status="info" my={6}>
+                <AlertIcon />
+                <AlertDescription>
+                  It is safe to close this window. Minting will continue as a
+                  background process and will not be interrupted.
+                </AlertDescription>
+              </Alert>
             )}
-          </>
-        )}
-      </BridgeProcessDetailsCard>
+            <StepSwitcher />
+            <BridgeProcessIndicator bridgeProcess="mint" mt="auto" mb="10" />
+          </VStack>
+        </>
+      )}
       {mintingProgressStep === "completed" && (
         <ExternalPool
           title={"tBTC Curve Pool"}
