@@ -4,17 +4,11 @@ import { useWeb3React } from "@web3-react/core"
 import { PageComponent } from "../../../types"
 import { DepositDetails } from "./DepositDetails"
 import { ResumeDepositPage } from "./ResumeDeposit"
-import { MintingTimeline } from "./Minting/MintingTimeline"
 import { useTBTCDepositDataFromLocalStorage } from "../../../hooks/tbtc"
 import { useTbtcState } from "../../../hooks/useTbtcState"
 import { isSameETHAddress } from "../../../web3/utils"
 import { MintingFlowRouter } from "./Minting/MintingFlowRouter"
 
-import {
-  BridgeLayout,
-  BridgeLayoutAsideSection,
-  BridgeLayoutMainSection,
-} from "./BridgeLayout"
 import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 import { useIsTbtcSdkInitializing } from "../../../contexts/ThresholdContext"
 
@@ -84,19 +78,10 @@ MintingFormPage.route = {
 const MintPageLayout: PageComponent = () => {
   const { active } = useWeb3React()
 
-  return (
-    <BridgeLayout>
-      <BridgeLayoutMainSection>
-        {active ? (
-          <Outlet />
-        ) : (
-          <BridgeProcessEmptyState title="Ready to mint tBTC?" />
-        )}
-      </BridgeLayoutMainSection>
-      <BridgeLayoutAsideSection>
-        <MintingTimeline />
-      </BridgeLayoutAsideSection>
-    </BridgeLayout>
+  return active ? (
+    <Outlet />
+  ) : (
+    <BridgeProcessEmptyState title="Ready to mint tBTC?" />
   )
 }
 
