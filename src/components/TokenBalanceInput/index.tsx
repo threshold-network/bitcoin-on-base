@@ -23,7 +23,7 @@ import HelperErrorText from "../Forms/HelperErrorText"
 export interface TokenBalanceInputProps
   extends InputProps,
     Omit<NumberFormatInputProps, "onValueChange"> {
-  icon: ReturnType<typeof createIcon>
+  icon?: ReturnType<typeof createIcon>
   max: number | string
   amount?: string | number
   setAmount: (val?: string | number) => void
@@ -88,19 +88,21 @@ const TokenBalanceInput: FC<TokenBalanceInputProps> = ({
   return (
     <FormControl isInvalid={hasError} isDisabled={inputProps.isDisabled}>
       {label && (
-        <FormLabel htmlFor={inputProps.name} color={labelColor}>
+        <FormLabel htmlFor={inputProps.name} color={labelColor} mr="0">
           {label}
         </FormLabel>
       )}
       <InputGroup size="md">
-        <InputLeftElement>
-          <Icon boxSize="20px" as={icon} />
-        </InputLeftElement>
+        {!!icon ? (
+          <InputLeftElement>
+            <Icon boxSize="20px" as={icon} />
+          </InputLeftElement>
+        ) : null}
         <NumberFormatInput
           // @ts-ignore
           ref={inputRef}
           placeholder="Enter an amount"
-          paddingLeft="2.5rem"
+          paddingLeft={!!icon ? "2.5rem" : "4"}
           paddingRight="4.5rem"
           {...inputProps}
           onValueChange={(values: NumberFormatInputValues) =>

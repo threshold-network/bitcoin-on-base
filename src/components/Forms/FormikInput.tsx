@@ -35,7 +35,6 @@ export const FormikInput: FC<
   const isError = Boolean(meta.touched && meta.error)
 
   const secondaryLabelColor = "gray.500"
-  const labelColor = useColorModeValue("gray.700", "gray.300")
 
   return (
     <FormControl isInvalid={isError} {...restProps}>
@@ -46,7 +45,13 @@ export const FormikInput: FC<
         alignItems="center"
       >
         <Stack direction="row" alignItems="center">
-          <FormLabel m={0} htmlFor={name} color={labelColor}>
+          <FormLabel
+            m={0}
+            htmlFor={name}
+            // TODO: Make label white on input's hover / focus-visible
+            color="hsla(0, 0%, 100%, 50%)"
+            fontSize={18}
+          >
             {label}{" "}
             {tooltip && (
               <TooltipIcon
@@ -63,20 +68,39 @@ export const FormikInput: FC<
           </FormLabel>
         </Stack>
         {secondaryLabel && (
-          // @ts-ignore - htmlFor is not a valid prop for BodySm but we're setting to label here
-          <BodySm as="label" htmlFor={name} color={secondaryLabelColor} m={0}>
+          <FormLabel
+            as={BodySm}
+            htmlFor={name}
+            color={secondaryLabelColor}
+            m={0}
+          >
             {secondaryLabel}
-          </BodySm>
+          </FormLabel>
         )}
       </Stack>
       <Input
         id={name}
         isInvalid={isError}
         errorBorderColor="red.300"
+        focusBorderColor="#66F9FF"
         placeholder={placeholder}
-        _placeholder={{ color: useColorModeValue("gray.400", "gray.500") }}
+        _placeholder={{
+          color: "hsla(0, 0%, 100%, 60%)",
+          fontWeight: "normal",
+        }}
         {...field}
         value={meta.value}
+        minH={"72px"}
+        px={6}
+        py={3}
+        fontSize={18}
+        lineHeight={"24px"}
+        fontWeight={"black"}
+        borderColor={"hsla(0, 0%, 100%, 10%)"}
+        bg={"hsla(0, 0%, 0%, 30%)"}
+        _focusVisible={{
+          bg: "hsla(0, 0%, 100%, 10%)",
+        }}
       />
       <HelperErrorText
         helperText={helperText}

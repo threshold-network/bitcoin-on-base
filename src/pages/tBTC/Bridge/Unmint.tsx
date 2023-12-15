@@ -1,7 +1,3 @@
-import { FC } from "react"
-import { useWeb3React } from "@web3-react/core"
-import { Outlet } from "react-router-dom"
-import { FormikErrors, useFormikContext, withFormik } from "formik"
 import {
   BodyLg,
   BodyMd,
@@ -14,24 +10,15 @@ import {
   LabelSm,
   useColorModeValue,
 } from "@threshold-network/components"
+import { useWeb3React } from "@web3-react/core"
+import { FormikErrors, useFormikContext, withFormik } from "formik"
+import { FC } from "react"
+import { Outlet } from "react-router-dom"
 import {
   Form,
   FormikInput,
   FormikTokenBalanceInput,
 } from "../../../components/Forms"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
-import {
-  BridgeLayout,
-  BridgeLayoutAsideSection,
-  BridgeLayoutMainSection,
-} from "./BridgeLayout"
-import { BridgeProcessCardSubTitle } from "./components/BridgeProcessCardSubTitle"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
-import {
-  BridgeContractLink,
-  BridgeProcessIndicator,
-  TBTCText,
-} from "../../../components/tBTC"
 import {
   Step,
   StepBadge,
@@ -40,26 +27,38 @@ import {
   Steps,
   StepTitle,
 } from "../../../components/Step"
+import {
+  BridgeContractLink,
+  BridgeProcessIndicator,
+  TBTCText,
+} from "../../../components/tBTC"
+import { InlineTokenBalance } from "../../../components/TokenBalance"
+import { featureFlags } from "../../../constants"
+import { useThreshold } from "../../../contexts/ThresholdContext"
+import { ModalType, Token } from "../../../enums"
+import { useModal } from "../../../hooks/useModal"
+import { useToken } from "../../../hooks/useToken"
 import { tBTCFillBlack } from "../../../static/icons/tBTCFillBlack"
+import { BitcoinNetwork } from "../../../threshold-ts/types"
+import { PageComponent } from "../../../types"
 import {
   getErrorsObj,
   validateAmountInRange,
   validateUnmintBTCAddress,
 } from "../../../utils/forms"
-import { PageComponent } from "../../../types"
-import { useToken } from "../../../hooks/useToken"
-import { ModalType, Token } from "../../../enums"
-import { BitcoinNetwork } from "../../../threshold-ts/types"
-import { useThreshold } from "../../../contexts/ThresholdContext"
 import {
   getBridgeBTCSupportedAddressPrefixesText,
   UNMINT_MIN_AMOUNT,
 } from "../../../utils/tBTC"
-import { useModal } from "../../../hooks/useModal"
+import {
+  BridgeLayout,
+  BridgeLayoutAsideSection,
+  BridgeLayoutMainSection,
+} from "./BridgeLayout"
+import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
+import { BridgeProcessTitle } from "./components/BridgeProcessTitle"
 import { UnmintDetails } from "./UnmintDetails"
 import { UnmintingCard } from "./UnmintingCard"
-import { featureFlags } from "../../../constants"
-import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 
 const UnmintFormPage: PageComponent = ({}) => {
   const { balance } = useToken(Token.TBTCV2)
@@ -77,11 +76,7 @@ const UnmintFormPage: PageComponent = ({}) => {
     <UnmintingCard />
   ) : (
     <>
-      <BridgeProcessCardTitle bridgeProcess="unmint" />
-      <BridgeProcessCardSubTitle
-        stepText="Step 1"
-        subTitle="Unmint your tBTC tokens"
-      />
+      <BridgeProcessTitle />
       <BodyMd color="gray.500">
         Unminting requires one Ethereum transaction and it takes around 3-5
         hours.
@@ -262,10 +257,7 @@ export const UnmintPageLayout: PageComponent = ({}) => {
         {active ? (
           <Outlet />
         ) : (
-          <BridgeProcessEmptyState
-            title="Ready to unmint tBTC?"
-            bridgeProcess="unmint"
-          />
+          <BridgeProcessEmptyState title="Ready to unmint tBTC?" />
         )}
       </BridgeLayoutMainSection>
       <BridgeLayoutAsideSection>

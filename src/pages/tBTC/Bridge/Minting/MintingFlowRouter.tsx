@@ -1,42 +1,22 @@
-import { FC, useEffect } from "react"
-import { Box, Flex, Skeleton, Stack } from "@threshold-network/components"
-import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { MintingStep } from "../../../../types/tbtc"
-import { ProvideData } from "./ProvideData"
-import { InitiateMinting } from "./InitiateMinting"
-import { MintingSuccess } from "./MintingSuccess"
-import { MakeDeposit } from "./MakeDeposit"
+import { Skeleton, Stack } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
-import { useModal } from "../../../../hooks/useModal"
-import { ModalType } from "../../../../enums"
-import { BridgeContractLink } from "../../../../components/tBTC"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { useRemoveDepositData } from "../../../../hooks/tbtc/useRemoveDepositData"
-import { useAppDispatch } from "../../../../hooks/store"
-import { tbtcSlice } from "../../../../store/tbtc"
+import { useEffect } from "react"
 import { useIsTbtcSdkInitializing } from "../../../../contexts/ThresholdContext"
+import { useAppDispatch } from "../../../../hooks/store"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
+import { tbtcSlice } from "../../../../store/tbtc"
+import { MintingStep } from "../../../../types/tbtc"
+import { InitiateMinting } from "./InitiateMinting"
+import { MakeDeposit } from "./MakeDeposit"
+import { MintingSuccess } from "./MintingSuccess"
+import { ProvideData } from "./ProvideData"
 
-const MintingFlowRouterBase = () => {
+export const MintingFlowRouter = () => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const { mintingStep, updateState, btcDepositAddress, utxo } = useTbtcState()
-  const removeDepositData = useRemoveDepositData()
-  const { openModal } = useModal()
+  const { mintingStep, btcDepositAddress, utxo } = useTbtcState()
   const { isSdkInitializing, isSdkInitializedWithSigner } =
     useIsTbtcSdkInitializing()
-
-  const onPreviousStepClick = (previousStep?: MintingStep) => {
-    if (mintingStep === MintingStep.MintingSuccess) {
-      updateState("mintingStep", MintingStep.ProvideData)
-      removeDepositData()
-      return
-    }
-    if (previousStep === MintingStep.ProvideData) {
-      openModal(ModalType.GenerateNewDepositAddress)
-      return
-    }
-    updateState("mintingStep", previousStep)
-  }
 
   useEffect(() => {
     if (
@@ -60,48 +40,24 @@ const MintingFlowRouterBase = () => {
 
   switch (mintingStep) {
     case MintingStep.ProvideData: {
-      return <ProvideData onPreviousStepClick={onPreviousStepClick} />
+      return <ProvideData />
     }
     case MintingStep.Deposit: {
-      return <MakeDeposit onPreviousStepClick={onPreviousStepClick} />
+      return <MakeDeposit />
     }
     case MintingStep.InitiateMinting: {
-      return (
-        <InitiateMinting
-          utxo={utxo!}
-          onPreviousStepClick={onPreviousStepClick}
-        />
-      )
+      return <InitiateMinting utxo={utxo!} />
     }
     case MintingStep.MintingSuccess: {
       return <MintingSuccess />
     }
     default:
       return (
-        <>
-          <BridgeProcessCardTitle
-            previousStep={MintingStep.ProvideData}
-            onPreviousStepClick={onPreviousStepClick}
-          />
-          <Stack>
-            <Skeleton height="40px" />
-            <Skeleton height="40px" />
-            <Skeleton height="100px" />
-          </Stack>
-        </>
+        <Stack>
+          <Skeleton height="40px" />
+          <Skeleton height="40px" />
+          <Skeleton height="100px" />
+        </Stack>
       )
   }
-}
-
-export const MintingFlowRouter: FC = () => {
-  return (
-    <Flex flexDirection="column">
-      <>
-        <MintingFlowRouterBase />
-        <Box as="p" textAlign="center" mt="6">
-          <BridgeContractLink />
-        </Box>
-      </>
-    </Flex>
-  )
 }

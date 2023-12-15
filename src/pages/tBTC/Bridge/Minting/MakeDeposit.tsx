@@ -1,36 +1,43 @@
-import { FC, ComponentProps } from "react"
 import {
+  BodyLg,
   BodyMd,
+  BodySm,
   Box,
-  BoxLabel,
   Button,
+  Card,
   ChecklistGroup,
+  Divider,
   HStack,
   Stack,
-  Divider,
   useColorModeValue,
-  Card,
+  VStack,
 } from "@threshold-network/components"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
-import TooltipIcon from "../../../../components/TooltipIcon"
+import { ComponentProps, FC } from "react"
 import {
   CopyAddressToClipboard,
   CopyToClipboard,
   CopyToClipboardButton,
 } from "../../../../components/CopyToClipboard"
-import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { MintingStep } from "../../../../types/tbtc"
 import { QRCode } from "../../../../components/QRCode"
-import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
+import TooltipIcon from "../../../../components/TooltipIcon"
 import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
+import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
+import { BridgeProcessTitle } from "../components/BridgeProcessTitle"
 
 const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
 > = ({ address, text, chain }) => {
   return (
     <HStack justify="space-between">
-      <BoxLabel>{text}</BoxLabel>
+      <BodySm
+        bg="hsla(182, 100%, 70%, 10%)"
+        color="hsl(182, 50%, 70%)"
+        px="2"
+        rounded="sm"
+      >
+        {text}
+      </BodySm>
       <CopyAddressToClipboard
         address={address}
         copyButtonPosition="end"
@@ -45,9 +52,12 @@ const BTCAddressCard: FC<ComponentProps<typeof Card>> = ({
   children,
   ...restProps
 }) => {
-  const bgColor = useColorModeValue("gray.50", "gray.900")
   return (
-    <Card {...restProps} backgroundColor={bgColor} border="none">
+    <Card
+      {...restProps}
+      borderColor={"hsla(0, 0%, 100%, 10%)"}
+      bg={"hsla(0, 0%, 0%, 30%)"}
+    >
       {children}
     </Card>
   )
@@ -60,23 +70,8 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
   const btcAddressColor = useColorModeValue("brand.500", "white")
 
   return (
-    <>
-      <HStack
-        alignItems="center"
-        mb="3.5"
-        // To center the tooltip icon. The tooltip icon is wrapped by `span`
-        // because of: If you're wrapping an icon from `react-icons`, you need
-        // to also wrap the icon in a `span` element as `react-icons` icons do
-        // not use forwardRef. See
-        // https://chakra-ui.com/docs/components/tooltip#with-an-icon.
-        sx={{ ">span": { display: "flex" } }}
-      >
-        <BodyMd color={titleColor}>BTC Deposit Address</BodyMd>
-        <TooltipIcon
-          color={titleColor}
-          label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC."
-        />
-      </HStack>
+    <Box>
+      <BodyLg color={titleColor}>BTC Deposit Address</BodyLg>
       <BTCAddressCard p="2.5" display="flex" justifyContent="center">
         <Box
           p={2.5}
@@ -111,70 +106,64 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
           </BTCAddressCard>
         </HStack>
       </CopyToClipboard>
-    </>
+    </Box>
   )
 }
 
-const MakeDepositComponent: FC<{
-  onPreviousStepClick: (previosuStep: MintingStep) => void
-}> = ({ onPreviousStepClick }) => {
+const MakeDepositComponent: FC = () => {
   const { btcDepositAddress, ethAddress, btcRecoveryAddress, updateState } =
     useTbtcState()
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.ProvideData}
-        onPreviousStepClick={onPreviousStepClick}
-      />
-      <BridgeProcessCardSubTitle
-        stepText="Step 2"
-        subTitle="Make your BTC deposit"
-      />
-      <BodyMd color="gray.500" mb={6}>
-        Use this generated address to send minimum 0.01&nbsp;BTC, to mint as
-        tBTC.
-      </BodyMd>
-      <BodyMd color="gray.500" mb={6}>
-        This address is a uniquely generated address based on the data you
-        provided.
-      </BodyMd>
-      <BTCAddressSection btcDepositAddress={btcDepositAddress} />
-      <Stack spacing={4} mt="5" mb={8}>
-        <BodyMd>Provided Addresses Recap</BodyMd>
-        <AddressRow text="ETH Address" address={ethAddress} />
-        <AddressRow
-          text="BTC Recovery Address"
-          address={btcRecoveryAddress}
-          chain="bitcoin"
+      <BridgeProcessTitle />
+      <VStack align="stretch" spacing="10" px="20" my="10">
+        <VStack spacing="2">
+          <BodyMd>
+            Use this generated address to send minimum 0.01&nbsp;BTC, to mint as
+            tBTC.
+          </BodyMd>
+          <BodyMd>
+            This address is a uniquely generated address based on the data you
+            provided.
+          </BodyMd>
+        </VStack>
+        <BTCAddressSection btcDepositAddress={btcDepositAddress} />
+        <Stack spacing={4} mt="5">
+          <BodyMd>Provided Addresses Recap</BodyMd>
+          <AddressRow text="ETH Address" address={ethAddress} />
+          <AddressRow
+            text="BTC Recovery Address"
+            address={btcRecoveryAddress}
+            chain="bitcoin"
+          />
+        </Stack>
+        <Divider mt={4} />
+        <ChecklistGroup
+          checklistItems={[
+            {
+              itemId: "staking_deposit__0",
+              itemTitle: "",
+              itemSubTitle: (
+                <BodyMd color={useColorModeValue("gray.500", "gray.300")}>
+                  Send the funds and come back to this dApp. You do not need to
+                  wait for the BTC transaction to be mined.
+                </BodyMd>
+              ),
+            },
+          ]}
         />
-      </Stack>
-      <Divider mt={4} mb={6} />
-      <ChecklistGroup
-        mb={6}
-        checklistItems={[
-          {
-            itemId: "staking_deposit__0",
-            itemTitle: "",
-            itemSubTitle: (
-              <BodyMd color={useColorModeValue("gray.500", "gray.300")}>
-                Send the funds and come back to this dApp. You do not need to
-                wait for the BTC transaction to be mined.
-              </BodyMd>
-            ),
-          },
-        ]}
-      />
-      {/* TODO: No need to use button here. We can replace it with just some text */}
-      <Button
-        isLoading={true}
-        loadingText={"Waiting for funds to be sent..."}
-        form="tbtc-minting-data-form"
-        isDisabled={true}
-        isFullWidth
-      >
-        I sent the BTC
-      </Button>
+        {/* TODO: No need to use button here. We can replace it with just some text */}
+        <Button
+          isLoading={true}
+          loadingText={"Waiting for funds to be sent..."}
+          form="tbtc-minting-data-form"
+          isDisabled={true}
+          isFullWidth
+        >
+          I sent the BTC
+        </Button>
+      </VStack>
     </>
   )
 }

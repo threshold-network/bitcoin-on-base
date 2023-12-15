@@ -4,20 +4,23 @@ import { PartsStyleFunction } from "@chakra-ui/theme-tools"
 const baseStyle: PartsStyleFunction<typeof checkboxAnatomy> = () => {
   return {
     control: {
+      p: 2.5,
+      borderRadius: "md",
       _checked: {
-        borderColor: "brand.500",
+        borderColor: "hsl(182, 100%, 70%)",
         _active: {
-          borderColor: "brand.500",
+          borderColor: "hsl(182, 100%, 70%)",
         },
-        backgroundColor: "brand.500",
+        bg: "hsl(182, 100%, 70%)",
         _hover: {
-          backgroundColor: "brand.500",
-          borderColor: "brand.500",
+          bg: "hsl(182, 100%, 25%)",
+          borderColor: "hsl(182, 100%, 25%)",
         },
       },
     },
     icon: {
-      color: "white",
+      // TODO: Make icon white on hover / focus-visible
+      color: "black",
     },
   }
 }

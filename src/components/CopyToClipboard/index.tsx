@@ -3,7 +3,6 @@ import {
   useClipboard,
   Flex,
   IconButton,
-  useColorModeValue,
   Tooltip,
   BodyMd,
 } from "@threshold-network/components"
@@ -135,7 +134,6 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
   withLinkToBlockExplorer = false,
   ...restProps
 }) => {
-  const addressColor = useColorModeValue("brand.500", "brand.100")
   const _address = withFullAddress ? address : shortenAddress(address)
   const mr = copyButtonPosition === "end" ? "2.5" : undefined
   const ml =
@@ -158,7 +156,7 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
     >
       <BodyMd
         {...(withLinkToBlockExplorer && blockExplorerProps)}
-        color={addressColor}
+        color="hsl(182, 60%, 70%)"
         mr={mr}
         ml={ml}
         textStyle="chain-identifier"

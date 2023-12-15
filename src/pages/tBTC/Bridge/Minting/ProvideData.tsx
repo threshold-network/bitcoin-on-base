@@ -1,13 +1,8 @@
-import { FC, Ref, useRef, useState } from "react"
+import { FC, Ref, useCallback, useRef, useState } from "react"
 import { FormikErrors, FormikProps, withFormik } from "formik"
-import {
-  Button,
-  BodyMd,
-  useColorModeValue,
-} from "@threshold-network/components"
+import { Button, VStack, BodyMd, Checkbox } from "@threshold-network/components"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
+import { BridgeProcessTitle } from "../components/BridgeProcessTitle"
 import { Form, FormikInput } from "../../../../components/Forms"
 import {
   getErrorsObj,
@@ -15,17 +10,17 @@ import {
   validateETHAddress,
 } from "../../../../utils/forms"
 import { MintingStep } from "../../../../types/tbtc"
-import { useModal } from "../../../../hooks/useModal"
-import { ModalType } from "../../../../enums"
 import { useThreshold } from "../../../../contexts/ThresholdContext"
 import { useWeb3React } from "@web3-react/core"
 import { BitcoinNetwork } from "../../../../threshold-ts/types"
 import { useTBTCDepositDataFromLocalStorage } from "../../../../hooks/tbtc"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { useDepositTelemetry } from "../../../../hooks/tbtc/useDepositTelemetry"
-import { isSameETHAddress } from "../../../../web3/utils"
+import { downloadFile, isSameETHAddress } from "../../../../web3/utils"
 import { supportedChainId } from "../../../../utils/getEnvVariable"
 import { getBridgeBTCSupportedAddressPrefixesText } from "../../../../utils/tBTC"
+import { InlineTokenBalance } from "../../../../components/TokenBalance"
+import TransactionInfoTable from "../../../../components/TransactionInfoTable"
 
 export interface FormValues {
   ethAddress: string
@@ -46,22 +41,21 @@ const MintingProcessFormBase: FC<ComponentProps & FormikProps<FormValues>> = ({
   formId,
 }) => {
   return (
-    <Form id={formId} mb={6}>
+    <VStack as={Form} id={formId} spacing="6">
       <FormikInput
         name="ethAddress"
-        label="ETH Address"
+        label="Base Address"
+        // TODO: Update placeholder and tooltip (???) copies
         placeholder="Address where you'll receive your tBTC"
-        tooltip="ETH address is prepopulated with your wallet address. This is the address where you'll receive your tBTC."
-        mb={6}
         isReadOnly={true}
       />
       <FormikInput
         name="btcRecoveryAddress"
         label="BTC Recovery Address"
-        tooltip={`This address needs to start with ${resolvedBTCAddressPrefix}. Recovery Address is a BTC address where your BTC funds are sent back if something exceptional happens with your deposit. A Recovery Address cannot be a multi-sig or an exchange address. Funds claiming is done by using the JSON file`}
+        // TODO: Update placeholder and tooltip (???) copies
         placeholder={`BTC Address should start with ${resolvedBTCAddressPrefix}`}
       />
-    </Form>
+    </VStack>
   )
 }
 
@@ -99,95 +93,141 @@ const MintingProcessForm = withFormik<MintingProcessFormProps, FormValues>({
   enableReinitialize: true,
 })(MintingProcessFormBase)
 
-export const ProvideDataComponent: FC<{
-  onPreviousStepClick: (previosuStep: MintingStep) => void
-}> = ({ onPreviousStepClick }) => {
+const mockTransactionInfo = [
+  // TODO: Update mocked values
+  {
+    text: "Network fee",
+    value: { tokenAmount: 1, withSymbol: true, tokenSymbol: "BTC" },
+  },
+  {
+    text: "Minting fee",
+    value: {
+      tokenAmount: 1,
+      isEstimated: true,
+      withSymbol: true,
+      tokenSymbol: "BTC",
+    },
+  },
+  {
+    text: "You will receive",
+    value: { tokenAmount: 1, withSymbol: true, tokenSymbol: "tBTC" },
+  },
+].map(({ text, value }) => ({
+  text,
+  value: <InlineTokenBalance {...value} />,
+}))
+
+export const ProvideDataComponent: FC = () => {
   const { updateState } = useTbtcState()
   const [isSubmitButtonLoading, setSubmitButtonLoading] = useState(false)
   const formRef = useRef<FormikProps<FormValues>>(null)
-  const { openModal } = useModal()
   const threshold = useThreshold()
   const { account } = useWeb3React()
   const { setDepositDataInLocalStorage } = useTBTCDepositDataFromLocalStorage()
   const depositTelemetry = useDepositTelemetry(threshold.tbtc.bitcoinNetwork)
+  const [shouldDownloadDepositReceipt, setShouldDownloadDepositReceipt] =
+    useState(true)
 
-  const textColor = useColorModeValue("gray.500", "gray.300")
-
-  const onSubmit = async (values: FormValues) => {
-    if (account && !isSameETHAddress(values.ethAddress, account)) {
-      throw new Error(
-        "The account used to generate the deposit address must be the same as the connected wallet."
-      )
-    }
-    setSubmitButtonLoading(true)
-    const deposit = await threshold.tbtc.initiateDeposit(
-      values.btcRecoveryAddress
-    )
-    const depositAddress = await threshold.tbtc.calculateDepositAddress()
-    const receipt = deposit.getReceipt()
-
-    // update state,
-    updateState("ethAddress", values.ethAddress)
-    updateState("blindingFactor", receipt.blindingFactor.toString())
-    updateState("btcRecoveryAddress", values.btcRecoveryAddress)
-    updateState("walletPublicKeyHash", receipt.walletPublicKeyHash.toString())
-    updateState("refundLocktime", receipt.refundLocktime.toString())
-
-    // create a new deposit address,
-    updateState("btcDepositAddress", depositAddress)
-
-    setDepositDataInLocalStorage({
-      ethAddress: values.ethAddress,
-      blindingFactor: receipt.blindingFactor.toString(),
-      btcRecoveryAddress: values.btcRecoveryAddress,
-      walletPublicKeyHash: receipt.walletPublicKeyHash.toString(),
-      refundLocktime: receipt.refundLocktime.toString(),
-      btcDepositAddress: depositAddress,
-    })
-
-    depositTelemetry(receipt, depositAddress)
-
-    // if the user has NOT declined the json file, ask the user if they want to accept the new file
-    openModal(ModalType.TbtcRecoveryJson, {
-      ethAddress: values.ethAddress,
-      blindingFactor: receipt.blindingFactor.toString(),
-      walletPublicKeyHash: receipt.walletPublicKeyHash.toString(),
-      refundPublicKeyHash: receipt.refundPublicKeyHash.toString(),
-      refundLocktime: receipt.refundLocktime.toString(),
-      btcDepositAddress: depositAddress,
-    })
-    updateState("mintingStep", MintingStep.Deposit)
+  const handleDepositReceiptAgreementChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = (event) => {
+    const {
+      target: { checked },
+    } = event
+    setShouldDownloadDepositReceipt(checked)
   }
+
+  const onSubmit = useCallback(
+    async (values: FormValues) => {
+      if (account && !isSameETHAddress(values.ethAddress, account)) {
+        throw new Error(
+          "The account used to generate the deposit address must be the same as the connected wallet."
+        )
+      }
+      setSubmitButtonLoading(true)
+      const deposit = await threshold.tbtc.initiateDeposit(
+        values.btcRecoveryAddress
+      )
+      const depositAddress = await threshold.tbtc.calculateDepositAddress()
+      const receipt = deposit.getReceipt()
+
+      // update state,
+      updateState("ethAddress", values.ethAddress)
+      updateState("blindingFactor", receipt.blindingFactor.toString())
+      updateState("btcRecoveryAddress", values.btcRecoveryAddress)
+      updateState("walletPublicKeyHash", receipt.walletPublicKeyHash.toString())
+      updateState("refundLocktime", receipt.refundLocktime.toString())
+
+      // create a new deposit address,
+      updateState("btcDepositAddress", depositAddress)
+
+      setDepositDataInLocalStorage({
+        ethAddress: values.ethAddress,
+        blindingFactor: receipt.blindingFactor.toString(),
+        btcRecoveryAddress: values.btcRecoveryAddress,
+        walletPublicKeyHash: receipt.walletPublicKeyHash.toString(),
+        refundLocktime: receipt.refundLocktime.toString(),
+        btcDepositAddress: depositAddress,
+      })
+
+      depositTelemetry(receipt, depositAddress)
+
+      // if the user has NOT declined the json file, ask the user if they want to accept the new file
+      if (shouldDownloadDepositReceipt) {
+        const date = new Date().toISOString().split("T")[0]
+
+        const fileName = `${values.ethAddress}_${depositAddress}_${date}.json`
+
+        const finalData = {
+          depositor: {
+            identifierHex: receipt.depositor.identifierHex.toString(),
+          },
+          refundLocktime: receipt.refundLocktime.toString(),
+          refundPublicKeyHash: receipt.refundPublicKeyHash.toString(),
+          blindingFactor: receipt.blindingFactor.toString(),
+          ethAddress: values.ethAddress,
+          walletPublicKeyHash: receipt.walletPublicKeyHash.toString(),
+          btcRecoveryAddress: values.btcRecoveryAddress,
+        }
+        downloadFile(JSON.stringify(finalData), fileName, "text/json")
+      }
+
+      updateState("mintingStep", MintingStep.Deposit)
+    },
+    [shouldDownloadDepositReceipt]
+  )
 
   return (
     <>
-      <BridgeProcessCardTitle onPreviousStepClick={onPreviousStepClick} />
-      <BridgeProcessCardSubTitle
-        stepText="Step 1"
-        subTitle="Generate a Deposit Address"
-      />
-      <BodyMd color={textColor} mb={12}>
-        Based on these two addresses, the system will generate for you a unique
-        BTC deposit address. There is no minting limit.
-      </BodyMd>
-      <MintingProcessForm
-        innerRef={formRef}
-        formId="tbtc-minting-data-form"
-        initialEthAddress={account!}
-        btcRecoveryAddress={""}
-        bitcoinNetwork={threshold.tbtc.bitcoinNetwork}
-        onSubmitForm={onSubmit}
-      />
-      <Button
-        isLoading={isSubmitButtonLoading}
-        loadingText={"Generating deposit address..."}
-        type="submit"
-        form="tbtc-minting-data-form"
-        isFullWidth
-        data-ph-capture-attribute-button-name={`Generate Deposit Address (Deposit flow)`}
-      >
-        Generate Deposit Address
-      </Button>
+      <BridgeProcessTitle />
+      <VStack align="stretch" spacing="10" px="20" my="10">
+        <MintingProcessForm
+          innerRef={formRef}
+          formId="tbtc-minting-data-form"
+          initialEthAddress={account!}
+          btcRecoveryAddress={""}
+          bitcoinNetwork={threshold.tbtc.bitcoinNetwork}
+          onSubmitForm={onSubmit}
+        />
+        <TransactionInfoTable transactionInfo={mockTransactionInfo} />
+        <Checkbox defaultChecked onChange={handleDepositReceiptAgreementChange}>
+          Download Deposit Receipt (recommended)
+        </Checkbox>
+        <Button
+          isLoading={isSubmitButtonLoading}
+          loadingText={"Processing..."}
+          type="submit"
+          form="tbtc-minting-data-form"
+          isFullWidth
+          data-ph-capture-attribute-button-name={`Continue (Deposit flow)`}
+        >
+          Continue
+        </Button>
+        <BodyMd textAlign="center" color="white">
+          tBTC is a 1-1 representation of Bitcoin on Base. You can revert
+          anytime.
+        </BodyMd>
+      </VStack>
     </>
   )
 }

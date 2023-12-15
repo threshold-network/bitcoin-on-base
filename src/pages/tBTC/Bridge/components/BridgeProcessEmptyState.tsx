@@ -1,6 +1,5 @@
-import { FC, useEffect } from "react"
 import { H5, useColorModeValue } from "@threshold-network/components"
-import { BridgeProcessCardTitle } from "./BridgeProcessCardTitle"
+import { FC, useEffect } from "react"
 import SubmitTxButton from "../../../../components/SubmitTxButton"
 import {
   ProtocolHistoryRecentDeposits,
@@ -14,8 +13,7 @@ import { BridgeProcess } from "../../../../types"
 
 export const BridgeProcessEmptyState: FC<{
   title: string
-  bridgeProcess?: BridgeProcess
-}> = ({ title, bridgeProcess = "mint" }) => {
+}> = ({ title }) => {
   const [tvlInUSD, fetchTvl, tvl] = useFetchTvl()
   const [deposits] = useFetchRecentDeposits(3)
   const protocolHistoryBackgroundColor = useColorModeValue(
@@ -29,7 +27,6 @@ export const BridgeProcessEmptyState: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle bridgeProcess={bridgeProcess} />
       <H5 align={"center"}>{title}</H5>
       <SubmitTxButton mb="6" mt="4" />
       <Tvl tvl={tvl.tBTC} tvlInUSD={tvlInUSD.tBTC} />
