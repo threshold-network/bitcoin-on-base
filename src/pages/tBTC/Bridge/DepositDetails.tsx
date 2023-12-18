@@ -69,6 +69,10 @@ import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import {
+  TransactionHistory,
+  TransactionHistoryItemType,
+} from "./components/TransactionHistory"
+import {
   BridgeProcessResources,
   BridgeProcessResourcesItemProps,
 } from "./components/BridgeProcessResources"
@@ -154,11 +158,7 @@ export const DepositDetails: PageComponent = () => {
     shouldStartFromFirstStep,
   ])
 
-  const transactions: {
-    label: string
-    txHash?: string
-    chain: Chain
-  }[] = [
+  const transactions: TransactionHistoryItemType[] = [
     { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },
     { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
     {
@@ -236,40 +236,8 @@ export const DepositDetails: PageComponent = () => {
                 w={{ base: "100%", xl: "35%" }}
                 mb={{ base: "20", xl: "unset" }}
                 direction="column"
-                justify="space-between"
               >
-                <LabelSm mb="8" mt={{ xl: 2 }}>
-                  Transaction History
-                </LabelSm>
-                <Badge
-                  size="sm"
-                  colorScheme="yellow"
-                  variant="solid"
-                  display="flex"
-                  alignItems="center"
-                  alignSelf="flex-start"
-                  mb="4"
-                >
-                  <Icon as={TimeIcon} /> ~3 hours minting time
-                </Badge>
-                <List color="gray.500" spacing="2" mb="20">
-                  {transactions
-                    .filter((item) => !!item.txHash)
-                    .map((item) => (
-                      <ListItem key={item.txHash}>
-                        <BodySm>
-                          {item.label}{" "}
-                          <ViewInBlockExplorer
-                            id={item.txHash!}
-                            type={ExplorerDataType.TRANSACTION}
-                            chain={item.chain}
-                            text="transaction"
-                          />
-                          .
-                        </BodySm>
-                      </ListItem>
-                    ))}
-                </List>
+                <TransactionHistory items={transactions} />
                 {mintingProgressStep !== "completed" && (
                   <BridgeProcessResources items={resourceData} />
                 )}

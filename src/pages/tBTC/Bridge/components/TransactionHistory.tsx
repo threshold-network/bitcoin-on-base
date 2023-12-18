@@ -1,10 +1,10 @@
 import {
-  Box,
   BodyMd,
+  Box,
+  HStack,
+  Link,
   List,
   ListItem,
-  Link,
-  HStack,
 } from "@threshold-network/components"
 import { FC } from "react"
 import { FaChevronRight as ChevronIcon } from "react-icons/fa"
