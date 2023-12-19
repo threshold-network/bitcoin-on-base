@@ -1,32 +1,42 @@
+import { TimeIcon } from "@chakra-ui/icons"
 import {
-  FC,
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  createContext,
-  useContext,
-} from "react"
-import { useParams, useLocation, useNavigate } from "react-router"
-import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Badge,
   BodyLg,
   BodyMd,
+  BodySm,
+  BodyXs,
+  Divider,
   Flex,
   HStack,
+  Icon,
   LabelSm,
   List,
   ListItem,
   Stack,
   StackDivider,
-  Icon,
-  Divider,
-  BodySm,
-  BodyXs,
   useColorModeValue,
   VStack,
 } from "@threshold-network/components"
+import {
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { IoCheckmarkSharp } from "react-icons/all"
+import { useLocation, useNavigate, useParams } from "react-router"
+import ButtonLink from "../../../components/ButtonLink"
+import {
+  BridgeProcessIndicator,
+  TBTCTokenContractLink,
+} from "../../../components/tBTC"
+import { ExternalPool } from "../../../components/tBTC/ExternalPool"
 import {
   Timeline,
   TimelineBreakpoint,
@@ -36,38 +46,33 @@ import {
   TimelineItem,
   TimelineItemStatus,
 } from "../../../components/Timeline"
-import ViewInBlockExplorer, {
-  Chain as ViewInBlockExplorerChain,
-} from "../../../components/ViewInBlockExplorer"
-import ButtonLink from "../../../components/ButtonLink"
-import {
-  BridgeProcessIndicator,
-  TBTCTokenContractLink,
-} from "../../../components/tBTC"
-import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
-import {
-  BridgeProcessResource,
-  BridgeProcessResourceProps,
-} from "./components/BridgeProcessResource"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
-import { useAppDispatch } from "../../../hooks/store"
-import { useTbtcState } from "../../../hooks/useTbtcState"
-import {
-  useFetchDepositDetails,
-  DepositData,
-  useSubscribeToOptimisticMintingRequestedEventBase,
-  useSubscribeToOptimisticMintingFinalizedEventBase,
-} from "../../../hooks/tbtc"
-import { tbtcSlice } from "../../../store/tbtc"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { PageComponent } from "../../../types"
-import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
-import { ExternalPool } from "../../../components/tBTC/ExternalPool"
-import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
-import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
-import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
-import { TimeIcon } from "@chakra-ui/icons"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
+import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
+import ViewInBlockExplorer, {
+  Chain,
+} from "../../../components/ViewInBlockExplorer"
+import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
+import { useAppDispatch } from "../../../hooks/store"
+import {
+  DepositData,
+  useFetchDepositDetails,
+  useSubscribeToOptimisticMintingFinalizedEventBase,
+  useSubscribeToOptimisticMintingRequestedEventBase,
+} from "../../../hooks/tbtc"
+import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
+import { useTbtcState } from "../../../hooks/useTbtcState"
+import bitcoinJuiceIllustration from "../../../static/images/bitcoin-juice.png"
+import { tbtcSlice } from "../../../store/tbtc"
+import { PageComponent } from "../../../types"
+import { ExplorerDataType } from "../../../utils/createEtherscanLink"
+import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
+import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
+import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
+import {
+  BridgeProcessResources,
+  BridgeProcessResourcesItemProps,
+} from "./components/BridgeProcessResources"
+import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
@@ -152,7 +157,7 @@ export const DepositDetails: PageComponent = () => {
   const transactions: {
     label: string
     txHash?: string
-    chain: ViewInBlockExplorerChain
+    chain: Chain
   }[] = [
     { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },
     { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
@@ -231,6 +236,7 @@ export const DepositDetails: PageComponent = () => {
                 w={{ base: "100%", xl: "35%" }}
                 mb={{ base: "20", xl: "unset" }}
                 direction="column"
+                justify="space-between"
               >
                 <LabelSm mb="8" mt={{ xl: 2 }}>
                   Transaction History
@@ -265,16 +271,7 @@ export const DepositDetails: PageComponent = () => {
                     ))}
                 </List>
                 {mintingProgressStep !== "completed" && (
-                  <>
-                    <BridgeProcessIndicator
-                      bridgeProcess="mint"
-                      mt="auto"
-                      mb="10"
-                    />
-                    <BridgeProcessResource
-                      {...stepToResourceData[mintingProgressStep]}
-                    />
-                  </>
+                  <BridgeProcessResources items={resourceData} />
                 )}
               </Flex>
             </Stack>
@@ -597,29 +594,22 @@ const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
   return { mintingRequestedTxHash, mintingFinalizedTxHash }
 }
 
-const stepToResourceData: Record<
-  Exclude<DepositDetailsTimelineStep, "completed">,
-  BridgeProcessResourceProps
-> = {
-  "bitcoin-confirmations": {
-    title: "Bitcoin Confirmations Requirement",
-    subtitle:
-      "Confirmations typically ensure transaction validity and finality.",
+// TODO: update links
+
+const resourceData: BridgeProcessResourcesItemProps[] = [
+  {
+    title: "Token Contract",
     link: ExternalHref.btcConfirmations,
   },
-  "minting-initialized": {
-    title: "Minters, Guardians and a secure tBTC",
-    subtitle: "A phased approach with two main roles: Minters and Guardians.",
+  {
+    title: "Bridge Contract",
     link: ExternalHref.mintersAndGuardiansDocs,
   },
-  "guardian-check": {
-    title: "Minters and Guardians in Optimistic Minting",
-    subtitle: "A phased approach with two main roles: Minters and Guardians.",
+  {
+    title: "Read out documentation",
+    description: "Everything you need to know about our contracts.",
     link: ExternalHref.mintersAndGuardiansDocs,
+    variant: "expanded",
+    imageSrc: bitcoinJuiceIllustration,
   },
-  "minting-completed": {
-    title: "Minters and Guardians in Optimistic Minting",
-    subtitle: "A phased approach with two main roles: Minters and Guardians.",
-    link: ExternalHref.mintersAndGuardiansDocs,
-  },
-}
+]

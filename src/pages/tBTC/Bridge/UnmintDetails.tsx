@@ -1,6 +1,3 @@
-import { FC, useEffect, useState } from "react"
-import { useParams, useSearchParams } from "react-router-dom"
-import { IoCheckmarkSharp } from "react-icons/all"
 import {
   Badge,
   BodyLg,
@@ -18,6 +15,11 @@ import {
   SkeletonText,
   useColorModeValue,
 } from "@threshold-network/components"
+import { FC, useEffect, useState } from "react"
+import { IoCheckmarkSharp } from "react-icons/all"
+import { useParams, useSearchParams } from "react-router-dom"
+import ButtonLink from "../../../components/ButtonLink"
+import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
 import {
   Timeline,
   TimelineBreakpoint,
@@ -26,41 +28,39 @@ import {
   TimelineDot,
   TimelineItem,
 } from "../../../components/Timeline"
+import { InlineTokenBalance } from "../../../components/TokenBalance"
 import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
 } from "../../../components/TransactionDetails"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
-import ButtonLink from "../../../components/ButtonLink"
-import { BridgeProcessStep } from "./components/BridgeProcessStep"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "./components/BridgeProcessCardSubTitle"
-import { BridgeProcessResource } from "./components/BridgeProcessResource"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
+import { featureFlags } from "../../../constants"
+import { useThreshold } from "../../../contexts/ThresholdContext"
+import { ExternalHref } from "../../../enums"
+import { useAppDispatch } from "../../../hooks/store"
+import {
+  useFindRedemptionInBitcoinTx,
+  useSubscribeToRedemptionsCompletedEventBase,
+} from "../../../hooks/tbtc"
+import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
+import { tbtcSlice } from "../../../store/tbtc"
+import { PageComponent } from "../../../types"
+import { ExplorerDataType } from "../../../utils/createEtherscanLink"
+import { dateAs, dateToUnixTimestamp } from "../../../utils/date"
 import {
   BridgeLayout,
   BridgeLayoutAsideSection,
   BridgeLayoutMainSection,
 } from "./BridgeLayout"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { PageComponent } from "../../../types"
-import { dateToUnixTimestamp, dateAs } from "../../../utils/date"
-import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
+import { BridgeProcessCardSubTitle } from "./components/BridgeProcessCardSubTitle"
+import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
+import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import { ProcessCompletedBrandGradientIcon } from "./components/BridgeProcessDetailsIcons"
-import { featureFlags } from "../../../constants"
-import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
-import { ExternalHref } from "../../../enums"
-import {
-  useFindRedemptionInBitcoinTx,
-  useSubscribeToRedemptionsCompletedEventBase,
-} from "../../../hooks/tbtc"
-import { useAppDispatch } from "../../../hooks/store"
-import { tbtcSlice } from "../../../store/tbtc"
-import { useThreshold } from "../../../contexts/ThresholdContext"
+import { BridgeProcessResourcesItem } from "./components/BridgeProcessResources"
+import { BridgeProcessStep } from "./components/BridgeProcessStep"
 
 export const UnmintDetails: PageComponent = () => {
   const [searchParams] = useSearchParams()
@@ -348,10 +348,11 @@ export const UnmintDetails: PageComponent = () => {
                 ))}
             </List>
             {!(shouldDisplaySuccessStep || shouldForceIsProcessCompleted) && (
-              <BridgeProcessResource
+              <BridgeProcessResourcesItem
                 title="Minters and Guardians in Optimistic Minting"
-                subtitle="A phased approach with two main roles: Minters and Guardians."
+                description="A phased approach with two main roles: Minters and Guardians."
                 link={ExternalHref.mintersAndGuardiansDocs}
+                variant="expanded"
               />
             )}
           </>
