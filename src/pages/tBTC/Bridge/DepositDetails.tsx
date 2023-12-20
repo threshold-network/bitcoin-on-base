@@ -12,8 +12,8 @@ import {
   Badge,
   BodyLg,
   BodyMd,
-  Box,
   Flex,
+  HStack,
   LabelSm,
   List,
   ListItem,
@@ -23,13 +23,10 @@ import {
   Divider,
   BodySm,
   BodyXs,
-  Alert,
-  AlertDescription,
-  AlertIcon,
   useColorModeValue,
+  VStack,
 } from "@threshold-network/components"
-import { IoCheckmarkSharp, IoTime as TimeIcon } from "react-icons/all"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
+import { IoCheckmarkSharp } from "react-icons/all"
 import {
   Timeline,
   TimelineBreakpoint,
@@ -48,7 +45,6 @@ import {
   TBTCTokenContractLink,
 } from "../../../components/tBTC"
 import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import {
   BridgeProcessResource,
   BridgeProcessResourceProps,
@@ -70,6 +66,8 @@ import { ExternalPool } from "../../../components/tBTC/ExternalPool"
 import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
 import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
+import { TimeIcon } from "@chakra-ui/icons"
+import { InlineTokenBalance } from "../../../components/TokenBalance"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
@@ -204,43 +202,31 @@ export const DepositDetails: PageComponent = () => {
               divider={<StackDivider />}
               spacing={4}
             >
-              <Flex flexDirection="column" w={{ base: "100%", xl: "65%" }}>
-                <BridgeProcessCardTitle />
-                <Flex mb="4" alignItems="center" textStyle="bodyLg">
-                  <BodyLg>
-                    <Box
-                      as="span"
-                      fontWeight="600"
-                      color={depositStatusTextColor}
-                    >
-                      {mintingProgressStep === "completed"
-                        ? "Minted"
-                        : "Minting"}
-                    </Box>
-                    {mintingProgressStep !== "completed" && ` - In progress...`}
-                  </BodyLg>{" "}
-                  <InlineTokenBalance
-                    tokenAmount={amount || "0"}
-                    tokenSymbol="tBTC"
-                    withSymbol
-                    ml="auto"
-                  />
-                </Flex>
-                <DepositDetailsTimeline
-                  // isCompleted
-                  inProgressStep={mintingProgressStep}
-                />
-                {mintingProgressStep !== "completed" && (
-                  <Alert status="info" my={6}>
-                    <AlertIcon />
-                    <AlertDescription>
-                      It is safe to close this window. Minting will continue as
-                      a background process and will not be interrupted.
-                    </AlertDescription>
-                  </Alert>
-                )}
-                <StepSwitcher />
-              </Flex>
+              <VStack
+                spacing={12}
+                align="center"
+                w={{ base: "100%", xl: "65%" }}
+              >
+                <VStack align="flex-start" alignSelf="stretch" spacing="4">
+                  <BodyMd fontWeight="medium">Amount</BodyMd>
+                  <HStack align="baseline">
+                    <InlineTokenBalance
+                      tokenAmount={amount || "0"}
+                      fontWeight="black"
+                      fontSize="40px"
+                      lineHeight="1"
+                    />
+                    <BodyLg>BTC</BodyLg>
+                  </HStack>
+                </VStack>
+                <VStack spacing="6">
+                  <BodySm color="#66F9FF">
+                    Waiting for the Bitcoin Network Confirmations...
+                  </BodySm>
+                  <BridgeProcessIndicator />
+                </VStack>
+                <BodyXs>May take up to 3 hours...</BodyXs>
+              </VStack>
               <Flex
                 w={{ base: "100%", xl: "35%" }}
                 mb={{ base: "20", xl: "unset" }}
