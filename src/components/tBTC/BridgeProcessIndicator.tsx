@@ -57,11 +57,15 @@ export const BridgeProcessIndicator: FC<
             <stop offset="1" style={{ stopColor: "#0052ff", stopOpacity: 1 }} />
           </linearGradient>
           <filter id="bridge-process-indicator-blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="7.5"
+              result="blur"
+            />
             <feColorMatrix
               in="blur"
               mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -8"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26.5 -6"
               result="bridge-process-indicator-blur"
             />
             <feBlend in="SourceGraphic" in2="bridge-process-indicator-blur" />
