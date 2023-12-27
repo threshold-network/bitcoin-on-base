@@ -1,5 +1,4 @@
 import { extendTheme } from "@chakra-ui/react"
-import { mode } from "@chakra-ui/theme-tools"
 import { defaultTheme } from "@threshold-network/components"
 import { InfoBox } from "./InfoBox"
 import { NotificationPill } from "./NotificationPill"
@@ -13,15 +12,16 @@ import { AnnouncementBanner } from "./AnnouncementBanner"
 import { Timeline } from "./Timeline"
 import { DotsLoadingIndicator } from "./DotsLoadingIndicator"
 import { Tooltip } from "./Tooltip"
+import { Button } from "./Button"
 
 const index = extendTheme({
   ...defaultTheme,
   colors: {
     ...defaultTheme.colors,
-    // TODO: move color to components repo.
-    teal: {
-      "500": "#00BACC",
+    brand: {
+      "100": "#66F9FF",
     },
+    border: "hsla(0, 0%, 100%, 0.2)",
   },
   textStyles: {
     bodyLg: {
@@ -47,6 +47,7 @@ const index = extendTheme({
     Timeline,
     DotsLoadingIndicator,
     Tooltip,
+    Button,
   },
 })
 

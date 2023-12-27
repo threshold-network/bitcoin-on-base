@@ -17,7 +17,12 @@ function Header() {
   const handleWalletConnection = () => openModal(ModalType.SelectWallet)
 
   return (
-    <Box bg={"black"} color={"white"} borderBottom={"1px solid #2E2E36"}>
+    <Box
+      bg={"black"}
+      color={"white"}
+      borderBottom={"1px solid"}
+      borderColor={"border"}
+    >
       <Flex maxW={"1920px"} mx={"auto"} alignItems={"center"} px={10} h={24}>
         <Logo />
         <NavigationMenu

@@ -1,4 +1,5 @@
 import {
+  Button,
   Flex,
   HStack,
   Link,
@@ -12,6 +13,7 @@ import { NavLink } from "react-router-dom"
 import { FaBitcoin as BitcoinIcon } from "react-icons/fa"
 import shortenAddress from "../../utils/shortenAddress"
 import { spacing } from "@chakra-ui/theme/foundations/spacing"
+import { HiOutlinePlus as PlusIcon } from "react-icons/hi"
 
 const activeLinkIndicatorStyles: SystemStyleObject = {
   position: "relative",
@@ -114,8 +116,8 @@ export function UserPanel(props: UserPanelProps) {
       </HStack>
     </HStack>
   ) : (
-    <Flex as="button" onClick={onConnectClick}>
+    <Button variant="outline" leftIcon={<PlusIcon />} onClick={onConnectClick}>
       Connect Wallet
-    </Flex>
+    </Button>
   )
 }
