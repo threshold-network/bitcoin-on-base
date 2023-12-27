@@ -10,7 +10,12 @@ export default function Logo(props: LogoProps) {
   const { asLink = true } = props
 
   return (
-    <Flex as={asLink ? NavLink : Flex} alignItems={"center"} to={asLink && "/"}>
+    <Flex
+      as={asLink ? NavLink : Flex}
+      alignItems={"center"}
+      to={asLink && "/"}
+      px={0.5}
+    >
       <VisuallyHidden>
         Bitcoin on Base {asLink ? "homepage" : ""}
       </VisuallyHidden>

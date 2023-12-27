@@ -65,11 +65,11 @@ interface NavigationMenuProps {
 export function NavigationMenu(props: NavigationMenuProps) {
   const { items } = props
   return (
-    <List as={Flex} alignSelf={"stretch"} ml={28} mr={"auto"} px={6}>
+    <Flex as={List} alignSelf={"stretch"} ml={146 - 20} mr={"auto"}>
       {items.map((item) => (
         <NavigationMenuItem {...item} key={item.to} />
       ))}
-    </List>
+    </Flex>
   )
 }
 
