@@ -79,34 +79,37 @@ export default function PageLayout(props: PageLayoutProps) {
   ].join("/")
 
   return (
-    <Flex
-      flexFlow={"column"}
-      alignItems={"normal"}
-      bg={"black"}
-      minHeight={"100vh"}
-      sx={getBackgroundStyles(backgroundVariant)}
-      {...restProps}
-    >
-      {/* <Header /> */}
-      {!!renderTop && (
-        <Box px={HORIZONTAL_PADDING} py={6} borderBottom={BORDER}>
-          {renderTop}
-        </Box>
-      )}
-      <Grid
-        templateColumns={"repeat(4, .5fr)"}
-        w={`calc(100% - calc(${HORIZONTAL_PADDING} * 2))`}
-        margin={"auto"}
-        borderLeft={renderLeft !== undefined ? BORDER : ""}
-        borderRight={renderRight !== undefined ? BORDER : ""}
-        flex={1}
+    <Box bg={"black"} color={"white"}>
+      <Flex
+        flexFlow={"column"}
+        alignItems={"normal"}
+        maxW={"1920px"}
+        mx={"auto"}
+        minHeight={"100vh"}
+        sx={getBackgroundStyles(backgroundVariant)}
+        {...restProps}
       >
-        {!!renderLeft && <Box p={10}>{renderLeft}</Box>}
-        <Box gridColumn={childrenContainerColumnSpan} borderX={BORDER}>
-          {children}
-        </Box>
-        {!!renderRight && <Box p={10}>{renderRight}</Box>}
-      </Grid>
-    </Flex>
+        {/* <Header /> */}
+        {!!renderTop && (
+          <Box px={HORIZONTAL_PADDING} py={6} borderBottom={BORDER}>
+            {renderTop}
+          </Box>
+        )}
+        <Grid
+          templateColumns={"repeat(4, .5fr)"}
+          w={`calc(100% - calc(${HORIZONTAL_PADDING} * 2))`}
+          margin={"auto"}
+          borderLeft={renderLeft !== undefined ? BORDER : ""}
+          borderRight={renderRight !== undefined ? BORDER : ""}
+          flex={1}
+        >
+          {!!renderLeft && <Box p={10}>{renderLeft}</Box>}
+          <Box gridColumn={childrenContainerColumnSpan} borderX={BORDER}>
+            {children}
+          </Box>
+          {!!renderRight && <Box p={10}>{renderRight}</Box>}
+        </Grid>
+      </Flex>
+    </Box>
   )
 }
