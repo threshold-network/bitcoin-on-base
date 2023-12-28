@@ -13,8 +13,14 @@ function withBaseModal<T extends BaseModalProps>(
         size="lg"
         closeOnOverlayClick={false}
       >
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay backdropFilter="blur(16px)" bg="blackAlpha.600" />
+        <ModalContent
+          mt="200px"
+          bgGradient="radial(circle at bottom right, #0A1616, #090909)"
+          border="1px solid"
+          borderColor="border.50"
+          rounded="lg"
+        >
           <WrappedModalContent {...props} />
         </ModalContent>
       </Modal>

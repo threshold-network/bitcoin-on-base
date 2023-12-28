@@ -4,9 +4,25 @@ export const Button = {
   defaultProps: {
     colorScheme: "brand",
     iconSpacing: "16px",
+    size: "md",
+  },
+  sizes: {
+    sm: (props: ButtonProps) => ({
+      pl: !!props.leftIcon ? 2 : 3,
+      pr: !!props.rightIcon ? 2 : 3,
+      py: 3,
+      fontSize: "sm",
+      rounded: "xl",
+    }),
+    md: (props: ButtonProps) => ({
+      pl: !!props.leftIcon ? 4 : 6,
+      pr: !!props.rightIcon ? 4 : 6,
+      py: 4,
+      rounded: "2xl",
+    }),
   },
   variants: {
-    solid: (props: ButtonProps) => {
+    solid: () => {
       const _disabled = {
         backgroundColor: "gray.100",
         color: "gray.700",
@@ -16,10 +32,6 @@ export const Button = {
         color: "black",
         backgroundColor: "brand.100",
         textTransform: "uppercase",
-        pl: !!props.leftIcon ? 4 : 6,
-        pr: !!props.rightIcon ? 4 : 6,
-        py: 4,
-        rounded: "2xl",
         h: "auto",
         _disabled,
         _hover: {
@@ -31,24 +43,18 @@ export const Button = {
         },
       }
     },
-    outline: (props: ButtonProps) => ({
+    outline: {
       color: "brand.100",
-      borderColor: "border",
+      borderColor: "border.100",
       textTransform: "uppercase",
-      fontSize: "sm",
-      pl: !!props.leftIcon ? 2 : 3,
-      pr: !!props.rightIcon ? 2 : 3,
-      py: 3,
-      rounded: "xl",
       h: "auto",
       _hover: {
         color: "white",
         borderColor: "brand.100",
       },
-
       _disabled: {
         opacity: 0.25,
       },
-    }),
+    },
   },
 }

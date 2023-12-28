@@ -10,9 +10,9 @@ import { Checkbox } from "./Checkbox"
 import { Radio } from "./Radio"
 import { AnnouncementBanner } from "./AnnouncementBanner"
 import { Timeline } from "./Timeline"
-import { DotsLoadingIndicator } from "./DotsLoadingIndicator"
 import { Tooltip } from "./Tooltip"
 import { Button } from "./Button"
+import { Alert } from "./Alert"
 
 const index = extendTheme({
   ...defaultTheme,
@@ -21,7 +21,10 @@ const index = extendTheme({
     brand: {
       "100": "#66F9FF",
     },
-    border: "hsla(0, 0%, 100%, 0.2)",
+    border: {
+      "50": "hsla(0, 0%, 100%, 0.1)",
+      "100": "hsla(0, 0%, 100%, 0.2)",
+    },
   },
   textStyles: {
     bodyLg: {
@@ -45,9 +48,9 @@ const index = extendTheme({
     Radio,
     Checkbox,
     Timeline,
-    DotsLoadingIndicator,
     Tooltip,
     Button,
+    Alert,
   },
 })
 

@@ -46,11 +46,6 @@ const ConnectTaho: FC<{ goBack: () => void; closeModal: () => void }> = ({
       closeModal={closeModal}
       WalletIcon={Taho}
       title="Taho"
-      subTitle={
-        isTahoNotInstalled || isTahoNotDefaultWallet
-          ? ""
-          : "The Taho extension will open in an external window."
-      }
       tryAgain={
         hasUserRejectedConnectionRequest
           ? () => {

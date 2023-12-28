@@ -21,7 +21,7 @@ function Header() {
       bg={"black"}
       color={"white"}
       borderBottom={"1px solid"}
-      borderColor={"border"}
+      borderColor={"border.100"}
     >
       <Flex maxW={"1920px"} mx={"auto"} alignItems={"center"} px={10} h={24}>
         <Logo />

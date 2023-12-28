@@ -28,11 +28,6 @@ const ConnectLedgerLive: FC<{ goBack: () => void; closeModal: () => void }> = ({
       closeModal={closeModal}
       WalletIcon={walletIcon}
       title="Ledger Live"
-      subTitle={
-        !error
-          ? "The Ledger Live extension will open in an external window."
-          : ""
-      }
       tryAgain={connectionRejected ? () => activate(ledgerLive) : undefined}
       walletType={WalletType.LedgerLive}
       shouldForceCloseModal
