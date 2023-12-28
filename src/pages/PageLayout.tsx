@@ -1,10 +1,11 @@
 import {
   Box,
   Flex,
+  FlexProps,
   Grid,
   SystemStyleObject,
 } from "@threshold-network/components"
-import { ReactNode } from "react"
+import { FC, ReactNode } from "react"
 import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.svg"
 import SECONDARY_BACKGROUND_PATH from "../static/images/layout-background-secondary.svg"
 
@@ -58,12 +59,16 @@ const getBackgroundStyles = (variant: VariantType): SystemStyleObject => ({
   bgAttachment: "fixed",
 })
 
+const FixedContainer: FC<FlexProps> = (props) => (
+  <Flex flexFlow={"column"} maxW={"1920px"} mx={"auto"} {...props} />
+)
+
 /**
  * Renders the page wrapped in layout with render slots for content alignment.
  * @param {PageLayoutProps} props - The props for the PageLayout component.
  * @return {JSX.Element} The rendered page wrapped in layout.
  */
-export default function PageLayout(props: PageLayoutProps) {
+const PageLayout: FC<PageLayoutProps> = (props) => {
   const {
     renderTop,
     renderLeft,
@@ -79,22 +84,21 @@ export default function PageLayout(props: PageLayoutProps) {
   ].join("/")
 
   return (
-    <Box bg={"black"} color={"white"}>
-      <Flex
-        flexFlow={"column"}
-        alignItems={"normal"}
-        maxW={"1920px"}
-        mx={"auto"}
-        minHeight={"100vh"}
-        sx={getBackgroundStyles(backgroundVariant)}
-        {...restProps}
-      >
-        {/* <Header /> */}
-        {!!renderTop && (
-          <Box px={HORIZONTAL_PADDING} py={6} borderBottom={BORDER}>
-            {renderTop}
-          </Box>
-        )}
+    <Flex
+      flexFlow={"column"}
+      bg={"black"}
+      color={"white"}
+      sx={getBackgroundStyles(backgroundVariant)}
+      minH={"100vh"}
+      {...restProps}
+    >
+      {/* <Header /> */}
+      {!!renderTop && (
+        <Box px={HORIZONTAL_PADDING} py={6} borderBottom={BORDER}>
+          <FixedContainer>{renderTop}</FixedContainer>
+        </Box>
+      )}
+      <FixedContainer flex={1} w={"full"}>
         <Grid
           templateColumns={"repeat(4, .5fr)"}
           w={`calc(100% - calc(${HORIZONTAL_PADDING} * 2))`}
@@ -109,7 +113,9 @@ export default function PageLayout(props: PageLayoutProps) {
           </Box>
           {!!renderRight && <Box p={10}>{renderRight}</Box>}
         </Grid>
-      </Flex>
-    </Box>
+      </FixedContainer>
+    </Flex>
   )
 }
+
+export default PageLayout
