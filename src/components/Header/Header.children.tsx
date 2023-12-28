@@ -1,19 +1,24 @@
 import {
+  As,
   Button,
   Flex,
   HStack,
+  Icon,
   Link,
   List,
   ListItem,
-  StackDivider,
   SystemStyleObject,
-  Text,
 } from "@threshold-network/components"
 import { NavLink } from "react-router-dom"
-import { FaBitcoin as BitcoinIcon } from "react-icons/fa"
+import { FaCogs as TestnetIcon } from "react-icons/fa"
 import shortenAddress from "../../utils/shortenAddress"
 import { spacing } from "@chakra-ui/theme/foundations/spacing"
 import { HiOutlinePlus as PlusIcon } from "react-icons/hi"
+import { InlineTokenBalance } from "../TokenBalance"
+import chainIdToNetworkName from "../../utils/chainIdToNetworkName"
+import { EthereumDark } from "../../static/icons/EthereumDark"
+import { ChainID } from "../../enums"
+import Identicon from "../Identicon"
 
 const activeLinkIndicatorStyles: SystemStyleObject = {
   position: "relative",
@@ -29,6 +34,11 @@ const activeLinkIndicatorStyles: SystemStyleObject = {
     },
   },
 }
+
+const networkIconMap = new Map<ChainID, As<unknown>>([
+  [ChainID.Ethereum, EthereumDark],
+  [ChainID.Goerli, TestnetIcon],
+])
 
 interface NavigationMenuItemProps {
   /** The label of the menu item */
@@ -81,7 +91,9 @@ interface UserPanelProps {
   /** The address of the connected wallet */
   accountAddress?: Nullable<string>
   /** The balance of the connected wallet */
-  balance: number
+  balance: number | string
+  /** The identifier of the chain */
+  chainId?: Nullable<number>
   /** The callback to invoke when the user clicks the disconnect button */
   onDisconnectClick: () => void
   /** The callback to invoke when the user clicks the connect button */
@@ -93,31 +105,49 @@ export function UserPanel(props: UserPanelProps) {
     isConnected,
     accountAddress,
     balance,
+    chainId,
     onDisconnectClick,
     onConnectClick,
   } = props
-  return isConnected && !!accountAddress ? (
-    <HStack
-      spacing={0}
-      mr={-10}
-      alignSelf={"stretch"}
-      divider={<StackDivider borderColor={"#2E2E36"} />}
-      fontWeight={"black"}
-    >
-      <Text fontWeight={"black"} px={6}>
-        {balance}{" "}
-        <Text as={"span"} opacity={"50%"}>
-          BTC
-        </Text>
-      </Text>
-      <HStack as="button" onClick={onDisconnectClick} px={10}>
-        <BitcoinIcon size={24} />
-        <Text as={"span"}>{shortenAddress(accountAddress)}</Text>
-      </HStack>
+  return (
+    <HStack spacing={6} alignSelf={"stretch"}>
+      {isConnected && !!accountAddress && !!chainId ? (
+        <>
+          <InlineTokenBalance
+            fontWeight="medium"
+            tokenAmount={balance}
+            withSymbol
+            tokenSymbol="BTC"
+          />
+          <HStack spacing={3}>
+            <Button
+              size="sm"
+              variant="outline"
+              color="white"
+              leftIcon={<Icon as={networkIconMap.get(chainId)} />}
+            >
+              {chainIdToNetworkName(chainId)}
+            </Button>
+            <Button
+              onClick={onDisconnectClick}
+              size="sm"
+              variant="outline"
+              leftIcon={<Identicon address={accountAddress} />}
+            >
+              {shortenAddress(accountAddress)}
+            </Button>
+          </HStack>
+        </>
+      ) : (
+        <Button
+          variant="outline"
+          leftIcon={<PlusIcon />}
+          onClick={onConnectClick}
+          size="sm"
+        >
+          Connect Wallet
+        </Button>
+      )}
     </HStack>
-  ) : (
-    <Button variant="outline" leftIcon={<PlusIcon />} onClick={onConnectClick}>
-      Connect Wallet
-    </Button>
   )
 }

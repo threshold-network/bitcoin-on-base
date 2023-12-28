@@ -1,5 +1,6 @@
 import { Box, Flex } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
+import { BigNumber } from "ethers"
 import { ModalType } from "../../enums"
 import { useModal } from "../../hooks/useModal"
 import { Logo } from "../Logo"
@@ -12,6 +13,7 @@ function Header() {
     active: isConnected,
     deactivate: handleWalletDisconnection,
     account: accountAddress,
+    chainId,
   } = useWeb3React()
   const { openModal } = useModal()
   const handleWalletConnection = () => openModal(ModalType.SelectWallet)
@@ -35,7 +37,8 @@ function Header() {
         <UserPanel
           isConnected={isConnected}
           accountAddress={accountAddress}
-          balance={53.221} //TODO: Get balance from the account data
+          balance={BigNumber.from("53221000000000000000").toString()} //TODO: Get balance from the account data
+          chainId={chainId}
           onConnectClick={handleWalletConnection}
           onDisconnectClick={handleWalletDisconnection}
         />
