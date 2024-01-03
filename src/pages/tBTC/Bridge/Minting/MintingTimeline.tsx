@@ -1,182 +1,89 @@
 import { FC } from "react"
 import {
+  LabelSm,
   Box,
+  Badge,
+  Icon,
   BoxProps,
-  OrderedList,
-  BodyMd,
-  chakra,
 } from "@threshold-network/components"
-import { IoCheckmarkSharp as CompleteIcon } from "react-icons/all"
+import { IoTime as TimeIcon } from "react-icons/all"
+import TimelineItem, { TimelineProps } from "../components/TimelineItem"
+import tbtcMintingStep1 from "../../../../static/images/tbtcMintingStep1.svg"
+import tbtcMintingStep2 from "../../../../static/images/minting-step-2.svg"
+import tbtcMintingStep3 from "../../../../static/images/minting-step-3.svg"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
-import { motion } from "framer-motion"
+import Link from "../../../../components/Link"
+import { ExternalHref } from "../../../../enums"
+import { Steps } from "../../../../components/Step"
 
-const LoaderDot: FC = () => (
-  <motion.div
-    variants={{
-      initial: {
-        y: "50%",
-        opacity: 0.65,
-      },
-      animate: {
-        y: "-50%",
-        opacity: 0,
-      },
-    }}
-    transition={{
-      duration: 0.8,
-      repeat: Infinity,
-      repeatType: "reverse",
-      ease: "easeInOut",
-    }}
-  >
-    <chakra.span
-      display="block"
-      width="4px"
-      height="4px"
-      borderRadius="100%"
-      background="white"
-    />
-  </motion.div>
-)
+type MintingTimelineStepProps = Omit<
+  TimelineProps,
+  "stepText" | "helperLabelText" | "title" | "description" | "imageSrc"
+>
 
-const Loader: FC = () => (
-  <chakra.div
-    display="flex"
-    gap="0.5"
-    as={motion.div}
-    variants={{
-      initial: {
-        transition: {
-          staggerChildren: 0.2,
-        },
-      },
-      animate: {
-        transition: {
-          staggerChildren: 0.2,
-        },
-      },
-    }}
-    initial="initial"
-    animate="animate"
-  >
-    <LoaderDot />
-    <LoaderDot />
-    <LoaderDot />
-  </chakra.div>
-)
-
-type MintingTimelineItemBaseProps = {
-  isActive: boolean
-  isComplete: boolean
-  stepNumber: number
-  label: string
-}
-
-type MintingTimelineItemProps = Omit<
-  MintingTimelineItemBaseProps,
-  "description" | "stepNumber" | "label"
-> &
-  BoxProps
-
-const MintingTimelineItem: FC<MintingTimelineItemBaseProps> = (props) => {
-  const { isActive, isComplete, label, stepNumber, ...restProps } = props
-
-  return (
-    <Box
-      as="li"
-      position="relative"
-      borderLeft={`1px solid ${
-        isComplete ? "#66FFB6" : "hsla(0, 0%, 100%, 20%)"
-      }`}
-      pl="14"
-      pb="8"
-      _first={{
-        pt: "8",
-        borderImage: `linear-gradient(to bottom, transparent 0%, #66FFB6 50%, ${
-          isComplete ? "#66FFB6" : "hsla(0, 0%, 100%, 20%)"
-        } 50%) 1 100%`,
-      }}
-      _last={{
-        borderImage:
-          "linear-gradient(to bottom, hsla(0, 0%, 100%, 20%) 50%, transparent 100%) 1 100%",
-      }}
-      sx={{
-        "&:not(:nth-last-of-type(-n+2))": {
-          borderColor: isComplete ? "#66FFB6" : "hsla(0, 0%, 100%, 20%)",
-        },
-      }}
-      {...restProps}
-    >
-      <Box
-        position="absolute"
-        left="0"
-        transform="translateX(-50%)"
-        rounded="full"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        w="7"
-        h="7"
-        border="1px solid"
-        borderColor={isComplete || isActive ? "#66FFB6" : "#1D1D1D"}
-        color={isComplete ? "white" : "brand.500"}
-        bg={isComplete ? "#66FFB6" : "black"}
-      >
-        {isComplete && !isActive ? (
-          <CompleteIcon color="black" strokeWidth="2" size="20" />
-        ) : null}
-        {!isComplete && isActive ? <Loader /> : null}
-      </Box>
-      <BodyMd lineHeight="7">{label}</BodyMd>
-    </Box>
-  )
-}
-
-export const MintingTimelineStep1: FC<MintingTimelineItemProps> = ({
+export const MintingTimelineStep1: FC<MintingTimelineStepProps> = ({
   isActive,
   isComplete,
   ...restProps
 }) => {
   return (
-    <MintingTimelineItem
+    <TimelineItem
       isActive={isActive}
       isComplete={isComplete}
-      stepNumber={1}
-      label="Deposit Address"
+      stepText="Step 1"
+      helperLabelText="ACTION OFF-CHAIN"
+      title="Deposit Address"
+      description={
+        <>
+          Provide an ETH address and a BTC Recovery address to generate an
+          unique BTC deposit address.{" "}
+          <Link isExternal href={ExternalHref.btcRecoveryAddress}>
+            Read more
+          </Link>
+          .
+        </>
+      }
+      imageSrc={tbtcMintingStep1}
       {...restProps}
     />
   )
 }
 
-export const MintingTimelineStep2: FC<MintingTimelineItemProps> = ({
+export const MintingTimelineStep2: FC<MintingTimelineStepProps> = ({
   isActive,
   isComplete,
   ...restProps
 }) => {
   return (
-    <MintingTimelineItem
+    <TimelineItem
       isActive={isActive}
       isComplete={isComplete}
-      stepNumber={2}
-      label="Make a BTC deposit"
+      stepText="Step 2"
+      helperLabelText="ACTION ON BITCOIN"
+      title="Make a BTC deposit"
+      description="Send any amount lager than 0.01 BTC to this unique BTC Deposit Address. The amount sent will be used to mint tBTC."
+      imageSrc={tbtcMintingStep2}
       {...restProps}
     />
   )
 }
 
-export const MintingTimelineStep3: FC<MintingTimelineItemProps> = ({
+export const MintingTimelineStep3: FC<MintingTimelineStepProps> = ({
   isActive,
   isComplete,
   ...restProps
 }) => {
   return (
-    <MintingTimelineItem
+    <TimelineItem
       isActive={isActive}
       // we never render the complete state for this step
       isComplete={isComplete}
-      stepNumber={3}
-      label="Initiate minting"
+      stepText="Step 3"
+      helperLabelText="ACTION ON ETHEREUM"
+      title="Initiate minting"
+      description="Minting tBTC does not require you to wait for the Bitcoin confirmations. Sign an Ethereum transaction in your wallet and your tBTC will arrive in around 1 to 3 hours."
+      imageSrc={tbtcMintingStep3}
       {...restProps}
     />
   )
@@ -195,10 +102,8 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
 
   return (
     <Box {...restProps}>
-      <BodyMd fontWeight="medium" mb="4">
-        Timeline
-      </BodyMd>
-      <OrderedList listStyleType="none">
+      <LabelSm mb={8}>Minting Timeline</LabelSm>
+      <Steps>
         <MintingTimelineStep1
           isActive={_mintingStep === MintingStep.ProvideData}
           isComplete={
@@ -206,6 +111,7 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
             _mintingStep === MintingStep.InitiateMinting ||
             _mintingStep === MintingStep.MintingSuccess
           }
+          mb="4"
         />
         <MintingTimelineStep2
           isActive={_mintingStep === MintingStep.Deposit}
@@ -213,6 +119,8 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
             _mintingStep === MintingStep.InitiateMinting ||
             _mintingStep === MintingStep.MintingSuccess
           }
+          withBadge
+          mb="4"
         />
         <MintingTimelineStep3
           isActive={
@@ -221,8 +129,13 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
           }
           // we never render the complete state for this step
           isComplete={false}
+          withBadge
+          mb="4"
         />
-      </OrderedList>
+      </Steps>
+      <Badge size="sm" colorScheme="yellow" variant="solid">
+        <Icon as={TimeIcon} alignSelf="center" /> ~3 hours minting time
+      </Badge>
     </Box>
   )
 }
