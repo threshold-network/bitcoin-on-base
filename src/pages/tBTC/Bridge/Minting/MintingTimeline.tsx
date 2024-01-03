@@ -2,17 +2,13 @@ import { FC } from "react"
 import {
   LabelSm,
   Box,
-  Badge,
-  Icon,
+  BodyLg,
   BoxProps,
   Accordion,
 } from "@threshold-network/components"
-import { IoTime as TimeIcon } from "react-icons/all"
 import TimelineItem, { TimelineItemProps } from "../components/TimelineItem"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
-import Link from "../../../../components/Link"
-import { ExternalHref } from "../../../../enums"
 import { useWeb3React } from "@web3-react/core"
 
 type MintingTimelineStepProps = Omit<
@@ -96,7 +92,9 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
   const { account } = useWeb3React()
   return (
     <Box {...restProps}>
-      <LabelSm mb={8}>Minting Timeline</LabelSm>
+      <BodyLg fontWeight="medium" mb={!!account ? 10 : 6} lineHeight={6}>
+        Minting Timeline
+      </BodyLg>
       <Accordion
         index={!!account ? itemsIndexes.indexOf(_mintingStep) : undefined}
         defaultIndex={!!account ? undefined : 0}
