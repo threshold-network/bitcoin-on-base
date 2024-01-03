@@ -5,46 +5,38 @@ import {
   Badge,
   Icon,
   BoxProps,
+  Accordion,
 } from "@threshold-network/components"
 import { IoTime as TimeIcon } from "react-icons/all"
-import TimelineItem, { TimelineProps } from "../components/TimelineItem"
-import tbtcMintingStep1 from "../../../../static/images/tbtcMintingStep1.svg"
-import tbtcMintingStep2 from "../../../../static/images/minting-step-2.svg"
-import tbtcMintingStep3 from "../../../../static/images/minting-step-3.svg"
+import TimelineItem, { TimelineItemProps } from "../components/TimelineItem"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
 import Link from "../../../../components/Link"
 import { ExternalHref } from "../../../../enums"
-import { Steps } from "../../../../components/Step"
+import { useWeb3React } from "@web3-react/core"
 
 type MintingTimelineStepProps = Omit<
-  TimelineProps,
-  "stepText" | "helperLabelText" | "title" | "description" | "imageSrc"
+  TimelineItemProps,
+  "stepNumber" | "badgeText" | "title" | "description"
 >
+
+const itemsIndexes = Object.values(MintingStep)
 
 export const MintingTimelineStep1: FC<MintingTimelineStepProps> = ({
   isActive,
   isComplete,
   ...restProps
 }) => {
+  const { account } = useWeb3React()
   return (
     <TimelineItem
+      variant={!!account ? "detailed" : "overview"}
       isActive={isActive}
       isComplete={isComplete}
-      stepText="Step 1"
-      helperLabelText="ACTION OFF-CHAIN"
+      stepNumber={1}
+      badgeText="ACTION OFF-CHAIN"
       title="Deposit Address"
-      description={
-        <>
-          Provide an ETH address and a BTC Recovery address to generate an
-          unique BTC deposit address.{" "}
-          <Link isExternal href={ExternalHref.btcRecoveryAddress}>
-            Read more
-          </Link>
-          .
-        </>
-      }
-      imageSrc={tbtcMintingStep1}
+      description="Provide an ETH address and a BTC Recovery address to generate an unique BTC deposit address."
       {...restProps}
     />
   )
@@ -55,15 +47,16 @@ export const MintingTimelineStep2: FC<MintingTimelineStepProps> = ({
   isComplete,
   ...restProps
 }) => {
+  const { account } = useWeb3React()
   return (
     <TimelineItem
+      variant={!!account ? "detailed" : "overview"}
       isActive={isActive}
       isComplete={isComplete}
-      stepText="Step 2"
-      helperLabelText="ACTION ON BITCOIN"
+      stepNumber={2}
+      badgeText="ACTION ON BITCOIN"
       title="Make a BTC deposit"
       description="Send any amount lager than 0.01 BTC to this unique BTC Deposit Address. The amount sent will be used to mint tBTC."
-      imageSrc={tbtcMintingStep2}
       {...restProps}
     />
   )
@@ -74,16 +67,17 @@ export const MintingTimelineStep3: FC<MintingTimelineStepProps> = ({
   isComplete,
   ...restProps
 }) => {
+  const { account } = useWeb3React()
   return (
     <TimelineItem
+      variant={!!account ? "detailed" : "overview"}
       isActive={isActive}
       // we never render the complete state for this step
       isComplete={isComplete}
-      stepText="Step 3"
-      helperLabelText="ACTION ON ETHEREUM"
+      stepNumber={3}
+      badgeText="ACTION ON ETHEREUM"
       title="Initiate minting"
       description="Minting tBTC does not require you to wait for the Bitcoin confirmations. Sign an Ethereum transaction in your wallet and your tBTC will arrive in around 1 to 3 hours."
-      imageSrc={tbtcMintingStep3}
       {...restProps}
     />
   )
@@ -99,11 +93,14 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
 }) => {
   const { mintingStep: mintingStepFromState } = useTbtcState()
   const _mintingStep = mintingStepFropProps ?? mintingStepFromState
-
+  const { account } = useWeb3React()
   return (
     <Box {...restProps}>
       <LabelSm mb={8}>Minting Timeline</LabelSm>
-      <Steps>
+      <Accordion
+        index={!!account ? itemsIndexes.indexOf(_mintingStep) : undefined}
+        defaultIndex={!!account ? undefined : 0}
+      >
         <MintingTimelineStep1
           isActive={_mintingStep === MintingStep.ProvideData}
           isComplete={
@@ -132,10 +129,7 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
           withBadge
           mb="4"
         />
-      </Steps>
-      <Badge size="sm" colorScheme="yellow" variant="solid">
-        <Icon as={TimeIcon} alignSelf="center" /> ~3 hours minting time
-      </Badge>
+      </Accordion>
     </Box>
   )
 }
