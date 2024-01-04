@@ -19,7 +19,11 @@ const InitiateMintingComponent: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle number={3} title="Initiate minting" />
+      <BridgeProcessCardTitle
+        onPreviousStepClick={onPreviousStepClick}
+        number={3}
+        title="Initiate minting"
+      />
       <BodyMd color="gray.500" mb={6}>
         This step requires you to sign a transaction in your Ethereum wallet.
       </BodyMd>

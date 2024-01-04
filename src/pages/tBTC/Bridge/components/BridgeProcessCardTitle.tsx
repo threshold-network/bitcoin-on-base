@@ -1,4 +1,10 @@
-import { ComponentProps, FC, ReactElement, ReactNode } from "react"
+import {
+  ComponentProps,
+  FC,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+} from "react"
 import {
   Badge,
   BodyLg,
@@ -26,22 +32,32 @@ export const BridgeProcessCardTitle: FC<
     afterDescription?: ReactNode
     onPreviousStepClick?: (previousStep: MintingStep) => void
   } & ComponentProps<typeof BodyLg>
-> = ({ number, title, description, afterDescription, ...restProps }) => {
+> = ({
+  number,
+  title,
+  description,
+  afterDescription,
+  onPreviousStepClick,
+  ...restProps
+}) => {
   return (
-    <VStack align="start" spacing={6} {...restProps}>
+    <VStack align="start" spacing={6} mb={8} {...restProps}>
       <HStack spacing={4}>
-        <Flex
-          as={"button"}
-          align="center"
-          boxShadow="inset 0 0 0 1px #333"
-          minW="auto"
-          h="auto"
-          rounded="md"
-          p={2}
-        >
-          <Icon as={ChevronLeftIcon} w={4} h={4} />
-          <VisuallyHidden>Previous step</VisuallyHidden>
-        </Flex>
+        {number !== 1 ? (
+          <Flex
+            as={"button"}
+            onClick={onPreviousStepClick as any /* TODO: fix typings */}
+            align="center"
+            border="1px solid #333"
+            minW="auto"
+            h="auto"
+            rounded="md"
+            p={2}
+          >
+            <Icon as={ChevronLeftIcon} w={4} h={4} />
+            <VisuallyHidden>Previous step</VisuallyHidden>
+          </Flex>
+        ) : null}
         <BodySm
           rounded="md"
           bg="#1E1E1E"

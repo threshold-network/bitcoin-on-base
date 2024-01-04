@@ -122,7 +122,11 @@ const MakeDepositComponent: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle number={2} title="Make your BTC deposit" />
+      <BridgeProcessCardTitle
+        onPreviousStepClick={onPreviousStepClick}
+        number={2}
+        title="Make your BTC deposit"
+      />
       <BodyMd color="gray.500" mb={6}>
         Use this generated address to send minimum 0.01&nbsp;BTC, to mint as
         tBTC.
