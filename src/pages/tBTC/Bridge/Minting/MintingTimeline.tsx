@@ -1,82 +1,24 @@
 import { FC } from "react"
 import {
-  LabelSm,
   Box,
   BodyLg,
   BoxProps,
-  Accordion,
+  Accordion as TimelineContainer,
+  Badge,
+  BadgeProps,
 } from "@threshold-network/components"
-import TimelineItem, { TimelineItemProps } from "../components/TimelineItem"
+import TimelineItem from "../components/TimelineItem"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
 import { useWeb3React } from "@web3-react/core"
 
-type MintingTimelineStepProps = Omit<
-  TimelineItemProps,
-  "stepNumber" | "badgeText" | "title" | "description"
->
-
 const itemsIndexes = Object.values(MintingStep)
 
-export const MintingTimelineStep1: FC<MintingTimelineStepProps> = ({
-  isActive,
-  isComplete,
-  ...restProps
-}) => {
+const StyledBadge: FC<Omit<BadgeProps, "variant" | "mt" | "marginTop">> = (
+  props
+) => {
   const { account } = useWeb3React()
-  return (
-    <TimelineItem
-      variant={!!account ? "detailed" : "overview"}
-      isActive={isActive}
-      isComplete={isComplete}
-      stepNumber={1}
-      badgeText="ACTION OFF-CHAIN"
-      title="Deposit Address"
-      description="Provide an ETH address and a BTC Recovery address to generate an unique BTC deposit address."
-      {...restProps}
-    />
-  )
-}
-
-export const MintingTimelineStep2: FC<MintingTimelineStepProps> = ({
-  isActive,
-  isComplete,
-  ...restProps
-}) => {
-  const { account } = useWeb3React()
-  return (
-    <TimelineItem
-      variant={!!account ? "detailed" : "overview"}
-      isActive={isActive}
-      isComplete={isComplete}
-      stepNumber={2}
-      badgeText="ACTION ON BITCOIN"
-      title="Make a BTC deposit"
-      description="Send any amount lager than 0.01 BTC to this unique BTC Deposit Address. The amount sent will be used to mint tBTC."
-      {...restProps}
-    />
-  )
-}
-
-export const MintingTimelineStep3: FC<MintingTimelineStepProps> = ({
-  isActive,
-  isComplete,
-  ...restProps
-}) => {
-  const { account } = useWeb3React()
-  return (
-    <TimelineItem
-      variant={!!account ? "detailed" : "overview"}
-      isActive={isActive}
-      // we never render the complete state for this step
-      isComplete={isComplete}
-      stepNumber={3}
-      badgeText="ACTION ON ETHEREUM"
-      title="Initiate minting"
-      description="Minting tBTC does not require you to wait for the Bitcoin confirmations. Sign an Ethereum transaction in your wallet and your tBTC will arrive in around 1 to 3 hours."
-      {...restProps}
-    />
-  )
+  return !!account ? null : <Badge variant="subtle" mt={4} {...props} />
 }
 
 type MintingTimelineProps = {
@@ -95,39 +37,62 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
       <BodyLg fontWeight="medium" mb={!!account ? 10 : 6} lineHeight={6}>
         Minting Timeline
       </BodyLg>
-      <Accordion
+      <TimelineContainer
+        // if wallet is connected the state is controlled programatically
+        // based on the minting step, otherwise the state is controlled by the
+        // user
         index={!!account ? itemsIndexes.indexOf(_mintingStep) : undefined}
+        // if wallet is connected the default index is undefined to prevent
+        // conflicts with programatic control, otherwise the first item is open
+        // by default
         defaultIndex={!!account ? undefined : 0}
       >
-        <MintingTimelineStep1
+        <TimelineItem
+          variant={!!account ? "detailed" : "overview"}
           isActive={_mintingStep === MintingStep.ProvideData}
           isComplete={
             _mintingStep === MintingStep.Deposit ||
             _mintingStep === MintingStep.InitiateMinting ||
             _mintingStep === MintingStep.MintingSuccess
           }
-          mb="4"
-        />
-        <MintingTimelineStep2
+          number={1}
+          title="Deposit Address"
+        >
+          Provide an ETH address and a BTC Recovery address to generate an
+          unique BTC deposit address.
+          <StyledBadge>ACTION OFF-CHAIN</StyledBadge>
+        </TimelineItem>
+        <TimelineItem
+          variant={!!account ? "detailed" : "overview"}
           isActive={_mintingStep === MintingStep.Deposit}
           isComplete={
             _mintingStep === MintingStep.InitiateMinting ||
             _mintingStep === MintingStep.MintingSuccess
           }
-          withBadge
-          mb="4"
-        />
-        <MintingTimelineStep3
+          number={2}
+          title="Make a BTC deposit"
+        >
+          Send any amount lager than 0.01 BTC to this unique BTC Deposit
+          Address. The amount sent will be used to mint tBTC.
+          <StyledBadge>ACTION ON BITCOIN</StyledBadge>
+        </TimelineItem>
+        <TimelineItem
+          variant={!!account ? "detailed" : "overview"}
           isActive={
             _mintingStep === MintingStep.InitiateMinting ||
             _mintingStep === MintingStep.MintingSuccess
           }
           // we never render the complete state for this step
           isComplete={false}
-          withBadge
-          mb="4"
-        />
-      </Accordion>
+          number={3}
+          title="Initiate minting"
+        >
+          Minting tBTC does not require you to wait for the Bitcoin
+          confirmations. Sign an Ethereum transaction in your wallet and your
+          tBTC will arrive in around 1 to 3 hours.
+          <StyledBadge>ACTION ON ETHEREUM</StyledBadge>
+        </TimelineItem>
+      </TimelineContainer>
     </Box>
   )
 }

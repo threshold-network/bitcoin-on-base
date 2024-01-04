@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, PropsWithChildren } from "react"
 import {
   AccordionItem,
   AccordionButton,
@@ -15,18 +15,14 @@ import {
 import { StepBadge } from "../../../../components/Step"
 import { IoCheckmarkSharp as CompleteIcon } from "react-icons/all"
 import { DotsLoadingIndicator } from "../../../../components/DotsLoadingIndicator"
-import { useWeb3React } from "@web3-react/core"
 
 export type TimelineItemProps = {
-  badgeText: string
   title: string | JSX.Element
-  description: string | JSX.Element
-  withBadge?: boolean
   variant?: "overview" | "detailed"
-  stepNumber?: number
+  number?: number
   isActive: boolean
   isComplete: boolean
-} & AccordionItemProps
+} & PropsWithChildren<AccordionItemProps>
 
 const StyledAccordionIcon: FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
   <AccordionIcon
@@ -38,17 +34,14 @@ const StyledAccordionIcon: FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
 )
 
 const TimelineItem: FC<TimelineItemProps> = ({
-  stepNumber,
-  badgeText,
+  number,
   title,
-  description,
   variant = "overview",
-  withBadge = true,
   isComplete,
   isActive,
+  children,
   ...restProps
 }) => {
-  const { account } = useWeb3React()
   return (
     <AccordionItem
       {...restProps}
@@ -57,13 +50,14 @@ const TimelineItem: FC<TimelineItemProps> = ({
       _last={{ borderWidth: 0, "> div": { mb: 0 } }}
     >
       {({ isExpanded }) => (
-        <Box mb={isExpanded ? 8 : !!account ? 4 : 2}>
+        <Box mb={isExpanded ? 8 : variant === "detailed" ? 4 : 2}>
           <VStack spacing={0}>
             <HStack
               as={AccordionButton}
               spacing={2.5}
               p={0}
-              pointerEvents={!!account ? "none" : "unset"}
+              pointerEvents={variant === "detailed" ? "none" : "unset"}
+              _hover={{ bg: "transparent" }}
             >
               {variant === "overview" ? (
                 <StyledAccordionIcon isExpanded={isExpanded} />
@@ -78,7 +72,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
                   bg={isComplete ? "#66FFB6" : "#1E1E1E"}
                   color={isComplete ? "#121212" : "brand.100"}
                 >
-                  {isComplete ? <CompleteIcon /> : stepNumber}
+                  {isComplete ? <CompleteIcon /> : number}
                 </Flex>
               )}
               <HStack justify="space-between" w="full">
@@ -93,16 +87,16 @@ const TimelineItem: FC<TimelineItemProps> = ({
             </HStack>
             <AccordionPanel
               p={0}
-              pl={24 + 10 /* icon width + spacing in pixels */}
+              pl={
+                (variant === "detailed" ? 24 : 16) +
+                10 /* icon width + spacing in pixels */
+              }
               mt={2}
               _last={{ mb: 0 }}
             >
               <BodySm color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-                {description}
+                {children}
               </BodySm>
-              {withBadge && variant === "overview" ? (
-                <StepBadge>{badgeText}</StepBadge>
-              ) : null}
             </AccordionPanel>
           </VStack>
         </Box>

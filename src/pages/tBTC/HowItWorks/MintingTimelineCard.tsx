@@ -9,11 +9,7 @@ import {
   ListIcon as TListIcon,
 } from "@threshold-network/components"
 import { BsFillArrowRightCircleFill } from "react-icons/all"
-import {
-  MintingTimelineStep1,
-  MintingTimelineStep2,
-  MintingTimelineStep3,
-} from "../Bridge/Minting/MintingTimeline"
+
 import Link from "../../../components/Link"
 import { ExternalHref } from "../../../enums"
 import { Steps } from "../../../components/Step"
@@ -37,7 +33,6 @@ export const MintingTimelineCard: FC<ComponentProps<typeof Card>> = ({
     <Card {...props}>
       <LabelSm mb="8">Minting Timeline</LabelSm>
       <Steps size="md">
-        <MintingTimelineStep1 isActive={true} isComplete={false} />
         <BoxLabel status="secondary" mb="4" mt="8">
           ETH Address
         </BoxLabel>
@@ -103,8 +98,6 @@ export const MintingTimelineCard: FC<ComponentProps<typeof Card>> = ({
             Read more
           </Link>
         </BodyMd>
-        <MintingTimelineStep2 isActive={true} isComplete={false} mb="8" />
-        <MintingTimelineStep3 isActive={true} isComplete={false} mb="8" />
       </Steps>
     </Card>
   )
