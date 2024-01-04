@@ -1,31 +1,26 @@
-import { FC, Ref, useRef, useState } from "react"
+import { Badge, Button, useColorModeValue } from "@threshold-network/components"
+import { useWeb3React } from "@web3-react/core"
 import { FormikErrors, FormikProps, withFormik } from "formik"
-import {
-  Button,
-  BodyMd,
-  useColorModeValue,
-} from "@threshold-network/components"
-import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
+import { FC, Ref, useRef, useState } from "react"
 import { Form, FormikInput } from "../../../../components/Forms"
+import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
+import { useThreshold } from "../../../../contexts/ThresholdContext"
+import { ModalType } from "../../../../enums"
+import { useTBTCDepositDataFromLocalStorage } from "../../../../hooks/tbtc"
+import { useDepositTelemetry } from "../../../../hooks/tbtc/useDepositTelemetry"
+import { useModal } from "../../../../hooks/useModal"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
+import { BitcoinNetwork } from "../../../../threshold-ts/types"
+import { MintingStep } from "../../../../types/tbtc"
 import {
   getErrorsObj,
   validateBTCAddress,
   validateETHAddress,
 } from "../../../../utils/forms"
-import { MintingStep } from "../../../../types/tbtc"
-import { useModal } from "../../../../hooks/useModal"
-import { ModalType } from "../../../../enums"
-import { useThreshold } from "../../../../contexts/ThresholdContext"
-import { useWeb3React } from "@web3-react/core"
-import { BitcoinNetwork } from "../../../../threshold-ts/types"
-import { useTBTCDepositDataFromLocalStorage } from "../../../../hooks/tbtc"
-import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
-import { useDepositTelemetry } from "../../../../hooks/tbtc/useDepositTelemetry"
-import { isSameETHAddress } from "../../../../web3/utils"
 import { supportedChainId } from "../../../../utils/getEnvVariable"
 import { getBridgeBTCSupportedAddressPrefixesText } from "../../../../utils/tBTC"
+import { isSameETHAddress } from "../../../../web3/utils"
+import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 
 export interface FormValues {
   ethAddress: string
@@ -161,15 +156,13 @@ export const ProvideDataComponent: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle onPreviousStepClick={onPreviousStepClick} />
-      <BridgeProcessCardSubTitle
-        stepText="Step 1"
-        subTitle="Generate a Deposit Address"
+      <BridgeProcessCardTitle
+        onPreviousStepClick={onPreviousStepClick}
+        number={1}
+        title="Deposit Address"
+        description="Based on these two addresses, the system will generate for you a unique BTC deposit address. There is no minting limit."
+        afterDescription={<Badge variant="subtle">Action OFF-Chain</Badge>}
       />
-      <BodyMd color={textColor} mb={12}>
-        Based on these two addresses, the system will generate for you a unique
-        BTC deposit address. There is no minting limit.
-      </BodyMd>
       <MintingProcessForm
         innerRef={formRef}
         formId="tbtc-minting-data-form"

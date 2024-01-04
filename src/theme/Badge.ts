@@ -56,10 +56,18 @@ const sizes: Record<string, SystemStyleObject> = {
     letterSpacing: "0.075em",
     textTransform: "uppercase",
   },
+  md: {
+    px: 3,
+    py: 1.5,
+    fontSize: "12px",
+    lineHeight: 1,
+    letterSpacing: "7.5%",
+  },
 }
 
 const defaultProps = {
   colorScheme: "brand",
+  size: "md",
 }
 
 export const Badge = {

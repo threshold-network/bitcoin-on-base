@@ -79,10 +79,6 @@ const MintingFlowRouterBase = () => {
     default:
       return (
         <>
-          <BridgeProcessCardTitle
-            previousStep={MintingStep.ProvideData}
-            onPreviousStepClick={onPreviousStepClick}
-          />
           <Stack>
             <Skeleton height="40px" />
             <Skeleton height="40px" />

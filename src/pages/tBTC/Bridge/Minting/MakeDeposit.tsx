@@ -1,29 +1,28 @@
-import { FC, ComponentProps } from "react"
 import {
   BodyMd,
   Box,
   BoxLabel,
   Button,
+  Card,
   ChecklistGroup,
+  Divider,
   HStack,
   Stack,
-  Divider,
   useColorModeValue,
-  Card,
 } from "@threshold-network/components"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
-import TooltipIcon from "../../../../components/TooltipIcon"
+import { ComponentProps, FC } from "react"
 import {
   CopyAddressToClipboard,
   CopyToClipboard,
   CopyToClipboardButton,
 } from "../../../../components/CopyToClipboard"
+import { QRCode } from "../../../../components/QRCode"
+import TooltipIcon from "../../../../components/TooltipIcon"
+import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
+import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
-import { QRCode } from "../../../../components/QRCode"
-import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
-import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
+import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 
 const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
@@ -116,21 +115,14 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
 }
 
 const MakeDepositComponent: FC<{
-  onPreviousStepClick: (previosuStep: MintingStep) => void
+  onPreviousStepClick: (previousStep: MintingStep) => void
 }> = ({ onPreviousStepClick }) => {
   const { btcDepositAddress, ethAddress, btcRecoveryAddress, updateState } =
     useTbtcState()
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.ProvideData}
-        onPreviousStepClick={onPreviousStepClick}
-      />
-      <BridgeProcessCardSubTitle
-        stepText="Step 2"
-        subTitle="Make your BTC deposit"
-      />
+      <BridgeProcessCardTitle number={2} title="Make your BTC deposit" />
       <BodyMd color="gray.500" mb={6}>
         Use this generated address to send minimum 0.01&nbsp;BTC, to mint as
         tBTC.

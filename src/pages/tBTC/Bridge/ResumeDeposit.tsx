@@ -12,7 +12,6 @@ import { FormikErrors, FormikProps, withFormik } from "formik"
 import { RecoveryJsonFileData } from "../../../components/Modal/TbtcRecoveryFileModal"
 import { useNavigate } from "react-router-dom"
 import { PageComponent } from "../../../types"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import { BridgeContractLink } from "../../../components/tBTC"
 import { useTbtcState } from "../../../hooks/useTbtcState"
 import { MintingStep } from "../../../types/tbtc"
@@ -70,10 +69,6 @@ export const ResumeDepositPage: PageComponent = () => {
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.InitiateMinting}
-        onPreviousStepClick={navigateToMintPage}
-      />
       <BodyLg>
         <Box as="span" fontWeight="600" color="brand.500">
           Resume Minting

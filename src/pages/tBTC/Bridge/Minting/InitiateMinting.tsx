@@ -5,7 +5,6 @@ import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWal
 import { ModalType } from "../../../../enums"
 import { useModal } from "../../../../hooks/useModal"
 import { MintingStep } from "../../../../types/tbtc"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 
 const InitiateMintingComponent: FC<{
@@ -20,14 +19,7 @@ const InitiateMintingComponent: FC<{
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.ProvideData}
-        onPreviousStepClick={onPreviousStepClick}
-      />
-      <BridgeProcessCardSubTitle
-        stepText="Step 3"
-        subTitle="Initiate minting"
-      />
+      <BridgeProcessCardTitle number={3} title="Initiate minting" />
       <BodyMd color="gray.500" mb={6}>
         This step requires you to sign a transaction in your Ethereum wallet.
       </BodyMd>
