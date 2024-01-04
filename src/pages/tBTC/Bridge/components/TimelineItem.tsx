@@ -12,7 +12,6 @@ import {
   BodySm,
   Flex,
 } from "@threshold-network/components"
-import { StepBadge } from "../../../../components/Step"
 import { IoCheckmarkSharp as CompleteIcon } from "react-icons/all"
 import { DotsLoadingIndicator } from "../../../../components/DotsLoadingIndicator"
 
