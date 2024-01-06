@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react"
-import { Box, Flex, Skeleton, Stack } from "@threshold-network/components"
+import { Skeleton, Stack, VStack } from "@threshold-network/components"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
 import { ProvideData } from "./ProvideData"
@@ -9,12 +9,12 @@ import { MakeDeposit } from "./MakeDeposit"
 import { useWeb3React } from "@web3-react/core"
 import { useModal } from "../../../../hooks/useModal"
 import { ModalType } from "../../../../enums"
-import { BridgeContractLink } from "../../../../components/tBTC"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import { useRemoveDepositData } from "../../../../hooks/tbtc/useRemoveDepositData"
 import { useAppDispatch } from "../../../../hooks/store"
 import { tbtcSlice } from "../../../../store/tbtc"
 import { useIsTbtcSdkInitializing } from "../../../../contexts/ThresholdContext"
+
+const mintingSteps = Object.values(MintingStep)
 
 const MintingFlowRouterBase = () => {
   const dispatch = useAppDispatch()
@@ -26,6 +26,10 @@ const MintingFlowRouterBase = () => {
     useIsTbtcSdkInitializing()
 
   const onPreviousStepClick = (previousStep?: MintingStep) => {
+    if (!previousStep) {
+      const previousStepIndex = mintingSteps.indexOf(mintingStep) - 1
+      previousStep = mintingSteps[previousStepIndex] as MintingStep
+    }
     if (mintingStep === MintingStep.MintingSuccess) {
       updateState("mintingStep", MintingStep.ProvideData)
       removeDepositData()
@@ -60,7 +64,7 @@ const MintingFlowRouterBase = () => {
 
   switch (mintingStep) {
     case MintingStep.ProvideData: {
-      return <ProvideData onPreviousStepClick={onPreviousStepClick} />
+      return <ProvideData />
     }
     case MintingStep.Deposit: {
       return <MakeDeposit onPreviousStepClick={onPreviousStepClick} />
@@ -91,13 +95,8 @@ const MintingFlowRouterBase = () => {
 
 export const MintingFlowRouter: FC = () => {
   return (
-    <Flex flexDirection="column">
-      <>
-        <MintingFlowRouterBase />
-        <Box as="p" textAlign="center" mt="6">
-          <BridgeContractLink />
-        </Box>
-      </>
-    </Flex>
+    <VStack spacing={8} align="stretch">
+      <MintingFlowRouterBase />
+    </VStack>
   )
 }

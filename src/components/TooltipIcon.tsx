@@ -1,4 +1,3 @@
-import { IoInformationCircleOutline } from "react-icons/all"
 import {
   Icon,
   IconProps,
@@ -9,39 +8,33 @@ import {
   PopoverArrow,
   PopoverBody,
   BodySm,
+  Flex,
 } from "@threshold-network/components"
 import { FC } from "react"
+import { HiInformationCircle as InformationIcon } from "react-icons/hi"
 
 const TooltipIcon: FC<{ label: string | JSX.Element } & IconProps> = ({
   label,
   css,
   ...iconProps
 }) => {
-  const bgColor = useColorModeValue("white", "gray.300")
-  const textColor = useColorModeValue("gray.700", "gray.900")
-  const iconColor = useColorModeValue("gray.500", "gray.300")
-  const boxShadow = useColorModeValue("md", "none")
-
   return (
     <Popover trigger="hover" placement="top">
       <PopoverTrigger>
-        <span>
-          <Icon
-            color={iconColor}
-            as={IoInformationCircleOutline}
-            {...iconProps}
-          />
-        </span>
+        <Flex display="inline-flex" as="span">
+          <Icon as={InformationIcon} w={4} h={4} {...iconProps} />
+        </Flex>
       </PopoverTrigger>
       <PopoverContent
-        bg={bgColor}
+        bg="#66f9ff"
         border="none"
-        color={textColor}
-        borderRadius="0.25rem"
-        boxShadow={boxShadow}
+        color="black"
+        rounded="xl"
+        w="full"
+        maxW="352px"
       >
-        <PopoverArrow bg={bgColor} />
-        <BodySm as={PopoverBody} color={textColor}>
+        <PopoverArrow bg="#66f9ff" />
+        <BodySm as={PopoverBody} p={4} color="black">
           {label}
         </BodySm>
       </PopoverContent>

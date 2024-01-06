@@ -19,29 +19,9 @@ const variantMagic: SystemStyleFunction = (props) => {
 const variants = {
   ...defaultTheme.components.Badge.variants,
   magic: variantMagic,
-  subtle: (props: any) => {
-    const { colorScheme: c, theme } = props
-    const whiteAlpha200 = "rgba(255, 255, 255, 0.08);"
-
-    let bgVariant = "50"
-    if (c === "brand") {
-      bgVariant = "75"
-    } else if (c === "gray") {
-      bgVariant = "100"
-    }
-    // The `brand.75` color is already defined in the default theme but for some
-    // reason chakra can't find the `brand.75` color.
-    const brand75 = "#F2EDFF"
-    const bgBrand = mode(brand75, whiteAlpha200)(props)
-    const colorVariant = c === "brand" ? "100" : "200"
-
-    return {
-      bg:
-        c === "brand"
-          ? bgBrand
-          : mode(`${c}.${bgVariant}`, whiteAlpha200)(props),
-      color: mode(`${c}.500`, `${c}.${colorVariant}`)(props),
-    }
+  subtle: {
+    bg: "hsl(0, 0%, 12%)",
+    color: "hsl(182, 100%, 70%)",
   },
 }
 
@@ -62,6 +42,7 @@ const sizes: Record<string, SystemStyleObject> = {
     fontSize: "12px",
     lineHeight: 1,
     letterSpacing: "7.5%",
+    fontWeight: "medium",
   },
 }
 

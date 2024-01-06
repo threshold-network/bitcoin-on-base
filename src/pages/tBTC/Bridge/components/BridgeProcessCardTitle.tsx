@@ -30,7 +30,7 @@ export const BridgeProcessCardTitle: FC<
     title: string
     description?: ReactNode
     afterDescription?: ReactNode
-    onPreviousStepClick?: (previousStep: MintingStep) => void
+    onPreviousStepClick?: (previousStep?: MintingStep) => void
   } & ComponentProps<typeof BodyLg>
 > = ({
   number,
@@ -41,12 +41,12 @@ export const BridgeProcessCardTitle: FC<
   ...restProps
 }) => {
   return (
-    <VStack align="start" spacing={6} mb={8} {...restProps}>
+    <VStack align="start" spacing={6} {...restProps}>
       <HStack spacing={4}>
-        {number !== 1 ? (
+        {onPreviousStepClick ? (
           <Flex
             as={"button"}
-            onClick={onPreviousStepClick as any /* TODO: fix typings */}
+            onClick={() => onPreviousStepClick()}
             align="center"
             border="1px solid #333"
             minW="auto"
@@ -54,7 +54,12 @@ export const BridgeProcessCardTitle: FC<
             rounded="md"
             p={2}
           >
-            <Icon as={ChevronLeftIcon} w={4} h={4} />
+            <Icon
+              as={ChevronLeftIcon}
+              w={4}
+              h={4}
+              color="hsl(182, 100%, 70%)"
+            />
             <VisuallyHidden>Previous step</VisuallyHidden>
           </Flex>
         ) : null}
@@ -64,7 +69,7 @@ export const BridgeProcessCardTitle: FC<
           p={2}
           fontWeight="medium"
           lineHeight={4}
-          color="brand.100"
+          color="hsl(182, 100%, 70%)"
         >
           {number}/{TOTAL_STEPS}
         </BodySm>
@@ -72,15 +77,13 @@ export const BridgeProcessCardTitle: FC<
           {title}
         </BodyLg>
       </HStack>
-      <HStack spacing={0} justify="space-between" gap={10}>
+      <HStack spacing={0} align="start" justify="space-between" gap={10}>
         {!!description ? (
           <Box flex={1} color="hsla(0, 0%, 100%, 50%)">
             {description}
           </Box>
         ) : null}
-        {!!afterDescription ? (
-          <Box ml="minmax(auto, 40px)">{afterDescription}</Box>
-        ) : null}
+        {!!afterDescription ? <Box>{afterDescription}</Box> : null}
       </HStack>
     </VStack>
   )

@@ -115,7 +115,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
 }
 
 const MakeDepositComponent: FC<{
-  onPreviousStepClick: (previousStep: MintingStep) => void
+  onPreviousStepClick: (previousStep?: MintingStep) => void
 }> = ({ onPreviousStepClick }) => {
   const { btcDepositAddress, ethAddress, btcRecoveryAddress, updateState } =
     useTbtcState()

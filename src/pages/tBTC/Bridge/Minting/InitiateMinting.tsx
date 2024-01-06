@@ -9,7 +9,7 @@ import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
-  onPreviousStepClick: (previosuStep: MintingStep) => void
+  onPreviousStepClick: (previousStep?: MintingStep) => void
 }> = ({ utxo, onPreviousStepClick }) => {
   const { openModal } = useModal()
 

@@ -22,7 +22,6 @@ import {
   ClaimRewardsSuccessModal,
 } from "../components/Modal/ClaimingRewards"
 import NewAppsToAuthorizeModal from "../components/Modal/NewAppsToAuthorizeModal"
-import TbtcRecoveryFileModalModal from "../components/Modal/TbtcRecoveryFileModal"
 import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
 import DeauthorizeApplicationModal from "../components/Modal/DeauthorizeApplicationModal"
 import {
@@ -65,7 +64,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.ClaimingRewards]: ClaimingRewards,
   [ModalType.ClaimingRewardsSuccess]: ClaimRewardsSuccessModal,
   [ModalType.NewAppsToAuthorize]: NewAppsToAuthorizeModal,
-  [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,
   [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
   [ModalType.DeauthorizeApplication]: DeauthorizeApplicationModal,
   [ModalType.SubmitStake]: SubmitStakeModal,
