@@ -9,23 +9,24 @@ import {
   Stack,
   Divider,
   useColorModeValue,
-  Card,
+  VStack,
+  useClipboard,
+  Icon,
 } from "@threshold-network/components"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
 import TooltipIcon from "../../../../components/TooltipIcon"
-import {
-  CopyAddressToClipboard,
-  CopyToClipboard,
-  CopyToClipboardButton,
-} from "../../../../components/CopyToClipboard"
+import { CopyAddressToClipboard } from "../../../../components/CopyToClipboard"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
 import { QRCode } from "../../../../components/QRCode"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
 import Toast from "../../../../components/Toast/Toast"
-import { IoHourglassOutline as HourglassIcon } from "react-icons/io5"
+import {
+  IoHourglassOutline as HourglassIcon,
+  IoCopyOutline as CopyIcon,
+} from "react-icons/io5"
 
 const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
@@ -43,29 +44,15 @@ const AddressRow: FC<
   )
 }
 
-const BTCAddressCard: FC<ComponentProps<typeof Card>> = ({
-  children,
-  ...restProps
-}) => {
-  const bgColor = useColorModeValue("gray.50", "gray.900")
-  return (
-    <Card {...restProps} backgroundColor={bgColor} border="none">
-      {children}
-    </Card>
-  )
-}
-
 const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
   btcDepositAddress,
 }) => {
-  const titleColor = useColorModeValue("gray.700", "gray.100")
-  const btcAddressColor = useColorModeValue("brand.500", "white")
+  const { onCopy: handleCopy } = useClipboard(btcDepositAddress)
 
   return (
-    <>
+    <VStack spacing="2" align="start">
       <HStack
         alignItems="center"
-        mb="3.5"
         // To center the tooltip icon. The tooltip icon is wrapped by `span`
         // because of: If you're wrapping an icon from `react-icons`, you need
         // to also wrap the icon in a `span` element as `react-icons` icons do
@@ -73,47 +60,46 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         // https://chakra-ui.com/docs/components/tooltip#with-an-icon.
         sx={{ ">span": { display: "flex" } }}
       >
-        <BodyMd color={titleColor}>BTC Deposit Address</BodyMd>
-        <TooltipIcon
-          color={titleColor}
-          label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC."
-        />
+        <BodyMd>Base address</BodyMd>
+        <TooltipIcon label="This is a unique Base address generated based on the ETH address and Recovery address you provided. Send your Base funds to this address in order to mint tBTC." />
       </HStack>
-      <BTCAddressCard p="2.5" display="flex" justifyContent="center">
+      <HStack
+        align="start"
+        py={4}
+        pl={4}
+        pr={10}
+        spacing={10}
+        rounded="2xl"
+        border="1px solid #333"
+      >
         <Box
           p={2.5}
-          backgroundColor={"white"}
-          width={"100%"}
-          maxW="205px"
-          borderRadius="8px"
+          width="full"
+          minW="200px"
+          rounded="xl"
+          bg="hsl(182, 100%, 70%)"
         >
           <QRCode
-            size={256}
+            size={200}
             style={{ height: "auto", maxWidth: "100%", width: "100%" }}
             value={btcDepositAddress}
-            viewBox={`0 0 256 256`}
+            viewBox="0 0 200 200"
+            bgColor="transparent"
           />
         </Box>
-      </BTCAddressCard>
-      <CopyToClipboard textToCopy={btcDepositAddress}>
-        <HStack mt="2.5">
-          <BTCAddressCard minW="0" p="2">
-            <BodyMd color={btcAddressColor} textStyle="chain-identifier">
-              {btcDepositAddress}
-            </BodyMd>
-          </BTCAddressCard>
-          <BTCAddressCard
-            flex="1"
-            p="4"
-            display="flex"
-            alignSelf="stretch"
-            alignItems="center"
+        <VStack spacing={6} align="start">
+          <BodyMd overflowWrap="anywhere">{btcDepositAddress}</BodyMd>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleCopy}
+            rightIcon={<Icon as={CopyIcon} color="hsl(182, 100%, 70%)" />}
           >
-            <CopyToClipboardButton />
-          </BTCAddressCard>
-        </HStack>
-      </CopyToClipboard>
-    </>
+            Copy
+          </Button>
+        </VStack>
+      </HStack>
+    </VStack>
   )
 }
 
