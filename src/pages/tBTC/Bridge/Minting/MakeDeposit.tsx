@@ -1,5 +1,6 @@
-import { FC, ComponentProps } from "react"
+import { FC } from "react"
 import {
+  BodySm,
   BodyMd,
   Box,
   BoxLabel,
@@ -27,6 +28,7 @@ import {
   IoHourglassOutline as HourglassIcon,
   IoCopyOutline as CopyIcon,
 } from "react-icons/io5"
+import { MintDurationTiers } from "../../../../components/MintDurationTiers"
 
 const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
@@ -60,8 +62,14 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         // https://chakra-ui.com/docs/components/tooltip#with-an-icon.
         sx={{ ">span": { display: "flex" } }}
       >
-        <BodyMd>Base address</BodyMd>
-        <TooltipIcon label="This is a unique Base address generated based on the ETH address and Recovery address you provided. Send your Base funds to this address in order to mint tBTC." />
+        <BodySm
+          fontWeight="medium"
+          color="hsl(181, 100%, 70%)"
+          lineHeight={1.5}
+        >
+          BTC Deposit Address
+        </BodySm>
+        <TooltipIcon label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC." />
       </HStack>
       <HStack
         align="start"
@@ -135,6 +143,26 @@ const MakeDepositComponent: FC<{
         provided.
       </BodyMd>
       <BTCAddressSection btcDepositAddress={btcDepositAddress} />
+      <MintDurationTiers
+        mt="6"
+        items={[
+          {
+            amount: 0.1,
+            rangeOperator: "less",
+            currency: "BTC",
+          },
+          {
+            amount: 1,
+            rangeOperator: "less",
+            currency: "BTC",
+          },
+          {
+            amount: 1,
+            rangeOperator: "greaterOrEqual",
+            currency: "BTC",
+          },
+        ]}
+      />
       <Stack spacing={4} mt="5" mb={8}>
         <BodyMd>Provided Addresses Recap</BodyMd>
         <AddressRow text="ETH Address" address={ethAddress} />
