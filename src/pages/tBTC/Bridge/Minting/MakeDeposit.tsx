@@ -13,6 +13,7 @@ import {
   VStack,
   useClipboard,
   Icon,
+  BodyLg,
 } from "@threshold-network/components"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
@@ -89,23 +90,18 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         rounded="2xl"
         border="1px solid #333"
       >
-        <Box
-          p={2.5}
-          width="full"
-          minW="200px"
-          rounded="xl"
-          bg="hsl(182, 100%, 70%)"
-        >
+        <Box p={3.5} rounded="xl" bg="hsl(182, 100%, 70%)">
           <QRCode
-            size={200}
-            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            size={180}
             value={btcDepositAddress}
-            viewBox="0 0 200 200"
+            viewBox="0 0 180 180"
             bgColor="transparent"
           />
         </Box>
         <VStack spacing={6} align="start">
-          <BodyMd overflowWrap="anywhere">{btcDepositAddress}</BodyMd>
+          <BodyLg color="white" overflowWrap="anywhere">
+            {btcDepositAddress}
+          </BodyLg>
           <Button
             size="sm"
             variant="outline"
@@ -168,9 +164,9 @@ const MakeDepositComponent: FC<{
         >
           Provided Addresses Recap
         </BodySm>
-        <AddressRow text="ETH Address" address={ethAddress} />
+        <AddressRow text="Base address" address={ethAddress} />
         <AddressRow
-          text="BTC Recovery Address"
+          text="BTC Recovery address"
           address={btcRecoveryAddress}
           chain="bitcoin"
         />
