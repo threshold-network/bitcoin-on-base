@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { UseModal } from "../types"
 import {
   closeModal as closeModalAction,
-  mapOperatorToStakingProviderModalClosed,
   openModal as openModalAction,
   successfullLoginModalClosed,
 } from "../store/modal"
@@ -25,12 +24,6 @@ export const useModal: UseModal = () => {
     dispatch(closeModalAction())
     if (modalType === ModalType.SelectWallet) {
       dispatch(successfullLoginModalClosed())
-    } else if (
-      modalType === ModalType.MapOperatorToStakingProvider ||
-      modalType === ModalType.MapOperatorToStakingProviderConfirmation ||
-      modalType === ModalType.MapOperatorToStakingProviderSuccess
-    ) {
-      dispatch(mapOperatorToStakingProviderModalClosed())
     }
   }
 

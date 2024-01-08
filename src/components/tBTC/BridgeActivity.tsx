@@ -36,7 +36,9 @@ export type BridgeActivityProps = {
 
 type BridgeActivityContextValue = {
   [Property in keyof BridgeActivityProps]-?: BridgeActivityProps[Property]
-} & { isBridgeHistoryEmpty: boolean }
+} & {
+  isWalletConnected: boolean
+}
 
 const BridgeActivityContext = createContext<
   BridgeActivityContextValue | undefined
@@ -59,13 +61,13 @@ export const BridgeActivity: FC<BridgeActivityProps> = ({
   emptyState,
   children,
 }) => {
-  const isBridgeHistoryEmpty = data.length === 0
+  const { active } = useWeb3React()
 
   return (
     <BridgeActivityContext.Provider
       value={{
         data,
-        isBridgeHistoryEmpty,
+        isWalletConnected: active,
         isFetching,
         emptyState: emptyState ?? <EmptyActivity />,
       }}
@@ -85,14 +87,14 @@ export const BridgeAcivityHeader: FC<StackProps> = (props) => {
 }
 
 export const BridgeActivityData: FC<ListProps> = (props) => {
-  const { data, isBridgeHistoryEmpty, isFetching, emptyState } =
+  const { data, isFetching, emptyState, isWalletConnected } =
     useBridgeActivityContext()
 
   return isFetching ? (
     <BridgeActivityLoadingState />
   ) : (
     <List spacing="1" mt="2" {...props}>
-      {isBridgeHistoryEmpty ? emptyState : data.map(renderActivityItem)}
+      {!!data && isWalletConnected ? data.map(renderActivityItem) : emptyState}
     </List>
   )
 }
@@ -181,13 +183,15 @@ export const ActivityItemWrapper: FC = ({ children }) => (
 )
 
 export const BridgeActivityEmptyHistoryImg: FC = () => {
-  const { isBridgeHistoryEmpty, isFetching } = useBridgeActivityContext()
+  const { data, isFetching } = useBridgeActivityContext()
   const epmtyHistoryImg = useColorModeValue(
     emptyHistoryImageSrcLight,
     emptyHistoryImageSrcDark
   )
 
-  return isBridgeHistoryEmpty && !isFetching ? (
+  const shouldRenderEmptyState = !data && !isFetching
+
+  return shouldRenderEmptyState ? (
     <>
       <Image alt="no-history" src={epmtyHistoryImg} mx="auto" mt={16} mb={4} />
       <BodyMd textAlign="center">You have no history yet.</BodyMd>

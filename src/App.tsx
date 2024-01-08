@@ -27,25 +27,11 @@ import { PageComponent } from "./types"
 import { Token } from "./enums"
 import getLibrary from "./web3/library"
 import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
-import { useSubscribeToStakedEvent } from "./hooks/useSubscribeToStakedEvent"
-import { useSubscribeToUnstakedEvent } from "./hooks/useSubscribeToUnstakedEvent"
-import { useSubscribeToToppedUpEvent } from "./hooks/useSubscribeToToppedUpEvent"
 import { pages } from "./pages"
-import { useCheckBonusEligibility } from "./hooks/useCheckBonusEligibility"
-import { useFetchStakingRewards } from "./hooks/useFetchStakingRewards"
 import { isSameETHAddress } from "./web3/utils"
 import { ThresholdProvider } from "./contexts/ThresholdContext"
-import {
-  useSubscribeToAuthorizationIncreasedEvent,
-  useSubscribeToAuthorizationDecreaseApprovedEvent,
-  useSubscribeToAuthorizationDecreaseRequestedEvent,
-  useSubscribeToOperatorRegisteredEvent,
-  useSubscribeToOperatorStatusUpdatedEvent,
-} from "./hooks/staking-applications"
 import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
 import { usePosthog } from "./hooks/posthog"
-import { featureFlags } from "./constants"
-import FeedbackRoutesButton from "./components/FeedbackRoutesButton"
 import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
 import {
   useSubscribeToOptimisticMintingFinalizedEvent,
@@ -59,18 +45,6 @@ const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.Nu)
   useSubscribeToERC20TransferEvent(Token.T)
   useSubscribeToERC20TransferEvent(Token.TBTCV2)
-  useSubscribeToStakedEvent()
-  useSubscribeToUnstakedEvent()
-  useSubscribeToToppedUpEvent()
-  useSubscribeToAuthorizationIncreasedEvent()
-  useSubscribeToAuthorizationDecreaseApprovedEvent("tbtc")
-  useSubscribeToAuthorizationDecreaseApprovedEvent("randomBeacon")
-  useSubscribeToAuthorizationDecreaseRequestedEvent("tbtc")
-  useSubscribeToAuthorizationDecreaseRequestedEvent("randomBeacon")
-  useSubscribeToOperatorRegisteredEvent("tbtc")
-  useSubscribeToOperatorRegisteredEvent("randomBeacon")
-  useSubscribeToOperatorStatusUpdatedEvent("randomBeacon")
-  useSubscribeToOperatorStatusUpdatedEvent("tbtc")
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
   useSubscribeToOptimisticMintingRequestedEvent()
@@ -124,8 +98,6 @@ const AppBody = () => {
   }, [dispatch])
 
   usePosthog()
-  useCheckBonusEligibility()
-  useFetchStakingRewards()
   useSaveConnectedAddressToStore()
   useSentry()
 
@@ -146,7 +118,6 @@ const Layout = () => {
           <Outlet />
         </Box>
       </Box>
-      {featureFlags.FEEDBACK_MODULE && <FeedbackRoutesButton />}
     </Box>
   )
 }
