@@ -54,7 +54,7 @@ export const CopyToClipboardButton: FC = () => {
     >
       <IconButton
         icon={<IoCopyOutline />}
-        color="gray.500"
+        color="hsl(182, 100%, 70%)"
         onClick={onCopy}
         aria-label={helperText}
         variant="ghost"
@@ -132,22 +132,9 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
   copyButtonPosition,
   chain,
   withFullAddress = false,
-  withLinkToBlockExplorer = false,
   ...restProps
 }) => {
-  const addressColor = useColorModeValue("brand.500", "brand.100")
   const _address = withFullAddress ? address : shortenAddress(address)
-  const mr = copyButtonPosition === "end" ? "2.5" : undefined
-  const ml =
-    !copyButtonPosition || copyButtonPosition === "start" ? "2.5" : undefined
-
-  const blockExplorerProps = {
-    as: ViewInBlockExplorer,
-    text: _address,
-    id: address,
-    type: ExplorerDataType.ADDRESS,
-    chain,
-  }
 
   return (
     <BaseCopyToClipboard
@@ -156,14 +143,7 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
       textCopiedMsg={textCopiedMsg}
       copyButtonPosition={copyButtonPosition}
     >
-      <BodyMd
-        {...(withLinkToBlockExplorer && blockExplorerProps)}
-        color={addressColor}
-        mr={mr}
-        ml={ml}
-        textStyle="chain-identifier"
-        {...restProps}
-      >
+      <BodyMd color="white" lineHeight={1.75} mr={6} {...restProps}>
         {_address}
       </BodyMd>
     </BaseCopyToClipboard>

@@ -34,8 +34,17 @@ const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
 > = ({ address, text, chain }) => {
   return (
-    <HStack justify="space-between">
-      <BoxLabel>{text}</BoxLabel>
+    <HStack
+      justify="space-between"
+      rounded="2xl"
+      boxShadow="2xl"
+      bg="#0D0D0D"
+      border="1px solid hsla(0, 0%, 20%, 40%)"
+      px={4}
+      py={2.5}
+      spacing={6}
+    >
+      <BodyMd color="hsla(0, 0%, 100%, 50%)">{text}</BodyMd>
       <CopyAddressToClipboard
         address={address}
         copyButtonPosition="end"
@@ -130,21 +139,9 @@ const MakeDepositComponent: FC<{
         previousStep={MintingStep.ProvideData}
         onPreviousStepClick={onPreviousStepClick}
       />
-      <BridgeProcessCardSubTitle
-        stepText="Step 2"
-        subTitle="Make your BTC deposit"
-      />
-      <BodyMd color="gray.500" mb={6}>
-        Use this generated address to send minimum 0.01&nbsp;BTC, to mint as
-        tBTC.
-      </BodyMd>
-      <BodyMd color="gray.500" mb={6}>
-        This address is a uniquely generated address based on the data you
-        provided.
-      </BodyMd>
       <BTCAddressSection btcDepositAddress={btcDepositAddress} />
       <MintDurationTiers
-        mt="6"
+        mt={6}
         items={[
           {
             amount: 0.1,
@@ -163,8 +160,14 @@ const MakeDepositComponent: FC<{
           },
         ]}
       />
-      <Stack spacing={4} mt="5" mb={8}>
-        <BodyMd>Provided Addresses Recap</BodyMd>
+      <Stack spacing={2} mt={6}>
+        <BodySm
+          fontWeight="medium"
+          color="hsl(181, 100%, 70%)"
+          lineHeight={1.5}
+        >
+          Provided Addresses Recap
+        </BodySm>
         <AddressRow text="ETH Address" address={ethAddress} />
         <AddressRow
           text="BTC Recovery Address"
@@ -172,32 +175,6 @@ const MakeDepositComponent: FC<{
           chain="bitcoin"
         />
       </Stack>
-      <Divider mt={4} mb={6} />
-      <ChecklistGroup
-        mb={6}
-        checklistItems={[
-          {
-            itemId: "staking_deposit__0",
-            itemTitle: "",
-            itemSubTitle: (
-              <BodyMd color={useColorModeValue("gray.500", "gray.300")}>
-                Send the funds and come back to this dApp. You do not need to
-                wait for the BTC transaction to be mined.
-              </BodyMd>
-            ),
-          },
-        ]}
-      />
-      {/* TODO: No need to use button here. We can replace it with just some text */}
-      <Button
-        isLoading={true}
-        loadingText={"Waiting for funds to be sent..."}
-        form="tbtc-minting-data-form"
-        isDisabled={true}
-        isFullWidth
-      >
-        I sent the BTC
-      </Button>
     </>
   )
 }

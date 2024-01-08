@@ -54,7 +54,7 @@ const MintDurationTiers: FC<MintDurationTiersProps> = ({
         }}
         spacing={{
           base: 3,
-          md: 6,
+          md: 4,
         }}
       >
         {items.map(({ amount, rangeOperator, currency }, index) => {
@@ -88,7 +88,7 @@ const MintDurationTiers: FC<MintDurationTiersProps> = ({
               spacing={6}
               flexFlow={{ sm: "column" }}
               flex="1"
-              rounded="md"
+              rounded="2xl"
               boxShadow="2xl"
               bg="#0D0D0D"
               border="1px solid hsla(0, 0%, 20%, 40%)"
