@@ -174,3 +174,13 @@ export const buildRedemptionDetailsLink = (
     .withBitcoinAddress(btcAddress, bitcoinNetwork)
     .build()
 }
+
+/**
+ * Calculates the duration in seconds based on the number of confirmations.
+ *
+ * @param {number} numberOfConfirmations The number of confirmations.
+ * @return {number} The duration in minutes.
+ */
+export const getDurationByNumberOfConfirmations = (
+  numberOfConfirmations: number
+) => numberOfConfirmations * 10 + 60

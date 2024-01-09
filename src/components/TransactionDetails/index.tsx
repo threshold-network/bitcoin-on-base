@@ -1,5 +1,6 @@
 import { ComponentProps, FC } from "react"
 import {
+  BodyMd,
   BodySm,
   ListItem,
   Skeleton,
@@ -10,19 +11,38 @@ import { InlineTokenBalance } from "../TokenBalance"
 type TransactionDetailsItemProps = {
   label: string
   value?: string
+  isTotal?: boolean
+  isSubTotal?: boolean
 }
 
 export const TransactionDetailsItem: FC<TransactionDetailsItemProps> = ({
   label,
   value,
   children,
+  isTotal = false,
+  isSubTotal = false,
 }) => {
-  const valueTextColor = useColorModeValue("gray.700", "gray.300")
-
   return (
     <ListItem display="flex" justifyContent="space-between" alignItems="center">
-      <BodySm color="gray.500">{label}</BodySm>
-      {value ? <BodySm color={valueTextColor}>{value}</BodySm> : children}
+      <BodyMd
+        color={
+          isTotal
+            ? "hsl(182, 100%, 70%)"
+            : isSubTotal
+            ? "white"
+            : "hsla(0, 0%, 100%, 50%)"
+        }
+      >
+        {label}
+      </BodyMd>
+      {
+        <BodyMd
+          color={isTotal ? "hsl(182, 100%, 70%)" : "white"}
+          fontWeight={isTotal || isSubTotal ? "bold" : "normal"}
+        >
+          {value ?? children}
+        </BodyMd>
+      }
     </ListItem>
   )
 }
@@ -31,23 +51,25 @@ type TransactionDetailsAmountItemProps = Omit<
   ComponentProps<typeof InlineTokenBalance>,
   "tokenAmount"
 > &
-  Pick<TransactionDetailsItemProps, "label"> & { tokenAmount?: string }
+  Omit<TransactionDetailsItemProps, "value"> & {
+    tokenAmount?: string
+  }
 
 export const TransactionDetailsAmountItem: FC<
   TransactionDetailsAmountItemProps
-> = ({ label, tokenAmount, ...restProps }) => {
-  const tokenBalanceTextColor = useColorModeValue("gray.700", "gray.300")
-
+> = ({ label, tokenAmount, isTotal, isSubTotal, ...restProps }) => {
   return (
-    <TransactionDetailsItem label={label}>
+    <TransactionDetailsItem
+      label={label}
+      isTotal={isTotal}
+      isSubTotal={isSubTotal}
+    >
       <Skeleton isLoaded={!!tokenAmount}>
-        <BodySm color={tokenBalanceTextColor}>
-          <InlineTokenBalance
-            withSymbol
-            tokenAmount={tokenAmount || "0"}
-            {...restProps}
-          />
-        </BodySm>
+        <InlineTokenBalance
+          withSymbol
+          tokenAmount={tokenAmount || "0"}
+          {...restProps}
+        />
       </Skeleton>
     </TransactionDetailsItem>
   )

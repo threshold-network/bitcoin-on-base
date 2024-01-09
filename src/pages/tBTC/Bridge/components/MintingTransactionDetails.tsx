@@ -1,22 +1,39 @@
-import { List } from "@threshold-network/components"
 import {
-  TransactionDetailsAmountItem,
-  TransactionDetailsItem,
-} from "../../../../components/TransactionDetails"
+  List,
+  ListProps,
+  ListItem,
+  StackDivider,
+} from "@threshold-network/components"
+import { BigNumber } from "ethers"
+import { FC } from "react"
+import { TransactionDetailsAmountItem } from "../../../../components/TransactionDetails"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
-import shortenAddress from "../../../../utils/shortenAddress"
 
-const MintingTransactionDetails = () => {
-  const { tBTCMintAmount, mintingFee, thresholdNetworkFee, ethAddress } =
-    useTbtcState()
+export type MintingTransactionDetailsProps = ListProps & {
+  withTotal?: boolean
+  withSubTotal?: boolean
+}
+
+const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
+  withSubTotal = false,
+  withTotal = false,
+  ...restProps
+}) => {
+  const { tBTCMintAmount, mintingFee, thresholdNetworkFee } = useTbtcState()
+
+  if (!tBTCMintAmount || !mintingFee || !thresholdNetworkFee) {
+    // It's already hidden behind a Skelton component
+    return null
+  }
+
+  const totalFees = BigNumber.from(mintingFee).add(
+    BigNumber.from(thresholdNetworkFee)
+  )
+
+  const amountToReceive = BigNumber.from(tBTCMintAmount).sub(totalFees)
 
   return (
-    <List spacing="2" mb="6">
-      <TransactionDetailsAmountItem
-        label="Amount To Be Minted"
-        tokenAmount={tBTCMintAmount}
-        tokenSymbol="tBTC"
-      />
+    <List spacing={6} {...restProps}>
       <TransactionDetailsAmountItem
         label="Minting Fee"
         tokenAmount={mintingFee}
@@ -31,10 +48,31 @@ const MintingTransactionDetails = () => {
         precision={6}
         higherPrecision={8}
       />
-      <TransactionDetailsItem
-        label="ETH address"
-        value={shortenAddress(ethAddress)}
-      />
+      {withTotal || withSubTotal ? (
+        <ListItem>
+          <StackDivider w="full" h="1px" bg="hsla(0, 0%, 100%, 10%)" />
+        </ListItem>
+      ) : null}
+      {withSubTotal ? (
+        <TransactionDetailsAmountItem
+          label="Total Fees"
+          tokenAmount={totalFees.toString()}
+          tokenSymbol="tBTC"
+          precision={6}
+          higherPrecision={8}
+          isSubTotal={withSubTotal}
+        />
+      ) : null}
+      {withTotal ? (
+        <TransactionDetailsAmountItem
+          label="You will receive"
+          tokenAmount={amountToReceive.toString()}
+          tokenSymbol="tBTC"
+          precision={6}
+          higherPrecision={8}
+          isTotal={withTotal}
+        />
+      ) : null}
     </List>
   )
 }
