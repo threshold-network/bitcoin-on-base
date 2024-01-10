@@ -32,7 +32,6 @@ export enum ModalType {
   DeauthorizationCompleted = "DEAUTHORIZATION_COMPLETED",
   DeauthorizationInitiated = "DEAUTHORIZATION_INITIATED",
   NewTBTCApp = "NEW_TBTC_APP",
-  FeedbackSubmission = "FEEDBACK_SUBMIT",
   GenerateNewDepositAddress = "TBTC_GENERATE_NEW_DEPOSIT_ADDRESS",
   InitiateUnminting = "INITIATE_UNMINTING",
 }

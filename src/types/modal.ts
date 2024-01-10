@@ -44,7 +44,6 @@ import {
   InitiateUnminting,
   NewTBTCApp,
 } from "../components/Modal/tBTC"
-import FeedbackSubmissionModal from "../components/Modal/FeedbackSubmissionModal"
 
 export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.SelectWallet]: SelectWalletModal,
@@ -85,7 +84,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.DeauthorizationCompleted]: DeauthorizationCompleted,
   [ModalType.DeauthorizationInitiated]: DeauthorizationInitiated,
   [ModalType.NewTBTCApp]: NewTBTCApp,
-  [ModalType.FeedbackSubmission]: FeedbackSubmissionModal,
   [ModalType.GenerateNewDepositAddress]: GenerateNewDepositAddress,
   [ModalType.InitiateUnminting]: InitiateUnminting,
 }

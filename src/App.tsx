@@ -44,8 +44,6 @@ import {
 } from "./hooks/staking-applications"
 import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
 import { usePosthog } from "./hooks/posthog"
-import { featureFlags } from "./constants"
-import FeedbackRoutesButton from "./components/FeedbackRoutesButton"
 import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
 import {
   useSubscribeToOptimisticMintingFinalizedEvent,
@@ -146,7 +144,6 @@ const Layout = () => {
           <Outlet />
         </Box>
       </Box>
-      {featureFlags.FEEDBACK_MODULE && <FeedbackRoutesButton />}
     </Box>
   )
 }

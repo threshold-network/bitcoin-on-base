@@ -2,8 +2,6 @@ import { NavItemDetail } from "./NavItem"
 import {
   IoLockClosedOutline,
   IoLockClosedSharp,
-  IoChatbubbleEllipsesOutline,
-  IoChatbubbleEllipsesSharp,
 } from "react-icons/all"
 import { useLocation } from "react-router-dom"
 import { useMemo } from "react"
@@ -32,15 +30,6 @@ const Sidebar = () => {
         passiveIcon: tBTCOutline,
         href: "/tBTC/how-it-works",
       } as NavItemDetail)
-    }
-
-    if (featureFlags.FEEDBACK_MODULE) {
-      navItems.push({
-        text: "Feedback",
-        activeIcon: IoChatbubbleEllipsesSharp,
-        passiveIcon: IoChatbubbleEllipsesOutline,
-        href: "/feedback/usability-survey",
-      })
     }
 
     return navItems
