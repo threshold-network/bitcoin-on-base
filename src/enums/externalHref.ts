@@ -10,7 +10,6 @@ export enum ExternalHref {
   lowFeeValidation = "https://lowfeevalidation.com/",
   ankr = "https://www.ankr.com/",
   setupNodes = "https://docs.threshold.network/guides/threshold-applications/tbtc-v2-client-setup",
-  tbtcNodeDocs = "https://docs.threshold.network/guides/threshold-applications/tbtc-v2-client-setup",
   randomBeaconNodeDocs = "https://docs.threshold.network/guides/threshold-applications/tbtc-v2-client-setup",
   btcRecoveryAddress = "https://github.com/keep-network/tbtc-v2/blob/main/docs/rfc/rfc-1.adoc",
   tbtcBridgeGithub = "https://github.com/keep-network/tbtc-v2/blob/853bc8ff0601c82bb02cfaa0c904ba98d7d92fe5/solidity/contracts/bridge/Bridge.sol",
