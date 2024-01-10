@@ -1,5 +1,4 @@
 import { BigNumberish } from "@ethersproject/bignumber"
-import { StakeType, TopUpType, UnstakeType } from "../enums"
 import { Stake } from "../threshold-ts/staking"
 import { UpdateStateActionPayload } from "./state"
 
@@ -65,9 +64,9 @@ export type UpdateStakeAmountActionPayload = {
 }
 
 export type UnstakedActionPayload = UpdateStakeAmountActionPayload & {
-  unstakeType: UnstakeType
+  unstakeType: any
 }
 
 export type ToppedUpActionPayload = UpdateStakeAmountActionPayload & {
-  topUpType: TopUpType
+  topUpType: any
 }
