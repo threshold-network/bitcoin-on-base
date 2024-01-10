@@ -21,7 +21,6 @@ export enum ExternalHref {
   setupNodes = "https://docs.threshold.network/guides/threshold-applications/tbtc-v2-client-setup",
   tbtcNodeDocs = "https://docs.threshold.network/guides/threshold-applications/tbtc-v2-client-setup",
   randomBeaconNodeDocs = "https://docs.threshold.network/guides/threshold-applications/tbtc-v2-client-setup",
-  analyticsReports = "SOME_URL",
   btcRecoveryAddress = "https://github.com/keep-network/tbtc-v2/blob/main/docs/rfc/rfc-1.adoc",
   tbtcBridgeGithub = "https://github.com/keep-network/tbtc-v2/blob/853bc8ff0601c82bb02cfaa0c904ba98d7d92fe5/solidity/contracts/bridge/Bridge.sol",
   tBTCBrdigeAudit = "https://leastauthority.com/blog/audits/audit-of-keep-network-tbtc-bridge-v2/",
@@ -34,6 +33,5 @@ export enum ExternalHref {
   mintersAndGuardiansDocs = "https://blog.threshold.network/minters-guardians-and-a-strong-tbtc/",
   tBTCDuneDashboard = "https://dune.com/threshold/tbtc",
   delight = "https://delightlabs.io",
-  coveragePoolsDocs = "https://docs.threshold.network/applications/tbtc-v2/coverage-pool",
   runningNodeDocs = "https://docs.threshold.network/staking-and-running-a-node/running-a-node",
 }

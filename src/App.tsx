@@ -32,8 +32,6 @@ import { isSameETHAddress } from "./web3/utils"
 import { ThresholdProvider } from "./contexts/ThresholdContext"
 import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
 import { usePosthog } from "./hooks/posthog"
-import { featureFlags } from "./constants"
-import FeedbackRoutesButton from "./components/FeedbackRoutesButton"
 import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
 import {
   useSubscribeToOptimisticMintingFinalizedEvent,
@@ -120,7 +118,6 @@ const Layout = () => {
           <Outlet />
         </Box>
       </Box>
-      {featureFlags.FEEDBACK_MODULE && <FeedbackRoutesButton />}
     </Box>
   )
 }
@@ -129,9 +126,9 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="*" element={<Layout />}>
-        <Route index element={<Navigate to="overview" />} />
+        <Route index element={<Navigate to="tBTC" />} />
         {pages.map(renderPageComponent)}
-        <Route path="*" element={<Navigate to="overview" />} />
+        <Route path="*" element={<Navigate to="tBTC" />} />
       </Route>
     </Routes>
   )

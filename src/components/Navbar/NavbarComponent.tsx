@@ -8,7 +8,7 @@ import {
   useColorModeValue,
   H5,
 } from "@threshold-network/components"
-import { Routes, Route, Link, useMatch } from "react-router-dom"
+import { Routes, Route, Link } from "react-router-dom"
 import WalletConnectionAlert from "./WalletConnectionAlert"
 import HamburgerButton from "./HamburgerButton"
 import DarkModeSwitcher from "./DarkModeSwitcher"
@@ -35,7 +35,6 @@ const NavbarComponent: FC<NavbarComponentProps> = ({
 }) => {
   const isMobile = useChakraBreakpoint("md")
   const IconComponent = useColorModeValue(ThresholdPurple, ThresholdWhite)
-  const isOverviewPage = useMatch("overview/*")
   const borderBottomColor = useColorModeValue("gray.100", "gray.700")
 
   return (
@@ -43,7 +42,7 @@ const NavbarComponent: FC<NavbarComponentProps> = ({
       <Box
         p={6}
         pr={{ base: 6, md: 24 }}
-        borderBottom={isOverviewPage ? undefined : "1px"}
+        borderBottom={"1px"}
         borderColor={borderBottomColor}
         display="flex"
       >

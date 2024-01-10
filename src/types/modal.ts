@@ -8,13 +8,11 @@ import {
 } from "../components/Modal/TransactionModal"
 import TbtcRecoveryFileModalModal from "../components/Modal/TbtcRecoveryFileModal"
 import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
-import AnalyticsModal from "../components/Modal/AnalyticsModal"
 import {
   GenerateNewDepositAddress,
   InitiateUnminting,
   NewTBTCApp,
 } from "../components/Modal/tBTC"
-import FeedbackSubmissionModal from "../components/Modal/FeedbackSubmissionModal"
 
 export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.SelectWallet]: SelectWalletModal,
@@ -24,9 +22,7 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionFailed]: TransactionFailed,
   [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,
   [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
-  [ModalType.Analytics]: AnalyticsModal,
   [ModalType.NewTBTCApp]: NewTBTCApp,
-  [ModalType.FeedbackSubmission]: FeedbackSubmissionModal,
   [ModalType.GenerateNewDepositAddress]: GenerateNewDepositAddress,
   [ModalType.InitiateUnminting]: InitiateUnminting,
 }
