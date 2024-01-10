@@ -1,11 +1,7 @@
 import { FC } from "react"
 import { Token } from "../../enums"
 import TokenBalanceCardTemplate from "./TokenBalanceCardTemplate"
-import KeepCircleBrand from "../../static/icons/KeepCircleBrand"
-import NuCircleBrand from "../../static/icons/NuCircleBrand"
-import T from "../../static/icons/Ttoken"
 import { useToken } from "../../hooks/useToken"
-import { tBTCFillBlack } from "../../static/icons/tBTCFillBlack"
 import { TokenBalanceProps } from "../TokenBalance"
 
 export type TokenBalanceCardProps = {
@@ -18,13 +14,6 @@ export type TokenBalanceCardProps = {
   "precision" | "withHigherPrecision" | "higherPrecision"
 >
 
-const tokenToIconMap = {
-  [Token.Keep]: KeepCircleBrand,
-  [Token.Nu]: NuCircleBrand,
-  [Token.T]: T,
-  [Token.TBTCV2]: tBTCFillBlack,
-}
-
 const TokenBalanceCard: FC<TokenBalanceCardProps> = ({
   token,
   title = token,
@@ -36,7 +25,6 @@ const TokenBalanceCard: FC<TokenBalanceCardProps> = ({
 
   return (
     <TokenBalanceCardTemplate
-      icon={tokenToIconMap[token]}
       title={title}
       tokenBalance={balance}
       usdBalance={usdBalance}

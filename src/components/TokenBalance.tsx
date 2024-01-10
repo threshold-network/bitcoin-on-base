@@ -10,11 +10,9 @@ import {
   useColorModeValue,
   Tooltip,
   BoxProps,
-  Icon,
 } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
 import { formatTokenAmount } from "../utils/formatAmount"
-import tokenIconMap, { TokenIcon } from "../static/icons/tokenIconMap"
 
 export interface TokenBalanceProps {
   tokenAmount: string | number
@@ -23,8 +21,6 @@ export interface TokenBalanceProps {
   withUSDBalance?: boolean
   withSymbol?: boolean
   tokenDecimals?: number
-  icon?: TokenIcon | ComponentType
-  iconSize?: string
   isLarge?: boolean
   tokenFormat?: string
   withHigherPrecision?: boolean
@@ -86,8 +82,6 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
   withUSDBalance = false,
   withSymbol = false,
   tokenDecimals,
-  icon,
-  iconSize = "32px",
   isLarge,
   tokenFormat,
   precision,
@@ -110,12 +104,6 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
   return (
     <Box>
       <HStack alignItems="center">
-        {icon && (
-          <Icon
-            as={tokenIconMap[icon as TokenIcon] ?? icon}
-            boxSize={iconSize}
-          />
-        )}{" "}
         <BalanceTag {...restProps}>
           {shouldRenderTokenAmount ? (
             withHigherPrecision ? (
