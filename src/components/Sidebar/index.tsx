@@ -1,6 +1,5 @@
 import { NavItemDetail } from "./NavItem"
 import {
-  IoHomeSharp,
   IoLockClosedOutline,
   IoLockClosedSharp,
 } from "react-icons/all"
@@ -8,7 +7,6 @@ import { useLocation } from "react-router-dom"
 import { useMemo } from "react"
 import DesktopSidebar from "./DesktopSidebar"
 import MobileSidebar from "./MobileSidebar"
-import { IoHomeOutlineSharp } from "../../static/icons/IoHomeOutlineSharp"
 import { tBTCFill } from "../../static/icons/tBTCFill"
 import { tBTCOutline } from "../../static/icons/tBTCOutline"
 import { featureFlags } from "../../constants"
@@ -17,12 +15,6 @@ const Sidebar = () => {
   const { pathname } = useLocation()
   const navItems: NavItemDetail[] = useMemo(() => {
     const navItems = [
-      {
-        text: "Overview",
-        activeIcon: IoHomeSharp,
-        passiveIcon: IoHomeOutlineSharp,
-        href: "/overview",
-      },
       {
         text: "Staking",
         activeIcon: IoLockClosedSharp,
