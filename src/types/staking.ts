@@ -32,10 +32,6 @@ export interface PreConfig {
   operatorStartTimestamp: string
 }
 
-export interface PreConfigData {
-  [stakingProvider: string]: PreConfig
-}
-
 export interface StakeData extends Stake<string> {
   preConfig: PreConfig
 }
