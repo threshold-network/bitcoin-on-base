@@ -6,7 +6,6 @@ export * from "./token"
 export * from "./eth"
 export * from "./page"
 export * from "./rewards"
-export * from "./staking"
 export * from "./tbtc"
 
 export type FetchingState<DataType> = {
