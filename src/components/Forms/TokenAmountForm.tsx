@@ -1,7 +1,6 @@
 import { BodySm, Box, ButtonProps, Icon } from "@threshold-network/components"
 import { FormikErrors, FormikProps, withFormik } from "formik"
 import { FC, Ref } from "react"
-import ThresholdCircleBrand from "../../static/icons/ThresholdCircleBrand"
 import { formatTokenAmount } from "../../utils/formatAmount"
 import {
   DEFAULT_MIN_VALUE,
@@ -39,7 +38,7 @@ export const TokenAmountFormBase: FC<
   helperText,
   label = "Token Amount",
   token = { decimals: 18, symbol: "T" },
-  icon = ThresholdCircleBrand,
+  icon = null,
   isDisabled = false,
   shouldValidateForm = true,
   shouldDisplayMaxAmountInLabel = false,
