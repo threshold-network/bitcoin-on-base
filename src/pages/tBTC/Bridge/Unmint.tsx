@@ -161,7 +161,7 @@ const UnmintFormBase: FC<UnmintFormBaseProps> = ({
         name="amount"
         label={
           // TODO: Extract to a shared component- the same layout is used in
-          // `TokenAmountForm` and `UnstakingFormLabel` components.
+          // `UnstakingFormLabel` components.
           <>
             <Box as="span">Amount </Box>
             <BodySm as="span" float="right" color="gray.500">
