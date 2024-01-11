@@ -47,6 +47,4 @@ const Link: FC<LinkProps> = forwardRef(
   }
 )
 
-export * from "./SharedLinks"
-
 export default Link
