@@ -10,7 +10,6 @@ import { useTokensBalanceCall } from "../hooks/useTokensBalanceCall"
 import { Token } from "../enums"
 import { TokenState } from "../types"
 import { useTBTCTokenContract } from "../web3/hooks"
-import { useFetchOwnerStakes } from "../hooks/useFetchOwnerStakes"
 import { useTBTCv2TokenContract } from "../web3/hooks/useTBTCv2TokenContract"
 import { featureFlags } from "../constants"
 
@@ -37,7 +36,6 @@ export const TokenContextProvider: React.FC = ({ children }) => {
   const tbtc = useTBTCTokenContract()
   const tbtcv2 = useTBTCv2TokenContract()
   const { active, chainId, account } = useWeb3React()
-  const fetchOwnerStakes = useFetchOwnerStakes()
 
   const {
     fetchTokenPriceUSD,
@@ -95,11 +93,6 @@ export const TokenContextProvider: React.FC = ({ children }) => {
       }
     }
   }, [active, chainId, account])
-
-  // fetch user stakes when they connect their wallet
-  React.useEffect(() => {
-    fetchOwnerStakes(account!)
-  }, [fetchOwnerStakes, account])
 
   return (
     <TokenContext.Provider

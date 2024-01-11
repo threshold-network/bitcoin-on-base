@@ -6,39 +6,8 @@ import {
   TransactionIsPending,
   TransactionIsWaitingForConfirmation,
 } from "../components/Modal/TransactionModal"
-import StakingSuccessModal from "../components/Modal/StakingSuccessModal"
-import StakeSuccessOldModal from "../components/Modal/StakingSuccessModal/StakeSuccessOld"
-import ConfirmStakingParams from "../components/Modal/ConfirmStakingParams"
-import StakingChecklistModal from "../components/Modal/StakingChecklistModal"
-import UnstakingSuccessModal from "../components/Modal/UnstakeSuccessModal"
-import {
-  UnstakeTStep1 as UnstakeTModalStep1,
-  UnstakeTStep2 as UnstakeTModalStep2,
-} from "../components/Modal/UnstakeTModal"
-import { LegacyTopUpModal, TopupTModal } from "../components/Modal/TopupTModal"
-import TopupTSuccessModal from "../components/Modal/TopupTSuccessModal"
-import {
-  ClaimingRewards,
-  ClaimRewardsSuccessModal,
-} from "../components/Modal/ClaimingRewards"
-import NewAppsToAuthorizeModal from "../components/Modal/NewAppsToAuthorizeModal"
 import TbtcRecoveryFileModalModal from "../components/Modal/TbtcRecoveryFileModal"
 import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
-import DeauthorizeApplicationModal from "../components/Modal/DeauthorizeApplicationModal"
-import {
-  AuthorizeStakingApps,
-  StakingApplicationsAuthorized,
-  IncreaseAuthorization,
-  IncreaseAuthorizationSuccess,
-  ConfirmDeauthorization,
-  DeauthorizationCompleted,
-  DeauthorizationInitiated,
-} from "../components/Modal/StakingApplications"
-import SubmitStakeModal from "../components/Modal/SubmitStake"
-import NewStakerAuthorizeStakingApplicationModal from "../components/Modal/NewStakerAuthorizeStakingApplicationModal"
-import MapOperatorToStakingProviderModal from "../components/Modal/MapOperatorToStakingProviderModal"
-import MapOperatorToStakingProviderConfirmationModal from "../components/Modal/MapOperatorToStakingProviderConfirmationModal"
-import { MapOperatorToStakingProviderSuccess } from "../components/Modal/MapOperatorToStakingProviderSuccessModal"
 import {
   GenerateNewDepositAddress,
   InitiateUnminting,
@@ -51,38 +20,8 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionIsWaitingForConfirmation]:
     TransactionIsWaitingForConfirmation,
   [ModalType.TransactionFailed]: TransactionFailed,
-  [ModalType.ConfirmStakingParams]: ConfirmStakingParams,
-  [ModalType.StakeSuccess]: StakingSuccessModal,
-  [ModalType.StakeSuccessOLD]: StakeSuccessOldModal,
-  [ModalType.UnstakeSuccess]: UnstakingSuccessModal,
-  [ModalType.UnstakeT]: UnstakeTModalStep1,
-  [ModalType.UnstakeTStep2]: UnstakeTModalStep2,
-  [ModalType.StakingChecklist]: StakingChecklistModal,
-  [ModalType.TopupT]: TopupTModal,
-  [ModalType.TopupLegacyStake]: LegacyTopUpModal,
-  [ModalType.TopupTSuccess]: TopupTSuccessModal,
-  [ModalType.ClaimingRewards]: ClaimingRewards,
-  [ModalType.ClaimingRewardsSuccess]: ClaimRewardsSuccessModal,
-  [ModalType.NewAppsToAuthorize]: NewAppsToAuthorizeModal,
   [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,
   [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
-  [ModalType.DeauthorizeApplication]: DeauthorizeApplicationModal,
-  [ModalType.SubmitStake]: SubmitStakeModal,
-  [ModalType.MapOperatorToStakingProvider]: MapOperatorToStakingProviderModal,
-  [ModalType.MapOperatorToStakingProviderConfirmation]:
-    MapOperatorToStakingProviderConfirmationModal,
-  [ModalType.MapOperatorToStakingProviderSuccess]:
-    MapOperatorToStakingProviderSuccess,
-  [ModalType.AuthorizeStakingApps]: AuthorizeStakingApps,
-  [ModalType.StakingApplicationsAuthorized]: StakingApplicationsAuthorized,
-  [ModalType.IncreaseAuthorization]: IncreaseAuthorization,
-  [ModalType.IncreaseAuthorizationSuccess]: IncreaseAuthorizationSuccess,
-  [ModalType.SubmitStake]: SubmitStakeModal,
-  [ModalType.NewStakerAuthorizeStakingApplication]:
-    NewStakerAuthorizeStakingApplicationModal,
-  [ModalType.ConfirmDeauthorization]: ConfirmDeauthorization,
-  [ModalType.DeauthorizationCompleted]: DeauthorizationCompleted,
-  [ModalType.DeauthorizationInitiated]: DeauthorizationInitiated,
   [ModalType.NewTBTCApp]: NewTBTCApp,
   [ModalType.GenerateNewDepositAddress]: GenerateNewDepositAddress,
   [ModalType.InitiateUnminting]: InitiateUnminting,

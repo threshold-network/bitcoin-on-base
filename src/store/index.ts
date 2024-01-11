@@ -8,16 +8,11 @@ import { modalSlice } from "./modal"
 import { tokenSlice } from "./tokens"
 import { sidebarSlice } from "./sidebar"
 import { transactionSlice } from "./transactions"
-import { registerStakingListeners, stakingSlice } from "./staking"
 import { ethSlice } from "./eth"
 import { rewardsSlice } from "./rewards"
 import { tbtcSlice, registerTBTCListeners } from "./tbtc"
-import {
-  registerStakingAppsListeners,
-  stakingApplicationsSlice,
-} from "./staking-applications/slice"
 import { listenerMiddleware } from "./listener"
-import { accountSlice, registerAccountListeners } from "./account"
+import { accountSlice } from "./account"
 
 const combinedReducer = combineReducers({
   account: accountSlice.reducer,
@@ -25,11 +20,9 @@ const combinedReducer = combineReducers({
   token: tokenSlice.reducer,
   sidebar: sidebarSlice.reducer,
   transaction: transactionSlice.reducer,
-  staking: stakingSlice.reducer,
   eth: ethSlice.reducer,
   tbtc: tbtcSlice.reducer,
   rewards: rewardsSlice.reducer,
-  applications: stakingApplicationsSlice.reducer,
 })
 
 const APP_RESET_STORE = "app/reset_store"
@@ -41,9 +34,6 @@ export const resetStoreAction = () => ({
 const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
   if (action.type === APP_RESET_STORE) {
     listenerMiddleware.clearListeners()
-    registerStakingListeners()
-    registerStakingAppsListeners()
-    registerAccountListeners()
     registerTBTCListeners()
     state = {
       eth: { ...state.eth },
@@ -54,13 +44,11 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
         TBTC: { ...state.token.TBTC, balance: 0 },
         TBTCV2: { ...state.token.TBTCV2, balance: 0 },
       },
-      // we don't display successful login modal when changin account so we are
-      // setting the isSuccessfulLoginModalClosed flag to true and also
-      // isMappingOperatorToStakingProviderModalClosed flag back to false
+      // We don't display successful login modal when changing account so we are
+      // setting the isSuccessfulLoginModalClosed flag to true.
       modal: {
         modalQueue: {
           isSuccessfulLoginModalClosed: true,
-          isMappingOperatorToStakingProviderModalClosed: false,
         },
       },
     } as RootState
@@ -75,21 +63,9 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action types
-        ignoredActions: [
-          "modal/openModal",
-          "staking/unstaked",
-          "staking/toppepUp",
-        ],
+        ignoredActions: ["modal/openModal"],
         // Ignore these field paths in all actions
-        ignoredPaths: [
-          "staking.stakedBalance",
-          "modal.props.setStakingProvider",
-          "modal.props.setBeneficiary",
-          "modal.props.setAuthorizer",
-          "modal.props.onSubmit",
-          "modal.props.setAmountToStake",
-          "payload.props.setAmountToStake",
-        ],
+        ignoredPaths: ["modal.props.onSubmit"],
       },
     }).prepend(listenerMiddleware.middleware),
 })
