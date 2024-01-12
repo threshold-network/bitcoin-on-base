@@ -1,46 +1,27 @@
-import { FC, useEffect } from "react"
-import {
-  BodyLg,
-  BodySm,
-  CircularProgress,
-  CircularProgressLabel,
-  Flex,
-  useColorModeValue,
-} from "@threshold-network/components"
-import ViewInBlockExplorer, {
-  Chain as ViewInBlockExplorerChain,
-} from "../../../../components/ViewInBlockExplorer"
-import { ExplorerDataType } from "../../../../utils/createEtherscanLink"
+import { FC, ReactNode, useEffect } from "react"
+import { BodyMd, StackProps, VStack } from "@threshold-network/components"
 import { ONE_SEC_IN_MILISECONDS } from "../../../../utils/date"
+import { BridgeProcessIndicator } from "../../../../components/tBTC"
+import { BridgeProcessCircularLoader } from "./BridgeProcessCircularLoader"
 
 export type BridgeProcessStepProps = {
-  title: string
-  txHash?: string
-  chain: ViewInBlockExplorerChain
-  progressBarColor: string
+  loaderLabel: string
+  loaderProgress: number
+  headingPrimary: ReactNode
+  headingSecondary?: ReactNode
   isCompleted: boolean
   onComplete: () => void
-  isIndeterminate?: boolean
-  progressBarValue?: number
-  progressBarMaxValue?: number
-  icon: JSX.Element
-}
+} & StackProps
 
 export const BridgeProcessStep: FC<BridgeProcessStepProps> = ({
-  title,
-  txHash,
-  chain,
-  progressBarValue,
-  progressBarMaxValue,
-  progressBarColor,
-  isIndeterminate,
+  loaderLabel,
+  loaderProgress,
+  headingPrimary,
+  headingSecondary,
   isCompleted,
   onComplete,
-  icon,
-  children,
+  ...restProps
 }) => {
-  const titleTextColor = useColorModeValue("gray.700", "gray.300")
-
   useEffect(() => {
     if (!isCompleted) return
 
@@ -52,46 +33,20 @@ export const BridgeProcessStep: FC<BridgeProcessStepProps> = ({
   }, [isCompleted, onComplete])
 
   return (
-    <Flex flexDirection="column" alignItems="center" height="100%">
-      <BodyLg
-        color={titleTextColor}
-        mt="8"
-        alignSelf="flex-start"
-        fontSize="20px"
-        lineHeight="24px"
-      >
-        {title}
-      </BodyLg>
-
-      <CircularProgress
-        alignSelf="center"
-        mt="6"
-        value={isCompleted ? 100 : progressBarValue}
-        max={isCompleted ? undefined : progressBarMaxValue}
-        color={progressBarColor}
-        trackColor="gray.100"
-        size="160px"
-        thickness="8px"
-        isIndeterminate={isCompleted ? undefined : isIndeterminate}
-      >
-        {isCompleted && (
-          <CircularProgressLabel __css={{ svg: { margin: "auto" } }}>
-            {icon}
-          </CircularProgressLabel>
-        )}
-      </CircularProgress>
-      {children}
-      {txHash && (
-        <BodySm mt="auto" mb="8" color="gray.500" textAlign="center">
-          See transaction on{" "}
-          <ViewInBlockExplorer
-            text={chain === "bitcoin" ? "blockstream" : "etherscan"}
-            chain={chain}
-            id={txHash}
-            type={ExplorerDataType.TRANSACTION}
-          />
-        </BodySm>
-      )}
-    </Flex>
+    <VStack spacing={10} {...restProps}>
+      <BridgeProcessCircularLoader
+        label={loaderLabel}
+        progress={loaderProgress}
+      />
+      <VStack spacing={4} zIndex={1}>
+        <BodyMd color="hsl(182, 100%, 70%)">{headingPrimary}</BodyMd>
+        <BridgeProcessIndicator />
+        {!!headingSecondary ? (
+          <BodyMd color="hsla(0, 0%, 100%, 40%)" lineHeight={5}>
+            {headingSecondary}
+          </BodyMd>
+        ) : null}
+      </VStack>
+    </VStack>
   )
 }

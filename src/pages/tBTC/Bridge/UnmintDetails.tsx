@@ -291,23 +291,7 @@ export const UnmintDetails: PageComponent = () => {
                 thresholdNetworkFee={thresholdNetworkFee}
                 btcAddress={btcAddress!}
               />
-            ) : (
-              <BridgeProcessStep
-                title="Unminting in progress"
-                chain="ethereum"
-                txHash={redemptionRequestedTxHash}
-                progressBarColor="brand.500"
-                isCompleted={isProcessCompleted}
-                icon={<ProcessCompletedBrandGradientIcon />}
-                onComplete={() => setShouldDisplaySuccessStep(true)}
-                isIndeterminate
-              >
-                <BodyMd mt="6" px="3.5" mb="10" alignSelf="flex-start">
-                  Your redemption request is being processed. This will take
-                  around 3-5 hours.
-                </BodyMd>
-              </BridgeProcessStep>
-            )}
+            ) : null}
           </>
         )}
       </BridgeLayoutMainSection>

@@ -1,39 +1,19 @@
 import { FC } from "react"
-import {
-  BodyMd,
-  BodySm,
-  HStack,
-  Skeleton,
-  Box,
-} from "@threshold-network/components"
+import { BodyMd, HStack, Skeleton } from "@threshold-network/components"
 import { CheckCircleIcon } from "@chakra-ui/icons"
-import {
-  BTCConfirmationsIcon,
-  GuardianCheckIcon,
-  MintingCompletedIcon,
-  MintingInitializedIcon,
-} from "./DepositDetailsStepIcons"
 import { BridgeProcessStepProps, BridgeProcessStep } from "./BridgeProcessStep"
 
 const BitcoinConfirmationsSummary: FC<{
   minConfirmationsNeeded?: number
   txConfirmations?: number
 }> = ({ minConfirmationsNeeded, txConfirmations }) => {
-  const areConfirmationsLoaded = txConfirmations !== undefined
-  const checkmarkColor =
-    txConfirmations &&
-    minConfirmationsNeeded &&
-    txConfirmations >= minConfirmationsNeeded
-      ? "brand.500"
-      : "gray.500"
-
   return (
-    <HStack mt={8}>
-      <CheckCircleIcon w={4} h={4} color={checkmarkColor} />{" "}
-      <BodySm color={"gray.500"}>
+    <HStack spacing={2}>
+      <CheckCircleIcon w={5} h={5} color="hsl(151, 100%, 70%)" />
+      <BodyMd color="hsla(0, 0%, 100%, 40%)" lineHeight={5}>
         <Skeleton
           as="span"
-          isLoaded={areConfirmationsLoaded}
+          isLoaded={txConfirmations !== undefined}
           display="inline-block"
         >
           {txConfirmations! > minConfirmationsNeeded!
@@ -42,8 +22,8 @@ const BitcoinConfirmationsSummary: FC<{
           {"/"}
           {minConfirmationsNeeded}
         </Skeleton>
-        {"  Bitcoin Network Confirmations"}
-      </BodySm>
+        &nbsp;Bitcoin Network Confirmations
+      </BodyMd>
     </HStack>
   )
 }
@@ -53,108 +33,66 @@ type CommonStepProps = Pick<BridgeProcessStepProps, "onComplete"> & {
 }
 
 export const Step1: FC<
-  { confirmations?: number; requiredConfirmations?: number } & Pick<
-    BridgeProcessStepProps,
-    "txHash" | "onComplete"
-  >
-> = ({ confirmations, requiredConfirmations, txHash, onComplete }) => {
-  const subtitle = `Your Bitcoin deposit transaction requires ${requiredConfirmations} confirmation${
-    requiredConfirmations !== undefined && requiredConfirmations > 1 ? "s" : ""
-  } on the Bitcoin Network before initiating the minting process.`
-
+  { confirmations?: number; requiredConfirmations?: number } & CommonStepProps
+> = ({ confirmations, requiredConfirmations, onComplete }) => {
+  const hasConfirmations = !!confirmations && !!requiredConfirmations
   return (
     <BridgeProcessStep
-      title="Waiting for the Bitcoin Network Confirmations..."
-      chain="bitcoin"
-      txHash={txHash}
-      icon={<BTCConfirmationsIcon />}
-      progressBarColor="brand.500"
-      progressBarValue={confirmations}
-      progressBarMaxValue={requiredConfirmations}
+      loaderLabel="Minting"
+      loaderProgress={
+        0.25 * (hasConfirmations ? confirmations / requiredConfirmations : 1)
+      }
+      headingPrimary="Waiting for the Bitcoin Network Confirmations..."
+      headingSecondary={
+        <BitcoinConfirmationsSummary
+          minConfirmationsNeeded={requiredConfirmations}
+          txConfirmations={confirmations}
+        />
+      }
       isCompleted={Boolean(
         confirmations &&
           requiredConfirmations &&
           confirmations >= requiredConfirmations
       )}
       onComplete={onComplete}
-    >
-      <BitcoinConfirmationsSummary
-        minConfirmationsNeeded={requiredConfirmations}
-        txConfirmations={confirmations}
-      />
-      <BodyMd mt="6" px="3.5" alignSelf="flex-start">
-        {subtitle}
-      </BodyMd>
-    </BridgeProcessStep>
+    />
   )
 }
 
 export const Step2: FC<CommonStepProps> = ({ txHash, onComplete }) => {
   return (
     <BridgeProcessStep
-      title="Minting Initialized"
-      icon={<MintingInitializedIcon />}
-      chain="ethereum"
-      txHash={txHash}
-      progressBarColor="yellow.500"
+      loaderLabel="Minting"
+      loaderProgress={0.25}
+      headingPrimary="Minter Check"
       isCompleted={!!txHash}
       onComplete={onComplete}
-      isIndeterminate
-    >
-      <Box mt="6" px="3.5" alignSelf="flex-start">
-        <BodyMd mb="9">
-          A Minter is assessing the minting initialization. If all is well, the
-          Minter will transfer the initialization to the Guardian.
-        </BodyMd>
-        <BodyMd>
-          Minters are a small group of experts who monitor BTC deposits on the
-          chain.
-        </BodyMd>
-      </Box>
-    </BridgeProcessStep>
+    />
   )
 }
 
 export const Step3: FC<CommonStepProps> = ({ txHash, onComplete }) => {
   return (
     <BridgeProcessStep
-      title="Guardian Check"
-      icon={<GuardianCheckIcon />}
-      chain="ethereum"
-      progressBarColor="green.500"
+      loaderLabel="Minting"
+      loaderProgress={0.5}
+      headingPrimary="Guardian Check"
+      headingSecondary={!!txHash ? "Transaction received" : "No transaction"}
       isCompleted={!!txHash}
       onComplete={onComplete}
-      isIndeterminate
-    >
-      <Box mt="6" px="3.5" alignSelf="flex-start">
-        <BodyMd mb="9">
-          A Guardian examines the minting request submitted by a Minter. If all
-          is well, the contract proceeds to the minting stage.
-        </BodyMd>
-        <BodyMd>
-          Guardians verify minting requests and cancel fraudulent mints and
-          remove problematic minters.
-        </BodyMd>
-      </Box>
-    </BridgeProcessStep>
+    />
   )
 }
 
 export const Step4: FC<CommonStepProps> = ({ txHash, onComplete }) => {
   return (
     <BridgeProcessStep
-      title="Minting in progress"
-      icon={<MintingCompletedIcon />}
-      chain="ethereum"
-      txHash={txHash}
-      progressBarColor="teal.500"
+      loaderLabel="Minting"
+      loaderProgress={0.75}
+      headingPrimary="Token emission in progress"
+      headingSecondary="The contract is sending your tBTC tokens."
       isCompleted={true}
       onComplete={onComplete}
-      isIndeterminate
-    >
-      <BodyMd mt="6" px="3.5" alignSelf="flex-start">
-        The contract is minting your tBTC tokens.
-      </BodyMd>
-    </BridgeProcessStep>
+    />
   )
 }

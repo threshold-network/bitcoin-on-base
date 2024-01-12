@@ -77,6 +77,7 @@ import {
   BridgeProcessResourcesItemProps,
 } from "./components/BridgeProcessResources"
 import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
+import { BridgeProcessCircularLoader } from "./components/BridgeProcessCircularLoader"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
@@ -94,8 +95,6 @@ export const DepositDetails: PageComponent = () => {
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
   const { mintingRequestedTxHash, mintingFinalizedTxHash } =
     useSubscribeToOptimisticMintingEvents(depositKey)
-
-  const depositStatusTextColor = useColorModeValue("brand.500", "brand.300")
 
   // Cache the location state in component state.
   const [locationStateCache] = useState<{ shouldStartFromFirstStep?: boolean }>(
@@ -198,66 +197,47 @@ export const DepositDetails: PageComponent = () => {
         )}
         {error && <>{error}</>}
         {!isFetching && !!data && !error && (
-          <>
-            <Stack
-              direction={{
-                base: "column",
-                xl: "row",
-              }}
-              divider={<StackDivider />}
-              spacing={4}
-            >
+          <Stack
+            direction={{
+              base: "column",
+              xl: "row",
+            }}
+            divider={<StackDivider />}
+            spacing={4}
+          >
+            <VStack spacing={0} align="center" w={{ base: "100%", xl: "65%" }}>
               <VStack
-                spacing={12}
-                align="center"
-                w={{ base: "100%", xl: "65%" }}
+                align="flex-start"
+                alignSelf="stretch"
+                spacing={2}
+                zIndex={1}
               >
-                <VStack align="flex-start" alignSelf="stretch" spacing="4">
-                  <BodyMd fontWeight="medium">Amount</BodyMd>
-                  <HStack align="baseline">
-                    <InlineTokenBalance
-                      tokenAmount={amount || "0"}
-                      fontWeight="black"
-                      fontSize="40px"
-                      lineHeight="1"
-                    />
-                    <BodyLg>BTC</BodyLg>
-                  </HStack>
-                </VStack>
-                <VStack spacing="6">
-                  <BodySm color="#66F9FF">
-                    Waiting for the Bitcoin Network Confirmations...
-                  </BodySm>
-                  <BridgeProcessIndicator />
-                </VStack>
-                <BodyXs>May take up to 3 hours...</BodyXs>
+                <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
+                  Amount
+                </BodyMd>
+                <HStack align="baseline" spacing={2}>
+                  <InlineTokenBalance
+                    tokenAmount={amount || "0"}
+                    fontWeight="black"
+                    fontSize="40px"
+                    lineHeight={1}
+                  />
+                  <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
+                </HStack>
               </VStack>
-              <Flex
-                w={{ base: "100%", xl: "35%" }}
-                mb={{ base: "20", xl: "unset" }}
-                direction="column"
-              >
-                <TransactionHistory items={transactions} />
-                {mintingProgressStep !== "completed" && (
-                  <BridgeProcessResources items={resourceData} />
-                )}
-              </Flex>
-            </Stack>
-            {mintingProgressStep !== "completed" && (
-              <>
-                <Divider />
-                <Flex mt="8" alignItems="center">
-                  <BodyLg>
-                    Eager to start a new mint while waiting for this one? You
-                    can now.
-                  </BodyLg>
-                  <ButtonLink size="lg" to="/tBTC/mint" marginLeft="auto">
-                    New Mint
-                  </ButtonLink>
-                </Flex>
-              </>
-            )}
-          </>
+              <StepSwitcher />
+            </VStack>
+            <Flex
+              w={{ base: "100%", xl: "35%" }}
+              mb={{ base: "20", xl: "unset" }}
+              direction="column"
+            >
+              <TransactionHistory items={transactions} />
+              {mintingProgressStep !== "completed" && (
+                <BridgeProcessResources items={resourceData} />
+              )}
+            </Flex>
+          </Stack>
         )}
       </BridgeProcessDetailsCard>
       {mintingProgressStep === "completed" && (
