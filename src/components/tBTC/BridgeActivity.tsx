@@ -37,7 +37,7 @@ export type BridgeActivityProps = {
 type BridgeActivityContextValue = {
   [Property in keyof BridgeActivityProps]-?: BridgeActivityProps[Property]
 } & {
-  isWalletConnected: boolean
+  isBridgeHistoryEmpty: boolean
 }
 
 const BridgeActivityContext = createContext<
@@ -61,13 +61,13 @@ export const BridgeActivity: FC<BridgeActivityProps> = ({
   emptyState,
   children,
 }) => {
-  const { active } = useWeb3React()
+  const isBridgeHistoryEmpty = data.length === 0
 
   return (
     <BridgeActivityContext.Provider
       value={{
         data,
-        isWalletConnected: active,
+        isBridgeHistoryEmpty,
         isFetching,
         emptyState: emptyState ?? <EmptyActivity />,
       }}
@@ -87,14 +87,17 @@ export const BridgeAcivityHeader: FC<StackProps> = (props) => {
 }
 
 export const BridgeActivityData: FC<ListProps> = (props) => {
-  const { data, isFetching, emptyState, isWalletConnected } =
+  const { data, isBridgeHistoryEmpty, isFetching, emptyState } =
     useBridgeActivityContext()
+  const { active } = useWeb3React()
 
   return isFetching ? (
     <BridgeActivityLoadingState />
   ) : (
     <List spacing="1" mt="2" {...props}>
-      {!!data && isWalletConnected ? data.map(renderActivityItem) : emptyState}
+      {active && !isBridgeHistoryEmpty
+        ? data.map(renderActivityItem)
+        : emptyState}
     </List>
   )
 }
