@@ -184,16 +184,17 @@ export const ActivityItemWrapper: FC = ({ children }) => (
 
 export const BridgeActivityEmptyHistoryImg: FC = () => {
   const { data, isFetching } = useBridgeActivityContext()
-  const epmtyHistoryImg = useColorModeValue(
+  const { active } = useWeb3React()
+  const emptyHistoryImg = useColorModeValue(
     emptyHistoryImageSrcLight,
     emptyHistoryImageSrcDark
   )
 
-  const shouldRenderEmptyState = !data && !isFetching
+  const shouldRenderEmptyState = !active || (!data && !isFetching)
 
   return shouldRenderEmptyState ? (
     <>
-      <Image alt="no-history" src={epmtyHistoryImg} mx="auto" mt={16} mb={4} />
+      <Image alt="no-history" src={emptyHistoryImg} mx="auto" mt={16} mb={4} />
       <BodyMd textAlign="center">You have no history yet.</BodyMd>
     </>
   ) : (
