@@ -35,13 +35,6 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
       token: {
         TBTCV2: { ...state.token.TBTCV2, balance: 0 },
       },
-      // We don't display successful login modal when changing account so we are
-      // setting the isSuccessfulLoginModalClosed flag to true.
-      modal: {
-        modalQueue: {
-          isSuccessfulLoginModalClosed: true,
-        },
-      },
     } as RootState
   }
 
