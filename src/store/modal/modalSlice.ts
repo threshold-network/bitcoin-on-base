@@ -3,7 +3,6 @@ import { ModalType } from "../../enums"
 
 export interface ModalQueueState {
   isSuccessfulLoginModalClosed: boolean
-  isMappingOperatorToStakingProviderModalClosed: boolean
 }
 
 export interface ModalState {
@@ -19,7 +18,6 @@ export const modalSlice = createSlice({
     props: {},
     modalQueue: {
       isSuccessfulLoginModalClosed: false,
-      isMappingOperatorToStakingProviderModalClosed: false,
     },
   } as ModalState,
   reducers: {
@@ -37,15 +35,8 @@ export const modalSlice = createSlice({
     successfullLoginModalClosed: (state: ModalState) => {
       state.modalQueue.isSuccessfulLoginModalClosed = true
     },
-    mapOperatorToStakingProviderModalClosed: (state: ModalState) => {
-      state.modalQueue.isMappingOperatorToStakingProviderModalClosed = true
-    },
   },
 })
 
-export const {
-  openModal,
-  closeModal,
-  successfullLoginModalClosed,
-  mapOperatorToStakingProviderModalClosed,
-} = modalSlice.actions
+export const { openModal, closeModal, successfullLoginModalClosed } =
+  modalSlice.actions
