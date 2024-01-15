@@ -1,7 +1,8 @@
-import React, { createContext } from "react"
-import { Contract } from "@ethersproject/contracts"
 import { AddressZero } from "@ethersproject/constants"
+import { Contract } from "@ethersproject/contracts"
 import { useWeb3React } from "@web3-react/core"
+import React, { createContext } from "react"
+import { featureFlags } from "../constants"
 import { useKeep } from "../web3/hooks/useKeep"
 import { useNu } from "../web3/hooks/useNu"
 import { useT } from "../web3/hooks/useT"
@@ -11,7 +12,6 @@ import { Token } from "../enums"
 import { TokenState } from "../types"
 import { useTBTCTokenContract } from "../web3/hooks"
 import { useTBTCv2TokenContract } from "../web3/hooks/useTBTCv2TokenContract"
-import { featureFlags } from "../constants"
 
 interface TokenContextState extends TokenState {
   contract: Contract | null

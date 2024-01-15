@@ -90,10 +90,6 @@ const AppBody = () => {
     }
   }, [connector, dispatch, account])
 
-  useEffect(() => {
-    dispatch(fetchETHPriceUSD())
-  }, [dispatch])
-
   usePosthog()
   useSaveConnectedAddressToStore()
   useSentry()
