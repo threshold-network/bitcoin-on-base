@@ -186,14 +186,15 @@ export const ActivityItemWrapper: FC = ({ children }) => (
 )
 
 export const BridgeActivityEmptyHistoryImg: FC = () => {
-  const { data, isFetching } = useBridgeActivityContext()
+  const { isBridgeHistoryEmpty, isFetching } = useBridgeActivityContext()
   const { active } = useWeb3React()
   const emptyHistoryImg = useColorModeValue(
     emptyHistoryImageSrcLight,
     emptyHistoryImageSrcDark
   )
 
-  const shouldRenderEmptyState = !active || (!data && !isFetching)
+  const shouldRenderEmptyState =
+    !active || (isBridgeHistoryEmpty && !isFetching)
 
   return shouldRenderEmptyState ? (
     <>
