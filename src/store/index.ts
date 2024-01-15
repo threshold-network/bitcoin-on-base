@@ -7,7 +7,6 @@ import {
 import { modalSlice } from "./modal"
 import { tokenSlice } from "./tokens"
 import { sidebarSlice } from "./sidebar"
-import { rewardsSlice } from "./rewards"
 import { tbtcSlice, registerTBTCListeners } from "./tbtc"
 import { listenerMiddleware } from "./listener"
 import { accountSlice } from "./account"
@@ -18,7 +17,6 @@ const combinedReducer = combineReducers({
   token: tokenSlice.reducer,
   sidebar: sidebarSlice.reducer,
   tbtc: tbtcSlice.reducer,
-  rewards: rewardsSlice.reducer,
 })
 
 const APP_RESET_STORE = "app/reset_store"
