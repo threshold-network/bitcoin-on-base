@@ -37,7 +37,7 @@ export type BridgeActivityProps = {
 type BridgeActivityContextValue = {
   [Property in keyof BridgeActivityProps]-?: BridgeActivityProps[Property]
 } & {
-  isWalletConnected: boolean
+  isBridgeHistoryEmpty: boolean
 }
 
 const BridgeActivityContext = createContext<
@@ -61,13 +61,13 @@ export const BridgeActivity: FC<BridgeActivityProps> = ({
   emptyState,
   children,
 }) => {
-  const { active } = useWeb3React()
+  const isBridgeHistoryEmpty = data.length === 0
 
   return (
     <BridgeActivityContext.Provider
       value={{
         data,
-        isWalletConnected: active,
+        isBridgeHistoryEmpty,
         isFetching,
         emptyState: emptyState ?? <EmptyActivity />,
       }}
@@ -87,14 +87,17 @@ export const BridgeAcivityHeader: FC<StackProps> = (props) => {
 }
 
 export const BridgeActivityData: FC<ListProps> = (props) => {
-  const { data, isFetching, emptyState, isWalletConnected } =
+  const { data, isBridgeHistoryEmpty, isFetching, emptyState } =
     useBridgeActivityContext()
+  const { active } = useWeb3React()
 
   return isFetching ? (
     <BridgeActivityLoadingState />
   ) : (
     <List spacing="1" mt="2" {...props}>
-      {!!data && isWalletConnected ? data.map(renderActivityItem) : emptyState}
+      {active && !isBridgeHistoryEmpty
+        ? data.map(renderActivityItem)
+        : emptyState}
     </List>
   )
 }
@@ -183,17 +186,19 @@ export const ActivityItemWrapper: FC = ({ children }) => (
 )
 
 export const BridgeActivityEmptyHistoryImg: FC = () => {
-  const { data, isFetching } = useBridgeActivityContext()
-  const epmtyHistoryImg = useColorModeValue(
+  const { isBridgeHistoryEmpty, isFetching } = useBridgeActivityContext()
+  const { active } = useWeb3React()
+  const emptyHistoryImg = useColorModeValue(
     emptyHistoryImageSrcLight,
     emptyHistoryImageSrcDark
   )
 
-  const shouldRenderEmptyState = !data && !isFetching
+  const shouldRenderEmptyState =
+    !active || (isBridgeHistoryEmpty && !isFetching)
 
   return shouldRenderEmptyState ? (
     <>
-      <Image alt="no-history" src={epmtyHistoryImg} mx="auto" mt={16} mb={4} />
+      <Image alt="no-history" src={emptyHistoryImg} mx="auto" mt={16} mb={4} />
       <BodyMd textAlign="center">You have no history yet.</BodyMd>
     </>
   ) : (
