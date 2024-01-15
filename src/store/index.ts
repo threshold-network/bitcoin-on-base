@@ -7,8 +7,6 @@ import {
 import { modalSlice } from "./modal"
 import { tokenSlice } from "./tokens"
 import { sidebarSlice } from "./sidebar"
-import { transactionSlice } from "./transactions"
-import { ethSlice } from "./eth"
 import { rewardsSlice } from "./rewards"
 import { tbtcSlice, registerTBTCListeners } from "./tbtc"
 import { listenerMiddleware } from "./listener"
@@ -19,8 +17,6 @@ const combinedReducer = combineReducers({
   modal: modalSlice.reducer,
   token: tokenSlice.reducer,
   sidebar: sidebarSlice.reducer,
-  transaction: transactionSlice.reducer,
-  eth: ethSlice.reducer,
   tbtc: tbtcSlice.reducer,
   rewards: rewardsSlice.reducer,
 })
@@ -36,12 +32,7 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
     listenerMiddleware.clearListeners()
     registerTBTCListeners()
     state = {
-      eth: { ...state.eth },
       token: {
-        KEEP: { ...state.token.KEEP, balance: 0 },
-        NU: { ...state.token.NU, balance: 0 },
-        T: { ...state.token.T, balance: 0 },
-        TBTC: { ...state.token.TBTC, balance: 0 },
         TBTCV2: { ...state.token.TBTCV2, balance: 0 },
       },
       // We don't display successful login modal when changing account so we are

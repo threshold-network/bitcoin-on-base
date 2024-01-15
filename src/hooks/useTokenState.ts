@@ -9,10 +9,6 @@ import { Token } from "../enums"
 import { UseTokenState } from "../types/token"
 
 export const useTokenState: UseTokenState = () => {
-  const keep = useSelector((state: RootState) => state.token[Token.Keep])
-  const nu = useSelector((state: RootState) => state.token[Token.Nu])
-  const t = useSelector((state: RootState) => state.token[Token.T])
-  const tbtc = useSelector((state: RootState) => state.token[Token.TBTC])
   const tbtcv2 = useSelector((state: RootState) => state.token[Token.TBTCV2])
 
   const dispatch = useDispatch()
@@ -27,10 +23,6 @@ export const useTokenState: UseTokenState = () => {
     dispatch(fetchTokenPriceAction({ token }))
 
   return {
-    keep,
-    nu,
-    t,
-    tbtc,
     tbtcv2,
     fetchTokenPriceUSD,
     setTokenBalance,

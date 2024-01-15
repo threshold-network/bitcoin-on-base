@@ -1,4 +1,3 @@
-import numeral from "numeral"
 import { BigNumber } from "ethers"
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { CoingeckoID, Token } from "../../enums/token"
@@ -31,36 +30,6 @@ const toUsdBalance = (token: TokenState) => {
 export const tokenSlice = createSlice({
   name: "tokens",
   initialState: {
-    [Token.Keep]: {
-      loading: false,
-      balance: 0,
-      text: Token.Keep,
-      icon: "KEEP_CIRCLE_BRAND",
-      usdConversion: 0,
-      usdBalance: "0",
-    },
-    [Token.Nu]: {
-      loading: false,
-      balance: 0,
-      text: Token.Nu,
-      icon: "NU_CIRCLE_BRAND",
-      usdConversion: 0,
-      usdBalance: "0",
-    },
-    [Token.T]: {
-      loading: false,
-      balance: 0,
-      text: Token.T,
-      icon: "T_CIRCLE_BRAND",
-      usdConversion: 0,
-      usdBalance: "0",
-    },
-    [Token.TBTC]: {
-      loading: false,
-      balance: 0,
-      usdConversion: 0,
-      usdBalance: "0",
-    },
     [Token.TBTCV2]: {
       loading: false,
       balance: 0,
