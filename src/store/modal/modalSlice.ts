@@ -3,7 +3,6 @@ import { ModalType } from "../../enums"
 
 export interface ModalQueueState {
   isSuccessfulLoginModalClosed: boolean
-  isMappingOperatorToStakingProviderModalClosed: boolean
 }
 
 export interface ModalState {

@@ -43,9 +43,6 @@ import { Header } from "./components/Header"
 import { VStack } from "@threshold-network/components"
 
 const Web3EventHandlerComponent = () => {
-  useSubscribeToERC20TransferEvent(Token.Keep)
-  useSubscribeToERC20TransferEvent(Token.Nu)
-  useSubscribeToERC20TransferEvent(Token.T)
   useSubscribeToERC20TransferEvent(Token.TBTCV2)
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
@@ -94,10 +91,6 @@ const AppBody = () => {
       connector?.removeListener(ConnectorEvent.Deactivate, deactivateHandler)
     }
   }, [connector, dispatch, account])
-
-  useEffect(() => {
-    dispatch(fetchETHPriceUSD())
-  }, [dispatch])
 
   usePosthog()
   useSaveConnectedAddressToStore()
