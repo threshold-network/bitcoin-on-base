@@ -2,7 +2,6 @@ import { AddressZero } from "@ethersproject/constants"
 import { Contract } from "@ethersproject/contracts"
 import { useWeb3React } from "@web3-react/core"
 import React, { createContext } from "react"
-import { featureFlags } from "../constants"
 import { useTokenState } from "../hooks/useTokenState"
 import { useTokensBalanceCall } from "../hooks/useTokensBalanceCall"
 import { Token } from "../enums"
@@ -31,9 +30,7 @@ export const TokenContextProvider: React.FC = ({ children }) => {
     tbtcv2: tbtcv2Data,
   } = useTokenState()
 
-  const tokenContracts = []
-
-  if (featureFlags.TBTC_V2) tokenContracts.push(tbtcv2)
+  const tokenContracts = [tbtcv2]
 
   const fetchBalances = useTokensBalanceCall(
     tokenContracts,
@@ -58,9 +55,7 @@ export const TokenContextProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     if (active) {
       fetchBalances().then(([tbtcv2Balance]) => {
-        if (featureFlags.TBTC_V2) {
-          setTokenBalance(Token.TBTCV2, tbtcv2Balance.toString())
-        }
+        setTokenBalance(Token.TBTCV2, tbtcv2Balance.toString())
       })
     } else {
       // set all token balances to 0 if the user disconnects the wallet

@@ -5,21 +5,18 @@ import DesktopSidebar from "./DesktopSidebar"
 import MobileSidebar from "./MobileSidebar"
 import { tBTCFill } from "../../static/icons/tBTCFill"
 import { tBTCOutline } from "../../static/icons/tBTCOutline"
-import { featureFlags } from "../../constants"
 
 const Sidebar = () => {
   const { pathname } = useLocation()
   const navItems: NavItemDetail[] = useMemo(() => {
-    const navItems = []
-
-    if (featureFlags.TBTC_V2) {
-      navItems.push({
+    const navItems: NavItemDetail[] = [
+      {
         text: "tBTC",
         activeIcon: tBTCFill,
         passiveIcon: tBTCOutline,
         href: "/tBTC/how-it-works",
-      } as NavItemDetail)
-    }
+      },
+    ]
 
     return navItems
   }, [pathname])

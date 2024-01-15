@@ -2,7 +2,6 @@ import PageLayout from "../PageLayout"
 import { PageComponent } from "../../types"
 import HowItWorksPage from "./HowItWorks"
 import TBTCBridge from "./Bridge"
-import { featureFlags } from "../../constants"
 import { ExplorerPage } from "./Explorer"
 
 const MainTBTCPage: PageComponent = (props) => {
@@ -14,7 +13,7 @@ MainTBTCPage.route = {
   index: false,
   pages: [HowItWorksPage, TBTCBridge, ExplorerPage],
   title: "tBTC",
-  isPageEnabled: featureFlags.TBTC_V2,
+  isPageEnabled: true,
 }
 
 export default MainTBTCPage

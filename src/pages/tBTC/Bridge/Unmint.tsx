@@ -57,8 +57,6 @@ import {
 } from "../../../utils/tBTC"
 import { useModal } from "../../../hooks/useModal"
 import { UnmintDetails } from "./UnmintDetails"
-import { UnmintingCard } from "./UnmintingCard"
-import { featureFlags } from "../../../constants"
 import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 
 const UnmintFormPage: PageComponent = ({}) => {
@@ -73,9 +71,7 @@ const UnmintFormPage: PageComponent = ({}) => {
     })
   }
 
-  return !featureFlags.TBTC_V2_REDEMPTION ? (
-    <UnmintingCard />
-  ) : (
+  return (
     <>
       <BridgeProcessCardTitle bridgeProcess="unmint" />
       <BridgeProcessCardSubTitle
