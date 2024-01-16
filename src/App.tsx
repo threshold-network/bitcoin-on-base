@@ -39,7 +39,7 @@ import {
 import { useSentry } from "./hooks/sentry"
 
 const Web3EventHandlerComponent = () => {
-  useSubscribeToERC20TransferEvent(Token.TBTCV2)
+  useSubscribeToERC20TransferEvent(Token.TBTC)
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
   useSubscribeToOptimisticMintingRequestedEvent()

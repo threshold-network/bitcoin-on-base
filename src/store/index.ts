@@ -31,7 +31,7 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
     registerTBTCListeners()
     state = {
       token: {
-        TBTCV2: { ...state.token.TBTCV2, balance: 0 },
+        TBTC: { ...state.token.TBTC, balance: 0 },
       },
     } as RootState
   }

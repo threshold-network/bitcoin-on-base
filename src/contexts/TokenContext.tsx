@@ -6,7 +6,7 @@ import { useTokenState } from "../hooks/useTokenState"
 import { useTokensBalanceCall } from "../hooks/useTokensBalanceCall"
 import { Token } from "../enums"
 import { TokenState } from "../types"
-import { useTBTCv2TokenContract } from "../web3/hooks/useTBTCv2TokenContract"
+import { useTBTCTokenContract } from "../web3/hooks/useTBTCTokenContract"
 
 interface TokenContextState extends TokenState {
   contract: Contract | null
@@ -15,22 +15,22 @@ interface TokenContextState extends TokenState {
 export const TokenContext = createContext<{
   [key in Token]: TokenContextState
 }>({
-  [Token.TBTCV2]: {} as TokenContextState,
+  [Token.TBTC]: {} as TokenContextState,
 })
 
 // Context that handles data fetching when a user connects their wallet or
 // switches their network
 export const TokenContextProvider: React.FC = ({ children }) => {
-  const tbtcv2 = useTBTCv2TokenContract()
+  const tbtc = useTBTCTokenContract()
   const { active, chainId, account } = useWeb3React()
 
   const {
     fetchTokenPriceUSD,
     setTokenBalance,
-    tbtcv2: tbtcv2Data,
+    tbtc: tbtcData,
   } = useTokenState()
 
-  const tokenContracts = [tbtcv2]
+  const tokenContracts = [tbtc]
 
   const fetchBalances = useTokensBalanceCall(
     tokenContracts,
@@ -54,8 +54,8 @@ export const TokenContextProvider: React.FC = ({ children }) => {
   //
   React.useEffect(() => {
     if (active) {
-      fetchBalances().then(([tbtcv2Balance]) => {
-        setTokenBalance(Token.TBTCV2, tbtcv2Balance.toString())
+      fetchBalances().then(([tbtcBalance]) => {
+        setTokenBalance(Token.TBTC, tbtcBalance.toString())
       })
     } else {
       // set all token balances to 0 if the user disconnects the wallet
@@ -71,9 +71,9 @@ export const TokenContextProvider: React.FC = ({ children }) => {
   return (
     <TokenContext.Provider
       value={{
-        [Token.TBTCV2]: {
-          contract: tbtcv2,
-          ...tbtcv2Data,
+        [Token.TBTC]: {
+          contract: tbtc,
+          ...tbtcData,
         },
       }}
     >

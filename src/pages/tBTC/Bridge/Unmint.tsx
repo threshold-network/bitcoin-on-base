@@ -60,7 +60,7 @@ import { UnmintDetails } from "./UnmintDetails"
 import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 
 const UnmintFormPage: PageComponent = ({}) => {
-  const { balance } = useToken(Token.TBTCV2)
+  const { balance } = useToken(Token.TBTC)
   const { openModal } = useModal()
   const threshold = useThreshold()
 

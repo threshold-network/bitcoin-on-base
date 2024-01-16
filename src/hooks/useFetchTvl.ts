@@ -4,7 +4,7 @@ import { formatUnits } from "@ethersproject/units"
 import { useToken } from "./useToken"
 import { Token } from "../enums"
 import { toUsdBalance } from "../utils/getUsdBalance"
-import { useTBTCv2TokenContract } from "../web3/hooks/useTBTCv2TokenContract"
+import { useTBTCTokenContract } from "../web3/hooks/useTBTCTokenContract"
 
 interface TvlRawData {
   tBTC: string
@@ -26,8 +26,8 @@ export const useFetchTvl = (): [
   const [rawData, setRawData] = useState<TvlRawData>(initialState)
   const { tBTC: tBTCTvl } = rawData
 
-  const tbtcTokenContract = useTBTCv2TokenContract()
-  const tBTCToken = useToken(Token.TBTCV2)
+  const tbtcTokenContract = useTBTCTokenContract()
+  const tBTCToken = useToken(Token.TBTC)
 
   const fetchTvlData = useCallback(async () => {
     const tBTCTokenTotalSupply: BigNumberish =

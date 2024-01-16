@@ -1,7 +1,7 @@
 export enum Token {
-  TBTCV2 = "TBTCV2",
+  TBTC = "TBTC",
 }
 
 export enum CoingeckoID {
-  TBTCV2 = "tbtc",
+  TBTC = "tbtc",
 }
