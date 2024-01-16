@@ -32,7 +32,7 @@ export type TokenActionTypes = SetTokenBalance | SetTokenLoading
 
 export interface UseTokenState {
   (): {
-    tbtcv2: TokenState
+    tbtc: TokenState
     setTokenBalance: (
       token: Token,
       balance: number | string

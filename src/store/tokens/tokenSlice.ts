@@ -30,7 +30,7 @@ const toUsdBalance = (token: TokenState) => {
 export const tokenSlice = createSlice({
   name: "tokens",
   initialState: {
-    [Token.TBTCV2]: {
+    [Token.TBTC]: {
       loading: false,
       balance: 0,
       usdConversion: 0,
