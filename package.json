@@ -14,7 +14,6 @@
     "@ethersproject/constants": "^5.5.0",
     "@fontsource/ibm-plex-mono": "^4.5.13",
     "@fontsource/inter": "^4.5.10",
-    "@keep-network/keep-core": "development",
     "@keep-network/tbtc-v2.ts": "^2.3.0",
     "@ledgerhq/connect-kit-loader": "^1.1.2",
     "@reduxjs/toolkit": "^1.6.1",
