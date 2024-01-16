@@ -48,7 +48,7 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
         defaultIndex={!!account ? undefined : 0}
       >
         <TimelineItem
-          variant={!!account ? "detailed" : "overview"}
+          variant={!!account ? "secondary" : "primary"}
           isActive={_mintingStep === MintingStep.ProvideData}
           isComplete={
             _mintingStep === MintingStep.Deposit ||
@@ -63,7 +63,7 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
           <StyledBadge>ACTION OFF-CHAIN</StyledBadge>
         </TimelineItem>
         <TimelineItem
-          variant={!!account ? "detailed" : "overview"}
+          variant={!!account ? "secondary" : "primary"}
           isActive={_mintingStep === MintingStep.Deposit}
           isComplete={
             _mintingStep === MintingStep.InitiateMinting ||
@@ -77,7 +77,7 @@ export const MintingTimeline: FC<MintingTimelineProps> = ({
           <StyledBadge>ACTION ON BITCOIN</StyledBadge>
         </TimelineItem>
         <TimelineItem
-          variant={!!account ? "detailed" : "overview"}
+          variant={!!account ? "secondary" : "primary"}
           isActive={
             _mintingStep === MintingStep.InitiateMinting ||
             _mintingStep === MintingStep.MintingSuccess
