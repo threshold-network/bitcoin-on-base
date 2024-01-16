@@ -38,7 +38,6 @@
     "@web3-react/walletlink-connector": "^6.2.13",
     "axios": "^0.24.0",
     "bitcoin-address-validation": "^2.2.1",
-    "crypto-js": "^4.1.1",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^5.4.7",
     "focus-visible": "^5.2.0",
