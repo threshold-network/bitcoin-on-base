@@ -13,7 +13,7 @@ import PageLayout from "../../PageLayout"
 import { useLocation } from "react-router-dom"
 import { MintingTimeline } from "./Minting/MintingTimeline"
 
-const TBTCBridge: PageComponent = (props) => {
+const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()

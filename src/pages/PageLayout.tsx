@@ -83,6 +83,11 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
     renderRight === null || renderRight !== undefined ? 4 : 5,
   ].join("/")
 
+  const borderX = {
+    borderLeft: renderLeft !== undefined ? BORDER : undefined,
+    borderRight: renderRight !== undefined ? BORDER : undefined,
+  }
+
   return (
     <Flex
       flexFlow={"column"}
@@ -103,12 +108,11 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
           templateColumns={"repeat(4, .5fr)"}
           w={`calc(100% - calc(${HORIZONTAL_PADDING} * 2))`}
           margin={"auto"}
-          borderLeft={renderLeft !== undefined ? BORDER : ""}
-          borderRight={renderRight !== undefined ? BORDER : ""}
+          {...borderX}
           flex={1}
         >
           {!!renderLeft && <Box p={10}>{renderLeft}</Box>}
-          <Box gridColumn={childrenContainerColumnSpan} borderX={BORDER}>
+          <Box gridColumn={childrenContainerColumnSpan} {...borderX}>
             {children}
           </Box>
           {!!renderRight && <Box p={10}>{renderRight}</Box>}
