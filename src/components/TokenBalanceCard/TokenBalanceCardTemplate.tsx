@@ -47,13 +47,7 @@ const TokenBalanceCardTemplate: FC<Props> = ({
 }) => {
   return (
     <VStack spacing={1} alignItems="flex-start" {...restProps}>
-      <H2
-        fontSize={16}
-        lineHeight="24px"
-        color="#808080"
-        fontWeight="medium"
-        textTransform="capitalize"
-      >
+      <H2 fontSize={16} lineHeight="24px" color="#808080" fontWeight="medium">
         {title}
       </H2>
       <HStack alignItems="baseline" fontSize={24} lineHeight="40px">
