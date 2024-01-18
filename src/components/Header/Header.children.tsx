@@ -1,5 +1,7 @@
 import {
   As,
+  BodyMd,
+  Box,
   Button,
   Flex,
   HStack,
@@ -7,6 +9,10 @@ import {
   Link,
   List,
   ListItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   SystemStyleObject,
 } from "@threshold-network/components"
 import { NavLink } from "react-router-dom"
@@ -113,12 +119,17 @@ export function UserPanel(props: UserPanelProps) {
     <HStack spacing={6} alignSelf={"stretch"}>
       {isConnected && !!accountAddress && !!chainId ? (
         <>
-          <InlineTokenBalance
-            fontWeight="medium"
-            tokenAmount={balance}
-            withSymbol
-            tokenSymbol="BTC"
-          />
+          <Box as="p">
+            <InlineTokenBalance
+              fontWeight="medium"
+              tokenAmount={balance}
+              color="hsla(0, 0%, 100%, 90%)"
+            />
+            &nbsp;
+            <BodyMd as="span" color="hsla(0, 0%, 100%, 50%)">
+              tBTC
+            </BodyMd>
+          </Box>
           <HStack spacing={3}>
             <Button
               size="sm"
@@ -128,14 +139,34 @@ export function UserPanel(props: UserPanelProps) {
             >
               {chainIdToNetworkName(chainId)}
             </Button>
-            <Button
-              onClick={onDisconnectClick}
-              size="sm"
-              variant="outline"
-              leftIcon={<Identicon address={accountAddress} />}
-            >
-              {shortenAddress(accountAddress)}
-            </Button>
+            <Menu placement="bottom-end">
+              <MenuButton
+                as={Button}
+                size="sm"
+                variant="outline"
+                leftIcon={<Identicon address={accountAddress} />}
+              >
+                {shortenAddress(accountAddress)}
+              </MenuButton>
+              <MenuList
+                bgGradient="radial(circle at bottom right, #0A1616, #090909)"
+                border="1px solid"
+                borderColor="border.50"
+                rounded="lg"
+              >
+                <MenuItem
+                  onClick={onDisconnectClick}
+                  _hover={{
+                    bg: "whiteAlpha.100",
+                  }}
+                  _active={{
+                    bg: "whiteAlpha.200",
+                  }}
+                >
+                  Disconnect
+                </MenuItem>
+              </MenuList>
+            </Menu>
           </HStack>
         </>
       ) : (
