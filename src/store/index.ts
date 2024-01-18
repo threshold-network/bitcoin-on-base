@@ -44,8 +44,8 @@ const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
         TBTC: { ...state.token.TBTC, balance: 0 },
         TBTCV2: { ...state.token.TBTCV2, balance: 0 },
       },
-      // we don't display successful login modal when changin account so we are
-      // setting the isSuccessfulLoginModalClosed flag to true and also
+      // We don't display successful login modal when changing account so we are
+      // setting the isSuccessfulLoginModalClosed flag to true.
       modal: {
         modalQueue: {
           isSuccessfulLoginModalClosed: true,
@@ -65,11 +65,7 @@ const store = configureStore({
         // Ignore these action types
         ignoredActions: ["modal/openModal"],
         // Ignore these field paths in all actions
-        ignoredPaths: [
-          "modal.props.setBeneficiary",
-          "modal.props.setAuthorizer",
-          "modal.props.onSubmit",
-        ],
+        ignoredPaths: ["modal.props.onSubmit"],
       },
     }).prepend(listenerMiddleware.middleware),
 })
