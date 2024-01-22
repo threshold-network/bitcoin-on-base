@@ -3,21 +3,21 @@ import { NavLink } from "react-router-dom"
 
 interface LogoProps {
   /** Whether the logo should be a link to the homepage */
-  asLink?: boolean
+  asLinkToHomepage?: boolean
 }
 
 export default function Logo(props: LogoProps) {
-  const { asLink = true } = props
+  const { asLinkToHomepage = true } = props
 
   return (
     <Flex
-      as={asLink ? NavLink : Flex}
+      as={asLinkToHomepage ? NavLink : Flex}
       alignItems={"center"}
-      to={asLink && "/"}
+      to={asLinkToHomepage && "/"}
       px={0.5}
     >
       <VisuallyHidden>
-        Bitcoin on Base {asLink ? "homepage" : ""}
+        Bitcoin on Base {asLinkToHomepage ? "homepage" : ""}
       </VisuallyHidden>
       <svg
         width="60"
