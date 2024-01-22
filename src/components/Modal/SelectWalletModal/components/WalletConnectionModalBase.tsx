@@ -25,7 +25,7 @@ import {
 import shortenAddress from "../../../../utils/shortenAddress"
 
 const getStatusMessage = (error?: Error, account?: Nullable<string>) => {
-  if (!!account) {
+  if (account) {
     return `Address: ${shortenAddress(account)}`
   }
   if (!!error) {
@@ -96,7 +96,7 @@ const WalletConnectionModalBase: FC<Props> = ({
               <HStack spacing={2} align="center" color="whiteAlpha.600">
                 <Icon
                   as={!!account ? CheckIcon : InfoIcon}
-                  color={!!account ? "#66FFB6" : "currentColor"}
+                  color={account ? "#66FFB6" : "currentColor"}
                   w={6}
                   h={6}
                 />
