@@ -10,7 +10,9 @@ import { NavigationMenu, UserPanel } from "./Header.children"
 
 // TODO: Load new fonts
 
-const Header: FC<BoxProps> = (props) => {
+export interface HeaderProps extends BoxProps {}
+
+const Header: FC<HeaderProps> = (props) => {
   const {
     active: isConnected,
     deactivate: handleWalletDisconnection,

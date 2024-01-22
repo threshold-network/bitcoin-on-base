@@ -2,7 +2,7 @@ import { Flex, FlexProps, VisuallyHidden } from "@threshold-network/components"
 import { FC } from "react"
 import { NavLink } from "react-router-dom"
 
-interface LogoProps extends FlexProps {
+export interface LogoProps extends FlexProps {
   /** Whether the logo should be a link to the homepage */
   asLinkToHomepage?: boolean
 }
