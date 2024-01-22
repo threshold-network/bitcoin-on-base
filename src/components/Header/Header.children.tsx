@@ -83,7 +83,13 @@ interface NavigationMenuProps {
 export function NavigationMenu(props: NavigationMenuProps) {
   const { items } = props
   return (
-    <Flex as={List} alignSelf={"stretch"} ml={146 - 20} mr={"auto"}>
+    <Flex
+      as={List}
+      alignSelf={"stretch"}
+      // distance between Logo and NavigationMenu minus left padding of the NavigationItem
+      ml={142 - 20}
+      mr={"auto"}
+    >
       {items.map((item) => (
         <NavigationMenuItem {...item} key={item.to} />
       ))}
