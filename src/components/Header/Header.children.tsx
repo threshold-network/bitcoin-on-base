@@ -4,15 +4,18 @@ import {
   Box,
   Button,
   Flex,
+  FlexProps,
   HStack,
   Icon,
   Link,
   List,
   ListItem,
+  ListItemProps,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  StackProps,
   SystemStyleObject,
 } from "@threshold-network/components"
 import { NavLink } from "react-router-dom"
@@ -25,6 +28,7 @@ import chainIdToNetworkName from "../../utils/chainIdToNetworkName"
 import { EthereumDark } from "../../static/icons/EthereumDark"
 import { ChainID } from "../../enums"
 import Identicon from "../Identicon"
+import { FC } from "react"
 
 const activeLinkIndicatorStyles: SystemStyleObject = {
   position: "relative",
@@ -46,17 +50,20 @@ const networkIconMap = new Map<ChainID, As<unknown>>([
   [ChainID.Goerli, TestnetIcon],
 ])
 
-interface NavigationMenuItemProps {
+interface NavigationMenuItemProps extends ListItemProps {
   /** The label of the menu item */
   label: string
   /** The route to navigate to when the menu item is clicked */
   to: string
 }
 
-function NavigationMenuItem(props: NavigationMenuItemProps) {
-  const { label, to } = props
+const NavigationMenuItem: FC<NavigationMenuItemProps> = ({
+  label,
+  to,
+  ...restProps
+}) => {
   return (
-    <ListItem>
+    <ListItem {...restProps}>
       <Link
         as={NavLink}
         to={to}
@@ -75,13 +82,15 @@ function NavigationMenuItem(props: NavigationMenuItemProps) {
   )
 }
 
-interface NavigationMenuProps {
+interface NavigationMenuProps extends FlexProps {
   /** The menu items to display */
   items: NavigationMenuItemProps[]
 }
 
-export function NavigationMenu(props: NavigationMenuProps) {
-  const { items } = props
+export const NavigationMenu: FC<NavigationMenuProps> = ({
+  items,
+  ...restProps
+}) => {
   return (
     <Flex
       as={List}
@@ -89,6 +98,7 @@ export function NavigationMenu(props: NavigationMenuProps) {
       // distance between Logo and NavigationMenu minus left padding of the NavigationItem
       ml={142 - 20}
       mr={"auto"}
+      {...restProps}
     >
       {items.map((item) => (
         <NavigationMenuItem {...item} key={item.to} />
@@ -97,7 +107,7 @@ export function NavigationMenu(props: NavigationMenuProps) {
   )
 }
 
-interface UserPanelProps {
+interface UserPanelProps extends StackProps {
   /** Whether the user is connected to a wallet */
   isConnected: boolean
   /** The address of the connected wallet */
@@ -112,17 +122,17 @@ interface UserPanelProps {
   onConnectClick: () => void
 }
 
-export function UserPanel(props: UserPanelProps) {
-  const {
-    isConnected,
-    accountAddress,
-    balance,
-    chainId,
-    onDisconnectClick,
-    onConnectClick,
-  } = props
+export const UserPanel: FC<UserPanelProps> = ({
+  isConnected,
+  accountAddress,
+  balance,
+  chainId,
+  onDisconnectClick,
+  onConnectClick,
+  ...restProps
+}) => {
   return (
-    <HStack spacing={6} alignSelf={"stretch"}>
+    <HStack spacing={6} alignSelf={"stretch"} {...restProps}>
       {isConnected && !!accountAddress && !!chainId ? (
         <>
           <Box as="p">

@@ -1,6 +1,7 @@
-import { Box, Flex } from "@threshold-network/components"
+import { Box, BoxProps, Flex } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
 import { BigNumber } from "ethers"
+import { FC } from "react"
 import { ModalType, Token } from "../../enums"
 import { useModal } from "../../hooks/useModal"
 import { useToken } from "../../hooks/useToken"
@@ -9,7 +10,7 @@ import { NavigationMenu, UserPanel } from "./Header.children"
 
 // TODO: Load new fonts
 
-function Header() {
+const Header: FC<BoxProps> = (props) => {
   const {
     active: isConnected,
     deactivate: handleWalletDisconnection,
@@ -26,6 +27,7 @@ function Header() {
       color={"white"}
       borderBottom={"1px solid"}
       borderColor={"border.100"}
+      {...props}
     >
       <Flex maxW={"1920px"} mx={"auto"} alignItems={"center"} px={10} h={24}>
         <Logo />

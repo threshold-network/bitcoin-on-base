@@ -1,20 +1,20 @@
-import { Flex, VisuallyHidden } from "@threshold-network/components"
+import { Flex, FlexProps, VisuallyHidden } from "@threshold-network/components"
+import { FC } from "react"
 import { NavLink } from "react-router-dom"
 
-interface LogoProps {
+interface LogoProps extends FlexProps {
   /** Whether the logo should be a link to the homepage */
   asLinkToHomepage?: boolean
 }
 
-export default function Logo(props: LogoProps) {
-  const { asLinkToHomepage = true } = props
-
+const Logo: FC<LogoProps> = ({ asLinkToHomepage = true, ...restProps }) => {
   return (
     <Flex
       as={asLinkToHomepage ? NavLink : Flex}
       alignItems={"center"}
       to={asLinkToHomepage && "/"}
       px={0.5}
+      {...restProps}
     >
       <VisuallyHidden>
         Bitcoin on Base {asLinkToHomepage ? "homepage" : ""}
@@ -62,3 +62,5 @@ export default function Logo(props: LogoProps) {
     </Flex>
   )
 }
+
+export default Logo
