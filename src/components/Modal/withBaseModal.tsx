@@ -1,5 +1,5 @@
-import { ComponentType } from "react"
 import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react"
+import { ComponentType } from "react"
 import { BaseModalProps } from "../../types"
 
 function withBaseModal<T extends BaseModalProps>(
@@ -18,7 +18,7 @@ function withBaseModal<T extends BaseModalProps>(
           mt="200px"
           bgGradient="radial(circle at bottom right, #0A1616, #090909)"
           border="1px solid"
-          borderColor="border.50"
+          borderColor="whiteAlpha.250"
           rounded="lg"
         >
           <WrappedModalContent {...props} />

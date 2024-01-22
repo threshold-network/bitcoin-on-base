@@ -19,9 +19,9 @@ const index = extendTheme({
     brand: {
       "100": "#66F9FF",
     },
-    border: {
-      "50": "hsla(0, 0%, 100%, 0.1)",
-      "100": "hsla(0, 0%, 100%, 0.2)",
+    whiteAlpha: {
+      "250": "hsla(0, 0%, 100%, 0.1)",
+      "350": "hsla(0, 0%, 100%, 0.2)",
     },
   },
   textStyles: {

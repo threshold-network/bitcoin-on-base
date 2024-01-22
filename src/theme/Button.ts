@@ -45,7 +45,7 @@ export const Button = {
     },
     outline: {
       color: "brand.100",
-      borderColor: "border.100",
+      borderColor: "whiteAlpha.350",
       textTransform: "uppercase",
       h: "auto",
       _hover: {

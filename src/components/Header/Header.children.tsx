@@ -1,3 +1,4 @@
+import { spacing } from "@chakra-ui/theme/foundations/spacing"
 import {
   As,
   BodyMd,
@@ -18,17 +19,16 @@ import {
   StackProps,
   SystemStyleObject,
 } from "@threshold-network/components"
-import { NavLink } from "react-router-dom"
-import { FaCogs as TestnetIcon } from "react-icons/fa"
-import shortenAddress from "../../utils/shortenAddress"
-import { spacing } from "@chakra-ui/theme/foundations/spacing"
-import { HiOutlinePlus as PlusIcon } from "react-icons/hi"
-import { InlineTokenBalance } from "../TokenBalance"
-import chainIdToNetworkName from "../../utils/chainIdToNetworkName"
-import { EthereumDark } from "../../static/icons/EthereumDark"
-import { ChainID } from "../../enums"
-import Identicon from "../Identicon"
 import { FC } from "react"
+import { FaCogs as TestnetIcon } from "react-icons/fa"
+import { HiOutlinePlus as PlusIcon } from "react-icons/hi"
+import { NavLink } from "react-router-dom"
+import { ChainID } from "../../enums"
+import { EthereumDark } from "../../static/icons/EthereumDark"
+import chainIdToNetworkName from "../../utils/chainIdToNetworkName"
+import shortenAddress from "../../utils/shortenAddress"
+import Identicon from "../Identicon"
+import { InlineTokenBalance } from "../TokenBalance"
 
 const activeLinkIndicatorStyles: SystemStyleObject = {
   position: "relative",
@@ -167,7 +167,7 @@ export const UserPanel: FC<UserPanelProps> = ({
               <MenuList
                 bgGradient="radial(circle at bottom right, #0A1616, #090909)"
                 border="1px solid"
-                borderColor="border.50"
+                borderColor="whiteAlpha.250"
                 rounded="lg"
               >
                 <MenuItem

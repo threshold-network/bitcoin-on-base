@@ -1,28 +1,27 @@
-import React, { FC, ReactNode, useEffect } from "react"
-import { useWeb3React } from "@web3-react/core"
-import { BaseModalProps } from "../../../../types"
 import {
   BodyMd,
-  Text,
   Box,
   Button,
   HStack,
   Icon,
   ModalBody,
   ModalFooter,
-  useColorModeValue,
+  Text,
   VStack,
 } from "@threshold-network/components"
-import { AbstractConnector } from "../../../../web3/connectors"
+import { useWeb3React } from "@web3-react/core"
+import React, { FC, useEffect } from "react"
+import {
+  HiCheckCircle as CheckIcon,
+  HiChevronLeft as ChevronLeftIcon,
+  HiInformationCircle as InfoIcon,
+} from "react-icons/hi"
 import { WalletType } from "../../../../enums"
 import { useCapture } from "../../../../hooks/posthog"
+import { BaseModalProps } from "../../../../types"
 import { PosthogEvent } from "../../../../types/posthog"
-import {
-  HiInformationCircle as InfoIcon,
-  HiChevronLeft as ChevronLeftIcon,
-  HiCheckCircle as CheckIcon,
-} from "react-icons/hi"
 import shortenAddress from "../../../../utils/shortenAddress"
+import { AbstractConnector } from "../../../../web3/connectors"
 
 const getStatusMessage = (error?: Error, account?: Nullable<string>) => {
   if (account) {
@@ -84,7 +83,7 @@ const WalletConnectionModalBase: FC<Props> = ({
     <>
       <ModalBody p={0}>
         <Box p={6}>{children}</Box>
-        <VStack spacing={6} borderY="1px solid" borderColor="border.50">
+        <VStack spacing={6} borderY="1px solid" borderColor="whiteAlpha.250">
           <HStack p={6} spacing={6} align="start" w="full">
             {React.isValidElement(WalletIcon) ? (
               WalletIcon

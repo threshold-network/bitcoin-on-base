@@ -1,6 +1,5 @@
 import { Box, BoxProps, Flex } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
-import { BigNumber } from "ethers"
 import { FC } from "react"
 import { ModalType, Token } from "../../enums"
 import { useModal } from "../../hooks/useModal"
@@ -28,7 +27,7 @@ const Header: FC<HeaderProps> = (props) => {
       bg={"black"}
       color={"white"}
       borderBottom={"1px solid"}
-      borderColor={"border.100"}
+      borderColor={"whiteAlpha.350"}
       {...props}
     >
       <Flex maxW={"1920px"} mx={"auto"} alignItems={"center"} px={10} h={24}>
