@@ -5,7 +5,8 @@ import { ModalType, Token } from "../../enums"
 import { useModal } from "../../hooks/useModal"
 import { useToken } from "../../hooks/useToken"
 import { Logo } from "../Logo"
-import { NavigationMenu, UserPanel } from "./Header.children"
+import { NavigationMenu } from "./NavigationMenu"
+import { UserPanel } from "./UserPanel"
 
 // TODO: Load new fonts
 
