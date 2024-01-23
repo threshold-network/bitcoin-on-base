@@ -30,8 +30,14 @@ const Header: FC<HeaderProps> = (props) => {
       borderColor={"whiteAlpha.350"}
       {...props}
     >
-      <Flex maxW={"1920px"} mx={"auto"} alignItems={"center"} px={10} h={24}>
-        <Logo />
+      <Flex
+        maxW={"1920px"}
+        mx={"auto"}
+        alignItems={"center"}
+        px={{ base: 2, lg: 10 }}
+        h={{ base: 16, lg: 24 }}
+      >
+        <Logo zIndex="popover" />
         <NavigationMenu
           items={[
             { label: "Bridge", to: "/tBTC/mint" },

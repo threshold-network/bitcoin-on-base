@@ -1,4 +1,9 @@
-import { Flex, FlexProps, VisuallyHidden } from "@threshold-network/components"
+import {
+  chakra,
+  Flex,
+  FlexProps,
+  VisuallyHidden,
+} from "@threshold-network/components"
 import { FC } from "react"
 import { NavLink } from "react-router-dom"
 
@@ -14,14 +19,16 @@ const Logo: FC<LogoProps> = ({ asLinkToHomepage = true, ...restProps }) => {
       alignItems={"center"}
       to={asLinkToHomepage && "/"}
       px={0.5}
+      w={{ base: 12, lg: "60px" }}
+      h={{ base: 4, lg: "22px" }}
       {...restProps}
     >
       <VisuallyHidden>
         Bitcoin on Base {asLinkToHomepage ? "homepage" : ""}
       </VisuallyHidden>
-      <svg
-        width="60"
-        height="22"
+      <chakra.svg
+        w="full"
+        h="full"
         viewBox="0 0 60 22"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +65,7 @@ const Logo: FC<LogoProps> = ({ asLinkToHomepage = true, ...restProps }) => {
             <stop offset="1" stopColor="#66F9FF" stopOpacity="0" />
           </linearGradient>
         </defs>
-      </svg>
+      </chakra.svg>
     </Flex>
   )
 }
