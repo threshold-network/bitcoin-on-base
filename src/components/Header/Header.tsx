@@ -10,9 +10,7 @@ import { UserPanel } from "./UserPanel"
 
 // TODO: Load new fonts
 
-export interface HeaderProps extends BoxProps {}
-
-const Header: FC<HeaderProps> = (props) => {
+const Header: FC<BoxProps> = (props) => {
   const {
     active: isConnected,
     deactivate: handleWalletDisconnection,

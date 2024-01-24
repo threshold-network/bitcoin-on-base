@@ -7,7 +7,7 @@ import {
 import { FC } from "react"
 import { NavLink } from "react-router-dom"
 
-export interface LogoProps extends FlexProps {
+interface LogoProps extends FlexProps {
   /** Whether the logo should be a link to the homepage */
   asLinkToHomepage?: boolean
 }
