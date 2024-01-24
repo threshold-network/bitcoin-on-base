@@ -29,6 +29,7 @@ const index = extendTheme({
     },
     "token-amount": {
       fontFamily: "'Bricolage Grotesque', monospace",
+      fontWeight: "800",
     },
   },
   components: {
