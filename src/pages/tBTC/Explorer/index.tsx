@@ -181,9 +181,7 @@ const HistoryRow: FC<RecentDeposit> = ({ txHash, address, amount, date }) => {
       <Td>
         <HStack>
           <Identicon address={address} />
-          <BodyXs textStyle="chain-identifier">
-            {shortenAddress(address)}
-          </BodyXs>
+          <BodyXs>{shortenAddress(address)}</BodyXs>
         </HStack>
       </Td>
       <Td>
@@ -198,7 +196,7 @@ const HistoryRow: FC<RecentDeposit> = ({ txHash, address, amount, date }) => {
             ExplorerDataType.TRANSACTION
           )}
         >
-          <BodyXs textStyle="chain-identifier">{shortenAddress(txHash)}</BodyXs>
+          <BodyXs>{shortenAddress(txHash)}</BodyXs>
         </LinkOverlay>
       </Td>
       <Td textAlign={"right"}>

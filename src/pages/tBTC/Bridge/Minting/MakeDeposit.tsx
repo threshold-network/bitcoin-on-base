@@ -96,9 +96,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
       <CopyToClipboard textToCopy={btcDepositAddress}>
         <HStack mt="2.5">
           <BTCAddressCard minW="0" p="2">
-            <BodyMd color={btcAddressColor} textStyle="chain-identifier">
-              {btcDepositAddress}
-            </BodyMd>
+            <BodyMd color={btcAddressColor}>{btcDepositAddress}</BodyMd>
           </BTCAddressCard>
           <BTCAddressCard
             flex="1"

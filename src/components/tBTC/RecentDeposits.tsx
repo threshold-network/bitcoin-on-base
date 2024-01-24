@@ -72,7 +72,7 @@ const RecentDepositItem: FC<RecentDeposit> = ({
       </LinkOverlay>
       <HStack spacing="2" flex="1">
         <Identicon address={address} />
-        <BodySm textStyle="chain-identifier">{shortenAddress(address)}</BodySm>
+        <BodySm>{shortenAddress(address)}</BodySm>
       </HStack>
       <BodySm flex="1" textAlign="right">
         {getRelativeTime(date)}

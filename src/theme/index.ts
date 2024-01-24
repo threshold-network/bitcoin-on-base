@@ -1,5 +1,4 @@
 import { extendTheme } from "@chakra-ui/react"
-import { mode } from "@chakra-ui/theme-tools"
 import { defaultTheme } from "@threshold-network/components"
 import { InfoBox } from "./InfoBox"
 import { Tabs } from "./Tabs"
@@ -11,6 +10,7 @@ import { AnnouncementBanner } from "./AnnouncementBanner"
 import { Timeline } from "./Timeline"
 import { DotsLoadingIndicator } from "./DotsLoadingIndicator"
 import { Tooltip } from "./Tooltip"
+import { fonts } from "./fonts"
 
 const index = extendTheme({
   ...defaultTheme,
@@ -27,8 +27,8 @@ const index = extendTheme({
       fontSize: "18px",
       lineHeight: "28px",
     },
-    "chain-identifier": {
-      fontFamily: "IBM Plex Mono, monospace",
+    "token-amount": {
+      fontFamily: "'Bricolage Grotesque', monospace",
     },
   },
   components: {
@@ -44,6 +44,7 @@ const index = extendTheme({
     DotsLoadingIndicator,
     Tooltip,
   },
+  fonts,
 })
 
 export default index
