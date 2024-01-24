@@ -60,9 +60,9 @@ const HamburgerIcon: FC<{ isToggled: boolean }> = ({ isToggled }) => (
     h={5}
     fill="none"
     stroke="white"
-    stroke-width={1}
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    strokeWidth={1}
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
     <motion.path
       initial={false}
