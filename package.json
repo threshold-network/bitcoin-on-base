@@ -12,6 +12,8 @@
     "@emotion/styled": "^11",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/constants": "^5.5.0",
+    "@fontsource/bricolage-grotesque": "^5.0.4",
+    "@fontsource/dm-sans": "^5.0.18",
     "@keep-network/coverage-pools": "development",
     "@keep-network/keep-core": "development",
     "@keep-network/keep-ecdsa": "development",
