@@ -1,9 +1,3 @@
-export enum TransactionType {
-  ApproveKeep = "APPROVE_KEEP",
-  ApproveNu = "APPROVE_NU",
-  ApproveT = "APPROVE_T",
-}
-
 export enum TransactionStatus {
   Idle = "IDLE",
   PendingWallet = "PENDING_WALLET",

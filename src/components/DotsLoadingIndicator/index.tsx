@@ -1,29 +1,54 @@
 import { FC } from "react"
-import {
-  Box,
-  HStack,
-  StackProps,
-  ThemingProps,
-  useStyleConfig,
-} from "@threshold-network/components"
+import { Box, StackProps, HStack } from "@threshold-network/components"
+import { motion } from "framer-motion"
 
-type DotsLoadingIndicatorProps = StackProps & Omit<ThemingProps, "orientation">
+const Dot: FC = () => (
+  <motion.div
+    variants={{
+      initial: {
+        y: "50%",
+        opacity: 0.85,
+      },
+      animate: {
+        y: "-50%",
+        opacity: 0,
+      },
+    }}
+    transition={{
+      duration: 0.8,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    }}
+  >
+    <Box w={1} h={1} rounded="full" bg="white" />
+  </motion.div>
+)
 
-export const DotsLoadingIndicator: FC<DotsLoadingIndicatorProps> = ({
-  colorScheme = "brand",
-  size = "sm",
-  ...restProps
-}) => {
-  const styles = useStyleConfig("DotsLoadingIndicator", {
-    colorScheme,
-    size,
-  })
-
-  return (
-    <HStack spacing="4" {...restProps}>
-      <Box __css={styles} />
-      <Box __css={styles} />
-      <Box __css={styles} />
-    </HStack>
-  )
-}
+export const DotsLoadingIndicator: FC<StackProps> = (props) => (
+  <HStack
+    spacing={0.5}
+    w={5}
+    h={5}
+    as={motion.div}
+    variants={{
+      initial: {
+        transition: {
+          staggerChildren: 0.2,
+        },
+      },
+      animate: {
+        transition: {
+          staggerChildren: 0.2,
+        },
+      },
+    }}
+    initial="initial"
+    animate="animate"
+    {...props}
+  >
+    <Dot />
+    <Dot />
+    <Dot />
+  </HStack>
+)

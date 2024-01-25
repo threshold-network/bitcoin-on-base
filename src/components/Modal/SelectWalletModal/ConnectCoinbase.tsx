@@ -30,7 +30,6 @@ const ConnectCoinbase: FC<{ goBack: () => void; closeModal: () => void }> = ({
       closeModal={closeModal}
       WalletIcon={CoinbaseWallet}
       title="Coinbase Wallet"
-      subTitle="The coinbase extension will open in an external window."
       tryAgain={
         connectionRejected ? () => activate(coinbaseConnector) : undefined
       }
