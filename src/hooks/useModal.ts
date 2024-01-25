@@ -3,7 +3,6 @@ import { UseModal } from "../types"
 import {
   closeModal as closeModalAction,
   openModal as openModalAction,
-  successfullLoginModalClosed,
 } from "../store/modal"
 import { RootState } from "../store"
 import { ModalType } from "../enums"
@@ -22,9 +21,6 @@ export const useModal: UseModal = () => {
   const closeModal = () => {
     captureModalCloseEvent({ modalType })
     dispatch(closeModalAction())
-    if (modalType === ModalType.SelectWallet) {
-      dispatch(successfullLoginModalClosed())
-    }
   }
 
   return {

@@ -48,7 +48,6 @@ import { PageComponent } from "../../../types"
 import { dateToUnixTimestamp, dateAs } from "../../../utils/date"
 import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
 import { ProcessCompletedBrandGradientIcon } from "./components/BridgeProcessDetailsIcons"
-import { featureFlags } from "../../../constants"
 import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import { ExternalHref } from "../../../enums"
@@ -400,5 +399,5 @@ const AsideSectionSkeleton: FC = () => {
 UnmintDetails.route = {
   path: "redemption/:redemptionRequestedTxHash",
   index: false,
-  isPageEnabled: featureFlags.TBTC_V2_REDEMPTION,
+  isPageEnabled: true,
 }

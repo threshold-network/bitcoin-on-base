@@ -58,10 +58,9 @@ import {
 import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 import { UnmintDetails } from "./UnmintDetails"
-import { UnmintingCard } from "./UnmintingCard"
 
 const UnmintFormPage: PageComponent = ({}) => {
-  const { balance } = useToken(Token.TBTCV2)
+  const { balance } = useToken(Token.TBTC)
   const { openModal } = useModal()
   const threshold = useThreshold()
 
@@ -72,9 +71,7 @@ const UnmintFormPage: PageComponent = ({}) => {
     })
   }
 
-  return !featureFlags.TBTC_V2_REDEMPTION ? (
-    <UnmintingCard />
-  ) : (
+  return (
     <>
       <BridgeProcessCardTitle number={1} title="Unmint your tBTC tokens" />
       <BodyMd color="gray.500">

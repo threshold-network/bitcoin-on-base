@@ -207,7 +207,6 @@ This file contains a BTC recovery address, a wallet public key, a refund public 
         />
       </Checkbox>
       <Button
-        size="lg"
         isLoading={isSubmitButtonLoading}
         loadingText={"Generating Deposit Address..."}
         type="submit"
