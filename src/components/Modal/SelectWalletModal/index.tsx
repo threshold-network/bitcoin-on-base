@@ -84,34 +84,14 @@ const SelectWalletModal: FC<BaseModalProps> = () => {
     setWalletToConnect(walletType)
   }
 
-  return (
-    <>
-      <ModalHeader
-        as={Flex}
-        align="center"
-        justify="space-between"
-        p={6}
-        mb={4}
-      >
-        <Text as="h2" fontSize="xl" lineHeight={6} fontWeight="medium">
-          Connect a Wallet
-        </Text>
-        <ModalCloseButton position="relative" inset={0} />
-      </ModalHeader>
-
-      {walletToConnect === null ? (
-        <InitialWalletSelection
-          walletOptions={walletOptions}
-          onSelect={onClick}
-        />
-      ) : (
-        <ConnectWallet
-          walletType={walletToConnect}
-          goBack={goBack}
-          onClose={closeModal}
-        />
-      )}
-    </>
+  return walletToConnect === null ? (
+    <InitialWalletSelection walletOptions={walletOptions} onSelect={onClick} />
+  ) : (
+    <ConnectWallet
+      walletType={walletToConnect}
+      goBack={goBack}
+      onClose={closeModal}
+    />
   )
 }
 
@@ -136,4 +116,4 @@ const ConnectWallet: FC<{
   }
 }
 
-export default withBaseModal(SelectWalletModal)
+export default withBaseModal(SelectWalletModal, "Connect a Wallet")

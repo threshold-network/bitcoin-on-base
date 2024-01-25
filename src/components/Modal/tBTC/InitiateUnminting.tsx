@@ -73,8 +73,6 @@ const InitiateUnmintingBase: FC<InitiateUnmintingProps> = ({
 
   return (
     <>
-      <ModalHeader>Initiate unminting tBTC</ModalHeader>
-      <ModalCloseButton />
       <ModalBody>
         <InfoBox variant="modal" mb="6">
           <H5>
@@ -132,4 +130,7 @@ const InitiateUnmintingBase: FC<InitiateUnmintingProps> = ({
   )
 }
 
-export const InitiateUnminting = withBaseModal(InitiateUnmintingBase)
+export const InitiateUnminting = withBaseModal(
+  InitiateUnmintingBase,
+  "Initiate unminting tBTC"
+)

@@ -1,9 +1,18 @@
-import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react"
+import {
+  Flex,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react"
 import { ComponentType } from "react"
 import { BaseModalProps } from "../../types"
 
 function withBaseModal<T extends BaseModalProps>(
-  WrappedModalContent: ComponentType<T>
+  WrappedModalContent: ComponentType<T>,
+  label?: string
 ) {
   return (props: T) => {
     return (
@@ -21,6 +30,20 @@ function withBaseModal<T extends BaseModalProps>(
           borderColor="whiteAlpha.250"
           rounded="lg"
         >
+          <ModalHeader
+            as={Flex}
+            align="center"
+            justify="space-between"
+            p={6}
+            mb={4}
+          >
+            {label ? (
+              <Text as="h2" fontSize="xl" lineHeight={6} fontWeight="medium">
+                {label}
+              </Text>
+            ) : null}
+            <ModalCloseButton position="relative" inset={0} />
+          </ModalHeader>
           <WrappedModalContent {...props} />
         </ModalContent>
       </Modal>
