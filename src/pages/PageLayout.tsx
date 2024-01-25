@@ -119,7 +119,7 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
           {...borderX}
           flex={1}
         >
-          {!!renderLeft && (
+          {renderLeft && (
             <Box p={hasContentMaxWidth ? 10 : 6}>{renderLeft}</Box>
           )}
           <Box
@@ -129,7 +129,7 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
           >
             {children}
           </Box>
-          {!!renderRight && (
+          {renderRight && (
             <Box p={hasContentMaxWidth ? 10 : 6}>{renderRight}</Box>
           )}
         </Grid>
