@@ -10,7 +10,14 @@ import { UserPanel } from "./UserPanel"
 
 // TODO: Load new fonts
 
-const Header: FC<BoxProps> = (props) => {
+export interface HeaderProps extends BoxProps {
+  isDesktopViewport?: boolean
+}
+
+const Header: FC<HeaderProps> = ({
+  isDesktopViewport = false,
+  ...restProps
+}) => {
   const {
     active: isConnected,
     deactivate: handleWalletDisconnection,
@@ -27,7 +34,7 @@ const Header: FC<BoxProps> = (props) => {
       color={"white"}
       borderBottom={"1px solid"}
       borderColor={"whiteAlpha.350"}
-      {...props}
+      {...restProps}
     >
       <Flex
         maxW={"1920px"}
@@ -43,6 +50,7 @@ const Header: FC<BoxProps> = (props) => {
             { label: "Collect", to: "/collect" },
             { label: "Earn", to: "/earn" },
           ]}
+          spacingVariant={isDesktopViewport ? "lg" : "base"}
         />
         <UserPanel
           isConnected={isConnected}

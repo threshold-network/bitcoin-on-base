@@ -10,6 +10,7 @@ import { FC, ReactNode } from "react"
 import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.svg"
 import SECONDARY_BACKGROUND_PATH from "../static/images/layout-background-secondary.svg"
 import { spacing } from "@chakra-ui/theme/foundations/spacing"
+import { Header } from "../components/Header"
 
 const CONTENT_MAX_WIDTH = "89.25rem" // 1428px
 const BORDER = "1px solid hsla(0, 0%, 100%, 10%)"
@@ -103,7 +104,7 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
       minH={"100vh"}
       {...restProps}
     >
-      {/* <Header /> */}
+      <Header isDesktopViewport={hasContentMaxWidth} />
       {!!renderTop && (
         <Box p={6} borderBottom={BORDER}>
           <FixedContainer
