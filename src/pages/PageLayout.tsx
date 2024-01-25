@@ -105,7 +105,7 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
     >
       {/* <Header /> */}
       {!!renderTop && (
-        <Box px={6} py={6} borderBottom={BORDER}>
+        <Box p={6} borderBottom={BORDER}>
           <FixedContainer
             mx="auto"
             w="full"
