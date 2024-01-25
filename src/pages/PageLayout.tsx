@@ -9,6 +9,7 @@ import {
 import { FC, ReactNode } from "react"
 import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.svg"
 import SECONDARY_BACKGROUND_PATH from "../static/images/layout-background-secondary.svg"
+import { spacing } from "@chakra-ui/theme/foundations/spacing"
 
 const CONTENT_MAX_WIDTH = "89.25rem" // 1428px
 const BORDER = "1px solid hsla(0, 0%, 100%, 10%)"
@@ -104,8 +105,14 @@ const PageLayout: FC<PageLayoutProps> = (props) => {
     >
       {/* <Header /> */}
       {!!renderTop && (
-        <Box px={hasContentMaxWidth ? 0 : 6} py={6} borderBottom={BORDER}>
-          <FixedContainer mx="auto" w="full" maxW={CONTENT_MAX_WIDTH}>
+        <Box px={6} py={6} borderBottom={BORDER}>
+          <FixedContainer
+            mx="auto"
+            w="full"
+            maxW={`calc(${CONTENT_MAX_WIDTH} + 2 * ${
+              hasContentMaxWidth ? "0px" : spacing[6]
+            })`}
+          >
             {renderTop}
           </FixedContainer>
         </Box>
