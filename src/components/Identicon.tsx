@@ -4,13 +4,7 @@ import { Image } from "@chakra-ui/react"
 
 const Identicon: FC<{ address: string }> = ({ address }) => {
   return (
-    <Image
-      mt="2px"
-      borderRadius="sm"
-      h="16px"
-      w="16px"
-      src={createIdenticon(address)}
-    />
+    <Image borderRadius="sm" h="16px" w="16px" src={createIdenticon(address)} />
   )
 }
 

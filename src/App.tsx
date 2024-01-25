@@ -37,6 +37,8 @@ import {
   useSubscribeToRedemptionRequestedEvent,
 } from "./hooks/tbtc"
 import { useSentry } from "./hooks/sentry"
+import { Header } from "./components/Header"
+import { VStack } from "@threshold-network/components"
 
 const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.TBTC)
@@ -97,19 +99,22 @@ const AppBody = () => {
 
 const Layout = () => {
   return (
-    <Box display="flex">
-      <Sidebar />
-      <Box
-        // 100% - 80px is to account for the sidebar
-        w={{ base: "100%", md: "calc(100% - 80px)" }}
-        bg={useColorModeValue("transparent", "gray.900")}
-      >
-        <Navbar />
-        <Box as="main" data-cy="app-container">
-          <Outlet />
+    <VStack alignItems="normal" spacing="0">
+      <Header />
+      <Box display="flex">
+        <Sidebar />
+        <Box
+          // 100% - 80px is to account for the sidebar
+          w={{ base: "100%", md: "calc(100% - 80px)" }}
+          bg={useColorModeValue("transparent", "gray.900")}
+        >
+          <Navbar />
+          <Box as="main" data-cy="app-container">
+            <Outlet />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </VStack>
   )
 }
 
