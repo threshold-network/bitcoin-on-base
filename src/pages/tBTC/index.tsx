@@ -6,8 +6,7 @@ import { ExplorerPage } from "./Explorer"
 import { Outlet } from "react-router-dom"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
-const MainTBTCPage: PageComponent = (props) => {
-  const { title = "tBTC" } = props
+const MainTBTCPage: PageComponent = ({ title = "tBTC" }) => {
   useDocumentTitle(`Threshold - ${title}`)
   return <Outlet />
 }
