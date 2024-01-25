@@ -1,21 +1,16 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
 import {
-  Badge,
   BodyMd,
   Box,
   Button,
-  Flex,
   H5,
   HStack,
-  Icon,
   VStack,
 } from "@threshold-network/components"
-import { FC, useEffect } from "react"
+import { FC, useEffect, useState } from "react"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import { MintingStep } from "../../../../types/tbtc"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
-import InfoBox from "../../../../components/InfoBox"
 import { InlineTokenBalance } from "../../../../components/TokenBalance"
 import MintingTransactionDetails from "../components/MintingTransactionDetails"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
@@ -26,13 +21,21 @@ import { useModal } from "../../../../hooks/useModal"
 import { getDurationByNumberOfConfirmations } from "../../../../utils/tBTC"
 import { FaClock as ClockIcon } from "react-icons/fa"
 import { LabeledBadge } from "../../../../components/LabeledBadge"
+
+type RevealDepositErrorType = {
+  code: number
+  message: string
+}
+
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
   onPreviousStepClick: (previosuStep: MintingStep) => void
 }> = ({ utxo, onPreviousStepClick }) => {
-  const { tBTCMintAmount, updateState } = useTbtcState()
+  const { updateState } = useTbtcState()
   const threshold = useThreshold()
   const { closeModal } = useModal()
+  const [depositRevealErrorData, setDepositRevealErrorData] =
+    useState<RevealDepositErrorType>()
 
   const onSuccessfulDepositReveal = () => {
     updateState("mintingStep", MintingStep.MintingSuccess)
@@ -41,8 +44,15 @@ const InitiateMintingComponent: FC<{
     closeModal()
   }
 
+  const onFailedDepositReveal = (error: RevealDepositErrorType) => {
+    setDepositRevealErrorData(error)
+    console.log("Failed to reveal deposit", error)
+    closeModal()
+  }
+
   const { sendTransaction: revealDeposit } = useRevealDepositTransaction(
-    onSuccessfulDepositReveal
+    onSuccessfulDepositReveal,
+    onFailedDepositReveal
   )
 
   const depositedAmount = BigNumber.from(utxo.value).toString()
@@ -70,6 +80,10 @@ const InitiateMintingComponent: FC<{
   }, [depositedAmount, updateState, threshold])
 
   const initiateMintTransaction = async () => {
+    if (depositRevealErrorData) {
+      setDepositRevealErrorData(undefined)
+      console.log("Revealing deposit failed, trying again...")
+    }
     await revealDeposit(utxo)
   }
 
@@ -126,7 +140,7 @@ const InitiateMintingComponent: FC<{
           "Confirm deposit & mint (Step 2)"
         }
       >
-        Mint
+        {depositRevealErrorData ? "Try again" : "Mint"}
       </Button>
     </>
   )

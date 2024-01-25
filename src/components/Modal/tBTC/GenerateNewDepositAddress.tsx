@@ -28,8 +28,6 @@ const GenerateNewDepositAddressBase: FC<BaseModalProps> = ({ closeModal }) => {
 
   return (
     <>
-      <ModalHeader>Take note</ModalHeader>
-      <ModalCloseButton />
       <ModalBody>
         <InfoBox mt="0" variant="modal">
           <H5 mb="3" color="gray.800">
@@ -69,5 +67,6 @@ const GenerateNewDepositAddressBase: FC<BaseModalProps> = ({ closeModal }) => {
 }
 
 export const GenerateNewDepositAddress = withBaseModal(
-  GenerateNewDepositAddressBase
+  GenerateNewDepositAddressBase,
+  "Take note"
 )
