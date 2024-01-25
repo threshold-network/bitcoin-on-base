@@ -5,7 +5,7 @@ import {
   WalletInitializeAlert,
   WalletRejectedAlert,
 } from "."
-import { Alert, AlertDescription, AlertIcon } from "@chakra-ui/react"
+import { Alert, AlertTitle, AlertIcon } from "@chakra-ui/react"
 
 const CoinbaseStatusAlert: FC<{
   connectionRejected?: boolean
@@ -21,13 +21,13 @@ const CoinbaseStatusAlert: FC<{
     return (
       <Alert status="error">
         <AlertIcon />
-        <AlertDescription>Unsupported Network.</AlertDescription>
+        <AlertTitle>Unsupported network</AlertTitle>
       </Alert>
     )
   }
 
   if (active) {
-    return <AccountSuccessAlert message="Your coinbase wallet is connected" />
+    return <AccountSuccessAlert message="Your Coinbase wallet is connected" />
   }
   return <WalletInitializeAlert />
 }

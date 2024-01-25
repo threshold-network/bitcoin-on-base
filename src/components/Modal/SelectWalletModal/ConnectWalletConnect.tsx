@@ -27,9 +27,6 @@ const ConnectWalletConnect: FC<{
       closeModal={closeModal}
       WalletIcon={WalletConnectIcon}
       title="WalletConnect"
-      subTitle={
-        active ? "" : "Connect WalletConnect via the generated QR code."
-      }
       tryAgain={() => {
         // the user has already tried to connect, so we manually reset the connector to allow the QR popup to work again
         walletConnect.provider = undefined

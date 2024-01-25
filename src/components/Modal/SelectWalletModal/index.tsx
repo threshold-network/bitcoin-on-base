@@ -1,4 +1,3 @@
-import { ModalHeader } from "@chakra-ui/react"
 import { useWeb3React } from "@web3-react/core"
 import { MetaMaskIcon } from "../../../static/icons/MetaMask"
 import { Taho } from "../../../static/icons/Taho"
@@ -9,7 +8,7 @@ import ConnectMetamask from "./ConnectMetamask"
 import withBaseModal from "../withBaseModal"
 import ConnectWalletConnect from "./ConnectWalletConnect"
 import { WalletType } from "../../../enums"
-import { H5 } from "@threshold-network/components"
+import { Text, ModalHeader, Flex } from "@threshold-network/components"
 import { BaseModalProps, WalletOption } from "../../../types"
 import ConnectCoinbase from "./ConnectCoinbase"
 import { CoinbaseWallet } from "../../../static/icons/CoinbaseWallet"
@@ -87,10 +86,18 @@ const SelectWalletModal: FC<BaseModalProps> = () => {
 
   return (
     <>
-      <ModalHeader>
-        <H5>Connect a Wallet</H5>
+      <ModalHeader
+        as={Flex}
+        align="center"
+        justify="space-between"
+        p={6}
+        mb={4}
+      >
+        <Text as="h2" fontSize="xl" lineHeight={6} fontWeight="medium">
+          Connect a Wallet
+        </Text>
+        <ModalCloseButton position="relative" inset={0} />
       </ModalHeader>
-      <ModalCloseButton />
 
       {walletToConnect === null ? (
         <InitialWalletSelection
