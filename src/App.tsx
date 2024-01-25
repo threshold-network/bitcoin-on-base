@@ -1,4 +1,3 @@
-import "focus-visible/dist/focus-visible"
 import "@fontsource/inter/700.css"
 import "@fontsource/inter/600.css"
 import "@fontsource/inter/500.css"
@@ -22,7 +21,6 @@ import reduxStore, { resetStoreAction } from "./store"
 import ModalRoot from "./components/Modal"
 import Sidebar from "./components/Sidebar"
 import Navbar from "./components/Navbar"
-import { fetchETHPriceUSD } from "./store/eth"
 import { PageComponent } from "./types"
 import { Token } from "./enums"
 import getLibrary from "./web3/library"
@@ -43,7 +41,7 @@ import { Header } from "./components/Header"
 import { VStack } from "@threshold-network/components"
 
 const Web3EventHandlerComponent = () => {
-  useSubscribeToERC20TransferEvent(Token.TBTCV2)
+  useSubscribeToERC20TransferEvent(Token.TBTC)
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
   useSubscribeToOptimisticMintingRequestedEvent()

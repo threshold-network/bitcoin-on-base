@@ -19,7 +19,7 @@ const Header: FC<BoxProps> = (props) => {
   } = useWeb3React()
   const { openModal } = useModal()
   const handleWalletConnection = () => openModal(ModalType.SelectWallet)
-  const { balance } = useToken(Token.TBTCV2)
+  const { balance } = useToken(Token.TBTC)
 
   return (
     <Box
