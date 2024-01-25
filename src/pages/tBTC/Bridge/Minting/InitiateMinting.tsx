@@ -25,6 +25,7 @@ import { useRevealDepositTransaction } from "../../../../hooks/tbtc"
 import { useModal } from "../../../../hooks/useModal"
 import { getDurationByNumberOfConfirmations } from "../../../../utils/tBTC"
 import { FaClock as ClockIcon } from "react-icons/fa"
+import { LabeledBadge } from "../../../../components/LabeledBadge"
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
   onPreviousStepClick: (previosuStep: MintingStep) => void
@@ -99,7 +100,7 @@ const InitiateMintingComponent: FC<{
           </Box>
         </VStack>
         <HStack
-          px={3}
+          px={4}
           py={2}
           border="1px solid #333"
           bg="hsla(0, 0%, 0%, 30%)"
@@ -108,14 +109,13 @@ const InitiateMintingComponent: FC<{
         >
           <BodyMd color="hsla(0, 0%, 100%, 50%)">
             <Box as="span" color="hsl(151, 100%, 70%)">
-              + {confirmations}
+              +{confirmations}
             </Box>
             &nbsp;{confirmationsSuffix}
           </BodyMd>
-          <Flex as={Badge} align="center" color="hsl(26, 96%, 65%)">
-            <Icon as={ClockIcon} mr={2} color="hsl(0, 0%, 53%)" />
-            Est. {hours} {hoursSuffix}
-          </Flex>
+          <LabeledBadge label="Est." icon={ClockIcon}>
+            {hours} {hoursSuffix}
+          </LabeledBadge>
         </HStack>
       </VStack>
       <MintingTransactionDetails my={8} withSubTotal withTotal />

@@ -33,7 +33,7 @@ const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
   const amountToReceive = BigNumber.from(tBTCMintAmount).sub(totalFees)
 
   return (
-    <List spacing={6} {...restProps}>
+    <List spacing={4} {...restProps}>
       <TransactionDetailsAmountItem
         label="Minting Fee"
         tokenAmount={mintingFee}
