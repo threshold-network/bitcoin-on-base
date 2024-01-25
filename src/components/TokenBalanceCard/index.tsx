@@ -6,7 +6,7 @@ import { tBTCFillBlack } from "../../static/icons/tBTCFillBlack"
 import { TokenBalanceProps } from "../TokenBalance"
 
 export type TokenBalanceCardProps = {
-  token: Extract<Token, Token.TBTCV2>
+  token: Extract<Token, Token.TBTC>
   title?: string | JSX.Element
   tokenSymbol?: string
   withSymbol?: boolean
@@ -16,7 +16,7 @@ export type TokenBalanceCardProps = {
 >
 
 const tokenToIconMap = {
-  [Token.TBTCV2]: tBTCFillBlack,
+  [Token.TBTC]: tBTCFillBlack,
 }
 
 const TokenBalanceCard: FC<TokenBalanceCardProps> = ({
