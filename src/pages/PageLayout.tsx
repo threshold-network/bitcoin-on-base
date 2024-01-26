@@ -20,7 +20,7 @@ const BORDER = "1px solid hsla(0, 0%, 100%, 10%)"
 type VariantType = "primary" | "secondary"
 type RenderSlotType = Nullable<ReactNode>
 
-interface PageLayoutProps {
+interface PageLayoutProps extends FlexProps {
   /**
    * Render slot for content aligned at the top.
    *
@@ -71,16 +71,14 @@ const FixedContainer: FC<FlexProps> = (props) => (
  * @param {PageLayoutProps} props - The props for the PageLayout component.
  * @return {JSX.Element} The rendered page wrapped in layout.
  */
-const PageLayout: FC<PageLayoutProps> = (props) => {
-  const {
-    renderTop,
-    renderLeft,
-    renderRight,
-    backgroundVariant = "primary",
-    children,
-    ...restProps
-  } = props
-
+const PageLayout: FC<PageLayoutProps> = ({
+  renderTop,
+  renderLeft,
+  renderRight,
+  backgroundVariant = "primary",
+  children,
+  ...restProps
+}) => {
   const [hasContentMaxWidth] = useMediaQuery(
     `(min-width: ${CONTENT_MAX_WIDTH})`
   )
