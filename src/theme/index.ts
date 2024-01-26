@@ -12,6 +12,10 @@ import { Tooltip } from "./Tooltip"
 import { Button } from "./Button"
 import { Alert } from "./Alert"
 
+export const customSizes = {
+  "content-max-width": "89.25rem", // 1428px
+}
+
 const index = extendTheme({
   ...defaultTheme,
   colors: {
@@ -34,6 +38,7 @@ const index = extendTheme({
       fontFamily: "IBM Plex Mono, monospace",
     },
   },
+  sizes: customSizes,
   components: {
     ...defaultTheme.components,
     AnnouncementBanner,

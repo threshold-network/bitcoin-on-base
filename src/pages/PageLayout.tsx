@@ -11,9 +11,7 @@ import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.
 import SECONDARY_BACKGROUND_PATH from "../static/images/layout-background-secondary.svg"
 import { spacing } from "@chakra-ui/theme/foundations/spacing"
 import { Header } from "../components/Header"
-
-const CONTENT_MAX_WIDTH = "89.25rem" // 1428px
-const BORDER = "1px solid hsla(0, 0%, 100%, 10%)"
+import { customSizes } from "../theme"
 
 //TODO: Remove stale layout components eg. `./Bridge/BridgeLayout.tsx` etc...
 
@@ -80,7 +78,7 @@ const PageLayout: FC<PageLayoutProps> = ({
   ...restProps
 }) => {
   const [hasContentMaxWidth] = useMediaQuery(
-    `(min-width: ${CONTENT_MAX_WIDTH})`
+    `(min-width: ${customSizes["content-max-width"]})`
   )
 
   const childrenContainerColumnSpan = [
@@ -89,8 +87,9 @@ const PageLayout: FC<PageLayoutProps> = ({
   ].join("/")
 
   const borderX = {
-    borderLeft: renderLeft !== undefined ? BORDER : undefined,
-    borderRight: renderRight !== undefined ? BORDER : undefined,
+    borderLeft: renderLeft !== undefined ? "1px solid" : undefined,
+    borderRight: renderRight !== undefined ? "1px solid" : undefined,
+    borderColor: "whiteAlpha.250",
   }
 
   return (
@@ -104,11 +103,11 @@ const PageLayout: FC<PageLayoutProps> = ({
     >
       <Header isDesktopViewport={hasContentMaxWidth} />
       {renderTop && (
-        <Box p={6} borderBottom={BORDER}>
+        <Box p={6} borderBottom="1px solid" borderColor="whiteAlpha.250">
           <FixedContainer
             mx="auto"
             w="full"
-            maxW={`calc(${CONTENT_MAX_WIDTH} + 2 * ${
+            maxW={`calc(${customSizes["content-max-width"]} + 2 * ${
               hasContentMaxWidth ? "0px" : spacing[6]
             })`}
           >
@@ -123,7 +122,7 @@ const PageLayout: FC<PageLayoutProps> = ({
             lg: ".45fr repeat(2, .5fr) .45fr",
           }}
           w="full"
-          maxW={CONTENT_MAX_WIDTH}
+          maxW="content-max-width"
           mx="auto"
           {...borderX}
           flex={1}
