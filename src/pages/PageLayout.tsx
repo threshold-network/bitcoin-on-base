@@ -118,7 +118,10 @@ const PageLayout: FC<PageLayoutProps> = ({
       )}
       <FixedContainer flex={1} w={"full"}>
         <Grid
-          templateColumns={{ base: "auto", lg: "repeat(4, .5fr)" }}
+          templateColumns={{
+            base: "auto",
+            lg: ".45fr repeat(2, .5fr) .45fr",
+          }}
           w="full"
           maxW={CONTENT_MAX_WIDTH}
           mx="auto"
@@ -132,6 +135,7 @@ const PageLayout: FC<PageLayoutProps> = ({
             order={{ base: -1, lg: "unset" }}
             gridColumn={{ base: "auto", lg: childrenContainerColumnSpan }}
             {...borderX}
+            p={{ base: 6, lg: 10 }}
           >
             {children}
           </Box>
