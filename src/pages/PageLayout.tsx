@@ -103,7 +103,7 @@ const PageLayout: FC<PageLayoutProps> = ({
       {...restProps}
     >
       <Header isDesktopViewport={hasContentMaxWidth} />
-      {!!renderTop && (
+      {renderTop && (
         <Box p={6} borderBottom={BORDER}>
           <FixedContainer
             mx="auto"
