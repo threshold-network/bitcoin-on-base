@@ -1,27 +1,27 @@
 import { extendTheme } from "@chakra-ui/react"
-import { mode } from "@chakra-ui/theme-tools"
 import { defaultTheme } from "@threshold-network/components"
 import { InfoBox } from "./InfoBox"
-import { NotificationPill } from "./NotificationPill"
-import { Tree } from "./Tree"
 import { Tabs } from "./Tabs"
 import { Badge } from "./Badge"
 import { DetailedLinkListItem } from "./DetailedLinkListItem"
 import { Checkbox } from "./Checkbox"
 import { Radio } from "./Radio"
 import { AnnouncementBanner } from "./AnnouncementBanner"
-import { SecondaryAnnouncementBanner } from "./SecondaryAnnouncementBanner"
 import { Timeline } from "./Timeline"
-import { DotsLoadingIndicator } from "./DotsLoadingIndicator"
 import { Tooltip } from "./Tooltip"
+import { Button } from "./Button"
+import { Alert } from "./Alert"
 
 const index = extendTheme({
   ...defaultTheme,
   colors: {
     ...defaultTheme.colors,
-    // TODO: move color to components repo.
-    teal: {
-      "500": "#00BACC",
+    brand: {
+      "100": "#66F9FF",
+    },
+    whiteAlpha: {
+      "250": "hsla(0, 0%, 100%, 0.1)",
+      "350": "hsla(0, 0%, 100%, 0.2)",
     },
   },
   textStyles: {
@@ -37,18 +37,16 @@ const index = extendTheme({
   components: {
     ...defaultTheme.components,
     AnnouncementBanner,
-    SecondaryAnnouncementBanner,
     InfoBox,
-    NotificationPill,
-    Tree,
     Tabs,
     Badge,
     DetailedLinkListItem,
     Radio,
     Checkbox,
     Timeline,
-    DotsLoadingIndicator,
     Tooltip,
+    Button,
+    Alert,
   },
 })
 

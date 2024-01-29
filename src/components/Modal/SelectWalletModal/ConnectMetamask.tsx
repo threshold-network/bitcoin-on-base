@@ -8,12 +8,14 @@ import {
 import { MetamaskStatusAlert, WalletConnectionModalBase } from "./components"
 import { ConnectionError, WalletType } from "../../../enums"
 import doesErrorInclude from "../../../web3/utils/doesErrorInclude"
+import { Icon } from "@chakra-ui/react"
+import { HiCheckCircle, HiInformationCircle } from "react-icons/hi"
 
 const ConnectMetamask: FC<{ goBack: () => void; closeModal: () => void }> = ({
   goBack,
   closeModal,
 }) => {
-  const { activate, error } = useWeb3React()
+  const { activate, error, account } = useWeb3React()
 
   const metamaskNotInstalled = doesErrorInclude(
     error,
@@ -34,9 +36,6 @@ const ConnectMetamask: FC<{ goBack: () => void; closeModal: () => void }> = ({
       closeModal={closeModal}
       WalletIcon={MetaMaskIcon}
       title="MetaMask"
-      subTitle={
-        !error ? "The MetaMask extension will open in an external window." : ""
-      }
       tryAgain={connectionRejected ? () => activate(metamask) : undefined}
       walletType={WalletType.Metamask}
     >

@@ -1,4 +1,3 @@
-import "focus-visible/dist/focus-visible"
 import "@fontsource/inter/700.css"
 import "@fontsource/inter/600.css"
 import "@fontsource/inter/500.css"
@@ -22,30 +21,15 @@ import reduxStore, { resetStoreAction } from "./store"
 import ModalRoot from "./components/Modal"
 import Sidebar from "./components/Sidebar"
 import Navbar from "./components/Navbar"
-import { fetchETHPriceUSD } from "./store/eth"
 import { PageComponent } from "./types"
 import { Token } from "./enums"
 import getLibrary from "./web3/library"
 import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
-import { useSubscribeToStakedEvent } from "./hooks/useSubscribeToStakedEvent"
-import { useSubscribeToUnstakedEvent } from "./hooks/useSubscribeToUnstakedEvent"
-import { useSubscribeToToppedUpEvent } from "./hooks/useSubscribeToToppedUpEvent"
 import { pages } from "./pages"
-import { useCheckBonusEligibility } from "./hooks/useCheckBonusEligibility"
-import { useFetchStakingRewards } from "./hooks/useFetchStakingRewards"
 import { isSameETHAddress } from "./web3/utils"
 import { ThresholdProvider } from "./contexts/ThresholdContext"
-import {
-  useSubscribeToAuthorizationIncreasedEvent,
-  useSubscribeToAuthorizationDecreaseApprovedEvent,
-  useSubscribeToAuthorizationDecreaseRequestedEvent,
-  useSubscribeToOperatorRegisteredEvent,
-  useSubscribeToOperatorStatusUpdatedEvent,
-} from "./hooks/staking-applications"
 import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
 import { usePosthog } from "./hooks/posthog"
-import { featureFlags } from "./constants"
-import FeedbackRoutesButton from "./components/FeedbackRoutesButton"
 import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
 import {
   useSubscribeToOptimisticMintingFinalizedEvent,
@@ -53,24 +37,11 @@ import {
   useSubscribeToRedemptionRequestedEvent,
 } from "./hooks/tbtc"
 import { useSentry } from "./hooks/sentry"
+import { Header } from "./components/Header"
+import { VStack } from "@threshold-network/components"
 
 const Web3EventHandlerComponent = () => {
-  useSubscribeToERC20TransferEvent(Token.Keep)
-  useSubscribeToERC20TransferEvent(Token.Nu)
-  useSubscribeToERC20TransferEvent(Token.T)
-  useSubscribeToERC20TransferEvent(Token.TBTCV2)
-  useSubscribeToStakedEvent()
-  useSubscribeToUnstakedEvent()
-  useSubscribeToToppedUpEvent()
-  useSubscribeToAuthorizationIncreasedEvent()
-  useSubscribeToAuthorizationDecreaseApprovedEvent("tbtc")
-  useSubscribeToAuthorizationDecreaseApprovedEvent("randomBeacon")
-  useSubscribeToAuthorizationDecreaseRequestedEvent("tbtc")
-  useSubscribeToAuthorizationDecreaseRequestedEvent("randomBeacon")
-  useSubscribeToOperatorRegisteredEvent("tbtc")
-  useSubscribeToOperatorRegisteredEvent("randomBeacon")
-  useSubscribeToOperatorStatusUpdatedEvent("randomBeacon")
-  useSubscribeToOperatorStatusUpdatedEvent("tbtc")
+  useSubscribeToERC20TransferEvent(Token.TBTC)
   useSubscribeToDepositRevealedEvent()
   useSubscribeToOptimisticMintingFinalizedEvent()
   useSubscribeToOptimisticMintingRequestedEvent()
@@ -119,13 +90,7 @@ const AppBody = () => {
     }
   }, [connector, dispatch, account])
 
-  useEffect(() => {
-    dispatch(fetchETHPriceUSD())
-  }, [dispatch])
-
   usePosthog()
-  useCheckBonusEligibility()
-  useFetchStakingRewards()
   useSaveConnectedAddressToStore()
   useSentry()
 
@@ -134,20 +99,22 @@ const AppBody = () => {
 
 const Layout = () => {
   return (
-    <Box display="flex">
-      <Sidebar />
-      <Box
-        // 100% - 80px is to account for the sidebar
-        w={{ base: "100%", md: "calc(100% - 80px)" }}
-        bg={useColorModeValue("transparent", "gray.900")}
-      >
-        <Navbar />
-        <Box as="main" data-cy="app-container">
-          <Outlet />
+    <VStack alignItems="normal" spacing="0">
+      <Header />
+      <Box display="flex">
+        <Sidebar />
+        <Box
+          // 100% - 80px is to account for the sidebar
+          w={{ base: "100%", md: "calc(100% - 80px)" }}
+          bg={useColorModeValue("transparent", "gray.900")}
+        >
+          <Navbar />
+          <Box as="main" data-cy="app-container">
+            <Outlet />
+          </Box>
         </Box>
       </Box>
-      {featureFlags.FEEDBACK_MODULE && <FeedbackRoutesButton />}
-    </Box>
+    </VStack>
   )
 }
 
@@ -155,9 +122,9 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="*" element={<Layout />}>
-        <Route index element={<Navigate to="overview" />} />
+        <Route index element={<Navigate to="tBTC" />} />
         {pages.map(renderPageComponent)}
-        <Route path="*" element={<Navigate to="overview" />} />
+        <Route path="*" element={<Navigate to="tBTC" />} />
       </Route>
     </Routes>
   )

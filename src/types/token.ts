@@ -1,12 +1,9 @@
-import { Contract } from "@ethersproject/contracts"
 import { Token } from "../enums"
-import { TransactionType } from "../enums/transactionType"
-import { TokenIcon } from "../static/icons/tokenIconMap"
 
 export interface TokenState {
   loading: boolean
   text: string
-  icon: TokenIcon
+  icon: any
   balance: number | string
   usdConversion: number
   usdBalance: string
@@ -35,11 +32,7 @@ export type TokenActionTypes = SetTokenBalance | SetTokenLoading
 
 export interface UseTokenState {
   (): {
-    keep: TokenState
-    nu: TokenState
-    t: TokenState
     tbtc: TokenState
-    tbtcv2: TokenState
     setTokenBalance: (
       token: Token,
       balance: number | string
@@ -48,21 +41,3 @@ export interface UseTokenState {
     fetchTokenPriceUSD: (token: Token) => void
   }
 }
-
-export interface BalanceOf {
-  (token: Token): Promise<void>
-}
-
-export interface Approve {
-  (transactionType: TransactionType): any
-}
-
-export interface UseErc20Interface {
-  (tokenAddress: string, withSignerIfPossible?: boolean, abi?: any): {
-    approve: Approve
-    balanceOf: BalanceOf
-    contract: Contract | null
-  }
-}
-
-export type UpgredableToken = Token.Nu | Token.Keep
