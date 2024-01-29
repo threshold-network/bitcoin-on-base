@@ -1,4 +1,4 @@
-name: Build the Base dashboard
+name: Bitcoin on Base / CI
 
 on:
   schedule:
