@@ -1,10 +1,12 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
 import {
   BodyMd,
+  BodySm,
   Box,
   Button,
   H5,
   HStack,
+  Link,
   VStack,
 } from "@threshold-network/components"
 import { FC, useEffect, useState } from "react"
@@ -21,6 +23,7 @@ import { useModal } from "../../../../hooks/useModal"
 import { getDurationByNumberOfConfirmations } from "../../../../utils/tBTC"
 import { FaClock as ClockIcon } from "react-icons/fa"
 import { LabeledBadge } from "../../../../components/LabeledBadge"
+import { Toast } from "../../../../components/Toast"
 
 type RevealDepositErrorType = {
   code: number
@@ -89,6 +92,17 @@ const InitiateMintingComponent: FC<{
 
   return (
     <>
+      {depositRevealErrorData ? (
+        <Toast
+          status="error"
+          title="Error."
+          description={`Code: ${depositRevealErrorData?.code}`}
+        >
+          <Toast.CollapsibleDetails>
+            {depositRevealErrorData?.message}
+          </Toast.CollapsibleDetails>
+        </Toast>
+      ) : null}
       <BridgeProcessCardTitle
         previousStep={MintingStep.ProvideData}
         onPreviousStepClick={onPreviousStepClick}

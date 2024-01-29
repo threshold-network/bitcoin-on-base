@@ -63,9 +63,11 @@ const TransactionFailed: FC<TransactionFailedProps> = ({
           {isExpandableError && isOpen ? (
             <Box p={6} pb={0} borderTop="1px solid" borderColor="inherit">
               <Box
+                as="pre"
                 bg="hsl(0, 0%, 12%)"
                 color="hsla(0, 0%, 100%, 80%)"
                 p={4}
+                whiteSpace="pre-wrap"
                 fontFamily="monospace"
                 maxH="xs"
                 overflowY="scroll"
