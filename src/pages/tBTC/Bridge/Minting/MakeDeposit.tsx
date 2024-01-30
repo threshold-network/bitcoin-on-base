@@ -68,11 +68,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         // https://chakra-ui.com/docs/components/tooltip#with-an-icon.
         sx={{ ">span": { display: "flex" } }}
       >
-        <BodySm
-          fontWeight="medium"
-          color="hsl(181, 100%, 70%)"
-          lineHeight={1.5}
-        >
+        <BodySm fontWeight="medium" color="brand.100" lineHeight={1.5}>
           BTC Deposit Address
         </BodySm>
         <TooltipIcon label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC." />
@@ -86,7 +82,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         rounded="2xl"
         border="1px solid #333"
       >
-        <Box p={3.5} rounded="xl" bg="hsl(182, 100%, 70%)">
+        <Box p={3.5} rounded="xl" bg="brand.100">
           <QRCode
             size={180}
             value={btcDepositAddress}
@@ -95,14 +91,16 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
           />
         </Box>
         <VStack spacing={6} align="start">
-          <BodyLg color="white" overflowWrap="anywhere">
+          <BodyLg color="brand.100" overflowWrap="anywhere">
             {btcDepositAddress}
           </BodyLg>
           <Button
             size="sm"
             variant="outline"
             onClick={handleCopy}
-            rightIcon={<Icon as={CopyIcon} color="hsl(182, 100%, 70%)" />}
+            color="white"
+            textTransform="capitalize"
+            rightIcon={<Icon as={CopyIcon} color="brand.100" />}
           >
             Copy
           </Button>
@@ -146,11 +144,7 @@ const MakeDepositComponent: FC<{
         ]}
       />
       <Stack spacing={2} mt={6}>
-        <BodySm
-          fontWeight="medium"
-          color="hsl(181, 100%, 70%)"
-          lineHeight={1.5}
-        >
+        <BodySm fontWeight="medium" color="brand.100" lineHeight={1.5}>
           Provided Addresses Recap
         </BodySm>
         <AddressRow text="Base address" address={ethAddress} />
