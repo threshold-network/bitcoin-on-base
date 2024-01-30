@@ -36,7 +36,6 @@ import {
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
-import { featureFlags } from "../../../constants"
 import { useThreshold } from "../../../contexts/ThresholdContext"
 import { ExternalHref } from "../../../enums"
 import { useAppDispatch } from "../../../hooks/store"
@@ -57,10 +56,8 @@ import {
 import { BridgeProcessCardSubTitle } from "./components/BridgeProcessCardSubTitle"
 import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
-import { ProcessCompletedBrandGradientIcon } from "./components/BridgeProcessDetailsIcons"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import { BridgeProcessResourcesItem } from "./components/BridgeProcessResources"
-import { BridgeProcessStep } from "./components/BridgeProcessStep"
 
 export const UnmintDetails: PageComponent = () => {
   const [searchParams] = useSearchParams()
@@ -411,5 +408,5 @@ const AsideSectionSkeleton: FC = () => {
 UnmintDetails.route = {
   path: "redemption/:redemptionRequestedTxHash",
   index: false,
-  isPageEnabled: featureFlags.TBTC_V2_REDEMPTION,
+  isPageEnabled: true,
 }

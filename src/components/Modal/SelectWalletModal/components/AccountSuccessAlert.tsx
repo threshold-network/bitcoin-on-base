@@ -1,26 +1,11 @@
 import { FC } from "react"
-import { useWeb3React } from "@web3-react/core"
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Stack,
-} from "@chakra-ui/react"
-import shortenAddress from "../../../../utils/shortenAddress"
-
+import { Alert, AlertIcon, AlertTitle } from "@threshold-network/components"
+import { BsShieldCheck as CheckIcon } from "react-icons/bs"
 const AccountSuccessAlert: FC<{ message: string }> = ({ message }) => {
-  const { account } = useWeb3React()
-
   return (
     <Alert status="success">
-      <AlertIcon />
-      <Stack>
-        <AlertTitle>{message}</AlertTitle>
-        <AlertDescription mt={2}>
-          Address: {shortenAddress(account || "")}
-        </AlertDescription>
-      </Stack>
+      <AlertIcon as={CheckIcon} />
+      <AlertTitle>{message}</AlertTitle>
     </Alert>
   )
 }

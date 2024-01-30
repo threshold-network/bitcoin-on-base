@@ -57,12 +57,10 @@ import {
 } from "../../../utils/tBTC"
 import { useModal } from "../../../hooks/useModal"
 import { UnmintDetails } from "./UnmintDetails"
-import { UnmintingCard } from "./UnmintingCard"
-import { featureFlags } from "../../../constants"
 import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 
 const UnmintFormPage: PageComponent = ({}) => {
-  const { balance } = useToken(Token.TBTCV2)
+  const { balance } = useToken(Token.TBTC)
   const { openModal } = useModal()
   const threshold = useThreshold()
 
@@ -73,9 +71,7 @@ const UnmintFormPage: PageComponent = ({}) => {
     })
   }
 
-  return !featureFlags.TBTC_V2_REDEMPTION ? (
-    <UnmintingCard />
-  ) : (
+  return (
     <>
       <BridgeProcessCardTitle bridgeProcess="unmint" />
       <BridgeProcessCardSubTitle
