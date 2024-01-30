@@ -1,14 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ModalType } from "../../enums"
 
-export interface ModalQueueState {
-  isSuccessfulLoginModalClosed: boolean
-}
-
 export interface ModalState {
   modalType: ModalType | null
   props: any
-  modalQueue: ModalQueueState
 }
 
 export const modalSlice = createSlice({
@@ -16,9 +11,6 @@ export const modalSlice = createSlice({
   initialState: {
     modalType: null,
     props: {},
-    modalQueue: {
-      isSuccessfulLoginModalClosed: false,
-    },
   } as ModalState,
   reducers: {
     openModal: (
@@ -32,11 +24,7 @@ export const modalSlice = createSlice({
       state.modalType = null
       state.props = {}
     },
-    successfullLoginModalClosed: (state: ModalState) => {
-      state.modalQueue.isSuccessfulLoginModalClosed = true
-    },
   },
 })
 
-export const { openModal, closeModal, successfullLoginModalClosed } =
-  modalSlice.actions
+export const { openModal, closeModal } = modalSlice.actions

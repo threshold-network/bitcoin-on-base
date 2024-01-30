@@ -7,7 +7,6 @@ import {
   BridgeActivity,
   UnmintBridgeActivityAdditionalData,
 } from "../../threshold-ts/tbtc"
-import { featureFlags } from "../../constants"
 import { startAppListening } from "../listener"
 import {
   fetchBridgeactivityEffect,
@@ -228,8 +227,6 @@ function findRedemptionActivity(
 export const { updateState } = tbtcSlice.actions
 
 export const registerTBTCListeners = () => {
-  if (!featureFlags.TBTC_V2) return
-
   startAppListening({
     actionCreator: tbtcSlice.actions.requestBridgeActivity,
     effect: fetchBridgeactivityEffect,
