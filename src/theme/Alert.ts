@@ -1,4 +1,5 @@
 import { AlertProps } from "@chakra-ui/react"
+import { stat } from "fs"
 
 const defaultProps = {
   status: "info",
@@ -78,6 +79,10 @@ const solidStatusStyles = (props: AlertProps) => {
 
   if (styles) {
     styles.container = Object.assign(styles.container, solidStyles.container)
+  }
+
+  if (styles && status === "info") {
+    styles.container.color = "brand.100"
   }
 
   return styles || {}

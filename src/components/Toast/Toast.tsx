@@ -9,12 +9,14 @@ import {
   VStack,
   Stack,
   Flex,
+  Icon,
 } from "@chakra-ui/react"
 import { FC, useEffect, useState } from "react"
 import { setTimeout, clearTimeout } from "../../utils/setTimeout"
 import { ToastCollapsibleDetails } from "./ToastCollapsibleDetails"
 import { spacing } from "@chakra-ui/theme/foundations/spacing"
 import { customBreakpoints } from "../../theme"
+import { IconType } from "react-icons"
 
 export interface ToastInternalProps {
   id: number
@@ -30,6 +32,7 @@ export interface ToastProps {
   isDismissable?: boolean
   orientation?: "horizontal" | "vertical"
   position?: PositionType
+  icon?: IconType
 }
 type AlertProps = ToastProps &
   Omit<AlertPropsBase, "position" | "variant"> &
@@ -59,6 +62,7 @@ const Toast: FC<AlertProps> = ({
   children,
   orientation = "horizontal",
   position = "center",
+  icon,
   ...restProps
 }) => {
   const [isMounted, setIsMounted] = useState(true)
@@ -88,7 +92,7 @@ const Toast: FC<AlertProps> = ({
     >
       <VStack spacing={4} w="full" align="stretch">
         <Flex>
-          <AlertIcon w={5} h={5} mt={0} mr={4} />
+          <Icon as={icon ?? AlertIcon} w={5} h={5} mt={0} mr={4} />
           <Stack
             spacing={orientation === "horizontal" ? 0 : 2}
             direction={orientation === "horizontal" ? "row" : "column"}
