@@ -14,6 +14,7 @@ import { FC, useEffect, useState } from "react"
 import { setTimeout, clearTimeout } from "../../utils/setTimeout"
 import { ToastCollapsibleDetails } from "./ToastCollapsibleDetails"
 import { spacing } from "@chakra-ui/theme/foundations/spacing"
+import { customBreakpoints } from "../../theme"
 
 export interface ToastInternalProps {
   id: number
@@ -37,17 +38,16 @@ type AlertProps = ToastProps &
 const getPositioningProps = (position: PositionType) => {
   if (position !== "center") {
     return {
-      [position]: "max(0vw, calc((100vw - 1920px) / 2))", // TODO: replace with theme value
-      top: { base: 16, lg: 112 },
+      [position]: `max(0vw, calc((100vw - ${customBreakpoints["3xl"]}) / 2))`,
+      top: { base: "4.5rem", lg: 28 },
       mx: { base: 2, lg: 10 },
     }
   }
   return {
-    top: { base: 6, lg: 20 },
+    top: { base: "4.5rem", lg: 20 },
     left: "50%",
     transform: "translateX(-50%)",
     mx: { base: 0, lg: undefined },
-    w: { base: `calc(100% - 2 * ${spacing[2]})`, md: "100%" },
   }
 }
 
@@ -75,6 +75,7 @@ const Toast: FC<AlertProps> = ({
     <Alert
       variant="solid"
       position="fixed"
+      w={{ base: `calc(100% - 2 * ${spacing[2]})`, md: "100%" }}
       maxW="toast-width"
       boxShadow="lg"
       alignItems="center"

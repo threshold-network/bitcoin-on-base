@@ -1,12 +1,10 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
 import {
   BodyMd,
-  BodySm,
   Box,
   Button,
   H5,
   HStack,
-  Link,
   VStack,
 } from "@threshold-network/components"
 import { FC, useEffect, useState } from "react"

@@ -16,6 +16,10 @@ export const customSizes = {
   "toast-width": "34.375rem", // 550px
 }
 
+export const customBreakpoints = {
+  "3xl": "120rem", // 1920px
+}
+
 const index = extendTheme({
   ...defaultTheme,
   colors: {
@@ -39,6 +43,7 @@ const index = extendTheme({
     },
   },
   sizes: customSizes,
+  breakpoints: customBreakpoints,
   components: {
     ...defaultTheme.components,
     AnnouncementBanner,
