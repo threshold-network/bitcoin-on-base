@@ -24,11 +24,7 @@ import { MintingStep } from "../../../../types/tbtc"
 import { QRCode } from "../../../../components/QRCode"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
-import Toast from "../../../../components/Toast/Toast"
-import {
-  IoHourglassOutline as HourglassIcon,
-  IoCopyOutline as CopyIcon,
-} from "react-icons/io5"
+import { IoCopyOutline as CopyIcon } from "react-icons/io5"
 import { MintDurationTiers } from "../../../../components/MintDurationTiers"
 
 const AddressRow: FC<
@@ -124,13 +120,6 @@ const MakeDepositComponent: FC<{
 
   return (
     <>
-      <Toast
-        icon={HourglassIcon}
-        title="Waiting for your deposit."
-        description="The system is continuously checking for new BTC deposits"
-        status="info"
-        isDismissable={false}
-      />
       <BridgeProcessCardTitle
         previousStep={MintingStep.ProvideData}
         onPreviousStepClick={onPreviousStepClick}

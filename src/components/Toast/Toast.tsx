@@ -7,53 +7,31 @@ import {
   AlertDescription,
   AlertProps as AlertPropsBase,
   CloseButton,
-  Icon,
-  HStack,
-  BodyMd,
-  StackProps,
 } from "@threshold-network/components"
-import { useCallback, useEffect, useState } from "react"
-import { IconType } from "react-icons"
-import {
-  BsExclamationCircleFill as warningIcon,
-  BsInfoCircleFill as infoIcon,
-} from "react-icons/bs"
+import { useEffect, useState } from "react"
 import { setTimeout, clearTimeout } from "../../utils/setTimeout"
 
-const iconsMap = new Map<AlertStatus, IconType>([
-  ["info", infoIcon],
-  ["warning", warningIcon],
-])
-
-const colorMap = new Map<AlertStatus, string>([
-  ["info", "hsla(182, 100%, 70%)"],
-  ["warning", "hsla(0, 100%, 70%)"],
-])
-
-export interface ToastProps extends StackProps {
+export interface ToastInternalProps {
+  id: number
+  onUnmount?: () => void
+}
+export interface ToastProps {
   title: string
   status: AlertStatus
-  icon?: IconType
   description?: string
   duration?: number
   isDismissable?: boolean
-  onDismiss?: () => void
 }
+type AlertProps = AlertPropsBase & ToastProps & Omit<ToastInternalProps, "id">
 
-const Toast = (props: ToastProps) => {
+const Toast = (props: AlertProps) => {
   const {
     title,
     description,
     duration = Infinity,
     isDismissable = true,
-    icon: customIcon,
-    status = "info",
-    onDismiss,
     ...restProps
   } = props
-
-  const icon = customIcon ?? iconsMap.get(status)
-  const color = colorMap.get(status)
 
   const [isMounted, setIsMounted] = useState(true)
 
@@ -65,41 +43,30 @@ const Toast = (props: ToastProps) => {
     return () => clearTimeout(timeout)
   }, [])
 
-  const handleDismiss = useCallback(() => {
-    setIsMounted(false)
-    !!onDismiss && onDismiss()
-  }, [onDismiss])
-
   return isMounted ? (
-    <HStack
-      spacing={4}
-      px={6}
-      py={5}
-      bgGradient="linear(315.46deg, #0A1616 -0.82%, #090909 100%)"
-      border="1px solid"
-      borderColor="hsla(0, 0%, 100%, 10%)"
-      rounded="lg"
+    <Alert
       position="absolute"
-      top={20}
+      top="0"
       left="50%"
       transform="translateX(-50%)"
       width="auto"
       boxShadow="lg"
-      alignItems="center"
+      alignItems="baseline"
+      border="none"
       whiteSpace="nowrap"
       {...restProps}
     >
-      <Icon as={icon} color={color} w={5} h={5} />
-      <HStack spacing={4} mr="auto">
-        <BodyMd fontWeight="medium" color={color}>
-          {title}
-        </BodyMd>
-        {description ? (
-          <BodyMd color="hsla(0, 0%, 100%, 60%)">{description}</BodyMd>
-        ) : null}
-      </HStack>
-      {isDismissable && <CloseButton h={5} w={5} onClick={handleDismiss} />}
-    </HStack>
+      <AlertIcon minH="8" />
+      <Stack spacing={2} flex="1">
+        {title && description && <AlertTitle>{title}</AlertTitle>}
+        {(description || title) && (
+          <AlertDescription>{description ?? title}</AlertDescription>
+        )}
+      </Stack>
+      {isDismissable && (
+        <CloseButton onClick={() => setIsMounted(false)} ml="4" />
+      )}
+    </Alert>
   ) : null
 }
 
