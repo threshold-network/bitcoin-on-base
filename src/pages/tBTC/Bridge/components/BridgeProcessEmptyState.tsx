@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react"
-import { H5, useColorModeValue } from "@threshold-network/components"
+import { Box, H5, useColorModeValue } from "@threshold-network/components"
 import { BridgeProcessCardTitle } from "./BridgeProcessCardTitle"
 import SubmitTxButton from "../../../../components/SubmitTxButton"
 import {
@@ -28,7 +28,7 @@ export const BridgeProcessEmptyState: FC<{
   }, [fetchTvl])
 
   return (
-    <>
+    <Box mx={{ base: 0, lg: 10 }}>
       <BridgeProcessCardTitle bridgeProcess={bridgeProcess} />
       <H5 align={"center"}>{title}</H5>
       <SubmitTxButton mb="6" mt="4" />
@@ -48,6 +48,6 @@ export const BridgeProcessEmptyState: FC<{
         }}
       />
       <ProtocolHistoryViewMoreLink mt="7" />
-    </>
+    </Box>
   )
 }
