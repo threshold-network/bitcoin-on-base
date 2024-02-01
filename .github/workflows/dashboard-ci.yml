@@ -113,7 +113,7 @@ jobs:
         with:
           service-key: ${{ secrets.KEEP_TEST_CI_UPLOAD_DAPP_JSON_KEY_BASE64 }}
           project: keep-test-f3e0
-          bucket-name: 'bob.test.threshold.network'
+          bucket-name: "bob.test.threshold.network"
           bucket-path: ${{ github.head_ref }}
           build-folder: build
           set-website: ${{ inputs.preview == false }}
