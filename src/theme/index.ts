@@ -53,6 +53,10 @@ const index = extendTheme({
     Button,
     Alert,
   },
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
 })
 
 export default index
