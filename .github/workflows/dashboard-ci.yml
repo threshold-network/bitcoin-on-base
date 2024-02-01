@@ -8,6 +8,15 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        type: choice
+        options:
+          - sepolia
+          - goerli
+        default: sepolia
 
 jobs:
   dashboard-build-and-test:
@@ -79,11 +88,15 @@ jobs:
         env:
           PUBLIC_URL: /
           ETH_HOSTNAME_HTTP: |
-            ${{ github.event_name == 'push'
-              && secrets.SEPOLIA_ETH_HOSTNAME_HTTP
+            ${{ github.event_name == 'push' 
+              || (github.event_name == 'workflow_dispatch' 
+              && github.event.inputs.environment == 'sepolia')
+              && secrets.SEPOLIA_ETH_HOSTNAME_HTTP 
               || secrets.GOERLI_ETH_HOSTNAME_HTTP }}
           ETH_HOSTNAME_WS: |
             ${{ github.event_name == 'push'
+              || (github.event_name == 'workflow_dispatch' 
+              && github.event.inputs.environment == 'sepolia')
               && secrets.SEPOLIA_ETH_HOSTNAME_WS
               || secrets.GOERLI_ETH_HOSTNAME_WS }}
           NODE_OPTIONS: --max_old_space_size=4096
@@ -100,10 +113,7 @@ jobs:
         with:
           service-key: ${{ secrets.KEEP_TEST_CI_UPLOAD_DAPP_JSON_KEY_BASE64 }}
           project: keep-test-f3e0
-          bucket-name: |
-            ${{ github.event_name == 'push' }}
-              && 'bob.test.threshold.network'
-              || 'bob-goerli.test.threshold.network'
+          bucket-name: 'bob.test.threshold.network'
           bucket-path: ${{ github.head_ref }}
           build-folder: build
           set-website: ${{ inputs.preview == false }}
