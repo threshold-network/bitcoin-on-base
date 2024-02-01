@@ -86,6 +86,9 @@ jobs:
       - name: Build
         run: yarn build
         env:
+          # Temporarily we hardcode Goerli chain id (we'll need to change this
+          # to `11155111` when we switch our deployment to Sepolia.
+          CHAIN_ID: 5
           PUBLIC_URL: /
           ETH_HOSTNAME_HTTP: |
             ${{ github.event_name == 'push' 
