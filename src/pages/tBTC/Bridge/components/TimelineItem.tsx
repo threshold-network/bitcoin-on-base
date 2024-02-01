@@ -18,12 +18,12 @@ import { IoCheckmarkSharp as CompleteIcon } from "react-icons/all"
 import { DotsLoadingIndicator } from "../../../../components/DotsLoadingIndicator"
 
 export type TimelineItemProps = {
-  title: string | JSX.Element
+  label: string
   variant?: "primary" | "secondary" | "tertiary"
   number?: number
   isActive: boolean
   isComplete: boolean
-} & PropsWithChildren<AccordionItemProps>
+} & AccordionItemProps
 
 const StyledAccordionIcon: FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
   <AccordionIcon
@@ -80,7 +80,7 @@ const BulletSymbol: FC<{ status?: BulletSymbolStatus } & BoxProps> = ({
 
 const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   number,
-  title,
+  label,
   isComplete,
   isActive,
   children,
@@ -110,7 +110,7 @@ const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
             >
               <StyledAccordionIcon isExpanded={isExpanded} />
               <HStack justify="space-between" w="full">
-                <BodyMd color={"white"}>{title}</BodyMd>
+                <BodyMd color={"white"}>{label}</BodyMd>
               </HStack>
             </HStack>
             <AccordionPanel
@@ -134,7 +134,7 @@ const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
 }
 const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   number,
-  title,
+  label,
   isComplete,
   isActive,
   children,
@@ -172,7 +172,7 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
               {isComplete ? <CompleteIcon /> : number}
             </Flex>
             <HStack justify="space-between" w="full">
-              <BodyMd color="white">{title}</BodyMd>
+              <BodyMd color="white">{label}</BodyMd>
               {!isComplete && isActive ? (
                 <DotsLoadingIndicator justify="end" />
               ) : null}
@@ -200,7 +200,7 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
 
 const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   number,
-  title,
+  label,
   isComplete,
   isActive,
   children,
@@ -267,7 +267,7 @@ const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
                 <BodyMd
                   color={isActive || isComplete ? "white" : "hsl(0, 0%, 27%)"}
                 >
-                  {title}
+                  {label}
                 </BodyMd>
               </HStack>
             </HStack>

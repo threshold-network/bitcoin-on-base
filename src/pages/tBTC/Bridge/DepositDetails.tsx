@@ -76,7 +76,7 @@ export const DepositDetails: PageComponent = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { txConfirmations } = useTbtcState()
+  const { txConfirmations, updateState } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
   const tBTCWBTCSBTCPoolData = useFetchExternalPoolData(
     "curve",
@@ -135,14 +135,15 @@ export const DepositDetails: PageComponent = () => {
     if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
       return
 
-    setMintingProgressStep(
-      getMintingProgressStep({
-        confirmations,
-        requiredConfirmations,
-        optimisticMintingFinalizedTxHash,
-        optimisticMintingRequestedTxHash,
-      })
-    )
+    const step = getMintingProgressStep({
+      confirmations,
+      requiredConfirmations,
+      optimisticMintingFinalizedTxHash,
+      optimisticMintingRequestedTxHash,
+    })
+
+    setMintingProgressStep(step)
+    updateState("depositStep", step)
   }, [
     confirmations,
     requiredConfirmations,

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { PageComponent } from "../../../types"
+import { MintingStep, PageComponent } from "../../../types"
 import { useModal } from "../../../hooks/useModal"
 import { ModalType } from "../../../enums"
 import { useTBTCTerms } from "../../../hooks/useTBTCTerms"
@@ -11,14 +11,14 @@ import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { useLocation } from "react-router-dom"
-import { MintingTimeline } from "./Minting/MintingTimeline"
+import { Timeline } from "./Minting/Timeline"
+import { useTbtcState } from "../../../hooks/useTbtcState"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const { pathname } = useLocation()
 
   useEffect(() => {
     if (!hasUserResponded) openModal(ModalType.NewTBTCApp)
@@ -34,17 +34,11 @@ const TBTCBridge: PageComponent = () => {
     )
   }, [dispatch, account])
 
-  const shouldRenderSidebars = pathname.startsWith("/tBTC/mint/deposit")
-
   return (
     <PageLayout
-      renderTop={<h1>TODO: My balance component</h1>}
-      renderLeft={shouldRenderSidebars ? <MintingTimeline /> : null}
-      renderRight={
-        shouldRenderSidebars ? (
-          <h2>TODO: Transaction history + Knowledgebase component</h2>
-        ) : null
-      }
+      renderTop={<p>TODO: My balance component</p>}
+      renderLeft={<Timeline title="Minting Timeline" />}
+      renderRight={<p>TODO: Transaction history + Knowledgebase component</p>}
     >
       <Outlet />
     </PageLayout>
