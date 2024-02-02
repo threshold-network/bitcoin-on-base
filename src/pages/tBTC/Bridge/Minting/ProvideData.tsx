@@ -1,12 +1,12 @@
 import {
   Badge,
-  BodySm,
+  Box,
   Button,
   Checkbox,
   Icon,
   Text,
   VStack,
-} from "@threshold-network/components"
+} from "@chakra-ui/react"
 import { useWeb3React } from "@web3-react/core"
 import { FormikErrors, FormikProps, withFormik } from "formik"
 import { FC, Ref, useRef, useState } from "react"
@@ -177,7 +177,7 @@ export const ProvideDataComponent: FC = () => {
   }
 
   return (
-    <>
+    <VStack mx={{ base: 0, lg: 10 }} align="stretch" spacing={8}>
       <BridgeProcessCardTitle
         number={1}
         title="Deposit Address"
@@ -218,10 +218,7 @@ This file contains a BTC recovery address, a wallet public key, a refund public 
       >
         Generate Deposit Address
       </Button>
-      <BodySm textAlign="center" color="hsla(0, 0%, 100%, 50%)">
-        tBTC is a 1-1 representation of Bitcoin on Base. You can revert anytime.
-      </BodySm>
-    </>
+    </VStack>
   )
 }
 

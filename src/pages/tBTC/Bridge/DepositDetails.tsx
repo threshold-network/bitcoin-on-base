@@ -535,7 +535,7 @@ const StepSwitcher: FC = () => {
       )
     case "completed":
       return (
-        <>
+        <Box m={{ base: -6, lg: -10 }}>
           <BodyLg mt="4" fontSize="20px" lineHeight="24px">
             Success!
           </BodyLg>
@@ -567,7 +567,7 @@ const StepSwitcher: FC = () => {
           <ButtonLink size="lg" mt="8" mb="8" to="/tBTC" isFullWidth>
             New mint
           </ButtonLink>
-        </>
+        </Box>
       )
   }
 }

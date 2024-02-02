@@ -4,7 +4,7 @@ import "@fontsource/inter/500.css"
 import "@fontsource/inter/400.css"
 import "@fontsource/ibm-plex-mono/400.css"
 import { FC, useEffect, Fragment } from "react"
-import { Box, ChakraProvider, useColorModeValue } from "@chakra-ui/react"
+import { ChakraProvider } from "@chakra-ui/react"
 import { Provider as ReduxProvider, useDispatch } from "react-redux"
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core"
 import { ConnectorEvent, ConnectorUpdate } from "@web3-react/types"
@@ -19,8 +19,6 @@ import { TokenContextProvider } from "./contexts/TokenContext"
 import theme from "./theme"
 import reduxStore, { resetStoreAction } from "./store"
 import ModalRoot from "./components/Modal"
-import Sidebar from "./components/Sidebar"
-import Navbar from "./components/Navbar"
 import { PageComponent } from "./types"
 import { Token } from "./enums"
 import getLibrary from "./web3/library"
@@ -37,8 +35,6 @@ import {
   useSubscribeToRedemptionRequestedEvent,
 } from "./hooks/tbtc"
 import { useSentry } from "./hooks/sentry"
-import { Header } from "./components/Header"
-import { VStack } from "@threshold-network/components"
 
 const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.TBTC)
@@ -97,31 +93,10 @@ const AppBody = () => {
   return <Routing />
 }
 
-const Layout = () => {
-  return (
-    <VStack alignItems="normal" spacing="0">
-      <Header />
-      <Box display="flex">
-        <Sidebar />
-        <Box
-          // 100% - 80px is to account for the sidebar
-          w={{ base: "100%", md: "calc(100% - 80px)" }}
-          bg={useColorModeValue("transparent", "gray.900")}
-        >
-          <Navbar />
-          <Box as="main" data-cy="app-container">
-            <Outlet />
-          </Box>
-        </Box>
-      </Box>
-    </VStack>
-  )
-}
-
 const Routing = () => {
   return (
     <Routes>
-      <Route path="*" element={<Layout />}>
+      <Route path="*" element={<Outlet />}>
         <Route index element={<Navigate to="tBTC" />} />
         {pages.map(renderPageComponent)}
         <Route path="*" element={<Navigate to="tBTC" />} />

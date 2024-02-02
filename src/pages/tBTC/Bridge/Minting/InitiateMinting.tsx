@@ -1,5 +1,5 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
-import { BodyMd, Button } from "@threshold-network/components"
+import { BodyMd, Box, Button } from "@threshold-network/components"
 import { FC } from "react"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { ModalType } from "../../../../enums"
@@ -18,7 +18,7 @@ const InitiateMintingComponent: FC<{
   }
 
   return (
-    <>
+    <Box mx={{ base: 0, lg: 10 }}>
       <BridgeProcessCardTitle
         onPreviousStepClick={onPreviousStepClick}
         number={3}
@@ -39,7 +39,7 @@ const InitiateMintingComponent: FC<{
       >
         Initiate minting
       </Button>
-    </>
+    </Box>
   )
 }
 

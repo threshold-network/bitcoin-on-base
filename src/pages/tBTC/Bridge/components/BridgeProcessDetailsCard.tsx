@@ -18,7 +18,12 @@ export const BridgeProcessDetailsCard: FC<BridgeProcessDetailsCardProps> = ({
   ...restPros
 }) => {
   return (
-    <Card {...(isProcessCompleted ? processCompletedStyles : {})} {...restPros}>
+    <Card
+      {...(isProcessCompleted ? processCompletedStyles : {})}
+      m={{ base: -6, lg: -10 }}
+      w="unset"
+      {...restPros}
+    >
       {children}
     </Card>
   )
