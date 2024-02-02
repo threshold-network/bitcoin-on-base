@@ -4,6 +4,7 @@ import {
   Button,
   BodyMd,
   useColorModeValue,
+  Box,
 } from "@threshold-network/components"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
@@ -160,7 +161,7 @@ export const ProvideDataComponent: FC<{
   }
 
   return (
-    <>
+    <Box mx={{ base: 0, lg: 10 }}>
       <BridgeProcessCardTitle onPreviousStepClick={onPreviousStepClick} />
       <BridgeProcessCardSubTitle
         stepText="Step 1"
@@ -188,7 +189,7 @@ export const ProvideDataComponent: FC<{
       >
         Generate Deposit Address
       </Button>
-    </>
+    </Box>
   )
 }
 

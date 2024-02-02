@@ -6,7 +6,6 @@ import {
 } from "@reduxjs/toolkit"
 import { modalSlice } from "./modal"
 import { tokenSlice } from "./tokens"
-import { sidebarSlice } from "./sidebar"
 import { tbtcSlice, registerTBTCListeners } from "./tbtc"
 import { listenerMiddleware } from "./listener"
 import { accountSlice } from "./account"
@@ -15,7 +14,6 @@ const combinedReducer = combineReducers({
   account: accountSlice.reducer,
   modal: modalSlice.reducer,
   token: tokenSlice.reducer,
-  sidebar: sidebarSlice.reducer,
   tbtc: tbtcSlice.reducer,
 })
 
