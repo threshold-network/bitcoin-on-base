@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { MintingStep, PageComponent } from "../../../types"
+import { PageComponent } from "../../../types"
 import { useModal } from "../../../hooks/useModal"
 import { ModalType } from "../../../enums"
 import { useTBTCTerms } from "../../../hooks/useTBTCTerms"
@@ -10,9 +10,7 @@ import { Outlet } from "react-router"
 import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
-import { useLocation } from "react-router-dom"
 import { Timeline } from "./Minting/Timeline"
-import { useTbtcState } from "../../../hooks/useTbtcState"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
@@ -37,7 +35,7 @@ const TBTCBridge: PageComponent = () => {
   return (
     <PageLayout
       renderTop={<p>TODO: My balance component</p>}
-      renderLeft={<Timeline title="Minting Timeline" />}
+      renderLeft={<Timeline title="Minting timeline" />}
       renderRight={<p>TODO: Transaction history + Knowledgebase component</p>}
     >
       <Outlet />

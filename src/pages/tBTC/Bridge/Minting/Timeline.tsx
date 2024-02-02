@@ -172,7 +172,12 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
   }, [mintingStep, depositStep, account, isDepositPageRouteActive])
   return (
     <Box {...restProps}>
-      <BodyLg fontWeight="medium" mb={account ? 10 : 6} lineHeight={6}>
+      <BodyLg
+        color="hsl(0, 0%, 50%)"
+        fontWeight="medium"
+        mb={isDepositPageRouteActive || account ? 10 : 6}
+        lineHeight={6}
+      >
         {title}
       </BodyLg>
       <TimelineContainer
