@@ -1,23 +1,10 @@
-import { TimeIcon } from "@chakra-ui/icons"
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Badge,
   BodyLg,
   BodyMd,
-  BodySm,
-  BodyXs,
   Divider,
-  Flex,
   HStack,
-  Icon,
-  LabelSm,
   List,
-  ListItem,
-  Stack,
-  StackDivider,
-  useColorModeValue,
+  Box,
   VStack,
 } from "@threshold-network/components"
 import {
@@ -26,32 +13,14 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react"
-import { IoCheckmarkSharp } from "react-icons/all"
 import { useLocation, useNavigate, useParams } from "react-router"
 import ButtonLink from "../../../components/ButtonLink"
-import {
-  BridgeProcessIndicator,
-  TBTCTokenContractLink,
-} from "../../../components/tBTC"
-import { ExternalPool } from "../../../components/tBTC/ExternalPool"
-import {
-  Timeline,
-  TimelineBreakpoint,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineItemStatus,
-} from "../../../components/Timeline"
+import { TBTCTokenContractLink } from "../../../components/tBTC"
+import { TimelineItemStatus } from "../../../components/Timeline"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
 import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
-import ViewInBlockExplorer, {
-  Chain,
-} from "../../../components/ViewInBlockExplorer"
-import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
 import { useAppDispatch } from "../../../hooks/store"
 import {
   DepositData,
@@ -59,25 +28,11 @@ import {
   useSubscribeToOptimisticMintingFinalizedEventBase,
   useSubscribeToOptimisticMintingRequestedEventBase,
 } from "../../../hooks/tbtc"
-import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
 import { useTbtcState } from "../../../hooks/useTbtcState"
-import bitcoinJuiceIllustration from "../../../static/images/bitcoin-juice.png"
 import { tbtcSlice } from "../../../store/tbtc"
 import { PageComponent } from "../../../types"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
-import {
-  TransactionHistory,
-  TransactionHistoryItemType,
-} from "./components/TransactionHistory"
-import {
-  BridgeProcessResources,
-  BridgeProcessResourcesItemProps,
-} from "./components/BridgeProcessResources"
 import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
-import { BridgeProcessCircularLoader } from "./components/BridgeProcessCircularLoader"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
@@ -86,10 +41,6 @@ export const DepositDetails: PageComponent = () => {
   const dispatch = useAppDispatch()
   const { txConfirmations } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
-  const tBTCWBTCSBTCPoolData = useFetchExternalPoolData(
-    "curve",
-    CurveFactoryPoolId.TBTC_WBTC_SBTC
-  )
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
@@ -157,21 +108,6 @@ export const DepositDetails: PageComponent = () => {
     shouldStartFromFirstStep,
   ])
 
-  const transactions: TransactionHistoryItemType[] = [
-    { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },
-    { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
-    {
-      label: "Minting Initiation",
-      txHash: data?.optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
-      chain: "ethereum",
-    },
-    {
-      label: "Minting completion",
-      txHash: data?.optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
-      chain: "ethereum",
-    },
-  ]
-
   return (
     <DepositDetailsPageContext.Provider
       value={{
@@ -189,64 +125,36 @@ export const DepositDetails: PageComponent = () => {
         mintingFee,
       }}
     >
-      <BridgeProcessDetailsCard
-        isProcessCompleted={mintingProgressStep === "completed"}
-      >
+      <>
         {(isFetching || !data) && !error && (
           <BridgeProcessDetailsPageSkeleton />
         )}
         {error && <>{error}</>}
         {!isFetching && !!data && !error && (
-          <Stack
-            direction={{
-              base: "column",
-              xl: "row",
-            }}
-            divider={<StackDivider />}
-            spacing={4}
-          >
-            <VStack spacing={0} align="center" w={{ base: "100%", xl: "65%" }}>
-              <VStack
-                align="flex-start"
-                alignSelf="stretch"
-                spacing={2}
-                zIndex={1}
-              >
-                <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-                  Amount
-                </BodyMd>
-                <HStack align="baseline" spacing={2}>
-                  <InlineTokenBalance
-                    tokenAmount={amount || "0"}
-                    fontWeight="black"
-                    fontSize="40px"
-                    lineHeight={1}
-                  />
-                  <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
-                </HStack>
-              </VStack>
-              <StepSwitcher />
-            </VStack>
-            <Flex
-              w={{ base: "100%", xl: "35%" }}
-              mb={{ base: "20", xl: "unset" }}
-              direction="column"
+          <VStack spacing={0}>
+            <VStack
+              align="flex-start"
+              alignSelf="stretch"
+              spacing={2}
+              zIndex={1}
             >
-              <TransactionHistory items={transactions} />
-              {mintingProgressStep !== "completed" && (
-                <BridgeProcessResources items={resourceData} />
-              )}
-            </Flex>
-          </Stack>
+              <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
+                Amount
+              </BodyMd>
+              <HStack align="baseline" spacing={2}>
+                <InlineTokenBalance
+                  tokenAmount={amount || "0"}
+                  fontWeight="black"
+                  fontSize="40px"
+                  lineHeight={1}
+                />
+                <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
+              </HStack>
+            </VStack>
+            <StepSwitcher />
+          </VStack>
         )}
-      </BridgeProcessDetailsCard>
-      {mintingProgressStep === "completed" && (
-        <ExternalPool
-          title={"tBTC Curve Pool"}
-          externalPoolData={{ ...tBTCWBTCSBTCPoolData }}
-          mt={4}
-        />
-      )}
+      </>
     </DepositDetailsPageContext.Provider>
   )
 }
@@ -296,84 +204,6 @@ type DepositDetailsTimelineItem = {
   id: DepositDetailsTimelineStep
   text: string
   status: TimelineItemStatus
-}
-
-const depositTimelineItems: DepositDetailsTimelineItem[] = [
-  {
-    id: "bitcoin-confirmations",
-    text: `Bitcoin\nCheckpoint`,
-    status: "semi-active",
-  },
-  {
-    id: "minting-initialized",
-    text: "Minting\nInitialized",
-    status: "inactive",
-  },
-  {
-    id: "guardian-check",
-    text: "Guardian\nCheck",
-    status: "inactive",
-  },
-  {
-    id: "minting-completed",
-    text: "Minting\nCompleted",
-    status: "inactive",
-  },
-]
-type DepositDetailsTimelineProps = {
-  inProgressStep: DepositDetailsTimelineStep
-}
-
-const DepositDetailsTimeline: FC<DepositDetailsTimelineProps> = ({
-  inProgressStep,
-}) => {
-  const items = useMemo<DepositDetailsTimelineItem[]>(() => {
-    const isCompleted = inProgressStep === "completed"
-    const inProgressItemIndex = depositTimelineItems.findIndex(
-      (item) => item.id === inProgressStep
-    )
-    return depositTimelineItems.map((item, index) => {
-      let status: TimelineItemStatus = "active"
-      if (isCompleted) return { ...item, status }
-      if (index === inProgressItemIndex) {
-        status = "semi-active"
-      } else if (index > inProgressItemIndex) {
-        status = "inactive"
-      }
-
-      return { ...item, status }
-    })
-  }, [inProgressStep])
-
-  return (
-    <Timeline>
-      {items.map((item) => (
-        <TimelineItem key={item.id} status={item.status}>
-          <TimelineBreakpoint>
-            <TimelineDot position="relative">
-              {item.status === "active" && (
-                <Icon
-                  as={IoCheckmarkSharp}
-                  position="absolute"
-                  color="white"
-                  w="22px"
-                  h="22px"
-                  m="auto"
-                  left="0"
-                  right="0"
-                  textAlign="center"
-                />
-              )}
-            </TimelineDot>
-            <TimelineConnector />
-          </TimelineBreakpoint>
-          <TimelineContent>
-            <BodyXs whiteSpace="pre-line">{item.text}</BodyXs>
-          </TimelineContent>
-        </TimelineItem>
-      ))}
-    </Timeline>
-  )
 }
 
 const getMintingProgressStep = (
@@ -541,23 +371,3 @@ const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
 
   return { mintingRequestedTxHash, mintingFinalizedTxHash }
 }
-
-// TODO: update links
-
-const resourceData: BridgeProcessResourcesItemProps[] = [
-  {
-    title: "Token Contract",
-    link: ExternalHref.btcConfirmations,
-  },
-  {
-    title: "Bridge Contract",
-    link: ExternalHref.mintersAndGuardiansDocs,
-  },
-  {
-    title: "Read out documentation",
-    description: "Everything you need to know about our contracts.",
-    link: ExternalHref.mintersAndGuardiansDocs,
-    variant: "expanded",
-    imageSrc: bitcoinJuiceIllustration,
-  },
-]

@@ -10,15 +10,16 @@ import { Outlet } from "react-router"
 import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
-import { useLocation } from "react-router-dom"
+import { useParams } from "react-router"
 import { MintingTimeline } from "./Minting/MintingTimeline"
+import { KnowledgebaseLinks } from "./Minting/KnowledgebaseLinks"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const { pathname } = useLocation()
+  const { depositKey } = useParams()
 
   useEffect(() => {
     if (!hasUserResponded) openModal(ModalType.NewTBTCApp)
@@ -34,15 +35,16 @@ const TBTCBridge: PageComponent = () => {
     )
   }, [dispatch, account])
 
-  const shouldRenderSidebars = pathname.startsWith("/tBTC/mint/deposit")
+  const isDepositDetailsPageActive = !!depositKey
 
   return (
     <PageLayout
+      backgroundVariant={isDepositDetailsPageActive ? "secondary" : "primary"}
       renderTop={<h1>TODO: My balance component</h1>}
-      renderLeft={shouldRenderSidebars ? <MintingTimeline /> : null}
+      renderLeft={isDepositDetailsPageActive ? <MintingTimeline /> : null}
       renderRight={
-        shouldRenderSidebars ? (
-          <h2>TODO: Transaction history + Knowledgebase component</h2>
+        isDepositDetailsPageActive ? (
+          <KnowledgebaseLinks depositKey={depositKey} />
         ) : null
       }
     >
