@@ -1,6 +1,7 @@
 import { BodyLg, Box, BoxProps } from "@threshold-network/components"
 import { motion, Transition, Variants } from "framer-motion"
 import { FC, SVGProps } from "react"
+import { DotsLoadingIndicator } from "../../../../components/DotsLoadingIndicator"
 
 type GetSvgCircleArcPropertiesType = (
   centerX: number,
@@ -44,7 +45,7 @@ const getCircularSectorPathProperties: GetSvgCircleArcPropertiesType = (
   radius,
   progress
 ) => {
-  const angleInDegrees = 360 * progress
+  const angleInDegrees = 360 * progress + 1
 
   const start = polarToCartesian(centerX, centerY, radius, angleInDegrees)
   const end = polarToCartesian(centerX, centerY, radius, 0)
@@ -96,8 +97,8 @@ export const BridgeProcessCircularLoader: FC<
         color="white"
         zIndex={1}
       >
-        {label}
-        {/* TODO: Add dots animation component */}
+        {label}&nbsp;
+        <DotsLoadingIndicator />
       </BodyLg>
       <Box
         as="svg"
@@ -111,7 +112,7 @@ export const BridgeProcessCircularLoader: FC<
           <path
             fill="#66F9FF"
             fillRule="evenodd"
-            {...getCircularSectorPathProperties(388, 388, 154, progress)}
+            {...getCircularSectorPathProperties(388, 388, 154, 0.25)}
           />
         </g>
         <motion.path

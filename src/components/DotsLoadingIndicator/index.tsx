@@ -27,6 +27,7 @@ const Dot: FC = () => (
 
 export const DotsLoadingIndicator: FC<StackProps> = (props) => (
   <HStack
+    display="inline-flex"
     spacing={0.5}
     w={5}
     h={5}
