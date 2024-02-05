@@ -50,12 +50,7 @@ export const KnowledgebaseLinks: FC<KnowledgebaseLinksProps> = ({
       txHash: data?.optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
       chain: "ethereum",
     },
-    {
-      label: "Minting completion",
-      txHash: data?.optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
-      chain: "ethereum",
-    },
-  ]
+  ].filter(({ txHash }) => txHash) as TransactionHistoryItemType[]
 
   return (
     <VStack align="stretch" spacing={{ base: 4, lg: 52 }} {...restProps}>

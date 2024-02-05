@@ -2,12 +2,13 @@ import {
   BodyMd,
   Box,
   HStack,
-  Link,
   List,
   ListItem,
+  Skeleton,
+  SkeletonText,
 } from "@threshold-network/components"
 import { FC } from "react"
-import { FaChevronRight as ChevronIcon } from "react-icons/fa"
+import Link from "../../../../components/Link"
 import {
   Chain,
   createLinkToBlockExplorerForChain,
@@ -31,28 +32,51 @@ interface Props {
  * Displays a list of transactions as block explorer links.
  * @return {ReactNode}
  */
-export const TransactionHistory: FC<Props> = ({ items, ...restProps }) => (
-  <Box {...restProps}>
-    <BodyMd fontWeight="medium" mb="4">
-      Transaction History
-    </BodyMd>
-    <List spacing="4">
-      {items
-        .filter((item) => !!item.txHash)
-        .map(({ txHash, label, chain = "ethereum" }) => {
+export const TransactionHistory: FC<Props> = ({ items, ...restProps }) => {
+  if (items.length === 0) {
+    return (
+      <Box>
+        <Skeleton mb={8} w="80%" h={4} />
+        <SkeletonText noOfLines={3} spacing={4} skeletonHeight={4} />
+      </Box>
+    )
+  }
+
+  return (
+    <Box {...restProps}>
+      <BodyMd color="white" fontWeight="medium" mb="6">
+        Transaction history
+      </BodyMd>
+      <List spacing="2">
+        {items.map(({ txHash, label, chain = "ethereum" }) => {
           const link = createLinkToBlockExplorerForChain[chain](
             txHash!,
             ExplorerDataType.TRANSACTION
           )
           return (
             <ListItem key={txHash}>
-              <HStack as={Link} spacing="2.5" isExternal href={link}>
-                <ChevronIcon color="#66F9FF" size={16} />
-                <BodyMd>{label}.</BodyMd>
-              </HStack>
+              <BodyMd color="white" w="fit-content" position="relative">
+                {label}{" "}
+                <Link
+                  color="brand.100"
+                  textDecoration="none"
+                  _before={{
+                    content: '""',
+                    position: "absolute",
+                    w: "full",
+                    h: "full",
+                    inset: 0,
+                  }}
+                  isExternal
+                  href={link}
+                >
+                  Transaction
+                </Link>
+              </BodyMd>
             </ListItem>
           )
         })}
-    </List>
-  </Box>
-)
+      </List>
+    </Box>
+  )
+}
