@@ -8,6 +8,15 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        type: choice
+        options:
+          - sepolia
+          - goerli
+        default: sepolia
 
 jobs:
   dashboard-build-and-test:
@@ -74,26 +83,23 @@ jobs:
       - name: Build contracts
         run: yarn build
 
-        # Using fake ternary expression to decide which testnet to use,
-        # depending on a trigger.
-      - name: Load environment variables
-        uses: keep-network/ci/actions/load-env-variables@v2
-        with:
-          environment: |
-            ${{ github.event_name }} == 'push'
-              && 'sepolia'
-              || 'goerli'
-
       - name: Build
         run: yarn build
         env:
+          # Temporarily we hardcode Goerli chain id (we'll need to change this
+          # to `11155111` when we switch our deployment to Sepolia.
+          CHAIN_ID: 5
           PUBLIC_URL: /
           ETH_HOSTNAME_HTTP: |
-            ${{ github.event_name == 'push'
-              && secrets.SEPOLIA_ETH_HOSTNAME_HTTP
+            ${{ github.event_name == 'push' 
+              || (github.event_name == 'workflow_dispatch' 
+              && github.event.inputs.environment == 'sepolia')
+              && secrets.SEPOLIA_ETH_HOSTNAME_HTTP 
               || secrets.GOERLI_ETH_HOSTNAME_HTTP }}
           ETH_HOSTNAME_WS: |
             ${{ github.event_name == 'push'
+              || (github.event_name == 'workflow_dispatch' 
+              && github.event.inputs.environment == 'sepolia')
               && secrets.SEPOLIA_ETH_HOSTNAME_WS
               || secrets.GOERLI_ETH_HOSTNAME_WS }}
           NODE_OPTIONS: --max_old_space_size=4096
@@ -105,16 +111,12 @@ jobs:
           WALLET_CONNECT_PROJECT_ID: ${{ secrets.WALLET_CONNECT_PROJECT_ID }}
 
       - name: Deploy to GCP
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: thesis/gcp-storage-bucket-action@v3.1.0
         with:
           service-key: ${{ secrets.KEEP_TEST_CI_UPLOAD_DAPP_JSON_KEY_BASE64 }}
-          project: ${{ env.GOOGLE_PROJECT_ID }}
-          bucket-name: |
-            ${{ github.event_name == 'push' }}
-              && 'bob.test.threshold.network'
-              || 'bob-goerli.test.threshold.network'
-          bucket-path: ${{ github.head_ref }}
+          project: keep-test-f3e0
+          bucket-name: "bob.test.threshold.network"
           build-folder: build
           set-website: ${{ inputs.preview == false }}
           home-page-path: index.html
