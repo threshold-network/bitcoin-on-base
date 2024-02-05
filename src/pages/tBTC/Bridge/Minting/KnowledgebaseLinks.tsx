@@ -11,6 +11,7 @@ import {
   TransactionHistoryItemType,
 } from "../components/TransactionHistory"
 import bitcoinJuiceIllustration from "../../../../static/images/bitcoin-juice.png"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
 
 export type KnowledgebaseLinksProps = { depositKey?: string } & StackProps
 
@@ -37,6 +38,7 @@ export const KnowledgebaseLinks: FC<KnowledgebaseLinksProps> = ({
   ...restProps
 }) => {
   const { data } = useFetchDepositDetails(depositKey)
+  const { mintingRequestedTxHash, mintingFinalizedTxHash } = useTbtcState()
   const btcDepositTxHash = data?.btcTxHash
   const depositRevealedTxHash = data?.depositRevealedTxHash
 
@@ -45,14 +47,12 @@ export const KnowledgebaseLinks: FC<KnowledgebaseLinksProps> = ({
     { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
     {
       label: "Minting Initiation",
-      txHash:
-        data?.optimisticMintingRequestedTxHash /* ?? mintingRequestedTxHash */,
+      txHash: data?.optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
       chain: "ethereum",
     },
     {
       label: "Minting completion",
-      txHash:
-        data?.optimisticMintingFinalizedTxHash /* ?? mintingFinalizedTxHash */,
+      txHash: data?.optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
       chain: "ethereum",
     },
   ]

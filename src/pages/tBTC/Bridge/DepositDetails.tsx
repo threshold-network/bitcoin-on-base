@@ -7,18 +7,10 @@ import {
   Box,
   VStack,
 } from "@threshold-network/components"
-import {
-  createContext,
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react"
+import { FC, useCallback, useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router"
 import ButtonLink from "../../../components/ButtonLink"
 import { TBTCTokenContractLink } from "../../../components/tBTC"
-import { TimelineItemStatus } from "../../../components/Timeline"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
 import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
 import { useAppDispatch } from "../../../hooks/store"
@@ -39,13 +31,11 @@ export const DepositDetails: PageComponent = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { txConfirmations } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
-  const { mintingRequestedTxHash, mintingFinalizedTxHash } =
-    useSubscribeToOptimisticMintingEvents(depositKey)
+  useSubscribeToOptimisticMintingEvents(depositKey)
 
   // Cache the location state in component state.
   const [locationStateCache] = useState<{ shouldStartFromFirstStep?: boolean }>(
@@ -65,7 +55,6 @@ export const DepositDetails: PageComponent = () => {
   const amount = data?.amount ?? "0"
   const confirmations = data?.confirmations
   const requiredConfirmations = data?.requiredConfirmations
-  const depositRevealedTxHash = data?.depositRevealedTxHash
   const optimisticMintingRequestedTxHash =
     data?.optimisticMintingRequestedTxHash
   const optimisticMintingFinalizedTxHash =
@@ -109,53 +98,38 @@ export const DepositDetails: PageComponent = () => {
   ])
 
   return (
-    <DepositDetailsPageContext.Provider
-      value={{
-        step: mintingProgressStep,
-        updateStep: setMintingProgressStep,
-        btcTxHash: btcDepositTxHash,
-        optimisticMintingRequestedTxHash:
-          optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
-        optimisticMintingFinalizedTxHash:
-          optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
-        confirmations: confirmations || txConfirmations,
-        requiredConfirmations: requiredConfirmations!,
-        amount: amount,
-        thresholdNetworkFee,
-        mintingFee,
-      }}
-    >
-      <>
-        {(isFetching || !data) && !error && (
-          <BridgeProcessDetailsPageSkeleton />
-        )}
-        {error && <>{error}</>}
-        {!isFetching && !!data && !error && (
-          <VStack spacing={0}>
-            <VStack
-              align="flex-start"
-              alignSelf="stretch"
-              spacing={2}
-              zIndex={1}
-            >
-              <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-                Amount
-              </BodyMd>
-              <HStack align="baseline" spacing={2}>
-                <InlineTokenBalance
-                  tokenAmount={amount || "0"}
-                  fontWeight="black"
-                  fontSize="40px"
-                  lineHeight={1}
-                />
-                <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
-              </HStack>
-            </VStack>
-            <StepSwitcher />
+    <>
+      {(isFetching || !data) && !error && <BridgeProcessDetailsPageSkeleton />}
+      {error && <>{error}</>}
+      {!isFetching && !!data && !error && (
+        <VStack spacing={0}>
+          <VStack align="flex-start" alignSelf="stretch" spacing={2} zIndex={1}>
+            <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
+              Amount
+            </BodyMd>
+            <HStack align="baseline" spacing={2}>
+              <InlineTokenBalance
+                tokenAmount={amount || "0"}
+                fontWeight="black"
+                fontSize="40px"
+                lineHeight={1}
+              />
+              <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
+            </HStack>
           </VStack>
-        )}
-      </>
-    </DepositDetailsPageContext.Provider>
+          <StepSwitcher
+            step={mintingProgressStep}
+            confirmations={confirmations}
+            requiredConfirmations={requiredConfirmations}
+            btcTxHash={btcDepositTxHash}
+            updateStep={setMintingProgressStep}
+            amount={amount}
+            thresholdNetworkFee={thresholdNetworkFee}
+            mintingFee={mintingFee}
+          />
+        </VStack>
+      )}
+    </>
   )
 }
 
@@ -165,46 +139,12 @@ DepositDetails.route = {
   isPageEnabled: true,
 }
 
-const DepositDetailsPageContext = createContext<
-  | (Pick<
-      DepositData,
-      "optimisticMintingRequestedTxHash" | "optimisticMintingFinalizedTxHash"
-    > & {
-      btcTxHash?: string
-      confirmations?: number
-      requiredConfirmations?: number
-      updateStep: (step: DepositDetailsTimelineStep) => void
-      step: DepositDetailsTimelineStep
-      amount?: string
-      mintingFee?: string
-      thresholdNetworkFee?: string
-    })
-  | undefined
->(undefined)
-
-const useDepositDetailsPageContext = () => {
-  const context = useContext(DepositDetailsPageContext)
-
-  if (!context) {
-    throw new Error(
-      "DepositDetailsPageContext used outside of the DepositDetailsPage component."
-    )
-  }
-  return context
-}
-
 type DepositDetailsTimelineStep =
   | "bitcoin-confirmations"
   | "minting-initialized"
   | "guardian-check"
   | "minting-completed"
   | "completed"
-
-type DepositDetailsTimelineItem = {
-  id: DepositDetailsTimelineStep
-  text: string
-  status: TimelineItemStatus
-}
 
 const getMintingProgressStep = (
   depositDetails?: Omit<
@@ -244,20 +184,32 @@ const stepToNextStep: Record<
   "minting-completed": "completed",
 }
 
-const StepSwitcher: FC = () => {
-  const {
-    step,
-    confirmations,
-    requiredConfirmations,
-    optimisticMintingRequestedTxHash,
-    optimisticMintingFinalizedTxHash,
-    btcTxHash,
-    updateStep,
-    amount,
-    thresholdNetworkFee,
-    mintingFee,
-  } = useDepositDetailsPageContext()
+type StepSwitcherProps = Pick<
+  DepositData,
+  "optimisticMintingRequestedTxHash" | "optimisticMintingFinalizedTxHash"
+> & {
+  step: DepositDetailsTimelineStep
+  confirmations?: number
+  requiredConfirmations?: number
+  btcTxHash?: string
+  updateStep: (step: DepositDetailsTimelineStep) => void
+  amount?: string
+  thresholdNetworkFee?: string
+  mintingFee?: string
+}
 
+const StepSwitcher: FC<StepSwitcherProps> = ({
+  step,
+  confirmations,
+  requiredConfirmations,
+  optimisticMintingRequestedTxHash,
+  optimisticMintingFinalizedTxHash,
+  btcTxHash,
+  updateStep,
+  amount,
+  thresholdNetworkFee,
+  mintingFee,
+}) => {
   const onComplete = useCallback(() => {
     if (step === "completed") return
 
@@ -336,8 +288,7 @@ const StepSwitcher: FC = () => {
 }
 
 const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
-  const [mintingRequestedTxHash, setMintingRequestedTxHash] = useState("")
-  const [mintingFinalizedTxHash, setMintingFinalizedTxHashTxHash] = useState("")
+  const { updateState } = useTbtcState()
 
   useSubscribeToOptimisticMintingRequestedEventBase(
     (
@@ -351,7 +302,7 @@ const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
     ) => {
       const depositKeyFromEvent = depositKeyEventParam.toHexString()
       if (depositKeyFromEvent === depositKey) {
-        setMintingRequestedTxHash(event.transactionHash)
+        updateState("mintingRequestedTxHash", event.transactionHash)
       }
     },
     undefined,
@@ -362,12 +313,10 @@ const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
     (minter, depositKeyEventParam, depositor, optimisticMintingDebt, event) => {
       const depositKeyFromEvent = depositKeyEventParam.toHexString()
       if (depositKeyFromEvent === depositKey) {
-        setMintingFinalizedTxHashTxHash(event.transactionHash)
+        updateState("mintingFinalizedTxHash", event.transactionHash)
       }
     },
     undefined,
     true
   )
-
-  return { mintingRequestedTxHash, mintingFinalizedTxHash }
 }

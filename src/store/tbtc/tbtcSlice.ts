@@ -18,6 +18,8 @@ export const tbtcSlice = createSlice({
   name: "tbtc",
   initialState: {
     mintingStep: MintingStep.ProvideData,
+    mintingRequestedTxHash: "",
+    mintingFinalizedTxHash: "",
     bridgeActivity: {
       isFetching: false,
       error: "",
