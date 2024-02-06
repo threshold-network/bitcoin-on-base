@@ -1,15 +1,5 @@
 import { FC } from "react"
-import {
-  HStack,
-  Icon,
-  Card,
-  LabelSm,
-  VStack,
-  LabelMd,
-  LabelLg,
-  H2,
-  Text,
-} from "@threshold-network/components"
+import { HStack, VStack, H2, Text } from "@threshold-network/components"
 import TokenBalance, { TokenBalanceProps } from "../TokenBalance"
 // import AddToMetamaskButton from "../AddToMetamaskButton"
 import { Contract } from "@ethersproject/contracts"
