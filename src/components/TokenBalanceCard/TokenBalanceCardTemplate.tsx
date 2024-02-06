@@ -19,6 +19,7 @@ type Props = {
   | "precision"
   | "withHigherPrecision"
   | "higherPrecision"
+  | "isLarge"
 >
 
 const TokenBalanceCardTemplate: FC<Props> = ({
@@ -33,16 +34,24 @@ const TokenBalanceCardTemplate: FC<Props> = ({
   precision,
   higherPrecision,
   withSymbol = false,
+  isLarge = false,
   ...restProps
 }) => {
   return (
-    <VStack spacing={1} alignItems="flex-start" {...restProps}>
-      <H2 fontSize={16} lineHeight="24px" color="#808080" fontWeight="medium">
+    <VStack spacing={isLarge ? 4 : 1} alignItems="flex-start" {...restProps}>
+      <Text
+        as="h2"
+        fontSize={isLarge ? "lg" : "md"}
+        lineHeight={6}
+        color="hsl(0, 0%, 50%)"
+        fontWeight="medium"
+      >
         {title}
-      </H2>
-      <HStack alignItems="baseline" fontSize={24} lineHeight="40px">
+      </Text>
+      <HStack alignItems="baseline">
         <TokenBalance
           tokenAmount={tokenBalance}
+          tokenSymbol={tokenSymbol}
           usdBalance={usdBalance}
           tokenDecimals={tokenDecimals}
           tokenFormat={tokenFormat}
@@ -50,10 +59,10 @@ const TokenBalanceCardTemplate: FC<Props> = ({
           precision={precision}
           higherPrecision={higherPrecision}
           isEstimated
+          isLarge={isLarge}
           fontWeight="black"
-          color="white"
+          color="hsl(0, 0%, 90%)"
         />
-        <Text color="#808080">{tokenSymbol}</Text>
       </HStack>
     </VStack>
   )

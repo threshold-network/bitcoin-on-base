@@ -1,13 +1,10 @@
 import { FC, useMemo } from "react"
 import {
-  BodyLg,
   BodySm,
-  H3,
-  H5,
   Box,
   HStack,
   TextProps,
-  useColorModeValue,
+  Text,
   Tooltip,
   BoxProps,
 } from "@threshold-network/components"
@@ -79,39 +76,42 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
   tokenAmount,
   usdBalance,
   tokenSymbol,
-  withUSDBalance = false,
-  withSymbol = false,
   tokenDecimals,
   isLarge,
   tokenFormat,
   precision,
   higherPrecision,
-  withHigherPrecision = false,
+  children,
   ...restProps
 }) => {
   const { active } = useWeb3React()
   const shouldRenderTokenAmount = active
 
   const _tokenAmount = useMemo(() => {
-    return formatTokenAmount(tokenAmount || 0, tokenFormat, tokenDecimals)
+    return formatTokenAmount(
+      tokenAmount || 0,
+      tokenFormat,
+      tokenDecimals,
+      precision
+    )
   }, [tokenAmount, tokenFormat, tokenDecimals])
-
-  const BalanceTag = isLarge ? H3 : H5
-  const SymbolTag = isLarge ? BodyLg : BodySm
-  const usdBalanceColor = useColorModeValue("gray.500", "gray.300")
 
   // TODO: more flexible approach to style wrapper, token balance and USD balance.
   return (
     <Box>
       <HStack alignItems="center">
-        <BalanceTag {...restProps}>
+        <Text
+          fontSize={isLarge ? "4.5xl" : "2xl"}
+          lineHeight={isLarge ? 12 : "lg"}
+          {...restProps}
+        >
           {shouldRenderTokenAmount ? (
-            withHigherPrecision ? (
+            higherPrecision ? (
               <InlineTokenBalance
                 tokenAmount={tokenAmount}
                 tokenFormat={tokenFormat}
                 tokenDecimals={tokenDecimals}
-                precision={precision}
+                precision={higherPrecision}
                 withHigherPrecision
               />
             ) : (
@@ -120,15 +120,22 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
           ) : (
             "--"
           )}
-          {withSymbol && tokenSymbol && (
-            <SymbolTag as="span"> {tokenSymbol}</SymbolTag>
+          {tokenSymbol && (
+            <Text as="span" color="hsl(0, 0%, 50%)" fontWeight="medium">
+              {" "}
+              {tokenSymbol}
+            </Text>
           )}
-        </BalanceTag>
+        </Text>
       </HStack>
-      {withUSDBalance && usdBalance && shouldRenderTokenAmount && (
-        <BodySm mt="2" color={usdBalanceColor}>
-          {usdBalance} USD
-        </BodySm>
+      {usdBalance && (
+        <Text
+          color="hsl(0, 0%, 50%)"
+          fontSize={isLarge ? "xl" : "md"}
+          lineHeight={6}
+        >
+          {usdBalance}
+        </Text>
       )}
     </Box>
   )
