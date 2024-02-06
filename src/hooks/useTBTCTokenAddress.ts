@@ -1,7 +1,7 @@
-import { useTBTCv2TokenContract } from "../web3/hooks/useTBTCv2TokenContract"
+import { useTBTCTokenContract } from "../web3/hooks/useTBTCTokenContract"
 
 export const useTBTCTokenAddress = () => {
-  const tbtcContract = useTBTCv2TokenContract()
+  const tbtcContract = useTBTCTokenContract()
 
   return tbtcContract.address
 }
