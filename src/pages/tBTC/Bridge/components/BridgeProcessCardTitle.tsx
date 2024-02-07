@@ -18,10 +18,10 @@ import {
   VisuallyHidden,
   VStack,
 } from "@threshold-network/components"
-import { MintingStep } from "../../../../types"
+import { MintingStep, MintingSteps as mintingSteps } from "../../../../types"
 import { FaChevronLeft as ChevronLeftIcon } from "react-icons/fa"
 
-const TOTAL_STEPS = Object.keys(MintingStep).length - 1
+const TOTAL_STEPS = mintingSteps.length - 1
 // -1 because we don't count the success step
 
 export const BridgeProcessCardTitle: FC<
