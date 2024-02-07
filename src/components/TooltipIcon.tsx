@@ -26,14 +26,14 @@ const TooltipIcon: FC<{ label: string | JSX.Element } & IconProps> = ({
         </Flex>
       </PopoverTrigger>
       <PopoverContent
-        bg="#66f9ff"
+        bg="brand.100"
         border="none"
         color="black"
         rounded="xl"
         w="full"
         maxW="352px"
       >
-        <PopoverArrow bg="#66f9ff" />
+        <PopoverArrow bg="brand.100" />
         <BodySm as={PopoverBody} p={4} color="black">
           {label}
         </BodySm>
