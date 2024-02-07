@@ -233,6 +233,14 @@ export const ProvideDataComponent: FC = () => {
       >
         Generate Deposit Address
       </Button>
+      <Text
+        fontSize="sm"
+        lineHeight={6}
+        color="hsl(0, 0%, 50%)"
+        textAlign="center"
+      >
+        tBTC is a 1-1 representation of Bitcoin on Base. You can revert anytime.
+      </Text>
     </VStack>
   )
 }
