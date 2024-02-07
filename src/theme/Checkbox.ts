@@ -15,15 +15,11 @@ const baseStyle: PartsStyleFunction<typeof checkboxAnatomy> = () => {
       p: 2,
       borderRadius: "md",
       _checked: {
-        borderColor: "hsl(182, 100%, 70%)",
+        borderColor: "brand.100",
         _active: {
-          borderColor: "hsl(182, 100%, 70%)",
+          borderColor: "brand.100",
         },
-        bg: "hsl(182, 100%, 70%)",
-        _hover: {
-          bg: "hsl(182, 100%, 25%)",
-          borderColor: "hsl(182, 100%, 25%)",
-        },
+        bg: "brand.100",
       },
       _focus: {
         boxShadow: "0 0 0 3px hsla(182, 100%, 70%, 20%)",
@@ -32,7 +28,7 @@ const baseStyle: PartsStyleFunction<typeof checkboxAnatomy> = () => {
     icon: {
       w: 3,
       h: 3,
-      color: "#121212",
+      color: "hsl(0, 0%, 7%)",
     },
   }
 }
