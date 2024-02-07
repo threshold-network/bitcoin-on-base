@@ -1,7 +1,10 @@
 import { FC, useEffect } from "react"
 import { Skeleton, Stack, VStack } from "@threshold-network/components"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { MintingStep } from "../../../../types/tbtc"
+import {
+  MintingStep,
+  MintingSteps as mintingSteps,
+} from "../../../../types/tbtc"
 import { ProvideData } from "./ProvideData"
 import { InitiateMinting } from "./InitiateMinting"
 import { MintingSuccess } from "./MintingSuccess"
@@ -13,8 +16,6 @@ import { useRemoveDepositData } from "../../../../hooks/tbtc/useRemoveDepositDat
 import { useAppDispatch } from "../../../../hooks/store"
 import { tbtcSlice } from "../../../../store/tbtc"
 import { useIsTbtcSdkInitializing } from "../../../../contexts/ThresholdContext"
-
-const mintingSteps = Object.values(MintingStep)
 
 const MintingFlowRouterBase = () => {
   const dispatch = useAppDispatch()
