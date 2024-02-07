@@ -33,7 +33,6 @@ import {
   TBTCText,
 } from "../../../components/tBTC"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
-import { featureFlags } from "../../../constants"
 import { useThreshold } from "../../../contexts/ThresholdContext"
 import { ModalType, Token } from "../../../enums"
 import { useModal } from "../../../hooks/useModal"

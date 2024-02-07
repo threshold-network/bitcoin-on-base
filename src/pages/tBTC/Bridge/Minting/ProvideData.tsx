@@ -1,12 +1,4 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Checkbox,
-  Icon,
-  Text,
-  VStack,
-} from "@chakra-ui/react"
+import { Badge, Button, Checkbox, Icon, Text, VStack } from "@chakra-ui/react"
 import { useWeb3React } from "@web3-react/core"
 import { FormikErrors, FormikProps, withFormik } from "formik"
 import { FC, Ref, useRef, useState } from "react"

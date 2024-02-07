@@ -4,7 +4,6 @@ import {
   FormControlProps,
   FormLabel,
   Input,
-  useColorModeValue,
   BodySm,
   HStack,
 } from "@threshold-network/components"

@@ -1,20 +1,11 @@
+import { ComponentProps, FC, ReactNode } from "react"
 import {
-  ComponentProps,
-  FC,
-  MouseEventHandler,
-  ReactElement,
-  ReactNode,
-} from "react"
-import {
-  Badge,
   BodyLg,
   BodySm,
   Box,
-  Button,
   Flex,
   HStack,
   Icon,
-  useColorModeValue,
   VisuallyHidden,
   VStack,
 } from "@threshold-network/components"

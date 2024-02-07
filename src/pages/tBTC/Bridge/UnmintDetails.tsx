@@ -7,7 +7,6 @@ import {
   BodyMd,
   BodySm,
   BodyXs,
-  Box,
   Divider,
   H5,
   Icon,
@@ -30,7 +29,6 @@ import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
 } from "../../../components/TransactionDetails"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"

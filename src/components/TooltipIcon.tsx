@@ -2,7 +2,6 @@ import {
   Icon,
   IconProps,
   Popover,
-  useColorModeValue,
   PopoverTrigger,
   PopoverContent,
   PopoverArrow,

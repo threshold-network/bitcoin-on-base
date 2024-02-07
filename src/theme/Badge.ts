@@ -1,8 +1,4 @@
-import {
-  mode,
-  SystemStyleFunction,
-  SystemStyleObject,
-} from "@chakra-ui/theme-tools"
+import { SystemStyleFunction, SystemStyleObject } from "@chakra-ui/theme-tools"
 import { defaultTheme } from "@threshold-network/components"
 
 // TODO: probably we should add a new color schema: `magic` and use
