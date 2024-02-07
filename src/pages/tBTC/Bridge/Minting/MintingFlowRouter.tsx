@@ -26,6 +26,9 @@ const MintingFlowRouterBase = () => {
     useIsTbtcSdkInitializing()
 
   const onPreviousStepClick = (previousStep?: MintingStep) => {
+    if (mintingStep === MintingStep.ProvideData) {
+      previousStep = MintingStep.ProvideData
+    }
     if (!previousStep) {
       const previousStepIndex = mintingSteps.indexOf(mintingStep) - 1
       previousStep = mintingSteps[previousStepIndex] as MintingStep
