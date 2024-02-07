@@ -53,13 +53,22 @@ const MintingProcessFormBase: FC<ComponentProps & FormikProps<FormValues>> = ({
         name="ethAddress"
         label="BASE Address"
         placeholder="Address where you'll receive your tBTC"
-        tooltip="ETH address is prepopulated with your wallet address. This is the address where you'll receive your tBTC."
+        tooltip="
+          ETH address is prepopulated with your wallet address. This is the 
+          address where you'll receive your tBTC.
+        "
         isReadOnly={true}
       />
       <FormikInput
         name="btcRecoveryAddress"
         label="BTC Recovery Address"
-        tooltip={`This address needs to start with ${resolvedBTCAddressPrefix}. Recovery Address is a BTC address where your BTC funds are sent back if something exceptional happens with your deposit. A Recovery Address cannot be a multi-sig or an exchange address. Funds claiming is done by using the JSON file`}
+        tooltip={`
+          This address needs to start with ${resolvedBTCAddressPrefix}. 
+          Recovery Address is a BTC address where your BTC funds are sent back
+          if something exceptional happens with your deposit. A Recovery 
+          Address cannot be a multi-sig or an exchange address. Funds claiming
+          is done by using the JSON file
+        `}
         placeholder={`BTC Address should start with ${resolvedBTCAddressPrefix}`}
       />
     </VStack>
@@ -181,7 +190,10 @@ export const ProvideDataComponent: FC = () => {
       <BridgeProcessCardTitle
         number={1}
         title="Deposit Address"
-        description="Based on these two addresses, the system will generate for you a unique BTC deposit address. There is no minting limit."
+        description="
+          Based on these two addresses, the system will generate for you a 
+          unique BTC deposit address. There is no minting limit.
+        "
         afterDescription={<Badge variant="subtle">Action OFF-Chain</Badge>}
       />
       <MintingProcessForm
@@ -199,10 +211,13 @@ export const ProvideDataComponent: FC = () => {
         </Text>
         <TooltipIcon
           color="#888"
-          label="The file is extremely important in case you need to make a fast recovery.
-This file is important in the rare case of fund recovery.
-Keep it until you have received your tBTC token. One deposit, one receipt.
-This file contains a BTC recovery address, a wallet public key, a refund public key and a refund lock time of your deposit."
+          label="
+            The file is extremely important in case you need to make a fast 
+            recovery. This file is important in the rare case of fund recovery.
+            Keep it until you have received your tBTC token. One deposit, one 
+            receipt. This file contains a BTC recovery address, a wallet public 
+            key, a refund public key and a refund lock time of your deposit.
+          "
           ml={3}
         />
       </Checkbox>
