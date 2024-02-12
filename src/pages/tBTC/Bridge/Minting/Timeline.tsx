@@ -9,7 +9,11 @@ import {
 } from "@threshold-network/components"
 import TimelineItem, { TimelineItemProps } from "../components/TimelineItem"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { DepositDetailsStep, MintingStep } from "../../../../types/tbtc"
+import {
+  DepositDetailsStep,
+  MintingStep,
+  MintingSteps,
+} from "../../../../types/tbtc"
 import { useWeb3React } from "@web3-react/core"
 import { useLocation } from "react-router"
 
@@ -155,8 +159,8 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
     }
 
     return mintingItems.map(({ id, label, description }, index) => {
-      const currentStepIndex = Object.values(MintingStep).indexOf(mintingStep)
-      const itemIdIndex = Object.values(MintingStep).indexOf(id as MintingStep)
+      const currentStepIndex = MintingSteps.indexOf(mintingStep)
+      const itemIdIndex = MintingSteps.indexOf(id as MintingStep)
       const isComplete = itemIdIndex < currentStepIndex
       const isActive = isComplete || id === mintingStep
 
