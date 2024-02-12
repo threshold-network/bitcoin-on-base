@@ -139,9 +139,10 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
 
   const items = useMemo<TimelineItemProps[]>(() => {
     if (isDepositPageRouteActive) {
-      return depositDetailsItems.map(({ id, label, description }, index) => {
-        const currentStepIndex =
-          Object.values(DepositDetailsStep).indexOf(depositStep)
+      return depositDetailsItems.map(({ id, label, description }) => {
+        const currentStepIndex = depositStep
+          ? Object.values(DepositDetailsStep).indexOf(depositStep)
+          : 0
         const itemIdIndex = Object.values(DepositDetailsStep).indexOf(
           id as DepositDetailsStep
         )

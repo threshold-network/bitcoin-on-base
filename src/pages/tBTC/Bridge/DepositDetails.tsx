@@ -62,7 +62,7 @@ import {
   useSubscribeToOptimisticMintingRequestedEventBase,
   useSubscribeToOptimisticMintingFinalizedEventBase,
 } from "../../../hooks/tbtc"
-import { tbtcSlice } from "../../../store/tbtc"
+import { tbtcSlice, updateState } from "../../../store/tbtc"
 import { ExplorerDataType } from "../../../utils/createEtherscanLink"
 import { PageComponent } from "../../../types"
 import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
@@ -128,6 +128,10 @@ export const DepositDetails: PageComponent = () => {
           utxo: { transactionHash: btcDepositTxHash, value: amount },
         })
       )
+    }
+
+    return () => {
+      updateState("depositStep", "bitcoin-confirmations")
     }
   }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
 

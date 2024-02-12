@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { PayloadAction } from "@reduxjs/toolkit/dist/createAction"
-import { MintingStep, TbtcStateKey, TbtcState } from "../../types/tbtc"
+import {
+  MintingStep,
+  TbtcStateKey,
+  TbtcState,
+  DepositDetailsStep,
+} from "../../types/tbtc"
 import { UpdateStateActionPayload } from "../../types/state"
 import {
   BridgeActivityStatus,
@@ -18,7 +23,7 @@ export const tbtcSlice = createSlice({
   name: "tbtc",
   initialState: {
     mintingStep: MintingStep.ProvideData,
-    depositStep: "bitcoin-confirmations",
+    depositStep: DepositDetailsStep.BitcoinConfirmations,
     bridgeActivity: {
       isFetching: false,
       error: "",
