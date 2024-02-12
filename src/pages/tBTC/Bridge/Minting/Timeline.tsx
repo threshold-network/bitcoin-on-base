@@ -38,7 +38,7 @@ type TimelineItemType = {
   description: ReactNode
 }
 
-const mintingItems: TimelineItemType[] = [
+const MINTING_ITEMS: TimelineItemType[] = [
   {
     id: MintingStep.ProvideData,
     label: "Deposit Address",
@@ -75,7 +75,7 @@ const mintingItems: TimelineItemType[] = [
   },
 ]
 
-const depositDetailsItems: TimelineItemType[] = [
+const DEPOSIT_DETAILS_ITEMS: TimelineItemType[] = [
   {
     id: DepositDetailsStep.BitcoinConfirmations,
     label: "Bitcoin Confirmations",
@@ -139,7 +139,7 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
 
   const items = useMemo<TimelineItemProps[]>(() => {
     if (isDepositPageRouteActive) {
-      return depositDetailsItems.map(({ id, label, description }) => {
+      return DEPOSIT_DETAILS_ITEMS.map(({ id, label, description }) => {
         const currentStepIndex = depositStep
           ? Object.values(DepositDetailsStep).indexOf(depositStep)
           : 0
@@ -159,7 +159,7 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
       })
     }
 
-    return mintingItems.map(({ id, label, description }, index) => {
+    return MINTING_ITEMS.map(({ id, label, description }, index) => {
       const currentStepIndex = MintingSteps.indexOf(mintingStep)
       const itemIdIndex = MintingSteps.indexOf(id as MintingStep)
       const isComplete = itemIdIndex < currentStepIndex
