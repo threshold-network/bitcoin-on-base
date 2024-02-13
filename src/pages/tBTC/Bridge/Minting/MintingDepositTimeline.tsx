@@ -200,7 +200,7 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
         index={currentIndex}
         variant={variant}
         // if wallet is connected the default index is undefined to prevent
-        // conflicts with programatic control, otherwise the first item is open
+        // conflicts with programmatic control, otherwise the first item is open
         // by default
         defaultIndex={isOnDepositDetailsPage || account ? undefined : 0}
       />
