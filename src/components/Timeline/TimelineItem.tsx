@@ -31,7 +31,7 @@ const StyledAccordionIcon: FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
     w={4}
     h={4}
     color="hsl(182, 100%, 70%)"
-    transform={`rotate(${isExpanded ? -90 : 0}deg)`}
+    transform={`rotate(${isExpanded ? 0 : -90}deg)`}
   />
 )
 
