@@ -147,7 +147,7 @@ const InitiateMintingComponent: FC<{
           </LabeledBadge>
         </HStack>
       </VStack>
-      <MintingTransactionDetails my={8} withSubtotalFees withTotalFees />
+      <MintingTransactionDetails my={8} withReceiveAmount withTotalFees />
       <Button
         onClick={initiateMintTransaction}
         isFullWidth
