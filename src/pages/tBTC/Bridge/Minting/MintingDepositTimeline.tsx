@@ -1,21 +1,21 @@
-import { FC, ReactNode, useMemo } from "react"
 import {
-  Box,
-  BodyLg,
-  BoxProps,
   Badge,
   BadgeProps,
+  BodyLg,
+  Box,
+  BoxProps,
 } from "@threshold-network/components"
+import { useWeb3React } from "@web3-react/core"
+import { FC, ReactNode, useMemo } from "react"
+import { useLocation } from "react-router"
+import { Timeline, TimelineItemProps } from "../../../../components/Timeline"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import {
   DepositDetailsStep,
+  DepositDetailsSteps,
   MintingStep,
   MintingSteps,
-  DepositDetailsSteps,
 } from "../../../../types/tbtc"
-import { useWeb3React } from "@web3-react/core"
-import { useLocation } from "react-router"
-import { Timeline, TimelineItemProps } from "../../../../components/Timeline"
 
 const StyledBadge: FC<Omit<BadgeProps, "variant" | "mt" | "marginTop">> = (
   props
@@ -124,21 +124,21 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
   title,
   ...restProps
 }) => {
-  const { mintingStep, depositStep } = useTbtcState()
+  const { mintingStep, depositDetailsStep } = useTbtcState()
   const { account } = useWeb3React()
   const { pathname } = useLocation()
   const isOnDepositDetailsPage = pathname.startsWith("/tBTC/mint/deposit")
 
   const currentIndex = useMemo(() => {
     const items = isOnDepositDetailsPage ? DepositDetailsSteps : MintingSteps
-    const step = isOnDepositDetailsPage ? depositStep : mintingStep
+    const step = isOnDepositDetailsPage ? depositDetailsStep : mintingStep
     // if wallet is connected the state is controlled programatically
     // based on the minting step, otherwise the state is controlled by the
     // user
     return account || isOnDepositDetailsPage
       ? items.indexOf(step as never)
       : undefined
-  }, [mintingStep, depositStep, account, isOnDepositDetailsPage])
+  }, [mintingStep, depositDetailsStep, account, isOnDepositDetailsPage])
 
   const variant = useMemo(() => {
     if (isOnDepositDetailsPage) return "tertiary"
@@ -152,14 +152,14 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
   const items = useMemo<TimelineItemProps[]>(() => {
     if (isOnDepositDetailsPage) {
       return DEPOSIT_DETAILS_ITEMS.map(({ id, label, description }) => {
-        const currentStepIndex = depositStep
-          ? DepositDetailsSteps.indexOf(depositStep)
+        const currentStepIndex = depositDetailsStep
+          ? DepositDetailsSteps.indexOf(depositDetailsStep)
           : 0
         const itemIdIndex = DepositDetailsSteps.indexOf(
           id as DepositDetailsStep
         )
         const isComplete = itemIdIndex < currentStepIndex
-        const isActive = id === depositStep
+        const isActive = id === depositDetailsStep
 
         return {
           label,
@@ -184,7 +184,7 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
         isComplete,
       }
     })
-  }, [mintingStep, depositStep, account, isOnDepositDetailsPage])
+  }, [mintingStep, depositDetailsStep, account, isOnDepositDetailsPage])
   return (
     <Box {...restProps}>
       <BodyLg

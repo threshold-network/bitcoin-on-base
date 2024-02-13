@@ -5,7 +5,7 @@ import { UpdateStateActionPayload } from "./state"
 
 export interface TbtcState {
   mintingStep: MintingStep
-  depositStep: DepositDetailsStep
+  depositDetailsStep: DepositDetailsStep
   // deposit data
   btcRecoveryAddress: string
   btcDepositAddress: string

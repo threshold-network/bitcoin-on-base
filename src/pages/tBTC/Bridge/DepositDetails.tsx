@@ -1,66 +1,64 @@
 import {
-  FC,
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  createContext,
-  useContext,
-} from "react"
-import { useParams, useLocation, useNavigate } from "react-router"
-import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Badge,
   BodyLg,
   BodyMd,
+  BodySm,
   Box,
+  Divider,
   Flex,
+  Icon,
   LabelSm,
   List,
   ListItem,
   Stack,
   StackDivider,
-  Icon,
-  Divider,
-  BodySm,
-  BodyXs,
-  Alert,
-  AlertDescription,
-  AlertIcon,
   useColorModeValue,
 } from "@threshold-network/components"
-import { IoCheckmarkSharp, IoTime as TimeIcon } from "react-icons/all"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
-import ViewInBlockExplorer, {
-  Chain as ViewInBlockExplorerChain,
-} from "../../../components/ViewInBlockExplorer"
+import {
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
+import { IoTime as TimeIcon } from "react-icons/all"
+import { useLocation, useNavigate, useParams } from "react-router"
 import ButtonLink from "../../../components/ButtonLink"
 import {
   BridgeProcessIndicator,
   TBTCTokenContractLink,
 } from "../../../components/tBTC"
-import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
+import { ExternalPool } from "../../../components/tBTC/ExternalPool"
+import { InlineTokenBalance } from "../../../components/TokenBalance"
+import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
+import ViewInBlockExplorer, {
+  Chain as ViewInBlockExplorerChain,
+} from "../../../components/ViewInBlockExplorer"
+import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
+import { useAppDispatch } from "../../../hooks/store"
+import {
+  DepositData,
+  useFetchDepositDetails,
+  useSubscribeToOptimisticMintingFinalizedEventBase,
+  useSubscribeToOptimisticMintingRequestedEventBase,
+} from "../../../hooks/tbtc"
+import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
+import { useTbtcState } from "../../../hooks/useTbtcState"
+import { tbtcSlice } from "../../../store/tbtc"
+import { PageComponent } from "../../../types"
+import { ExplorerDataType } from "../../../utils/createEtherscanLink"
 import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
+import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
+import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import {
   BridgeProcessResource,
   BridgeProcessResourceProps,
 } from "./components/BridgeProcessResource"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
-import { useAppDispatch } from "../../../hooks/store"
-import { useTbtcState } from "../../../hooks/useTbtcState"
-import {
-  useFetchDepositDetails,
-  DepositData,
-  useSubscribeToOptimisticMintingRequestedEventBase,
-  useSubscribeToOptimisticMintingFinalizedEventBase,
-} from "../../../hooks/tbtc"
-import { tbtcSlice, updateState } from "../../../store/tbtc"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { PageComponent } from "../../../types"
-import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
-import { ExternalPool } from "../../../components/tBTC/ExternalPool"
-import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
-import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
-import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
+import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
@@ -122,7 +120,7 @@ export const DepositDetails: PageComponent = () => {
     }
 
     return () => {
-      updateState("depositStep", "bitcoin-confirmations")
+      updateState("depositDetailsStep", "bitcoin-confirmations")
     }
   }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
 
@@ -138,7 +136,7 @@ export const DepositDetails: PageComponent = () => {
     })
 
     setMintingProgressStep(step)
-    updateState("depositStep", step)
+    updateState("depositDetailsStep", step)
   }, [
     confirmations,
     requiredConfirmations,
