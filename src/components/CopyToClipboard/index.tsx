@@ -3,15 +3,11 @@ import {
   useClipboard,
   Flex,
   IconButton,
-  useColorModeValue,
   Tooltip,
   BodyMd,
 } from "@threshold-network/components"
 import shortenAddress from "../../utils/shortenAddress"
-import ViewInBlockExplorer, {
-  ViewInBlockExplorerProps,
-} from "../ViewInBlockExplorer"
-import { ExplorerDataType } from "../../utils/createEtherscanLink"
+import { ViewInBlockExplorerProps } from "../ViewInBlockExplorer"
 import { Copy as CopyIcon } from "../../static/icons/Copy"
 
 type CopyToClipboardProps = {

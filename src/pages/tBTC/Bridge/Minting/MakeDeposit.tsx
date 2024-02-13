@@ -3,20 +3,15 @@ import {
   BodySm,
   BodyMd,
   Box,
-  BoxLabel,
   Button,
-  ChecklistGroup,
   HStack,
   Stack,
-  Divider,
-  useColorModeValue,
   VStack,
   useClipboard,
   Icon,
   BodyLg,
 } from "@threshold-network/components"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "../components/BridgeProcessCardSubTitle"
 import TooltipIcon from "../../../../components/TooltipIcon"
 import { CopyAddressToClipboard } from "../../../../components/CopyToClipboard"
 import { useTbtcState } from "../../../../hooks/useTbtcState"

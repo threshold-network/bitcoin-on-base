@@ -7,7 +7,6 @@ import {
   List,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   Skeleton,
 } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
@@ -29,7 +28,6 @@ import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
 } from "../../TransactionDetails"
-import ModalCloseButton from "../ModalCloseButton"
 import withBaseModal from "../withBaseModal"
 
 type InitiateUnmintingProps = {

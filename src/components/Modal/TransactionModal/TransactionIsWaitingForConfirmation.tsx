@@ -5,7 +5,6 @@ import withBaseModal from "../withBaseModal"
 import { BaseModalProps } from "../../../types"
 import Spinner from "../../Spinner"
 
-const MODAL_BODY_PB = "3.75rem"
 interface Props extends BaseModalProps {
   pendingText?: string
 }
