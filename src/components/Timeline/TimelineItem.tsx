@@ -35,9 +35,9 @@ const StyledAccordionIcon: FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
   />
 )
 
-type BulletSymbolStatus = "completed" | "active" | "incoming"
+type BulletSymbolStatus = "completed" | "active" | "inactive"
 const BulletSymbol: FC<{ status?: BulletSymbolStatus } & BoxProps> = ({
-  status = "incoming",
+  status = "inactive",
 }) => {
   const baseColors: [BulletSymbolStatus, string][] = [
     ["completed", "hsl(151, 100%, 70%)"],
@@ -45,12 +45,12 @@ const BulletSymbol: FC<{ status?: BulletSymbolStatus } & BoxProps> = ({
   ]
   const backgroundColor = new Map<BulletSymbolStatus, string>([
     ...baseColors,
-    ["incoming", "transparent"],
+    ["inactive", "transparent"],
   ])
 
   const outlineColor = new Map<BulletSymbolStatus, string>([
     ...baseColors,
-    ["incoming", "hsl(0, 0%, 20%)"],
+    ["inactive", "hsl(0, 0%, 20%)"],
   ])
 
   return (
@@ -263,7 +263,7 @@ const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
             >
               <BulletSymbol
                 status={
-                  isActive ? "active" : isComplete ? "completed" : "incoming"
+                  isActive ? "active" : isComplete ? "completed" : "inactive"
                 }
               />
             </Flex>
