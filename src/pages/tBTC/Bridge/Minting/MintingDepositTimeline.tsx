@@ -126,26 +126,26 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
   const { mintingStep, depositStep } = useTbtcState()
   const { account } = useWeb3React()
   const { pathname } = useLocation()
-  const isDepositPageRouteActive = pathname.startsWith("/tBTC/mint/deposit")
+  const isOnDepositDetailsPage = pathname.startsWith("/tBTC/mint/deposit")
 
   const currentIndex = useMemo(() => {
     const items = Object.values(
-      isDepositPageRouteActive ? DepositDetailsStep : MintingStep
+      isOnDepositDetailsPage ? DepositDetailsStep : MintingStep
     )
-    const step = isDepositPageRouteActive ? depositStep : mintingStep
+    const step = isOnDepositDetailsPage ? depositStep : mintingStep
     // if wallet is connected the state is controlled programatically
     // based on the minting step, otherwise the state is controlled by the
     // user
-    return account || isDepositPageRouteActive ? items.indexOf(step) : undefined
-  }, [mintingStep, depositStep, account, isDepositPageRouteActive])
+    return account || isOnDepositDetailsPage ? items.indexOf(step) : undefined
+  }, [mintingStep, depositStep, account, isOnDepositDetailsPage])
 
   const variant = useMemo(() => {
-    if (isDepositPageRouteActive) return "tertiary"
+    if (isOnDepositDetailsPage) return "tertiary"
     return account ? "secondary" : "primary"
-  }, [account, isDepositPageRouteActive])
+  }, [account, isOnDepositDetailsPage])
 
   const items = useMemo<TimelineItemProps[]>(() => {
-    if (isDepositPageRouteActive) {
+    if (isOnDepositDetailsPage) {
       return DEPOSIT_DETAILS_ITEMS.map(({ id, label, description }) => {
         const currentStepIndex = depositStep
           ? Object.values(DepositDetailsStep).indexOf(depositStep)
@@ -179,13 +179,13 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
         isComplete,
       }
     })
-  }, [mintingStep, depositStep, account, isDepositPageRouteActive])
+  }, [mintingStep, depositStep, account, isOnDepositDetailsPage])
   return (
     <Box {...restProps}>
       <BodyLg
         color="hsl(0, 0%, 50%)"
         fontWeight="medium"
-        mb={isDepositPageRouteActive || account ? 10 : 6}
+        mb={isOnDepositDetailsPage || account ? 10 : 6}
         lineHeight={6}
       >
         {title}
@@ -197,7 +197,7 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
         // if wallet is connected the default index is undefined to prevent
         // conflicts with programatic control, otherwise the first item is open
         // by default
-        defaultIndex={isDepositPageRouteActive || account ? undefined : 0}
+        defaultIndex={isOnDepositDetailsPage || account ? undefined : 0}
       />
     </Box>
   )
