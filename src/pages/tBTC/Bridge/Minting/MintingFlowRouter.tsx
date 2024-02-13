@@ -96,12 +96,7 @@ const MintingFlowRouterBase = () => {
 export const MintingFlowRouter: FC = () => {
   return (
     <Flex flexDirection="column">
-      <>
-        <MintingFlowRouterBase />
-        <Box as="p" textAlign="center" mt="6">
-          <BridgeContractLink />
-        </Box>
-      </>
+      <MintingFlowRouterBase />
     </Flex>
   )
 }
