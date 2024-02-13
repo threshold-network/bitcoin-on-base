@@ -7,12 +7,12 @@ import {
   Tooltip,
   BodyMd,
 } from "@threshold-network/components"
-import { IoCopyOutline } from "react-icons/all"
 import shortenAddress from "../../utils/shortenAddress"
 import ViewInBlockExplorer, {
   ViewInBlockExplorerProps,
 } from "../ViewInBlockExplorer"
 import { ExplorerDataType } from "../../utils/createEtherscanLink"
+import { Copy as CopyIcon } from "../../static/icons/Copy"
 
 type CopyToClipboardProps = {
   textToCopy: string
@@ -53,7 +53,7 @@ export const CopyToClipboardButton: FC = () => {
       closeOnClick={false}
     >
       <IconButton
-        icon={<IoCopyOutline />}
+        icon={<CopyIcon />}
         color="hsl(182, 100%, 70%)"
         onClick={onCopy}
         aria-label={helperText}

@@ -24,7 +24,7 @@ import { MintingStep } from "../../../../types/tbtc"
 import { QRCode } from "../../../../components/QRCode"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
 import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
-import { IoCopyOutline as CopyIcon } from "react-icons/io5"
+import { Copy as CopyIcon } from "../../../../static/icons/Copy"
 import { MintDurationTiers } from "../../../../components/MintDurationTiers"
 
 const AddressRow: FC<
