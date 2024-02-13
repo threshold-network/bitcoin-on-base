@@ -50,6 +50,7 @@ const solidStyles = {
     bg: "linear-gradient(315deg, #0A1616 0%, #090909 100%)",
     border: "1px solid",
     borderColor: "whiteAlpha.250",
+    rounded: "lg",
   },
 }
 
