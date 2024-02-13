@@ -42,7 +42,7 @@ function withBaseModal<T extends BaseModalProps>(
                 {label}
               </Text>
             ) : null}
-            <ModalCloseButton position="relative" inset={0} />
+            <ModalCloseButton ml="auto" position="relative" inset={0} />
           </ModalHeader>
           <WrappedModalContent {...props} />
         </ModalContent>
