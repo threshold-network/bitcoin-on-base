@@ -9,7 +9,6 @@ import {
   VStack,
   useClipboard,
   Icon,
-  BodyLg,
 } from "@threshold-network/components"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import TooltipIcon from "../../../../components/TooltipIcon"
@@ -87,9 +86,9 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
           />
         </Box>
         <VStack spacing={6} align="start">
-          <BodyLg color="brand.100" overflowWrap="anywhere">
+          <BodyMd color="brand.100" overflowWrap="anywhere">
             {btcDepositAddress}
-          </BodyLg>
+          </BodyMd>
           <Button
             size="sm"
             variant="outline"
