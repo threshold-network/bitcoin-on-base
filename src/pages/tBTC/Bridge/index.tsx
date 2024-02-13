@@ -10,7 +10,7 @@ import { Outlet } from "react-router"
 import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
-import { Timeline } from "./Minting/Timeline"
+import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
@@ -35,7 +35,7 @@ const TBTCBridge: PageComponent = () => {
   return (
     <PageLayout
       renderTop={<p>TODO: My balance component</p>}
-      renderLeft={<Timeline title="Minting timeline" />}
+      renderLeft={<MintingDepositTimeline title="Minting timeline" />}
       renderRight={<p>TODO: Transaction history + Knowledgebase component</p>}
     >
       <Outlet />

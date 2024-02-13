@@ -3,11 +3,9 @@ import {
   Box,
   BodyLg,
   BoxProps,
-  Accordion as TimelineContainer,
   Badge,
   BadgeProps,
 } from "@threshold-network/components"
-import TimelineItem, { TimelineItemProps } from "../components/TimelineItem"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import {
   DepositDetailsStep,
@@ -16,6 +14,7 @@ import {
 } from "../../../../types/tbtc"
 import { useWeb3React } from "@web3-react/core"
 import { useLocation } from "react-router"
+import { Timeline, TimelineItemProps } from "../../../../components/Timeline"
 
 const StyledBadge: FC<Omit<BadgeProps, "variant" | "mt" | "marginTop">> = (
   props
@@ -120,7 +119,10 @@ type MintingTimelineProps = {
   title: string
 } & BoxProps
 
-export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
+export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
+  title,
+  ...restProps
+}) => {
   const { mintingStep, depositStep } = useTbtcState()
   const { account } = useWeb3React()
   const { pathname } = useLocation()
@@ -136,6 +138,11 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
     // user
     return account || isDepositPageRouteActive ? items.indexOf(step) : undefined
   }, [mintingStep, depositStep, account, isDepositPageRouteActive])
+
+  const variant = useMemo(() => {
+    if (isDepositPageRouteActive) return "tertiary"
+    return account ? "secondary" : "primary"
+  }, [account, isDepositPageRouteActive])
 
   const items = useMemo<TimelineItemProps[]>(() => {
     if (isDepositPageRouteActive) {
@@ -154,7 +161,6 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
           children: description,
           isActive,
           isComplete,
-          variant: "tertiary",
         }
       })
     }
@@ -171,7 +177,6 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
         number: ++index,
         isActive,
         isComplete,
-        variant: account ? "secondary" : "primary",
       }
     })
   }, [mintingStep, depositStep, account, isDepositPageRouteActive])
@@ -185,17 +190,15 @@ export const Timeline: FC<MintingTimelineProps> = ({ title, ...restProps }) => {
       >
         {title}
       </BodyLg>
-      <TimelineContainer
+      <Timeline
+        items={items}
         index={currentIndex}
+        variant={variant}
         // if wallet is connected the default index is undefined to prevent
         // conflicts with programatic control, otherwise the first item is open
         // by default
         defaultIndex={isDepositPageRouteActive || account ? undefined : 0}
-      >
-        {items.map((item) => (
-          <TimelineItem key={item.label} {...item} />
-        ))}
-      </TimelineContainer>
+      />
     </Box>
   )
 }

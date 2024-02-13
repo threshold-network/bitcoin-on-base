@@ -1,25 +1,26 @@
-import { FC, PropsWithChildren } from "react"
 import {
-  AccordionItem,
   AccordionButton,
-  AccordionPanel,
   AccordionIcon,
+  AccordionItem,
   AccordionItemProps,
+  AccordionPanel,
   Box,
-  HStack,
-  VStack,
-  BodyMd,
-  BodySm,
-  Flex,
   BoxProps,
+  Flex,
+  HStack,
   Icon,
-} from "@threshold-network/components"
+  VStack,
+  Text,
+} from "@chakra-ui/react"
+import { FC } from "react"
 import { IoCheckmarkSharp as CompleteIcon } from "react-icons/all"
-import { DotsLoadingIndicator } from "../../../../components/DotsLoadingIndicator"
+import { DotsLoadingIndicator } from "../DotsLoadingIndicator"
+
+export type TimelineItemVariantType = "primary" | "secondary" | "tertiary"
 
 export type TimelineItemProps = {
   label: string
-  variant?: "primary" | "secondary" | "tertiary"
+  variant?: TimelineItemVariantType
   number?: number
   isActive: boolean
   isComplete: boolean
@@ -99,35 +100,35 @@ const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
       }}
     >
       {({ isExpanded }) => (
-        <Box pb={isExpanded ? 0 : 2}>
-          <VStack spacing={0}>
-            <HStack
-              as={AccordionButton}
-              spacing={2.5}
-              p={0}
-              pointerEvents={"unset"}
-              _hover={{ bg: "transparent" }}
-            >
-              <StyledAccordionIcon isExpanded={isExpanded} />
-              <HStack justify="space-between" w="full">
-                <BodyMd color={"white"}>{label}</BodyMd>
-              </HStack>
-            </HStack>
-            <AccordionPanel
-              pt={0}
-              pr={0}
-              pb={8}
-              pl={16 + 10 /* icon width + spacing in pixels */}
-              mt={2}
-              mb={0}
-              ml={0}
-            >
-              <BodySm color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-                {children}
-              </BodySm>
-            </AccordionPanel>
-          </VStack>
-        </Box>
+        <VStack spacing={0} pb={isExpanded ? 0 : 2}>
+          <HStack
+            as={AccordionButton}
+            spacing={2.5}
+            p={0}
+            pointerEvents={"unset"}
+            _hover={{ bg: "transparent" }}
+          >
+            <StyledAccordionIcon isExpanded={isExpanded} />
+            <Text color="white" align="left" w="full">
+              {label}
+            </Text>
+          </HStack>
+          <AccordionPanel
+            pt={0}
+            pr={0}
+            pb={8}
+            pl={16 + 10 /* icon width + spacing in pixels */}
+            mt={2}
+            mb={0}
+            ml={0}
+            color="hsla(0, 0%, 100%, 50%)"
+            fontSize="sm"
+            lineHeight={5}
+            fontWeight="medium"
+          >
+            {children}
+          </AccordionPanel>
+        </VStack>
       )}
     </AccordionItem>
   )
@@ -166,13 +167,13 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
               fontSize="sm"
               lineHeight={4}
               rounded="md"
-              bg={isComplete ? "#66FFB6" : "#1E1E1E"}
-              color={isComplete ? "#121212" : "hsl(182, 100%, 70%)"}
+              bg={isComplete ? "hsl(151, 100%, 70%)" : "hsl(0, 0%, 12%)"}
+              color={isComplete ? "hsl(0, 0%, 7%)" : "hsl(182, 100%, 70%)"}
             >
               {isComplete ? <CompleteIcon /> : number}
             </Flex>
-            <HStack justify="space-between" w="full">
-              <BodyMd color="white">{label}</BodyMd>
+            <HStack color="white" justify="space-between" w="full">
+              <Text>{label}</Text>
               {!isComplete && isActive ? (
                 <DotsLoadingIndicator justify="end" />
               ) : null}
@@ -187,10 +188,12 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
             m={0}
             mt={2}
             mb={4}
+            color="hsla(0, 0%, 100%, 50%)"
+            fontWeight="medium"
+            fontSize="sm"
+            lineHeight={5}
           >
-            <BodySm color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-              {children}
-            </BodySm>
+            {children}
           </AccordionPanel>
         </VStack>
       )}
@@ -223,7 +226,9 @@ const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
       }}
     >
       {({ isExpanded }) => (
-        <Box
+        <VStack
+          align="start"
+          spacing={0}
           _after={
             !isExpanded
               ? {
@@ -240,60 +245,60 @@ const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
               : undefined
           }
         >
-          <VStack spacing={0}>
-            <HStack
-              as={AccordionButton}
-              spacing={6}
-              p={0}
-              pointerEvents={"unset"}
-              _hover={{ bg: "transparent" }}
+          <HStack
+            as={AccordionButton}
+            spacing={6}
+            p={0}
+            pointerEvents={"unset"}
+            _hover={{ bg: "transparent" }}
+          >
+            <Flex
+              align="center"
+              justify="center"
+              minW={6}
+              minH={6}
+              lineHeight={6}
+              rounded="md"
+              color={isComplete ? "hsl(0, 0%, 7%)" : "hsl(182, 100%, 70%)"}
             >
-              <Flex
-                align="center"
-                justify="center"
-                minW={6}
-                minH={6}
-                lineHeight={6}
-                rounded="md"
-                color={isComplete ? "#121212" : "hsl(182, 100%, 70%)"}
-              >
-                <BulletSymbol
-                  status={
-                    isActive ? "active" : isComplete ? "completed" : "incoming"
-                  }
-                />
-              </Flex>
-              <HStack justify="space-between" w="full">
-                <BodyMd
-                  color={isActive || isComplete ? "white" : "hsl(0, 0%, 27%)"}
-                >
-                  {label}
-                </BodyMd>
-              </HStack>
-            </HStack>
-            <AccordionPanel
-              pt={0}
-              pr={0}
-              pb={6}
-              pl={9}
-              mt={2}
-              mb={2}
-              ml={3}
-              borderLeft="1px solid"
-              borderLeftColor={
-                isComplete
-                  ? "hsl(171, 100%, 70%)"
-                  : isActive
-                  ? "hsl(0, 0%, 12%)"
-                  : "transparent"
-              }
+              <BulletSymbol
+                status={
+                  isActive ? "active" : isComplete ? "completed" : "incoming"
+                }
+              />
+            </Flex>
+            <Text
+              align="left"
+              color={isActive || isComplete ? "white" : "hsl(0, 0%, 27%)"}
+              w="full"
             >
-              <BodySm color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-                {children}
-              </BodySm>
-            </AccordionPanel>
-          </VStack>
-        </Box>
+              {label}
+            </Text>
+          </HStack>
+          <AccordionPanel
+            pt={0}
+            pr={0}
+            pb={6}
+            pl={9}
+            mt={2}
+            mb={2}
+            ml={3}
+            borderLeft="1px solid"
+            borderLeftColor={
+              isComplete
+                ? "hsl(171, 100%, 70%)"
+                : isActive
+                ? "hsl(0, 0%, 12%)"
+                : "transparent"
+            }
+            fontSize="sm"
+            lineHeight={5}
+            fontWeight="medium"
+            color="hsla(0, 0%, 50%)"
+          >
+            {children}
+          </AccordionPanel>
+        </VStack>
       )}
     </AccordionItem>
   )

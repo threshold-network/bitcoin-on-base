@@ -30,15 +30,6 @@ import {
 } from "@threshold-network/components"
 import { IoCheckmarkSharp, IoTime as TimeIcon } from "react-icons/all"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
-import {
-  Timeline,
-  TimelineBreakpoint,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineItemStatus,
-} from "../../../components/Timeline"
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
@@ -231,10 +222,6 @@ export const DepositDetails: PageComponent = () => {
                     ml="auto"
                   />
                 </Flex>
-                <DepositDetailsTimeline
-                  // isCompleted
-                  inProgressStep={mintingProgressStep}
-                />
                 {mintingProgressStep !== "completed" && (
                   <Alert status="info" my={6}>
                     <AlertIcon />
@@ -365,90 +352,6 @@ type DepositDetailsTimelineStep =
   | "guardian-check"
   | "minting-completed"
   | "completed"
-
-type DepositDetailsTimelineItem = {
-  id: DepositDetailsTimelineStep
-  text: string
-  status: TimelineItemStatus
-}
-
-const depositTimelineItems: DepositDetailsTimelineItem[] = [
-  {
-    id: "bitcoin-confirmations",
-    text: `Bitcoin\nCheckpoint`,
-    status: "semi-active",
-  },
-  {
-    id: "minting-initialized",
-    text: "Minting\nInitialized",
-    status: "inactive",
-  },
-  {
-    id: "guardian-check",
-    text: "Guardian\nCheck",
-    status: "inactive",
-  },
-  {
-    id: "minting-completed",
-    text: "Minting\nCompleted",
-    status: "inactive",
-  },
-]
-type DepositDetailsTimelineProps = {
-  inProgressStep: DepositDetailsTimelineStep
-}
-
-const DepositDetailsTimeline: FC<DepositDetailsTimelineProps> = ({
-  inProgressStep,
-}) => {
-  const items = useMemo<DepositDetailsTimelineItem[]>(() => {
-    const isCompleted = inProgressStep === "completed"
-    const inProgressItemIndex = depositTimelineItems.findIndex(
-      (item) => item.id === inProgressStep
-    )
-    return depositTimelineItems.map((item, index) => {
-      let status: TimelineItemStatus = "active"
-      if (isCompleted) return { ...item, status }
-      if (index === inProgressItemIndex) {
-        status = "semi-active"
-      } else if (index > inProgressItemIndex) {
-        status = "inactive"
-      }
-
-      return { ...item, status }
-    })
-  }, [inProgressStep])
-
-  return (
-    <Timeline>
-      {items.map((item) => (
-        <TimelineItem key={item.id} status={item.status}>
-          <TimelineBreakpoint>
-            <TimelineDot position="relative">
-              {item.status === "active" && (
-                <Icon
-                  as={IoCheckmarkSharp}
-                  position="absolute"
-                  color="white"
-                  w="22px"
-                  h="22px"
-                  m="auto"
-                  left="0"
-                  right="0"
-                  textAlign="center"
-                />
-              )}
-            </TimelineDot>
-            <TimelineConnector />
-          </TimelineBreakpoint>
-          <TimelineContent>
-            <BodyXs whiteSpace="pre-line">{item.text}</BodyXs>
-          </TimelineContent>
-        </TimelineItem>
-      ))}
-    </Timeline>
-  )
-}
 
 const getMintingProgressStep = (
   depositDetails?: Omit<
