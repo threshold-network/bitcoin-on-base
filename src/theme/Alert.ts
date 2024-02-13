@@ -1,5 +1,4 @@
 import { AlertProps } from "@chakra-ui/react"
-import { stat } from "fs"
 
 const defaultProps = {
   status: "info",
