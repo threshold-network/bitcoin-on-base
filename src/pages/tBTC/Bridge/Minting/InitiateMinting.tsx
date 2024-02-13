@@ -47,7 +47,6 @@ const InitiateMintingComponent: FC<{
 
   const onFailedDepositReveal = (error: RevealDepositErrorType) => {
     setDepositRevealErrorData(error)
-    console.log("Failed to reveal deposit", error)
     closeModal()
   }
 
