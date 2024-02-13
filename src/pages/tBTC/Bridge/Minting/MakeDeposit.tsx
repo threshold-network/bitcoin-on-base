@@ -124,7 +124,7 @@ const MakeDepositComponent: FC<{
     <Box mx={{ base: 0, lg: 10 }}>
       <BridgeProcessCardTitle
         onPreviousStepClick={onPreviousStepClick}
-        number={2}
+        step={2}
         title="Make your BTC deposit"
       />
       <BodyMd color="gray.500" mb={6}>

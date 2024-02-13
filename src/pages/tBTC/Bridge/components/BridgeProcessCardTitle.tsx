@@ -17,14 +17,14 @@ const TOTAL_STEPS = mintingSteps.length - 1
 
 export const BridgeProcessCardTitle: FC<
   {
-    number: number
+    step: number
     title: string
     description?: ReactNode
     afterDescription?: ReactNode
     onPreviousStepClick?: (previousStep?: MintingStep) => void
   } & ComponentProps<typeof BodyLg>
 > = ({
-  number,
+  step,
   title,
   description,
   afterDescription,
@@ -62,7 +62,7 @@ export const BridgeProcessCardTitle: FC<
           lineHeight={4}
           color="hsl(182, 100%, 70%)"
         >
-          {number}/{TOTAL_STEPS}
+          {step}/{TOTAL_STEPS}
         </BodySm>
         <BodyLg as="h2" fontSize="2xl" color="white" fontWeight="medium">
           {title}

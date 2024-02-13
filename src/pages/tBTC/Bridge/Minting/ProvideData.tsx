@@ -180,7 +180,7 @@ export const ProvideDataComponent: FC = () => {
   return (
     <VStack mx={{ base: 0, lg: 10 }} align="stretch" spacing={8}>
       <BridgeProcessCardTitle
-        number={1}
+        step={1}
         title="Deposit Address"
         description="
           Based on these two addresses, the system will generate for you a 
