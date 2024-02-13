@@ -68,7 +68,8 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         </BodySm>
         <TooltipIcon label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC." />
       </HStack>
-      <HStack
+      <Stack
+        direction={{ base: "column", sm: "row" }}
         align="start"
         py={4}
         pl={4}
@@ -100,7 +101,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
             Copy
           </Button>
         </VStack>
-      </HStack>
+      </Stack>
     </VStack>
   )
 }
@@ -112,7 +113,7 @@ const MakeDepositComponent: FC<{
     useTbtcState()
 
   return (
-    <Box mx={{ base: 0, lg: 10 }}>
+    <Box mx={{ base: 0, xl: 10 }}>
       <BridgeProcessCardTitle
         previousStep={MintingStep.ProvideData}
         onPreviousStepClick={onPreviousStepClick}

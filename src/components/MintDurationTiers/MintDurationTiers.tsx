@@ -5,7 +5,6 @@ import {
   Box,
   Flex,
   Icon,
-  Stack,
   VStack,
 } from "@threshold-network/components"
 import { FC } from "react"
@@ -43,13 +42,10 @@ const MintDurationTiers: FC<MintDurationTiersProps> = ({
       <BodySm fontWeight="medium" color="hsl(181, 100%, 70%)" lineHeight={1.5}>
         Minting Time Est.
       </BodySm>
-      <Stack
+      <Flex
         w="full"
-        direction={{
-          base: "column",
-          sm: "row",
-        }}
-        spacing={{
+        flexWrap={{ base: "wrap", xl: "nowrap" }}
+        gap={{
           base: 3,
           md: 4,
         }}
@@ -112,7 +108,7 @@ const MintDurationTiers: FC<MintDurationTiersProps> = ({
             </VStack>
           )
         })}
-      </Stack>
+      </Flex>
     </VStack>
   )
 }
