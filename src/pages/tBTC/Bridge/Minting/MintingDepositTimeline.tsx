@@ -179,7 +179,7 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
       return {
         label,
         children: description,
-        number: ++index,
+        step: ++index,
         isActive,
         isComplete,
       }

@@ -21,7 +21,7 @@ export type TimelineItemVariantType = "primary" | "secondary" | "tertiary"
 export type TimelineItemProps = {
   label: string
   variant?: TimelineItemVariantType
-  number?: number
+  step?: number
   isActive: boolean
   isComplete: boolean
 } & AccordionItemProps
@@ -80,7 +80,7 @@ const BulletSymbol: FC<{ status?: BulletSymbolStatus } & BoxProps> = ({
 }
 
 const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
-  number,
+  step,
   label,
   isComplete,
   isActive,
@@ -134,7 +134,7 @@ const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   )
 }
 const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
-  number,
+  step,
   label,
   isComplete,
   isActive,
@@ -170,7 +170,7 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
               bg={isComplete ? "hsl(151, 100%, 70%)" : "hsl(0, 0%, 12%)"}
               color={isComplete ? "hsl(0, 0%, 7%)" : "hsl(182, 100%, 70%)"}
             >
-              {isComplete ? <CompleteIcon /> : number}
+              {isComplete ? <CompleteIcon /> : step}
             </Flex>
             <HStack color="white" justify="space-between" w="full">
               <Text>{label}</Text>
@@ -202,7 +202,7 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
 }
 
 const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
-  number,
+  step,
   label,
   isComplete,
   isActive,
