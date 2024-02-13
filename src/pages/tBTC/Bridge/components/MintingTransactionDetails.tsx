@@ -10,13 +10,13 @@ import { TransactionDetailsAmountItem } from "../../../../components/Transaction
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 
 export type MintingTransactionDetailsProps = ListProps & {
-  withTotal?: boolean
-  withSubTotal?: boolean
+  withTotalFees?: boolean
+  withSubtotalFees?: boolean
 }
 
 const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
-  withSubTotal = false,
-  withTotal = false,
+  withSubtotalFees = false,
+  withTotalFees = false,
   ...restProps
 }) => {
   const { tBTCMintAmount, mintingFee, thresholdNetworkFee } = useTbtcState()
@@ -48,29 +48,29 @@ const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
         precision={6}
         higherPrecision={8}
       />
-      {withTotal || withSubTotal ? (
+      {withTotalFees || withSubtotalFees ? (
         <ListItem>
           <StackDivider w="full" h="1px" bg="hsla(0, 0%, 100%, 10%)" />
         </ListItem>
       ) : null}
-      {withSubTotal ? (
+      {withSubtotalFees ? (
         <TransactionDetailsAmountItem
           label="Total Fees"
           tokenAmount={totalFees.toString()}
           tokenSymbol="tBTC"
           precision={6}
           higherPrecision={8}
-          isSubTotal={withSubTotal}
+          isSubTotal={withSubtotalFees}
         />
       ) : null}
-      {withTotal ? (
+      {withTotalFees ? (
         <TransactionDetailsAmountItem
           label="You will receive"
           tokenAmount={amountToReceive.toString()}
           tokenSymbol="tBTC"
           precision={6}
           higherPrecision={8}
-          isTotal={withTotal}
+          isTotal={withTotalFees}
         />
       ) : null}
     </List>
