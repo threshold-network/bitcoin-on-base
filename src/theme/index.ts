@@ -18,6 +18,7 @@ export const customBreakpoints = {
 
 export const customSizes = {
   "content-max-width": "89.25rem", // 1428px
+  "toast-width": "34.375rem", // 550px
 }
 
 const index = extendTheme({
@@ -42,6 +43,8 @@ const index = extendTheme({
       fontFamily: "IBM Plex Mono, monospace",
     },
   },
+  sizes: customSizes,
+  breakpoints: customBreakpoints,
   components: {
     ...defaultTheme.components,
     AnnouncementBanner,
