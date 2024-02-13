@@ -29,8 +29,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@threshold-network/components": "development",
-    "@threshold-network/coverage-pools": "npm:@keep-network/coverage-pools@development",
-    "@threshold-network/solidity-contracts": "development",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.9.1",
     "@types/numeral": "^2.0.2",
@@ -45,10 +43,8 @@
     "@web3-react/walletlink-connector": "^6.2.13",
     "axios": "^0.24.0",
     "bitcoin-address-validation": "^2.2.1",
-    "crypto-js": "^4.1.1",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^5.4.7",
-    "focus-visible": "^5.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^4",
     "numeral": "^2.0.6",
@@ -62,8 +58,7 @@
     "react-redux": "^7.2.5",
     "react-router-dom": "6.2.1",
     "react-scripts": "4.0.3",
-    "typescript": "^4.4.3",
-    "web-vitals": "^1.0.1"
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "start": "craco --openssl-legacy-provider start",

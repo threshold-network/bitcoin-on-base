@@ -120,7 +120,7 @@ const MakeDepositComponent: FC<{
     useTbtcState()
 
   return (
-    <>
+    <Box mx={{ base: 0, lg: 10 }}>
       <BridgeProcessCardTitle
         previousStep={MintingStep.ProvideData}
         onPreviousStepClick={onPreviousStepClick}
@@ -173,7 +173,7 @@ const MakeDepositComponent: FC<{
       >
         I sent the BTC
       </Button>
-    </>
+    </Box>
   )
 }
 
