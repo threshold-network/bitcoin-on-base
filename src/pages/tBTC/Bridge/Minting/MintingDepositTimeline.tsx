@@ -11,6 +11,7 @@ import {
   DepositDetailsStep,
   MintingStep,
   MintingSteps,
+  DepositDetailsSteps,
 } from "../../../../types/tbtc"
 import { useWeb3React } from "@web3-react/core"
 import { useLocation } from "react-router"
@@ -129,14 +130,14 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
   const isOnDepositDetailsPage = pathname.startsWith("/tBTC/mint/deposit")
 
   const currentIndex = useMemo(() => {
-    const items = Object.values(
-      isOnDepositDetailsPage ? DepositDetailsStep : MintingStep
-    )
+    const items = isOnDepositDetailsPage ? DepositDetailsSteps : MintingSteps
     const step = isOnDepositDetailsPage ? depositStep : mintingStep
     // if wallet is connected the state is controlled programatically
     // based on the minting step, otherwise the state is controlled by the
     // user
-    return account || isOnDepositDetailsPage ? items.indexOf(step) : undefined
+    return account || isOnDepositDetailsPage
+      ? items.indexOf(step as never)
+      : undefined
   }, [mintingStep, depositStep, account, isOnDepositDetailsPage])
 
   const variant = useMemo(() => {
@@ -148,9 +149,9 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
     if (isOnDepositDetailsPage) {
       return DEPOSIT_DETAILS_ITEMS.map(({ id, label, description }) => {
         const currentStepIndex = depositStep
-          ? Object.values(DepositDetailsStep).indexOf(depositStep)
+          ? DepositDetailsSteps.indexOf(depositStep)
           : 0
-        const itemIdIndex = Object.values(DepositDetailsStep).indexOf(
+        const itemIdIndex = DepositDetailsSteps.indexOf(
           id as DepositDetailsStep
         )
         const isComplete = itemIdIndex < currentStepIndex

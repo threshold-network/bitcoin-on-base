@@ -70,3 +70,11 @@ export enum DepositDetailsStep {
   MintingCompleted = "minting-completed",
   Completed = "completed",
 }
+
+export const DepositDetailsSteps: DepositDetailsStep[] = [
+  DepositDetailsStep.BitcoinConfirmations,
+  DepositDetailsStep.MintingInitialized,
+  DepositDetailsStep.GuardianCheck,
+  DepositDetailsStep.MintingCompleted,
+  DepositDetailsStep.Completed,
+]
