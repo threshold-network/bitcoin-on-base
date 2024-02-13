@@ -145,6 +145,10 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
     return account ? "secondary" : "primary"
   }, [account, isOnDepositDetailsPage])
 
+  // This variable contains mutated data to be iterated by the Timeline
+  // component. It conditionally chooses the correct data based on the
+  // current page and mutates data based on the current deposit or minting
+  // step to define if the item is active and/or complete.
   const items = useMemo<TimelineItemProps[]>(() => {
     if (isOnDepositDetailsPage) {
       return DEPOSIT_DETAILS_ITEMS.map(({ id, label, description }) => {
