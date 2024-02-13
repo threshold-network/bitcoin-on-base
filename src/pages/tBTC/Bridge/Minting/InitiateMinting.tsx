@@ -7,21 +7,21 @@ import {
   HStack,
   VStack,
 } from "@threshold-network/components"
-import { FC, useEffect, useState } from "react"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
-import { MintingStep } from "../../../../types/tbtc"
-import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
-import { InlineTokenBalance } from "../../../../components/TokenBalance"
-import MintingTransactionDetails from "../components/MintingTransactionDetails"
-import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { BigNumber } from "ethers"
-import { useThreshold } from "../../../../contexts/ThresholdContext"
-import { useRevealDepositTransaction } from "../../../../hooks/tbtc"
-import { useModal } from "../../../../hooks/useModal"
-import { getDurationByNumberOfConfirmations } from "../../../../utils/tBTC"
+import { FC, useEffect, useState } from "react"
 import { FaClock as ClockIcon } from "react-icons/fa"
 import { LabeledBadge } from "../../../../components/LabeledBadge"
 import { Toast } from "../../../../components/Toast"
+import { InlineTokenBalance } from "../../../../components/TokenBalance"
+import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
+import { useThreshold } from "../../../../contexts/ThresholdContext"
+import { useRevealDepositTransaction } from "../../../../hooks/tbtc"
+import { useModal } from "../../../../hooks/useModal"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
+import { MintingStep } from "../../../../types/tbtc"
+import { getDurationByNumberOfConfirmations } from "../../../../utils/tBTC"
+import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
+import MintingTransactionDetails from "../components/MintingTransactionDetails"
 
 type RevealDepositErrorType = {
   code: number
@@ -88,7 +88,7 @@ const InitiateMintingComponent: FC<{
   }
 
   return (
-    <>
+    <Box mx={{ base: 0, lg: 10 }}>
       {depositRevealErrorData ? (
         <Toast
           status="error"
@@ -157,7 +157,7 @@ const InitiateMintingComponent: FC<{
       >
         {depositRevealErrorData ? "Try again" : "Mint"}
       </Button>
-    </>
+    </Box>
   )
 }
 

@@ -1,7 +1,6 @@
 export * from "./array"
 export * from "./modal"
 export * from "./wallet"
-export * from "./sidebar"
 export * from "./token"
 export * from "./page"
 export * from "./tbtc"

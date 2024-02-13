@@ -22,6 +22,8 @@ import { FC, useRef } from "react"
 import { NavLink } from "react-router-dom"
 import useChakraBreakpoint from "../../hooks/useChakraBreakpoint"
 
+const NAVIGATION_MENU_DESKTOP_SPACING = "8.875rem" // 142px
+
 const NavigationMenuMobileContainer: FC<StackProps> = (props) => (
   <VStack
     divider={<StackDivider />}
@@ -44,10 +46,6 @@ const NavigationMenuDesktopContainer: FC<StackProps> = (props) => (
     spacing={0}
     alignSelf="stretch"
     alignItems="stretch"
-    ml={{
-      lg: `calc(${spacing[16]} - ${spacing[5]})`,
-      xl: `calc(142px - ${spacing[5]})`,
-    }}
     mr="auto"
   />
 )
@@ -147,10 +145,12 @@ const renderNavigationMenuItems = (items: NavigationMenuItemType[]) =>
 interface NavigationMenuProps extends StackProps {
   /** The menu items to display */
   items: NavigationMenuItemType[]
+  spacingVariant?: "base" | "lg"
 }
 
 export const NavigationMenu: FC<NavigationMenuProps> = ({
   items,
+  spacingVariant = "base",
   ...restProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -190,7 +190,15 @@ export const NavigationMenu: FC<NavigationMenuProps> = ({
           </DrawerContent>
         </Drawer>
       ) : (
-        <NavigationMenuDesktopContainer as={List} {...restProps}>
+        <NavigationMenuDesktopContainer
+          as={List}
+          ml={
+            spacingVariant === "base"
+              ? 6
+              : `calc(${NAVIGATION_MENU_DESKTOP_SPACING} - ${spacing[5]})` // To account for items's padding
+          }
+          {...restProps}
+        >
           {renderNavigationMenuItems(items)}
         </NavigationMenuDesktopContainer>
       )}

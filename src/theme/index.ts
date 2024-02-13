@@ -12,12 +12,12 @@ import { Tooltip } from "./Tooltip"
 import { Button } from "./Button"
 import { Alert } from "./Alert"
 
-export const customSizes = {
-  "toast-width": "34.375rem", // 550px
-}
-
 export const customBreakpoints = {
   "3xl": "120rem", // 1920px
+}
+
+export const customSizes = {
+  "content-max-width": "89.25rem", // 1428px
 }
 
 const index = extendTheme({
@@ -42,8 +42,6 @@ const index = extendTheme({
       fontFamily: "IBM Plex Mono, monospace",
     },
   },
-  sizes: customSizes,
-  breakpoints: customBreakpoints,
   components: {
     ...defaultTheme.components,
     AnnouncementBanner,
@@ -57,6 +55,10 @@ const index = extendTheme({
     Tooltip,
     Button,
     Alert,
+  },
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
   },
 })
 

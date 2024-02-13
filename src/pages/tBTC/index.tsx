@@ -1,11 +1,13 @@
-import PageLayout from "../PageLayout"
 import { PageComponent } from "../../types"
 import HowItWorksPage from "./HowItWorks"
 import TBTCBridge from "./Bridge"
 import { ExplorerPage } from "./Explorer"
+import { Outlet } from "react-router-dom"
+import useDocumentTitle from "../../hooks/useDocumentTitle"
 
-const MainTBTCPage: PageComponent = (props) => {
-  return <PageLayout title={props.title} pages={props.pages} />
+const MainTBTCPage: PageComponent = ({ title = "tBTC" }) => {
+  useDocumentTitle(`Threshold - ${title}`)
+  return <Outlet />
 }
 
 MainTBTCPage.route = {
