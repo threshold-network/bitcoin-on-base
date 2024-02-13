@@ -35,14 +35,14 @@ const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
   return (
     <List spacing={4} {...restProps}>
       <TransactionDetailsAmountItem
-        label="Minting Fee"
+        label="Bitcoin Deposit Miner Fee"
         tokenAmount={mintingFee}
         tokenSymbol="tBTC"
         precision={6}
         higherPrecision={8}
       />
       <TransactionDetailsAmountItem
-        label="Threshold Network Fee"
+        label="tBTC Bridge Fee"
         tokenAmount={thresholdNetworkFee}
         tokenSymbol="tBTC"
         precision={6}
