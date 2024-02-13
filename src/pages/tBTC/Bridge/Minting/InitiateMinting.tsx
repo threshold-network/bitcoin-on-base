@@ -120,6 +120,10 @@ const InitiateMintingComponent: FC<{
               fontWeight="black"
               color="white"
               tokenAmount={depositedAmount}
+              tokenDecimals={8}
+              precision={6}
+              higherPrecision={8}
+              displayTildeBelow={0}
             />
             &nbsp;BTC
           </Box>
