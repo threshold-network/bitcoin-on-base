@@ -198,7 +198,7 @@ export const ProvideDataComponent: FC = () => {
       />
       <Checkbox defaultChecked onChange={handleDepositReceiptAgreementChange}>
         Download Deposit Receipt&nbsp;
-        <Text as="span" color="#888">
+        <Text as="span" color="#888" mr={3}>
           (Recommended)
         </Text>
         <TooltipIcon
@@ -210,7 +210,6 @@ export const ProvideDataComponent: FC = () => {
             receipt. This file contains a BTC recovery address, a wallet public 
             key, a refund public key and a refund lock time of your deposit.
           "
-          ml={3}
         />
       </Checkbox>
       <Button
