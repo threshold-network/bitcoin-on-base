@@ -72,7 +72,7 @@ const UnmintFormPage: PageComponent = ({}) => {
 
   return (
     <>
-      <BridgeProcessCardTitle step={1} title="Unmint your tBTC tokens" />
+      <BridgeProcessCardTitle badgeText="1/?" title="Unmint your tBTC tokens" />
       <BodyMd color="gray.500">
         Unminting requires one Ethereum transaction and it takes around 3-5
         hours.

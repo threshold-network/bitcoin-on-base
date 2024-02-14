@@ -1,5 +1,6 @@
 import { ComponentProps, FC, ReactNode } from "react"
 import {
+  Badge,
   BodyLg,
   BodySm,
   Box,
@@ -12,19 +13,16 @@ import {
 import { MintingStep, MintingSteps as mintingSteps } from "../../../../types"
 import { FaChevronLeft as ChevronLeftIcon } from "react-icons/fa"
 
-const TOTAL_STEPS = mintingSteps.length - 1
-// -1 because we don't count the success step
-
 export const BridgeProcessCardTitle: FC<
   {
-    step: number
+    badgeText: string
     title: string
     description?: ReactNode
     afterDescription?: ReactNode
     onPreviousStepClick?: (previousStep?: MintingStep) => void
   } & ComponentProps<typeof BodyLg>
 > = ({
-  step,
+  badgeText,
   title,
   description,
   afterDescription,
@@ -54,16 +52,9 @@ export const BridgeProcessCardTitle: FC<
             <VisuallyHidden>Previous step</VisuallyHidden>
           </Flex>
         ) : null}
-        <BodySm
-          rounded="md"
-          bg="#1E1E1E"
-          p={2}
-          fontWeight="medium"
-          lineHeight={4}
-          color="hsl(182, 100%, 70%)"
-        >
-          {step}/{TOTAL_STEPS}
-        </BodySm>
+        <Badge variant="subtle" rounded="lg" p={2} fontSize="sm" lineHeight={4}>
+          {badgeText}
+        </Badge>
         <BodyLg as="h2" fontSize="2xl" color="white" fontWeight="medium">
           {title}
         </BodyLg>

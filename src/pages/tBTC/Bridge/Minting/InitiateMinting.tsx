@@ -21,7 +21,7 @@ const InitiateMintingComponent: FC<{
     <Box mx={{ base: 0, lg: 10 }}>
       <BridgeProcessCardTitle
         onPreviousStepClick={onPreviousStepClick}
-        step={3}
+        badgeText="3/3"
         title="Initiate minting"
       />
       <BodyMd color="gray.500" mb={6}>
