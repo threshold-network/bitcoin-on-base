@@ -9,10 +9,8 @@ import {
 } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
 import { FormikErrors, FormikProps, withFormik } from "formik"
-import { RecoveryJsonFileData } from "../../../components/Modal/TbtcRecoveryFileModal"
 import { useNavigate } from "react-router-dom"
 import { PageComponent } from "../../../types"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import { BridgeContractLink } from "../../../components/tBTC"
 import { useTbtcState } from "../../../hooks/useTbtcState"
 import { MintingStep } from "../../../types/tbtc"
@@ -27,6 +25,11 @@ import { getErrorsObj } from "../../../utils/forms"
 import { useTBTCDepositDataFromLocalStorage } from "../../../hooks/tbtc"
 import { useThreshold } from "../../../contexts/ThresholdContext"
 import HelperErrorText from "../../../components/Forms/HelperErrorText"
+import { DepositScriptParameters } from "../../../threshold-ts/tbtc"
+
+type RecoveryJsonFileData = DepositScriptParameters & {
+  btcRecoveryAddress: string
+}
 
 export const ResumeDepositPage: PageComponent = () => {
   const { updateState } = useTbtcState()
@@ -70,10 +73,6 @@ export const ResumeDepositPage: PageComponent = () => {
 
   return (
     <>
-      <BridgeProcessCardTitle
-        previousStep={MintingStep.InitiateMinting}
-        onPreviousStepClick={navigateToMintPage}
-      />
       <BodyLg>
         <Box as="span" fontWeight="600" color="brand.500">
           Resume Minting

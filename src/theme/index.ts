@@ -22,7 +22,7 @@ const index = extendTheme({
   colors: {
     ...defaultTheme.colors,
     brand: {
-      "100": "#66F9FF",
+      "100": "hsl(182, 100%, 70%)",
     },
     whiteAlpha: {
       "250": "hsla(0, 0%, 100%, 0.1)",

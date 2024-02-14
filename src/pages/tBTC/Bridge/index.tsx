@@ -38,6 +38,7 @@ const TBTCBridge: PageComponent = () => {
 
   return (
     <PageLayout
+      backgroundVariant="secondary"
       renderTop={<h1>TODO: My balance component</h1>}
       renderLeft={shouldRenderSidebars ? <MintingTimeline /> : null}
       renderRight={
