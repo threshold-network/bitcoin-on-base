@@ -46,21 +46,19 @@ const TokenBalanceCardTemplate: FC<Props> = ({
       >
         {title}
       </Text>
-      <HStack alignItems="baseline">
-        <TokenBalance
-          tokenAmount={tokenBalance}
-          tokenSymbol={tokenSymbol}
-          usdBalance={usdBalance}
-          tokenDecimals={tokenDecimals}
-          tokenFormat={tokenFormat}
-          precision={precision}
-          higherPrecision={higherPrecision}
-          isEstimated
-          isLarge={isLarge}
-          fontWeight="black"
-          color="hsl(0, 0%, 90%)"
-        />
-      </HStack>
+      <TokenBalance
+        tokenAmount={tokenBalance}
+        tokenSymbol={tokenSymbol}
+        usdBalance={usdBalance}
+        tokenDecimals={tokenDecimals}
+        tokenFormat={tokenFormat}
+        precision={precision}
+        higherPrecision={higherPrecision}
+        isEstimated
+        isLarge={isLarge}
+        fontWeight="black"
+        color="hsl(0, 0%, 90%)"
+      />
     </VStack>
   )
 }
