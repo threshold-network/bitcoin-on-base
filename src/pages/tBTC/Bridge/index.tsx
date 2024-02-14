@@ -39,6 +39,7 @@ const TBTCBridge: PageComponent = () => {
 
   return (
     <PageLayout
+      backgroundVariant="secondary"
       renderTop={<TbtcBalanceCard />}
       renderLeft={shouldRenderSidebars ? <MintingTimeline /> : null}
       renderRight={

@@ -4,9 +4,8 @@ import {
   FormControlProps,
   FormLabel,
   Input,
-  Stack,
-  useColorModeValue,
   BodySm,
+  HStack,
 } from "@threshold-network/components"
 import { useField } from "formik"
 import TooltipIcon from "../TooltipIcon"
@@ -35,46 +34,53 @@ export const FormikInput: FC<
   const isError = Boolean(meta.touched && meta.error)
 
   const secondaryLabelColor = "gray.500"
-  const labelColor = useColorModeValue("gray.700", "gray.300")
 
   return (
     <FormControl isInvalid={isError} {...restProps}>
-      <Stack
-        direction="row"
-        mb={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Stack direction="row" alignItems="center">
-          <FormLabel m={0} htmlFor={name} color={labelColor}>
-            {label}{" "}
-            {tooltip && (
-              <TooltipIcon
-                // Unset color to get the same color as label.
-                color="unset"
-                label={tooltip}
-                width="20px"
-                height="20px"
-                alignSelf="center"
-                m="auto"
-                verticalAlign="text-top"
-              />
-            )}
-          </FormLabel>
-        </Stack>
-        {secondaryLabel && (
-          // @ts-ignore - htmlFor is not a valid prop for BodySm but we're setting to label here
-          <BodySm as="label" htmlFor={name} color={secondaryLabelColor} m={0}>
-            {secondaryLabel}
-          </BodySm>
-        )}
-      </Stack>
+      <HStack as={FormLabel} mr={0} mb={2} spacing={2} htmlFor={name}>
+        <BodySm
+          as="span"
+          lineHeight={1.5}
+          fontWeight="medium"
+          color="hsl(182, 100%, 70%)"
+        >
+          {label}
+        </BodySm>
+        {tooltip && <TooltipIcon color="#888" label={tooltip} />}
+      </HStack>
+      {secondaryLabel && (
+        // @ts-ignore - htmlFor is not a valid prop for BodySm but we're setting to label here
+        <BodySm as="label" htmlFor={name} color={secondaryLabelColor} m={0}>
+          {secondaryLabel}
+        </BodySm>
+      )}
       <Input
+        variant="unstyled"
+        px={6}
+        py={4}
+        rounded="2xl"
+        border="1px solid"
+        borderColor="hsl(0, 0%, 20%)"
+        lineHeight={1.5}
         id={name}
         isInvalid={isError}
         errorBorderColor="red.300"
         placeholder={placeholder}
-        _placeholder={{ color: useColorModeValue("gray.400", "gray.500") }}
+        _placeholder={{ color: "hsla(0, 0%, 100%, 30%)" }}
+        _readOnly={{
+          bg: "hsla(0, 0%, 20%, 30%)",
+          borderColor: "hsl(0, 0%, 20%)",
+        }}
+        _focusVisible={{
+          borderColor: "hsl(182, 100%, 70%)", // TODO: replace with theme tokens
+          boxShadow: "0 0 0 3px hsla(182, 100%, 70%, 20%)",
+        }}
+        _invalid={{
+          borderColor: "hsla(0, 100%, 70%)",
+          _focusVisible: {
+            boxShadow: "0 0 0 3px hsla(0, 100%, 70%, 20%)",
+          },
+        }}
         {...field}
         value={meta.value}
       />
