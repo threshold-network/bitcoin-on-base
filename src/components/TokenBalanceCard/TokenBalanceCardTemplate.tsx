@@ -17,7 +17,6 @@ type Props = {
   | "withSymbol"
   | "tokenSymbol"
   | "precision"
-  | "withHigherPrecision"
   | "higherPrecision"
   | "isLarge"
 >
@@ -30,7 +29,6 @@ const TokenBalanceCardTemplate: FC<Props> = ({
   contract,
   tokenDecimals,
   tokenFormat,
-  withHigherPrecision,
   precision,
   higherPrecision,
   withSymbol = false,
@@ -55,7 +53,6 @@ const TokenBalanceCardTemplate: FC<Props> = ({
           usdBalance={usdBalance}
           tokenDecimals={tokenDecimals}
           tokenFormat={tokenFormat}
-          withHigherPrecision={withHigherPrecision}
           precision={precision}
           higherPrecision={higherPrecision}
           isEstimated

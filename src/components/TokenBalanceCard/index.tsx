@@ -12,10 +12,7 @@ export type TokenBalanceCardProps = {
   withSymbol?: boolean
   withUsdBalance?: boolean
   isLarge?: boolean
-} & Pick<
-  TokenBalanceProps,
-  "precision" | "withHigherPrecision" | "higherPrecision"
->
+} & Pick<TokenBalanceProps, "precision" | "higherPrecision">
 
 const tokenToIconMap = {
   [Token.TBTC]: tBTCFillBlack,

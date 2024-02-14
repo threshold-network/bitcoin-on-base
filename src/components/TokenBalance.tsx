@@ -20,7 +20,6 @@ export interface TokenBalanceProps {
   tokenDecimals?: number
   isLarge?: boolean
   tokenFormat?: string
-  withHigherPrecision?: boolean
   precision?: number
   higherPrecision?: number
   displayTildeBelow?: number
@@ -35,7 +34,6 @@ export const InlineTokenBalance: FC<TokenBalanceProps & BoxProps> = ({
   tokenSymbol,
   precision = 2,
   higherPrecision = 6,
-  withHigherPrecision,
   displayTildeBelow = 1,
   isEstimated = false,
   ...restProps
@@ -112,7 +110,6 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
                 tokenFormat={tokenFormat}
                 tokenDecimals={tokenDecimals}
                 precision={higherPrecision}
-                withHigherPrecision
               />
             ) : (
               _tokenAmount

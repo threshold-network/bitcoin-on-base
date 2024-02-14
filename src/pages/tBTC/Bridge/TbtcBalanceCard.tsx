@@ -12,7 +12,6 @@ export const TbtcBalanceCard: FC<ComponentProps<typeof Card>> = ({
       title="tBTC Balance"
       tokenSymbol={"tBTC"}
       withSymbol={true}
-      withHigherPrecision={true}
       {...restProps}
     />
   )
