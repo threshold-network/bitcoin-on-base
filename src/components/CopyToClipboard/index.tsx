@@ -161,7 +161,6 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
         color={addressColor}
         mr={mr}
         ml={ml}
-        textStyle="chain-identifier"
         {...restProps}
       >
         {_address}

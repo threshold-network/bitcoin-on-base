@@ -9,6 +9,7 @@ import { Radio } from "./Radio"
 import { AnnouncementBanner } from "./AnnouncementBanner"
 import { Timeline } from "./Timeline"
 import { Tooltip } from "./Tooltip"
+import { fonts } from "./fonts"
 import { Button } from "./Button"
 import { Alert } from "./Alert"
 
@@ -34,8 +35,9 @@ const index = extendTheme({
       fontSize: "18px",
       lineHeight: "28px",
     },
-    "chain-identifier": {
-      fontFamily: "IBM Plex Mono, monospace",
+    "token-amount": {
+      fontFamily: "'Bricolage Grotesque', monospace",
+      fontWeight: "800",
     },
   },
   sizes: customSizes,
@@ -57,6 +59,7 @@ const index = extendTheme({
     initialColorMode: "dark",
     useSystemColorMode: false,
   },
+  fonts,
 })
 
 export default index
