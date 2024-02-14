@@ -181,7 +181,7 @@ export const ProvideDataComponent: FC = () => {
     <VStack mx={{ base: 0, lg: 10 }} align="stretch" spacing={8}>
       <BridgeProcessCardTitle
         step={1}
-        title="Deposit Address"
+        title="Provide a Deposit Address"
         description="
           Based on these two addresses, the system will generate for you a 
           unique BTC deposit address. There is no minting limit.
