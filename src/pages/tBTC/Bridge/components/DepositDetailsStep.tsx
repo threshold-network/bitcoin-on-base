@@ -24,7 +24,7 @@ import { TBTCTokenContractLink } from "../../../../components/tBTC"
 import { TransactionDetailsAmountItem } from "../../../../components/TransactionDetails"
 import Confetti from "react-confetti"
 import { randomRange } from "../../../../utils/helpers"
-import { InlineTokenBalance } from "../../../../components/TokenBalance"
+import TokenBalance from "../../../../components/TokenBalance"
 
 const BitcoinConfirmationsSummary: FC<{
   minConfirmationsNeeded?: number
@@ -217,19 +217,25 @@ export const SuccessStep: FC<SuccessStepProps> = ({
         >
           Mint completed
         </Text>
-        <VStack color="hsl(0, 0%, 50%)">
-          <Text fontSize="2xl" lineHeight={8}>
+        <VStack>
+          <Text fontSize="2xl" lineHeight={8} color="hsl(0, 0%, 50%)">
             You received
           </Text>
-          <Box pb={2} h="48px">
-            <InlineTokenBalance tokenAmount={amount} color="white" /> tBTC
-          </Box>
+          <TokenBalance
+            pb={2}
+            tokenAmount={amount}
+            higherPrecision={6}
+            tokenSymbol="tBTC"
+            color="white"
+            isLarge
+            skipActiveWalletCheck
+          />
           <Text fontSize="md" lineHeight={6} color="white" align="center">
             Add the tBTC <TBTCTokenContractLink color="brand.100" /> to your
             Ethereum wallet.
           </Text>
         </VStack>
-        <List>
+        <List spacing={4} py={10}>
           <TransactionDetailsAmountItem
             label="Minting Fee"
             tokenAmount={mintingFee}

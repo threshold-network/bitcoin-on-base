@@ -24,6 +24,7 @@ export interface TokenBalanceProps {
   higherPrecision?: number
   displayTildeBelow?: number
   isEstimated?: boolean
+  skipActiveWalletCheck?: boolean
 }
 
 export const InlineTokenBalance: FC<TokenBalanceProps & BoxProps> = ({
@@ -80,10 +81,11 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
   precision,
   higherPrecision,
   children,
+  skipActiveWalletCheck = false,
   ...restProps
 }) => {
   const { active } = useWeb3React()
-  const shouldRenderTokenAmount = active
+  const shouldRenderTokenAmount = skipActiveWalletCheck || active
 
   const _tokenAmount = useMemo(() => {
     return formatTokenAmount(
@@ -101,6 +103,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
         <Text
           fontSize={isLarge ? "4.5xl" : "2xl"}
           lineHeight={isLarge ? 12 : "lg"}
+          fontWeight={isLarge ? "black" : "medium"}
           {...restProps}
         >
           {shouldRenderTokenAmount ? (
@@ -119,7 +122,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
             "--"
           )}
           {tokenSymbol && (
-            <Text as="span" color="hsl(0, 0%, 50%)" fontWeight="medium">
+            <Text as="span" color="hsl(0, 0%, 50%)" fontWeight="normal">
               {" "}
               {tokenSymbol}
             </Text>

@@ -520,7 +520,7 @@ const StepSwitcher: FC = () => {
     case "completed":
       return (
         <SuccessStep
-          amount={amount!}
+          amount={amount || "0"}
           mintingFee={mintingFee}
           thresholdNetworkFee={thresholdNetworkFee}
         />
