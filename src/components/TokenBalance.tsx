@@ -125,7 +125,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
           )}
         </Text>
       </HStack>
-      {usdBalance && (
+      {shouldRenderTokenAmount && usdBalance && (
         <Text
           color="hsl(0, 0%, 50%)"
           fontSize={isLarge ? "xl" : "md"}
