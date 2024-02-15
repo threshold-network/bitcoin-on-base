@@ -54,7 +54,6 @@ const TokenBalanceCardTemplate: FC<Props> = ({
         tokenFormat={tokenFormat}
         precision={precision}
         higherPrecision={higherPrecision}
-        isEstimated
         isLarge={isLarge}
         fontWeight="black"
         color="hsl(0, 0%, 90%)"
