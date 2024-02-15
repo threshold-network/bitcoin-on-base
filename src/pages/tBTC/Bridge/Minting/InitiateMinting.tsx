@@ -1,5 +1,6 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
 import {
+  Badge,
   BodyMd,
   Box,
   Button,
@@ -30,7 +31,7 @@ type RevealDepositErrorType = {
 
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
-  onPreviousStepClick: (previosuStep: MintingStep) => void
+  onPreviousStepClick: (previousStep?: MintingStep) => void
 }> = ({ utxo, onPreviousStepClick }) => {
   const { updateState } = useTbtcState()
   const threshold = useThreshold()
@@ -101,10 +102,16 @@ const InitiateMintingComponent: FC<{
         </Toast>
       ) : null}
       <BridgeProcessCardTitle
-        previousStep={MintingStep.ProvideData}
-        onPreviousStepClick={onPreviousStepClick}
+        badgeText="3/3"
+        title="Initiate Minting"
+        description="
+          Receiving tBTC requires a single transaction on Base. The bridging 
+          can be initiated before you get all your Bitcoin deposit 
+          confirmations.
+        "
+        afterDescription={<Badge variant="subtle">Action on Ethereum</Badge>}
       />
-      <VStack spacing={6}>
+      <VStack spacing={6} mt={8}>
         <VStack spacing={2}>
           <H5 as="p" color="hsla(0, 0%, 100%, 50%)" fontWeight="normal">
             Deposit received

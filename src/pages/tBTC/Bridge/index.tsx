@@ -12,6 +12,7 @@ import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { useLocation } from "react-router-dom"
 import { MintingTimeline } from "./Minting/MintingTimeline"
+import { TbtcBalanceCard } from "./TbtcBalanceCard"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
@@ -38,7 +39,8 @@ const TBTCBridge: PageComponent = () => {
 
   return (
     <PageLayout
-      renderTop={<h1>TODO: My balance component</h1>}
+      backgroundVariant="secondary"
+      renderTop={<TbtcBalanceCard />}
       renderLeft={shouldRenderSidebars ? <MintingTimeline /> : null}
       renderRight={
         shouldRenderSidebars ? (

@@ -7,7 +7,6 @@ import {
   BodyMd,
   BodySm,
   BodyXs,
-  Box,
   Divider,
   H5,
   Icon,
@@ -30,14 +29,11 @@ import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
 } from "../../../components/TransactionDetails"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
 import ButtonLink from "../../../components/ButtonLink"
 import { BridgeProcessStep } from "./components/BridgeProcessStep"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "./components/BridgeProcessCardSubTitle"
 import { BridgeProcessResource } from "./components/BridgeProcessResource"
 import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import {
@@ -196,30 +192,6 @@ export const UnmintDetails: PageComponent = () => {
         {error && <>{error}</>}
         {wasDataFetched && (
           <>
-            <BridgeProcessCardTitle bridgeProcess="unmint" />
-            <BridgeProcessCardSubTitle
-              display="flex"
-              stepText={
-                shouldDisplaySuccessStep || shouldForceIsProcessCompleted
-                  ? "Unminted"
-                  : "Unminting"
-              }
-            >
-              {!(shouldDisplaySuccessStep || shouldForceIsProcessCompleted) && (
-                <Box as="span" ml="2">
-                  {" "}
-                  - In progress...
-                </Box>
-              )}
-              <InlineTokenBalance
-                tokenAmount={requestedAmount}
-                withSymbol
-                tokenSymbol="tBTC"
-                ml="auto"
-                precision={6}
-                higherPrecision={8}
-              />
-            </BridgeProcessCardSubTitle>
             <Timeline>
               <Badge
                 variant="subtle"
@@ -385,7 +357,6 @@ const SuccessStep: FC<{
           tokenDecimals={8}
           precision={6}
           higherPrecision={8}
-          withHigherPrecision
         />
         <TransactionDetailsAmountItem
           label="Threshold Network Fee"
