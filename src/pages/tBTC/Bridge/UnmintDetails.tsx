@@ -357,7 +357,6 @@ const SuccessStep: FC<{
           tokenDecimals={8}
           precision={6}
           higherPrecision={8}
-          withHigherPrecision
         />
         <TransactionDetailsAmountItem
           label="Threshold Network Fee"
