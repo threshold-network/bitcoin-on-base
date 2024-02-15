@@ -1,10 +1,10 @@
 import {
   BodyLg,
   BodyMd,
+  Box,
   Divider,
   HStack,
   List,
-  Box,
   VStack,
 } from "@threshold-network/components"
 import { FC, useCallback, useEffect, useState } from "react"

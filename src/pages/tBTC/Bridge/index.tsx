@@ -12,6 +12,7 @@ import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { useParams } from "react-router"
 import { MintingTimeline } from "./Minting/MintingTimeline"
+import { TbtcBalanceCard } from "./TbtcBalanceCard"
 import { KnowledgebaseLinks } from "./Minting/KnowledgebaseLinks"
 
 const TBTCBridge: PageComponent = () => {
@@ -39,8 +40,8 @@ const TBTCBridge: PageComponent = () => {
 
   return (
     <PageLayout
-      backgroundVariant={isDepositDetailsPageActive ? "secondary" : "primary"}
-      renderTop={<h1>TODO: My balance component</h1>}
+      backgroundVariant="secondary"
+      renderTop={<TbtcBalanceCard />}
       renderLeft={isDepositDetailsPageActive ? <MintingTimeline /> : null}
       renderRight={
         isDepositDetailsPageActive ? (
