@@ -110,6 +110,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
                 tokenFormat={tokenFormat}
                 tokenDecimals={tokenDecimals}
                 precision={higherPrecision}
+                higherPrecision={higherPrecision}
               />
             ) : (
               _tokenAmount
