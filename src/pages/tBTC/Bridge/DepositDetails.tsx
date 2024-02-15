@@ -43,11 +43,14 @@ import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
 import ButtonLink from "../../../components/ButtonLink"
+import { BridgeProcessIndicator } from "../../../components/tBTC"
 import {
-  BridgeProcessIndicator,
-  TBTCTokenContractLink,
-} from "../../../components/tBTC"
-import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
+  Step1,
+  Step2,
+  Step3,
+  Step4,
+  SuccessStep,
+} from "./components/DepositDetailsStep"
 import {
   BridgeProcessResource,
   BridgeProcessResourceProps,
@@ -67,7 +70,6 @@ import { PageComponent } from "../../../types"
 import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
 import { ExternalPool } from "../../../components/tBTC/ExternalPool"
 import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
-import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 
 export const DepositDetails: PageComponent = () => {
@@ -186,133 +188,115 @@ export const DepositDetails: PageComponent = () => {
         mintingFee,
       }}
     >
-      <BridgeProcessDetailsCard
-        isProcessCompleted={mintingProgressStep === "completed"}
-      >
-        {(isFetching || !data) && !error && (
-          <BridgeProcessDetailsPageSkeleton />
-        )}
-        {error && <>{error}</>}
-        {!isFetching && !!data && !error && (
-          <>
-            <Stack
-              direction={{
-                base: "column",
-                xl: "row",
-              }}
-              divider={<StackDivider />}
-              spacing={4}
-            >
-              <Flex flexDirection="column" w={{ base: "100%", xl: "65%" }}>
-                <Flex mb="4" alignItems="center" textStyle="bodyLg">
-                  <BodyLg>
-                    <Box
-                      as="span"
-                      fontWeight="600"
-                      color={depositStatusTextColor}
-                    >
-                      {mintingProgressStep === "completed"
-                        ? "Minted"
-                        : "Minting"}
-                    </Box>
-                    {mintingProgressStep !== "completed" && ` - In progress...`}
-                  </BodyLg>{" "}
-                  <InlineTokenBalance
-                    tokenAmount={amount || "0"}
-                    tokenSymbol="tBTC"
-                    withSymbol
-                    ml="auto"
-                  />
-                </Flex>
-                <DepositDetailsTimeline
-                  // isCompleted
-                  inProgressStep={mintingProgressStep}
+      {(isFetching || !data) && !error && <BridgeProcessDetailsPageSkeleton />}
+      {error && <>{error}</>}
+      {!isFetching && !!data && !error && (
+        <>
+          <Stack
+            direction={{
+              base: "column",
+              xl: "row",
+            }}
+            divider={<StackDivider />}
+            spacing={4}
+          >
+            <Flex flexDirection="column" w={{ base: "100%", xl: "65%" }}>
+              <Flex mb="4" alignItems="center" textStyle="bodyLg">
+                <BodyLg>
+                  <Box
+                    as="span"
+                    fontWeight="600"
+                    color={depositStatusTextColor}
+                  ></Box>
+                </BodyLg>{" "}
+                <InlineTokenBalance
+                  tokenAmount={amount || "0"}
+                  tokenSymbol="tBTC"
+                  withSymbol
+                  ml="auto"
                 />
-                {mintingProgressStep !== "completed" && (
-                  <Alert status="info" my={6}>
-                    <AlertIcon />
-                    <AlertDescription>
-                      It is safe to close this window. Minting will continue as
-                      a background process and will not be interrupted.
-                    </AlertDescription>
-                  </Alert>
-                )}
-                <StepSwitcher />
               </Flex>
-              <Flex
-                w={{ base: "100%", xl: "35%" }}
-                mb={{ base: "20", xl: "unset" }}
-                direction="column"
+              <DepositDetailsTimeline
+                // isCompleted
+                inProgressStep={mintingProgressStep}
+              />
+              {mintingProgressStep !== "completed" && (
+                <Alert status="info" my={6}>
+                  <AlertIcon />
+                  <AlertDescription>
+                    It is safe to close this window. Minting will continue as a
+                    background process and will not be interrupted.
+                  </AlertDescription>
+                </Alert>
+              )}
+              <StepSwitcher />
+            </Flex>
+            <Flex
+              w={{ base: "100%", xl: "35%" }}
+              mb={{ base: "20", xl: "unset" }}
+              direction="column"
+            >
+              <LabelSm mb="8" mt={{ xl: 2 }}>
+                Transaction History
+              </LabelSm>
+              <Badge
+                size="sm"
+                colorScheme="yellow"
+                variant="solid"
+                display="flex"
+                alignItems="center"
+                alignSelf="flex-start"
+                mb="4"
               >
-                <LabelSm mb="8" mt={{ xl: 2 }}>
-                  Transaction History
-                </LabelSm>
-                <Badge
-                  size="sm"
-                  colorScheme="yellow"
-                  variant="solid"
-                  display="flex"
-                  alignItems="center"
-                  alignSelf="flex-start"
-                  mb="4"
-                >
-                  <Icon as={TimeIcon} /> ~3 hours minting time
-                </Badge>
-                <List color="gray.500" spacing="2" mb="20">
-                  {transactions
-                    .filter((item) => !!item.txHash)
-                    .map((item) => (
-                      <ListItem key={item.txHash}>
-                        <BodySm>
-                          {item.label}{" "}
-                          <ViewInBlockExplorer
-                            id={item.txHash!}
-                            type={ExplorerDataType.TRANSACTION}
-                            chain={item.chain}
-                            text="transaction"
-                          />
-                          .
-                        </BodySm>
-                      </ListItem>
-                    ))}
-                </List>
-                {mintingProgressStep !== "completed" && (
-                  <>
-                    <BridgeProcessIndicator
-                      bridgeProcess="mint"
-                      mt="auto"
-                      mb="10"
-                    />
-                    <BridgeProcessResource
-                      {...stepToResourceData[mintingProgressStep]}
-                    />
-                  </>
-                )}
+                <Icon as={TimeIcon} /> ~3 hours minting time
+              </Badge>
+              <List color="gray.500" spacing="2" mb="20">
+                {transactions
+                  .filter((item) => !!item.txHash)
+                  .map((item) => (
+                    <ListItem key={item.txHash}>
+                      <BodySm>
+                        {item.label}{" "}
+                        <ViewInBlockExplorer
+                          id={item.txHash!}
+                          type={ExplorerDataType.TRANSACTION}
+                          chain={item.chain}
+                          text="transaction"
+                        />
+                        .
+                      </BodySm>
+                    </ListItem>
+                  ))}
+              </List>
+              {mintingProgressStep !== "completed" && (
+                <>
+                  <BridgeProcessIndicator
+                    bridgeProcess="mint"
+                    mt="auto"
+                    mb="10"
+                  />
+                  <BridgeProcessResource
+                    {...stepToResourceData[mintingProgressStep]}
+                  />
+                </>
+              )}
+            </Flex>
+          </Stack>
+          {mintingProgressStep !== "completed" && (
+            <>
+              <Divider />
+              <Flex mt="8" alignItems="center">
+                <BodyLg>
+                  Eager to start a new mint while waiting for this one? You can
+                  now.
+                </BodyLg>
+                <ButtonLink size="lg" to="/tBTC/mint" marginLeft="auto">
+                  New Mint
+                </ButtonLink>
               </Flex>
-            </Stack>
-            {mintingProgressStep !== "completed" && (
-              <>
-                <Divider />
-                <Flex mt="8" alignItems="center">
-                  <BodyLg>
-                    Eager to start a new mint while waiting for this one? You
-                    can now.
-                  </BodyLg>
-                  <ButtonLink size="lg" to="/tBTC/mint" marginLeft="auto">
-                    New Mint
-                  </ButtonLink>
-                </Flex>
-              </>
-            )}
-          </>
-        )}
-      </BridgeProcessDetailsCard>
-      {mintingProgressStep === "completed" && (
-        <ExternalPool
-          title={"tBTC Curve Pool"}
-          externalPoolData={{ ...tBTCWBTCSBTCPoolData }}
-          mt={4}
-        />
+            </>
+          )}
+        </>
       )}
     </DepositDetailsPageContext.Provider>
   )
@@ -535,39 +519,11 @@ const StepSwitcher: FC = () => {
       )
     case "completed":
       return (
-        <Box m={{ base: -6, lg: -10 }}>
-          <BodyLg mt="4" fontSize="20px" lineHeight="24px">
-            Success!
-          </BodyLg>
-          <BodyMd mt="2">
-            Add the tBTC <TBTCTokenContractLink /> to your Ethereum wallet.
-          </BodyMd>
-          <Divider my="4" />
-          <List spacing="2">
-            <TransactionDetailsAmountItem
-              label="Minted Amount"
-              tokenAmount={amount}
-              tokenSymbol="tBTC"
-            />
-            <TransactionDetailsAmountItem
-              label="Minting Fee"
-              tokenAmount={mintingFee}
-              tokenSymbol="tBTC"
-              precision={6}
-              higherPrecision={8}
-            />
-            <TransactionDetailsAmountItem
-              label="Threshold Network Fee"
-              tokenAmount={thresholdNetworkFee}
-              tokenSymbol="tBTC"
-              precision={6}
-              higherPrecision={8}
-            />
-          </List>
-          <ButtonLink size="lg" mt="8" mb="8" to="/tBTC" isFullWidth>
-            New mint
-          </ButtonLink>
-        </Box>
+        <SuccessStep
+          amount={amount!}
+          mintingFee={mintingFee}
+          thresholdNetworkFee={thresholdNetworkFee}
+        />
       )
   }
 }
