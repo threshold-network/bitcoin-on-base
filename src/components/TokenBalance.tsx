@@ -92,7 +92,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
       tokenDecimals,
       precision
     )
-  }, [tokenAmount, tokenFormat, tokenDecimals])
+  }, [tokenAmount, tokenFormat, tokenDecimals, precision])
 
   // TODO: more flexible approach to style wrapper, token balance and USD balance.
   return (
