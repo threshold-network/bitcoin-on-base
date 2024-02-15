@@ -1,14 +1,14 @@
-import { FC, ComponentProps, createContext, useContext } from "react"
 import {
-  useClipboard,
+  BodyMd,
   Flex,
   IconButton,
   Tooltip,
-  BodyMd,
+  useClipboard,
 } from "@threshold-network/components"
+import { ComponentProps, createContext, FC, useContext } from "react"
+import { Copy as CopyIcon } from "../../static/icons/Copy"
 import shortenAddress from "../../utils/shortenAddress"
 import { ViewInBlockExplorerProps } from "../ViewInBlockExplorer"
-import { Copy as CopyIcon } from "../../static/icons/Copy"
 
 type CopyToClipboardProps = {
   textToCopy: string

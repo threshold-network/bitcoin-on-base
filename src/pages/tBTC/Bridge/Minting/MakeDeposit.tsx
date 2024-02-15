@@ -9,6 +9,9 @@ import {
   VStack,
   useClipboard,
   Icon,
+  Text,
+  Badge,
+  StackProps,
 } from "@threshold-network/components"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import TooltipIcon from "../../../../components/TooltipIcon"
@@ -46,13 +49,14 @@ const AddressRow: FC<
   )
 }
 
-const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
+const BTCAddressSection: FC<{ btcDepositAddress: string } & StackProps> = ({
   btcDepositAddress,
+  ...restProps
 }) => {
   const { onCopy: handleCopy } = useClipboard(btcDepositAddress)
 
   return (
-    <VStack spacing="2" align="start">
+    <VStack spacing="2" align="start" {...restProps}>
       <HStack
         alignItems="center"
         // To center the tooltip icon. The tooltip icon is wrapped by `span`
@@ -68,6 +72,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         <TooltipIcon label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC." />
       </HStack>
       <Stack
+        w="full"
         direction={{ base: "column", sm: "row" }}
         align="start"
         py={4}
@@ -106,7 +111,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
 }
 
 const MakeDepositComponent: FC<{
-  onPreviousStepClick: (previosuStep: MintingStep) => void
+  onPreviousStepClick: (previousStep?: MintingStep) => void
 }> = ({ onPreviousStepClick }) => {
   const { btcDepositAddress, ethAddress, btcRecoveryAddress, updateState } =
     useTbtcState()
@@ -114,10 +119,26 @@ const MakeDepositComponent: FC<{
   return (
     <Box mx={{ base: 0, xl: 10 }}>
       <BridgeProcessCardTitle
-        previousStep={MintingStep.ProvideData}
         onPreviousStepClick={onPreviousStepClick}
+        badgeText="2/3"
+        title="Make your BTC deposit"
+        description={
+          <>
+            Use this generated address to send minimum{" "}
+            <Text as="span" color="white">
+              0.01 BTC
+            </Text>
+            , to mint as tBTC. This address is a uniquely generated address
+            based on the data you provided.
+          </>
+        }
+        afterDescription={
+          <Badge variant="subtle" color="hsl(33, 93%, 54%)">
+            Action on Bitcoin
+          </Badge>
+        }
       />
-      <BTCAddressSection btcDepositAddress={btcDepositAddress} />
+      <BTCAddressSection mt={6} btcDepositAddress={btcDepositAddress} />
       <MintDurationTiers
         mt={6}
         items={[

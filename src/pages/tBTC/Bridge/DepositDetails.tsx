@@ -48,7 +48,6 @@ import {
   TBTCTokenContractLink,
 } from "../../../components/tBTC"
 import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import {
   BridgeProcessResource,
   BridgeProcessResourceProps,
@@ -205,7 +204,6 @@ export const DepositDetails: PageComponent = () => {
               spacing={4}
             >
               <Flex flexDirection="column" w={{ base: "100%", xl: "65%" }}>
-                <BridgeProcessCardTitle />
                 <Flex mb="4" alignItems="center" textStyle="bodyLg">
                   <BodyLg>
                     <Box

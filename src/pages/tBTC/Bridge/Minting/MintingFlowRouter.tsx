@@ -1,7 +1,10 @@
 import { FC, useEffect } from "react"
-import { Box, Flex, Skeleton, Stack } from "@threshold-network/components"
+import { Skeleton, Stack, VStack } from "@threshold-network/components"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
-import { MintingStep } from "../../../../types/tbtc"
+import {
+  MintingStep,
+  MintingSteps as mintingSteps,
+} from "../../../../types/tbtc"
 import { ProvideData } from "./ProvideData"
 import { InitiateMinting } from "./InitiateMinting"
 import { MintingSuccess } from "./MintingSuccess"
@@ -9,8 +12,6 @@ import { MakeDeposit } from "./MakeDeposit"
 import { useWeb3React } from "@web3-react/core"
 import { useModal } from "../../../../hooks/useModal"
 import { ModalType } from "../../../../enums"
-import { BridgeContractLink } from "../../../../components/tBTC"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import { useRemoveDepositData } from "../../../../hooks/tbtc/useRemoveDepositData"
 import { useAppDispatch } from "../../../../hooks/store"
 import { tbtcSlice } from "../../../../store/tbtc"
@@ -26,6 +27,13 @@ const MintingFlowRouterBase = () => {
     useIsTbtcSdkInitializing()
 
   const onPreviousStepClick = (previousStep?: MintingStep) => {
+    if (mintingStep === MintingStep.ProvideData) {
+      previousStep = MintingStep.ProvideData
+    }
+    if (!previousStep) {
+      const previousStepIndex = mintingSteps.indexOf(mintingStep) - 1
+      previousStep = mintingSteps[previousStepIndex] as MintingStep
+    }
     if (mintingStep === MintingStep.MintingSuccess) {
       updateState("mintingStep", MintingStep.ProvideData)
       removeDepositData()
@@ -60,7 +68,7 @@ const MintingFlowRouterBase = () => {
 
   switch (mintingStep) {
     case MintingStep.ProvideData: {
-      return <ProvideData onPreviousStepClick={onPreviousStepClick} />
+      return <ProvideData />
     }
     case MintingStep.Deposit: {
       return <MakeDeposit onPreviousStepClick={onPreviousStepClick} />
@@ -79,10 +87,6 @@ const MintingFlowRouterBase = () => {
     default:
       return (
         <>
-          <BridgeProcessCardTitle
-            previousStep={MintingStep.ProvideData}
-            onPreviousStepClick={onPreviousStepClick}
-          />
           <Stack>
             <Skeleton height="40px" />
             <Skeleton height="40px" />
@@ -95,8 +99,8 @@ const MintingFlowRouterBase = () => {
 
 export const MintingFlowRouter: FC = () => {
   return (
-    <Flex flexDirection="column">
+    <VStack spacing={8} align="stretch">
       <MintingFlowRouterBase />
-    </Flex>
+    </VStack>
   )
 }

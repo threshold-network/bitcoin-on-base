@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { HStack, Icon, Card, LabelSm } from "@threshold-network/components"
+import { HStack, VStack, H2, Text } from "@threshold-network/components"
 import TokenBalance, { TokenBalanceProps } from "../TokenBalance"
 // import AddToMetamaskButton from "../AddToMetamaskButton"
 import { Contract } from "@ethersproject/contracts"
@@ -17,45 +17,48 @@ type Props = {
   | "withSymbol"
   | "tokenSymbol"
   | "precision"
-  | "withHigherPrecision"
   | "higherPrecision"
+  | "isLarge"
 >
 
 const TokenBalanceCardTemplate: FC<Props> = ({
-  icon,
   title,
+  tokenSymbol,
   tokenBalance,
   usdBalance,
   contract,
-  tokenSymbol,
   tokenDecimals,
   tokenFormat,
-  withHigherPrecision,
   precision,
   higherPrecision,
   withSymbol = false,
+  isLarge = false,
   ...restProps
 }) => {
   return (
-    <Card {...restProps} as="section">
-      <HStack as="header" mb="4">
-        <Icon boxSize="16px" as={icon} />
-        <LabelSm>{title}</LabelSm>
-      </HStack>
+    <VStack spacing={isLarge ? 4 : 1} alignItems="flex-start" {...restProps}>
+      <Text
+        as="h2"
+        fontSize={isLarge ? "lg" : "md"}
+        lineHeight={6}
+        color="hsl(0, 0%, 50%)"
+        fontWeight="medium"
+      >
+        {title}
+      </Text>
       <TokenBalance
         tokenAmount={tokenBalance}
-        usdBalance={usdBalance}
         tokenSymbol={tokenSymbol}
-        withSymbol={withSymbol}
+        usdBalance={usdBalance}
         tokenDecimals={tokenDecimals}
         tokenFormat={tokenFormat}
-        withUSDBalance
-        withHigherPrecision={withHigherPrecision}
         precision={precision}
         higherPrecision={higherPrecision}
+        isLarge={isLarge}
+        fontWeight="black"
+        color="hsl(0, 0%, 90%)"
       />
-      {/* <AddToMetamaskButton contract={contract} /> */}
-    </Card>
+    </VStack>
   )
 }
 
