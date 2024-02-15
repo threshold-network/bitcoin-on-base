@@ -51,7 +51,6 @@ import { useTbtcState } from "../../../hooks/useTbtcState"
 import { tbtcSlice } from "../../../store/tbtc"
 import { PageComponent } from "../../../types"
 import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
 import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import {
@@ -199,7 +198,6 @@ export const DepositDetails: PageComponent = () => {
               spacing={4}
             >
               <Flex flexDirection="column" w={{ base: "100%", xl: "65%" }}>
-                <BridgeProcessCardTitle />
                 <Flex mb="4" alignItems="center" textStyle="bodyLg">
                   <BodyLg>
                     <Box

@@ -11,6 +11,7 @@ import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
+import { TbtcBalanceCard } from "./TbtcBalanceCard"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
@@ -34,7 +35,8 @@ const TBTCBridge: PageComponent = () => {
 
   return (
     <PageLayout
-      renderTop={<p>TODO: My balance component</p>}
+      backgroundVariant="secondary"
+      renderTop={<TbtcBalanceCard />}
       renderLeft={<MintingDepositTimeline title="Minting timeline" />}
       renderRight={<p>TODO: Transaction history + Knowledgebase component</p>}
     >

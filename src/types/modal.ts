@@ -6,7 +6,6 @@ import {
   TransactionIsPending,
   TransactionIsWaitingForConfirmation,
 } from "../components/Modal/TransactionModal"
-import TbtcRecoveryFileModalModal from "../components/Modal/TbtcRecoveryFileModal"
 import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
 import {
   GenerateNewDepositAddress,
@@ -20,7 +19,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionIsWaitingForConfirmation]:
     TransactionIsWaitingForConfirmation,
   [ModalType.TransactionFailed]: TransactionFailed,
-  [ModalType.TbtcRecoveryJson]: TbtcRecoveryFileModalModal,
   [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
   [ModalType.NewTBTCApp]: NewTBTCApp,
   [ModalType.GenerateNewDepositAddress]: GenerateNewDepositAddress,
