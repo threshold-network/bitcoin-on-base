@@ -1,7 +1,7 @@
 import { FC, ComponentProps } from "react"
 import TokenBalanceCard from "../../../components/TokenBalanceCard"
 import { Token } from "../../../enums"
-import { Card, Box } from "@threshold-network/components"
+import { Card } from "@threshold-network/components"
 
 export const TbtcBalanceCard: FC<ComponentProps<typeof Card>> = ({
   ...restProps
@@ -9,17 +9,10 @@ export const TbtcBalanceCard: FC<ComponentProps<typeof Card>> = ({
   return (
     <TokenBalanceCard
       token={Token.TBTC}
-      title={
-        <>
-          <Box as="span" textTransform="lowercase">
-            t
-          </Box>
-          btc balance
-        </>
-      }
+      title="tBTC Balance"
       tokenSymbol={"tBTC"}
+      higherPrecision={6}
       withSymbol={true}
-      withHigherPrecision={true}
       {...restProps}
     />
   )

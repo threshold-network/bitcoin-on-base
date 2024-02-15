@@ -41,6 +41,12 @@ const index = extendTheme({
     },
   },
   sizes: customSizes,
+  fontSizes: {
+    "4.5xl": "2.5rem",
+  },
+  lineHeights: {
+    12: "3rem",
+  },
   components: {
     ...defaultTheme.components,
     AnnouncementBanner,
