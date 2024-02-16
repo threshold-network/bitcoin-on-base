@@ -105,7 +105,6 @@ const SimpleTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
             as={AccordionButton}
             spacing={2.5}
             p={0}
-            pointerEvents={"unset"}
             _hover={{ bg: "transparent" }}
           >
             <StyledAccordionIcon isExpanded={isExpanded} />
@@ -156,7 +155,6 @@ const NumberedTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
             as={AccordionButton}
             spacing={3}
             p={0}
-            pointerEvents={"none"}
             _hover={{ bg: "transparent" }}
           >
             <Flex
@@ -249,7 +247,6 @@ const PulseTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
             as={AccordionButton}
             spacing={6}
             p={0}
-            pointerEvents={"unset"}
             _hover={{ bg: "transparent" }}
           >
             <Flex
