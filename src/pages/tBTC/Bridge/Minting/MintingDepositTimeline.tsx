@@ -141,8 +141,8 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
   }, [mintingStep, depositDetailsStep, account, isOnDepositDetailsPage])
 
   const variant = useMemo(() => {
-    if (isOnDepositDetailsPage) return "tertiary"
-    return account ? "secondary" : "primary"
+    if (isOnDepositDetailsPage) return "pulse"
+    return account ? "numbered" : "simple"
   }, [account, isOnDepositDetailsPage])
 
   // This variable contains mutated data to be iterated by the Timeline

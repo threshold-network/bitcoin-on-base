@@ -15,7 +15,7 @@ export interface TimelineProps extends Omit<TimelineContainerProps, "variant"> {
 
 const Timeline: FC<TimelineProps> = ({
   items,
-  variant = "primary",
+  variant = "simple",
   ...restProps
 }) => {
   return (

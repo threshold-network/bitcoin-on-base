@@ -16,7 +16,7 @@ import { FC } from "react"
 import { IoCheckmarkSharp as CompleteIcon } from "react-icons/all"
 import { DotsLoadingIndicator } from "../DotsLoadingIndicator"
 
-export type TimelineItemVariantType = "primary" | "secondary" | "tertiary"
+export type TimelineItemVariantType = "simple" | "numbered" | "pulse"
 
 export type TimelineItemProps = {
   label: string
@@ -79,7 +79,7 @@ const BulletSymbol: FC<{ status?: BulletSymbolStatus } & BoxProps> = ({
   )
 }
 
-const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
+const SimpleTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   step,
   label,
   isComplete,
@@ -133,7 +133,7 @@ const PrimaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
     </AccordionItem>
   )
 }
-const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
+const NumberedTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   step,
   label,
   isComplete,
@@ -201,7 +201,7 @@ const SecondaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   )
 }
 
-const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
+const PulseTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
   step,
   label,
   isComplete,
@@ -305,13 +305,13 @@ const TertiaryTimelineItem: FC<Omit<TimelineItemProps, "variant">> = ({
 }
 
 const TimelineItem: FC<TimelineItemProps> = ({
-  variant = "primary",
+  variant = "simple",
   ...restProps
 }) => {
   const Component = {
-    primary: PrimaryTimelineItem,
-    secondary: SecondaryTimelineItem,
-    tertiary: TertiaryTimelineItem,
+    simple: SimpleTimelineItem,
+    numbered: NumberedTimelineItem,
+    pulse: PulseTimelineItem,
   }[variant]
 
   return <Component {...restProps} />
