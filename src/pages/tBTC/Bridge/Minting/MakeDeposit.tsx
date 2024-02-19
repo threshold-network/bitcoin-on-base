@@ -125,7 +125,7 @@ const MakeDepositComponent: FC<{
           <>
             Use this generated address to send minimum{" "}
             <Text as="span" color="white">
-              0.01 BTC
+              0.01&nbsp;BTC
             </Text>
             , to mint as tBTC. This address is a uniquely generated address
             based on the data you provided.
