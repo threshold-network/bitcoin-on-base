@@ -7,7 +7,6 @@ import {
   List,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   Skeleton,
 } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
@@ -29,7 +28,6 @@ import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
 } from "../../TransactionDetails"
-import ModalCloseButton from "../ModalCloseButton"
 import withBaseModal from "../withBaseModal"
 
 type InitiateUnmintingProps = {
@@ -73,8 +71,6 @@ const InitiateUnmintingBase: FC<InitiateUnmintingProps> = ({
 
   return (
     <>
-      <ModalHeader>Initiate unminting tBTC</ModalHeader>
-      <ModalCloseButton />
       <ModalBody>
         <InfoBox variant="modal" mb="6">
           <H5>
@@ -132,4 +128,7 @@ const InitiateUnmintingBase: FC<InitiateUnmintingProps> = ({
   )
 }
 
-export const InitiateUnminting = withBaseModal(InitiateUnmintingBase)
+export const InitiateUnminting = withBaseModal(
+  InitiateUnmintingBase,
+  "Initiate unminting tBTC"
+)
