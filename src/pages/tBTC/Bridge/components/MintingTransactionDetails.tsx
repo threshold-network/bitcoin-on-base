@@ -9,16 +9,7 @@ import { FC } from "react"
 import { TransactionDetailsAmountItem } from "../../../../components/TransactionDetails"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 
-export type MintingTransactionDetailsProps = ListProps & {
-  withReceiveAmount?: boolean
-  withTotalFees?: boolean
-}
-
-const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
-  withTotalFees = false,
-  withReceiveAmount = false,
-  ...restProps
-}) => {
+const MintingTransactionDetails: FC<ListProps> = (props) => {
   const { tBTCMintAmount, mintingFee, thresholdNetworkFee } = useTbtcState()
 
   if (!tBTCMintAmount || !mintingFee || !thresholdNetworkFee) {
@@ -33,7 +24,7 @@ const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
   const amountToReceive = BigNumber.from(tBTCMintAmount).sub(totalFees)
 
   return (
-    <List spacing={4} {...restProps}>
+    <List spacing={4} {...props}>
       <TransactionDetailsAmountItem
         label="Bitcoin Deposit Miner Fee"
         tokenAmount={mintingFee}
@@ -48,31 +39,25 @@ const MintingTransactionDetails: FC<MintingTransactionDetailsProps> = ({
         precision={6}
         higherPrecision={8}
       />
-      {withReceiveAmount || withTotalFees ? (
-        <ListItem>
-          <StackDivider w="full" h="1px" bg="hsla(0, 0%, 100%, 10%)" />
-        </ListItem>
-      ) : null}
-      {withTotalFees ? (
-        <TransactionDetailsAmountItem
-          label="Total Fees"
-          tokenAmount={totalFees.toString()}
-          tokenSymbol="tBTC"
-          precision={6}
-          higherPrecision={8}
-          isSubTotal={withTotalFees}
-        />
-      ) : null}
-      {withReceiveAmount ? (
-        <TransactionDetailsAmountItem
-          label="You will receive"
-          tokenAmount={amountToReceive.toString()}
-          tokenSymbol="tBTC"
-          precision={6}
-          higherPrecision={8}
-          isTotal={withReceiveAmount}
-        />
-      ) : null}
+      <ListItem>
+        <StackDivider w="full" h="1px" bg="hsla(0, 0%, 100%, 10%)" />
+      </ListItem>
+      <TransactionDetailsAmountItem
+        label="Total Fees"
+        tokenAmount={totalFees.toString()}
+        tokenSymbol="tBTC"
+        precision={6}
+        higherPrecision={8}
+        isSubTotal
+      />
+      <TransactionDetailsAmountItem
+        label="You will receive"
+        tokenAmount={amountToReceive.toString()}
+        tokenSymbol="tBTC"
+        precision={6}
+        higherPrecision={8}
+        isTotal
+      />
     </List>
   )
 }
