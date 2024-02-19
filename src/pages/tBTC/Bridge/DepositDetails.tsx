@@ -1,81 +1,70 @@
 import {
-  FC,
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  createContext,
-  useContext,
-} from "react"
-import { useParams, useLocation, useNavigate } from "react-router"
-import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Badge,
   BodyLg,
   BodyMd,
+  BodySm,
   Box,
+  Divider,
   Flex,
+  Icon,
   LabelSm,
   List,
   ListItem,
   Stack,
   StackDivider,
-  Icon,
-  Divider,
-  BodySm,
-  BodyXs,
-  Alert,
-  AlertDescription,
-  AlertIcon,
   useColorModeValue,
 } from "@threshold-network/components"
-import { IoCheckmarkSharp, IoTime as TimeIcon } from "react-icons/all"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
 import {
-  Timeline,
-  TimelineBreakpoint,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineItemStatus,
-} from "../../../components/Timeline"
-import ViewInBlockExplorer, {
-  Chain as ViewInBlockExplorerChain,
-} from "../../../components/ViewInBlockExplorer"
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
+import { IoTime as TimeIcon } from "react-icons/all"
+import { useLocation, useNavigate, useParams } from "react-router"
 import ButtonLink from "../../../components/ButtonLink"
 import {
   BridgeProcessIndicator,
   TBTCTokenContractLink,
 } from "../../../components/tBTC"
-import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
+import { ExternalPool } from "../../../components/tBTC/ExternalPool"
+import { InlineTokenBalance } from "../../../components/TokenBalance"
+import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
+import ViewInBlockExplorer, {
+  Chain as ViewInBlockExplorerChain,
+} from "../../../components/ViewInBlockExplorer"
+import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
+import { useAppDispatch } from "../../../hooks/store"
+import {
+  DepositData,
+  useFetchDepositDetails,
+  useSubscribeToOptimisticMintingFinalizedEventBase,
+  useSubscribeToOptimisticMintingRequestedEventBase,
+} from "../../../hooks/tbtc"
+import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
+import { useTbtcState } from "../../../hooks/useTbtcState"
+import { tbtcSlice } from "../../../store/tbtc"
+import { PageComponent } from "../../../types"
+import { ExplorerDataType } from "../../../utils/createEtherscanLink"
+import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
+import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import {
   BridgeProcessResource,
   BridgeProcessResourceProps,
 } from "./components/BridgeProcessResource"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
-import { useAppDispatch } from "../../../hooks/store"
-import { useTbtcState } from "../../../hooks/useTbtcState"
-import {
-  useFetchDepositDetails,
-  DepositData,
-  useSubscribeToOptimisticMintingRequestedEventBase,
-  useSubscribeToOptimisticMintingFinalizedEventBase,
-} from "../../../hooks/tbtc"
-import { tbtcSlice } from "../../../store/tbtc"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { PageComponent } from "../../../types"
-import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
-import { ExternalPool } from "../../../components/tBTC/ExternalPool"
-import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
-import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
-import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
+import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
   const { state } = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { txConfirmations } = useTbtcState()
+  const { txConfirmations, updateState } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
   const tBTCWBTCSBTCPoolData = useFetchExternalPoolData(
     "curve",
@@ -128,20 +117,25 @@ export const DepositDetails: PageComponent = () => {
         })
       )
     }
+
+    return () => {
+      updateState("depositDetailsStep", "bitcoin-confirmations")
+    }
   }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
 
   useEffect(() => {
     if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
       return
 
-    setMintingProgressStep(
-      getMintingProgressStep({
-        confirmations,
-        requiredConfirmations,
-        optimisticMintingFinalizedTxHash,
-        optimisticMintingRequestedTxHash,
-      })
-    )
+    const step = getMintingProgressStep({
+      confirmations,
+      requiredConfirmations,
+      optimisticMintingFinalizedTxHash,
+      optimisticMintingRequestedTxHash,
+    })
+
+    setMintingProgressStep(step)
+    updateState("depositDetailsStep", step)
   }, [
     confirmations,
     requiredConfirmations,
@@ -224,10 +218,6 @@ export const DepositDetails: PageComponent = () => {
                     ml="auto"
                   />
                 </Flex>
-                <DepositDetailsTimeline
-                  // isCompleted
-                  inProgressStep={mintingProgressStep}
-                />
                 {mintingProgressStep !== "completed" && (
                   <Alert status="info" my={6}>
                     <AlertIcon />
@@ -358,90 +348,6 @@ type DepositDetailsTimelineStep =
   | "guardian-check"
   | "minting-completed"
   | "completed"
-
-type DepositDetailsTimelineItem = {
-  id: DepositDetailsTimelineStep
-  text: string
-  status: TimelineItemStatus
-}
-
-const depositTimelineItems: DepositDetailsTimelineItem[] = [
-  {
-    id: "bitcoin-confirmations",
-    text: `Bitcoin\nCheckpoint`,
-    status: "semi-active",
-  },
-  {
-    id: "minting-initialized",
-    text: "Minting\nInitialized",
-    status: "inactive",
-  },
-  {
-    id: "guardian-check",
-    text: "Guardian\nCheck",
-    status: "inactive",
-  },
-  {
-    id: "minting-completed",
-    text: "Minting\nCompleted",
-    status: "inactive",
-  },
-]
-type DepositDetailsTimelineProps = {
-  inProgressStep: DepositDetailsTimelineStep
-}
-
-const DepositDetailsTimeline: FC<DepositDetailsTimelineProps> = ({
-  inProgressStep,
-}) => {
-  const items = useMemo<DepositDetailsTimelineItem[]>(() => {
-    const isCompleted = inProgressStep === "completed"
-    const inProgressItemIndex = depositTimelineItems.findIndex(
-      (item) => item.id === inProgressStep
-    )
-    return depositTimelineItems.map((item, index) => {
-      let status: TimelineItemStatus = "active"
-      if (isCompleted) return { ...item, status }
-      if (index === inProgressItemIndex) {
-        status = "semi-active"
-      } else if (index > inProgressItemIndex) {
-        status = "inactive"
-      }
-
-      return { ...item, status }
-    })
-  }, [inProgressStep])
-
-  return (
-    <Timeline>
-      {items.map((item) => (
-        <TimelineItem key={item.id} status={item.status}>
-          <TimelineBreakpoint>
-            <TimelineDot position="relative">
-              {item.status === "active" && (
-                <Icon
-                  as={IoCheckmarkSharp}
-                  position="absolute"
-                  color="white"
-                  w="22px"
-                  h="22px"
-                  m="auto"
-                  left="0"
-                  right="0"
-                  textAlign="center"
-                />
-              )}
-            </TimelineDot>
-            <TimelineConnector />
-          </TimelineBreakpoint>
-          <TimelineContent>
-            <BodyXs whiteSpace="pre-line">{item.text}</BodyXs>
-          </TimelineContent>
-        </TimelineItem>
-      ))}
-    </Timeline>
-  )
-}
 
 const getMintingProgressStep = (
   depositDetails?: Omit<
