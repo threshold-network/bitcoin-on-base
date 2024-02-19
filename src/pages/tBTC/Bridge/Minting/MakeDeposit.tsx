@@ -52,7 +52,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string } & StackProps> = ({
   btcDepositAddress,
   ...restProps
 }) => {
-  const { onCopy: handleCopy } = useClipboard(btcDepositAddress)
+  const { onCopy: handleCopy, hasCopied } = useClipboard(btcDepositAddress)
 
   return (
     <VStack spacing="2" align="start" {...restProps}>
@@ -101,7 +101,7 @@ const BTCAddressSection: FC<{ btcDepositAddress: string } & StackProps> = ({
             textTransform="capitalize"
             rightIcon={<Icon as={CopyIcon} color="brand.100" />}
           >
-            Copy
+            {hasCopied ? "Copied" : "Copy"}
           </Button>
         </VStack>
       </Stack>
