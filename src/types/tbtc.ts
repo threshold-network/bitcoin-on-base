@@ -5,6 +5,7 @@ import { UpdateStateActionPayload } from "./state"
 
 export interface TbtcState {
   mintingStep: MintingStep
+  depositDetailsStep: DepositDetailsStep
   // deposit data
   btcRecoveryAddress: string
   btcDepositAddress: string
@@ -61,3 +62,19 @@ export type ExternalPoolData = {
 }
 
 export { type BridgeProcess }
+
+export enum DepositDetailsStep {
+  BitcoinConfirmations = "bitcoin-confirmations",
+  MintingInitialized = "minting-initialized",
+  GuardianCheck = "guardian-check",
+  MintingCompleted = "minting-completed",
+  Completed = "completed",
+}
+
+export const DepositDetailsSteps: DepositDetailsStep[] = [
+  DepositDetailsStep.BitcoinConfirmations,
+  DepositDetailsStep.MintingInitialized,
+  DepositDetailsStep.GuardianCheck,
+  DepositDetailsStep.MintingCompleted,
+  DepositDetailsStep.Completed,
+]
