@@ -42,7 +42,6 @@ const AddressRow: FC<
       <CopyAddressToClipboard
         address={address}
         copyButtonPosition="end"
-        withLinkToBlockExplorer
         chain={chain}
       />
     </HStack>

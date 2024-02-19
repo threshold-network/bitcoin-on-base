@@ -117,7 +117,6 @@ type CopyAddressToClipboardProps = Omit<
 > & {
   address: string
   withFullAddress?: boolean
-  withLinkToBlockExplorer?: boolean
 } & Omit<BaseCopyToClipboardProps, "textToCopy"> &
   Pick<ViewInBlockExplorerProps, "chain">
 
