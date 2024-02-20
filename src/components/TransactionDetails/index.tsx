@@ -37,6 +37,7 @@ export const TransactionDetailsItem: FC<TransactionDetailsItemProps> = ({
       </BodyMd>
       {
         <BodyMd
+          as="div"
           color={isTotal ? "hsl(182, 100%, 70%)" : "white"}
           fontWeight={isTotal || isSubTotal ? "bold" : "normal"}
         >
