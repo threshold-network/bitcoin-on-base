@@ -110,6 +110,7 @@ const InitiateMintingComponent: FC<{
           confirmations.
         "
         afterDescription={<Badge variant="subtle">Action on Ethereum</Badge>}
+        onPreviousStepClick={onPreviousStepClick}
       />
       <VStack spacing={6} mt={8}>
         <VStack spacing={2}>
