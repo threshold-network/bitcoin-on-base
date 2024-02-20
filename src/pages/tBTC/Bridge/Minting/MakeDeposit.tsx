@@ -1,68 +1,63 @@
+import { FC } from "react"
 import {
+  BodySm,
   BodyMd,
   Box,
-  BoxLabel,
   Button,
-  Card,
-  ChecklistGroup,
-  Divider,
   HStack,
   Stack,
-  useColorModeValue,
+  VStack,
+  useClipboard,
+  Icon,
+  Text,
+  Badge,
+  StackProps,
 } from "@threshold-network/components"
-import { ComponentProps, FC } from "react"
-import {
-  CopyAddressToClipboard,
-  CopyToClipboard,
-  CopyToClipboardButton,
-} from "../../../../components/CopyToClipboard"
-import { QRCode } from "../../../../components/QRCode"
+import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
 import TooltipIcon from "../../../../components/TooltipIcon"
-import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
-import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
+import { CopyAddressToClipboard } from "../../../../components/CopyToClipboard"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
-import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
+import { QRCode } from "../../../../components/QRCode"
+import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
+import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
+import { Copy as CopyIcon } from "../../../../static/icons/Copy"
+import { MintDurationTiers } from "../../../../components/MintDurationTiers"
 
 const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
 > = ({ address, text, chain }) => {
   return (
-    <HStack justify="space-between">
-      <BoxLabel>{text}</BoxLabel>
+    <HStack
+      justify="space-between"
+      rounded="2xl"
+      boxShadow="2xl"
+      bg="#0D0D0D"
+      border="1px solid hsla(0, 0%, 20%, 40%)"
+      px={4}
+      py={2.5}
+      spacing={6}
+    >
+      <BodyMd color="hsla(0, 0%, 100%, 50%)">{text}</BodyMd>
       <CopyAddressToClipboard
         address={address}
         copyButtonPosition="end"
-        withLinkToBlockExplorer
         chain={chain}
       />
     </HStack>
   )
 }
 
-const BTCAddressCard: FC<ComponentProps<typeof Card>> = ({
-  children,
+const BTCAddressSection: FC<{ btcDepositAddress: string } & StackProps> = ({
+  btcDepositAddress,
   ...restProps
 }) => {
-  const bgColor = useColorModeValue("gray.50", "gray.900")
-  return (
-    <Card {...restProps} backgroundColor={bgColor} border="none">
-      {children}
-    </Card>
-  )
-}
-
-const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
-  btcDepositAddress,
-}) => {
-  const titleColor = useColorModeValue("gray.700", "gray.100")
-  const btcAddressColor = useColorModeValue("brand.500", "white")
+  const { onCopy: handleCopy, hasCopied } = useClipboard(btcDepositAddress)
 
   return (
-    <>
+    <VStack spacing="2" align="start" {...restProps}>
       <HStack
         alignItems="center"
-        mb="3.5"
         // To center the tooltip icon. The tooltip icon is wrapped by `span`
         // because of: If you're wrapping an icon from `react-icons`, you need
         // to also wrap the icon in a `span` element as `react-icons` icons do
@@ -70,45 +65,47 @@ const BTCAddressSection: FC<{ btcDepositAddress: string }> = ({
         // https://chakra-ui.com/docs/components/tooltip#with-an-icon.
         sx={{ ">span": { display: "flex" } }}
       >
-        <BodyMd color={titleColor}>BTC Deposit Address</BodyMd>
-        <TooltipIcon
-          color={titleColor}
-          label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC."
-        />
+        <BodySm fontWeight="medium" color="brand.100" lineHeight={1.5}>
+          BTC Deposit Address
+        </BodySm>
+        <TooltipIcon label="This is a unique BTC address generated based on the ETH address and Recovery address you provided. Send your BTC funds to this address in order to mint tBTC." />
       </HStack>
-      <BTCAddressCard p="2.5" display="flex" justifyContent="center">
-        <Box
-          p={2.5}
-          backgroundColor={"white"}
-          width={"100%"}
-          maxW="205px"
-          borderRadius="8px"
-        >
+      <Stack
+        w="full"
+        direction={{ base: "column", sm: "row" }}
+        align="start"
+        py={4}
+        pl={4}
+        pr={10}
+        spacing={10}
+        rounded="2xl"
+        border="1px solid #333"
+      >
+        <Box p={3.5} rounded="xl" bg="brand.100">
           <QRCode
-            size={256}
-            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            size={180}
             value={btcDepositAddress}
-            viewBox={`0 0 256 256`}
+            viewBox="0 0 180 180"
+            bgColor="transparent"
           />
         </Box>
-      </BTCAddressCard>
-      <CopyToClipboard textToCopy={btcDepositAddress}>
-        <HStack mt="2.5">
-          <BTCAddressCard minW="0" p="2">
-            <BodyMd color={btcAddressColor}>{btcDepositAddress}</BodyMd>
-          </BTCAddressCard>
-          <BTCAddressCard
-            flex="1"
-            p="4"
-            display="flex"
-            alignSelf="stretch"
-            alignItems="center"
+        <VStack spacing={6} align="start">
+          <BodyMd color="brand.100" overflowWrap="anywhere">
+            {btcDepositAddress}
+          </BodyMd>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleCopy}
+            color="white"
+            textTransform="capitalize"
+            rightIcon={<Icon as={CopyIcon} color="brand.100" />}
           >
-            <CopyToClipboardButton />
-          </BTCAddressCard>
-        </HStack>
-      </CopyToClipboard>
-    </>
+            {hasCopied ? "Copied" : "Copy"}
+          </Button>
+        </VStack>
+      </Stack>
+    </VStack>
   )
 }
 
@@ -119,56 +116,59 @@ const MakeDepositComponent: FC<{
     useTbtcState()
 
   return (
-    <Box mx={{ base: 0, lg: 10 }}>
+    <Box mx={{ base: 0, xl: 10 }}>
       <BridgeProcessCardTitle
         onPreviousStepClick={onPreviousStepClick}
         badgeText="2/3"
         title="Make your BTC deposit"
+        description={
+          <>
+            Use this generated address to send minimum{" "}
+            <Text as="span" color="white">
+              0.01&nbsp;BTC
+            </Text>
+            , to mint as tBTC. This address is a uniquely generated address
+            based on the data you provided.
+          </>
+        }
+        afterDescription={
+          <Badge variant="subtle" color="hsl(33, 93%, 54%)">
+            Action on Bitcoin
+          </Badge>
+        }
       />
-      <BodyMd color="gray.500" mb={6}>
-        Use this generated address to send minimum 0.01&nbsp;BTC, to mint as
-        tBTC.
-      </BodyMd>
-      <BodyMd color="gray.500" mb={6}>
-        This address is a uniquely generated address based on the data you
-        provided.
-      </BodyMd>
-      <BTCAddressSection btcDepositAddress={btcDepositAddress} />
-      <Stack spacing={4} mt="5" mb={8}>
-        <BodyMd>Provided Addresses Recap</BodyMd>
-        <AddressRow text="ETH Address" address={ethAddress} />
+      <BTCAddressSection mt={6} btcDepositAddress={btcDepositAddress} />
+      <MintDurationTiers
+        mt={6}
+        items={[
+          {
+            amount: 0.1,
+            rangeOperator: "less",
+            currency: "BTC",
+          },
+          {
+            amount: 1,
+            rangeOperator: "less",
+            currency: "BTC",
+          },
+          {
+            amount: 1,
+            rangeOperator: "greaterOrEqual",
+            currency: "BTC",
+          },
+        ]}
+      />
+      <Stack spacing={2} mt={6}>
+        <BodySm fontWeight="medium" color="brand.100" lineHeight={1.5}>
+          Provided Addresses Recap
+        </BodySm>
+        <AddressRow text="Base address" address={ethAddress} />
         <AddressRow
-          text="BTC Recovery Address"
+          text="BTC Recovery address"
           address={btcRecoveryAddress}
           chain="bitcoin"
         />
       </Stack>
-      <Divider mt={4} mb={6} />
-      <ChecklistGroup
-        mb={6}
-        checklistItems={[
-          {
-            itemId: "staking_deposit__0",
-            itemTitle: "",
-            itemSubTitle: (
-              <BodyMd color={useColorModeValue("gray.500", "gray.300")}>
-                Send the funds and come back to this dApp. You do not need to
-                wait for the BTC transaction to be mined.
-              </BodyMd>
-            ),
-          },
-        ]}
-      />
-      {/* TODO: No need to use button here. We can replace it with just some text */}
-      <Button
-        isLoading={true}
-        loadingText={"Waiting for funds to be sent..."}
-        form="tbtc-minting-data-form"
-        isDisabled={true}
-        isFullWidth
-      >
-        I sent the BTC
-      </Button>
     </Box>
   )
 }

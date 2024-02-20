@@ -10,8 +10,8 @@ import { Outlet } from "react-router"
 import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
+import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
 import { useParams } from "react-router"
-import { MintingTimeline } from "./Minting/MintingTimeline"
 import { TbtcBalanceCard } from "./TbtcBalanceCard"
 import { KnowledgebaseLinks } from "./Minting/KnowledgebaseLinks"
 
@@ -42,7 +42,7 @@ const TBTCBridge: PageComponent = () => {
     <PageLayout
       backgroundVariant="secondary"
       renderTop={<TbtcBalanceCard />}
-      renderLeft={isDepositDetailsPageActive ? <MintingTimeline /> : null}
+      renderLeft={<MintingDepositTimeline title="Minting timeline" />}
       renderRight={
         isDepositDetailsPageActive ? (
           <KnowledgebaseLinks depositKey={depositKey} />

@@ -1,12 +1,11 @@
+import { FC, useEffect, useState } from "react"
+import { useParams, useSearchParams } from "react-router-dom"
 import {
-  Badge,
   BodyLg,
   BodyMd,
   BodySm,
-  BodyXs,
   Divider,
   H5,
-  Icon,
   LabelSm,
   List,
   ListItem,
@@ -14,20 +13,8 @@ import {
   SkeletonText,
   useColorModeValue,
 } from "@threshold-network/components"
-import { FC, useEffect, useState } from "react"
-import { IoCheckmarkSharp } from "react-icons/all"
-import { useParams, useSearchParams } from "react-router-dom"
 import ButtonLink from "../../../components/ButtonLink"
 import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
-import {
-  Timeline,
-  TimelineBreakpoint,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-} from "../../../components/Timeline"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
 import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
@@ -191,69 +178,6 @@ export const UnmintDetails: PageComponent = () => {
         {error && <>{error}</>}
         {wasDataFetched && (
           <>
-            <Timeline>
-              <Badge
-                variant="subtle"
-                size="sm"
-                bg={timelineBadgeBgColor}
-                position="absolute"
-                bottom="10px"
-                left="50%"
-                transform="translateX(-50%)"
-              >
-                usual duration - 3-5 hours
-              </Badge>
-              <TimelineItem status="active">
-                <TimelineBreakpoint>
-                  <TimelineDot position="relative">
-                    <Icon
-                      as={IoCheckmarkSharp}
-                      position="absolute"
-                      color="white"
-                      w="22px"
-                      h="22px"
-                      m="auto"
-                      left="0"
-                      right="0"
-                      textAlign="center"
-                    />
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineBreakpoint>
-                <TimelineContent>
-                  <BodyXs whiteSpace="pre-line">tBTC unwrapped</BodyXs>
-                </TimelineContent>
-              </TimelineItem>
-              <TimelineItem
-                status={
-                  isProcessCompleted || shouldForceIsProcessCompleted
-                    ? "active"
-                    : "semi-active"
-                }
-              >
-                <TimelineBreakpoint>
-                  <TimelineDot position="relative">
-                    {(isProcessCompleted || shouldForceIsProcessCompleted) && (
-                      <Icon
-                        as={IoCheckmarkSharp}
-                        position="absolute"
-                        color="white"
-                        w="22px"
-                        h="22px"
-                        m="auto"
-                        left="0"
-                        right="0"
-                        textAlign="center"
-                      />
-                    )}
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineBreakpoint>
-                <TimelineContent>
-                  <BodyXs whiteSpace="pre-line">BTC sent</BodyXs>
-                </TimelineContent>
-              </TimelineItem>
-            </Timeline>
             {shouldDisplaySuccessStep || shouldForceIsProcessCompleted ? (
               <SuccessStep
                 requestedAmount={requestedAmount}
@@ -353,7 +277,6 @@ const SuccessStep: FC<{
           <CopyAddressToClipboard
             address={btcAddress}
             chain="bitcoin"
-            withLinkToBlockExplorer
             fontSize="14px"
           />
         </TransactionDetailsItem>

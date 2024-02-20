@@ -4,7 +4,6 @@ import {
   Divider,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   BodyLg,
   H5,
   BodySm,
@@ -23,7 +22,6 @@ const NewTBTCAppBase: FC<BaseModalProps> = ({ closeModal }) => {
 
   return (
     <>
-      <ModalHeader />
       <ModalBody>
         <Image
           src={tbtcAppBannerIllustration}

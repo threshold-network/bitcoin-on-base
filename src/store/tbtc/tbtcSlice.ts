@@ -1,23 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { PayloadAction } from "@reduxjs/toolkit/dist/createAction"
-import { MintingStep, TbtcStateKey, TbtcState } from "../../types/tbtc"
-import { UpdateStateActionPayload } from "../../types/state"
 import {
-  BridgeActivityStatus,
   BridgeActivity,
+  BridgeActivityStatus,
   UnmintBridgeActivityAdditionalData,
 } from "../../threshold-ts/tbtc"
+import { UpdateStateActionPayload } from "../../types/state"
+import {
+  DepositDetailsStep,
+  MintingStep,
+  TbtcState,
+  TbtcStateKey,
+} from "../../types/tbtc"
 import { startAppListening } from "../listener"
 import {
   fetchBridgeactivityEffect,
-  findUtxoEffect,
   fetchUtxoConfirmationsEffect,
+  findUtxoEffect,
 } from "./effects"
 
 export const tbtcSlice = createSlice({
   name: "tbtc",
   initialState: {
     mintingStep: MintingStep.ProvideData,
+    depositDetailsStep: DepositDetailsStep.BitcoinConfirmations,
     mintingRequestedTxHash: "",
     mintingFinalizedTxHash: "",
     bridgeActivity: {

@@ -2,7 +2,7 @@ import { FC } from "react"
 import { Box, StackProps, HStack } from "@threshold-network/components"
 import { motion } from "framer-motion"
 
-const Dot: FC = () => (
+const LoadingDot: FC = () => (
   <motion.div
     variants={{
       initial: {
@@ -48,8 +48,8 @@ export const DotsLoadingIndicator: FC<StackProps> = (props) => (
     animate="animate"
     {...props}
   >
-    <Dot />
-    <Dot />
-    <Dot />
+    <LoadingDot />
+    <LoadingDot />
+    <LoadingDot />
   </HStack>
 )

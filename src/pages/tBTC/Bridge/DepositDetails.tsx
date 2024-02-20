@@ -31,6 +31,7 @@ export const DepositDetails: PageComponent = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { updateState } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
 
   const [mintingProgressStep, setMintingProgressStep] =
@@ -75,20 +76,25 @@ export const DepositDetails: PageComponent = () => {
         })
       )
     }
+
+    return () => {
+      updateState("depositDetailsStep", "bitcoin-confirmations")
+    }
   }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
 
   useEffect(() => {
     if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
       return
 
-    setMintingProgressStep(
-      getMintingProgressStep({
-        confirmations,
-        requiredConfirmations,
-        optimisticMintingFinalizedTxHash,
-        optimisticMintingRequestedTxHash,
-      })
-    )
+    const step = getMintingProgressStep({
+      confirmations,
+      requiredConfirmations,
+      optimisticMintingFinalizedTxHash,
+      optimisticMintingRequestedTxHash,
+    })
+
+    setMintingProgressStep(step)
+    updateState("depositDetailsStep", step)
   }, [
     confirmations,
     requiredConfirmations,
