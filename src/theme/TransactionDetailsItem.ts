@@ -26,7 +26,7 @@ const variants: PartsStyleObject = {
     value: { fontWeight: "bold" },
   },
   highlight: {
-    label: { color: "white" },
+    label: { color: "brand.100" },
     value: { fontWeight: "bold", color: "brand.100" },
   },
 }
