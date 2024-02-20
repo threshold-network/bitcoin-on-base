@@ -8,12 +8,10 @@ import ConnectMetamask from "./ConnectMetamask"
 import withBaseModal from "../withBaseModal"
 import ConnectWalletConnect from "./ConnectWalletConnect"
 import { WalletType } from "../../../enums"
-import { Text, ModalHeader, Flex } from "@threshold-network/components"
 import { BaseModalProps, WalletOption } from "../../../types"
 import ConnectCoinbase from "./ConnectCoinbase"
 import { CoinbaseWallet } from "../../../static/icons/CoinbaseWallet"
 import { useModal } from "../../../hooks/useModal"
-import ModalCloseButton from "../ModalCloseButton"
 import ConnectTaho from "./ConnectTaho"
 import ConnectLedgerLive from "./ConnectLedgerLive"
 import { LedgerLight } from "../../../static/icons/LedgerLight"
@@ -84,34 +82,14 @@ const SelectWalletModal: FC<BaseModalProps> = () => {
     setWalletToConnect(walletType)
   }
 
-  return (
-    <>
-      <ModalHeader
-        as={Flex}
-        align="center"
-        justify="space-between"
-        p={6}
-        mb={4}
-      >
-        <Text as="h2" fontSize="xl" lineHeight={6} fontWeight="medium">
-          Connect a Wallet
-        </Text>
-        <ModalCloseButton position="relative" inset={0} />
-      </ModalHeader>
-
-      {walletToConnect === null ? (
-        <InitialWalletSelection
-          walletOptions={walletOptions}
-          onSelect={onClick}
-        />
-      ) : (
-        <ConnectWallet
-          walletType={walletToConnect}
-          goBack={goBack}
-          onClose={closeModal}
-        />
-      )}
-    </>
+  return walletToConnect === null ? (
+    <InitialWalletSelection walletOptions={walletOptions} onSelect={onClick} />
+  ) : (
+    <ConnectWallet
+      walletType={walletToConnect}
+      goBack={goBack}
+      onClose={closeModal}
+    />
   )
 }
 
@@ -136,4 +114,4 @@ const ConnectWallet: FC<{
   }
 }
 
-export default withBaseModal(SelectWalletModal)
+export default withBaseModal(SelectWalletModal, "Connect a Wallet")

@@ -1,13 +1,11 @@
 import { FC } from "react"
-import { Box, ModalBody, ModalHeader, ModalFooter } from "@chakra-ui/react"
+import { ModalBody, ModalFooter, Flex } from "@chakra-ui/react"
 import { BodyLg, BodySm } from "@threshold-network/components"
 import ViewInBlockExplorer from "../../ViewInBlockExplorer"
 import { ExplorerDataType } from "../../../utils/createEtherscanLink"
 import withBaseModal from "../withBaseModal"
 import { BaseModalProps } from "../../../types"
-import InfoBox from "../../InfoBox"
-import { ThresholdSpinner } from "../../ThresholdSpinner/ThresholdSpinner"
-import ModalCloseButton from "../ModalCloseButton"
+import Spinner from "../../Spinner"
 
 interface TransactionIsPendingProps extends BaseModalProps {
   pendingText?: string
@@ -20,17 +18,13 @@ const TransactionIsPending: FC<TransactionIsPendingProps> = ({
 }) => {
   return (
     <>
-      <ModalHeader>Confirm (pending)</ModalHeader>
-      <ModalCloseButton />
-      <ModalBody>
-        <InfoBox py={12} variant="modal">
-          <ThresholdSpinner />
-          <BodyLg align="center" mt={8}>
-            {pendingText}
-          </BodyLg>
-        </InfoBox>
+      <ModalBody as={Flex} flexFlow="column" align="center" p={6}>
+        <Spinner />
+        <BodyLg mt={10} mb={9}>
+          {pendingText}
+        </BodyLg>
       </ModalBody>
-      <ModalFooter justifyContent="center">
+      <ModalFooter p={6} justifyContent="center">
         <BodySm>
           <ViewInBlockExplorer
             text="View"
@@ -44,4 +38,4 @@ const TransactionIsPending: FC<TransactionIsPendingProps> = ({
   )
 }
 
-export default withBaseModal(TransactionIsPending)
+export default withBaseModal(TransactionIsPending, "Confirm (pending)")
