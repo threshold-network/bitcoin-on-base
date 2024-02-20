@@ -4,7 +4,6 @@ import {
   Divider,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   BodyLg,
   H5,
   BodySm,

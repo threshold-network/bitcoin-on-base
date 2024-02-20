@@ -1,25 +1,25 @@
-import { FC } from "react"
 import {
   Alert,
   AlertIcon,
   AlertTitle,
   Box,
+  Button,
+  Icon,
   ModalBody,
   ModalFooter,
   useDisclosure,
   VStack,
-  Button,
-  Icon,
 } from "@chakra-ui/react"
 import { BodySm } from "@threshold-network/components"
+import { FC } from "react"
+import {
+  HiOutlineMinus as MinusIcon,
+  HiOutlinePlus as PlusIcon,
+} from "react-icons/hi"
 import { ExternalHref } from "../../../enums"
 import { BaseModalProps } from "../../../types"
-import withBaseModal from "../withBaseModal"
 import Link from "../../Link"
-import {
-  HiOutlinePlus as PlusIcon,
-  HiOutlineMinus as MinusIcon,
-} from "react-icons/hi"
+import withBaseModal from "../withBaseModal"
 
 interface TransactionFailedProps extends BaseModalProps {
   transactionHash?: string
@@ -63,11 +63,9 @@ const TransactionFailed: FC<TransactionFailedProps> = ({
           {isExpandableError && isOpen ? (
             <Box p={6} pb={0} borderTop="1px solid" borderColor="inherit">
               <Box
-                as="pre"
                 bg="hsl(0, 0%, 12%)"
                 color="hsla(0, 0%, 100%, 80%)"
                 p={4}
-                whiteSpace="pre-wrap"
                 fontFamily="monospace"
                 maxH="xs"
                 overflowY="scroll"

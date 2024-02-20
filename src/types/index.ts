@@ -11,3 +11,11 @@ export type FetchingState<DataType> = {
   error: string
   data: DataType
 }
+
+export type RangeOperatorType =
+  | "greater"
+  | "less"
+  | "greaterOrEqual"
+  | "lessOrEqual"
+
+export type CurrencyType = "BTC" | "ETH" | "tBTC" | "SOL"

@@ -1,18 +1,14 @@
-import { FC, ComponentProps, createContext, useContext } from "react"
 import {
-  useClipboard,
+  BodyMd,
   Flex,
   IconButton,
-  useColorModeValue,
   Tooltip,
-  BodyMd,
+  useClipboard,
 } from "@threshold-network/components"
-import { IoCopyOutline } from "react-icons/all"
+import { ComponentProps, createContext, FC, useContext } from "react"
+import { Copy as CopyIcon } from "../../static/icons/Copy"
 import shortenAddress from "../../utils/shortenAddress"
-import ViewInBlockExplorer, {
-  ViewInBlockExplorerProps,
-} from "../ViewInBlockExplorer"
-import { ExplorerDataType } from "../../utils/createEtherscanLink"
+import { ViewInBlockExplorerProps } from "../ViewInBlockExplorer"
 
 type CopyToClipboardProps = {
   textToCopy: string
@@ -53,8 +49,8 @@ export const CopyToClipboardButton: FC = () => {
       closeOnClick={false}
     >
       <IconButton
-        icon={<IoCopyOutline />}
-        color="gray.500"
+        icon={<CopyIcon />}
+        color="hsl(182, 100%, 70%)"
         onClick={onCopy}
         aria-label={helperText}
         variant="ghost"
@@ -121,7 +117,6 @@ type CopyAddressToClipboardProps = Omit<
 > & {
   address: string
   withFullAddress?: boolean
-  withLinkToBlockExplorer?: boolean
 } & Omit<BaseCopyToClipboardProps, "textToCopy"> &
   Pick<ViewInBlockExplorerProps, "chain">
 
@@ -132,22 +127,9 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
   copyButtonPosition,
   chain,
   withFullAddress = false,
-  withLinkToBlockExplorer = false,
   ...restProps
 }) => {
-  const addressColor = useColorModeValue("brand.500", "brand.100")
   const _address = withFullAddress ? address : shortenAddress(address)
-  const mr = copyButtonPosition === "end" ? "2.5" : undefined
-  const ml =
-    !copyButtonPosition || copyButtonPosition === "start" ? "2.5" : undefined
-
-  const blockExplorerProps = {
-    as: ViewInBlockExplorer,
-    text: _address,
-    id: address,
-    type: ExplorerDataType.ADDRESS,
-    chain,
-  }
 
   return (
     <BaseCopyToClipboard
@@ -156,13 +138,7 @@ export const CopyAddressToClipboard: FC<CopyAddressToClipboardProps> = ({
       textCopiedMsg={textCopiedMsg}
       copyButtonPosition={copyButtonPosition}
     >
-      <BodyMd
-        {...(withLinkToBlockExplorer && blockExplorerProps)}
-        color={addressColor}
-        mr={mr}
-        ml={ml}
-        {...restProps}
-      >
+      <BodyMd color="white" lineHeight={1.75} mr={6} {...restProps}>
         {_address}
       </BodyMd>
     </BaseCopyToClipboard>

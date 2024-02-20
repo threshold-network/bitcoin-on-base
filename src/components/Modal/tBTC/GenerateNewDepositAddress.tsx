@@ -1,22 +1,20 @@
 import { FC } from "react"
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Button,
-  Divider,
+  Flex,
+  Icon,
   ModalBody,
   ModalFooter,
-  ModalHeader,
-  BodyLg,
-  H5,
-  BodySm,
-  Image,
-} from "@threshold-network/components"
+  StackDivider,
+  Text,
+} from "@chakra-ui/react"
 import withBaseModal from "../withBaseModal"
-import tbtcIllustration from "../../../static/images/tbtcMintingStep1.svg"
 import { BaseModalProps } from "../../../types"
-import InfoBox from "../../InfoBox"
-import ModalCloseButton from "../ModalCloseButton"
 import { useRemoveDepositData } from "../../../hooks/tbtc/useRemoveDepositData"
-import { BridgeContractLink } from "../../tBTC"
+import { HiChevronLeft as ChevronLeftIcon } from "react-icons/hi"
 
 const GenerateNewDepositAddressBase: FC<BaseModalProps> = ({ closeModal }) => {
   const removeDepositData = useRemoveDepositData()
@@ -28,39 +26,48 @@ const GenerateNewDepositAddressBase: FC<BaseModalProps> = ({ closeModal }) => {
 
   return (
     <>
-      <ModalBody>
-        <InfoBox mt="0" variant="modal">
-          <H5 mb="3" color="gray.800">
-            You are about to go generate a new Deposit Address, are you sure?
-          </H5>
-          <BodyLg mb="12">
-            Going back means you will redo Step 1 and generate a new Deposit
-            Address.
-          </BodyLg>
-          <BodyLg>
-            You will not be able to use your current generated address if you
-            generate a new one.
-          </BodyLg>
-        </InfoBox>
-        <Image
-          src={tbtcIllustration}
-          maxH={{ base: "140px", xl: "unset" }}
-          maxW="200px"
-          mx="auto"
-          mt="12"
-          mb="14"
-        />
-        <BodySm textAlign="center" color="gray.500">
-          Read more about the&nbsp;
-          <BridgeContractLink text="bridge contract" />.
-        </BodySm>
-        <Divider mt="2" />
+      <ModalBody
+        as={Flex}
+        direction="column"
+        borderY="1px solid"
+        borderColor="whiteAlpha.250"
+        px={10}
+        py={0}
+        mt={-4}
+      >
+        <Text
+          fontSize="2xl"
+          lineHeight={8}
+          fontWeight="medium"
+          color="hsl(180, 0%, 52%)"
+          my={6}
+        >
+          Going back means you will redo Step 1 and you'll need to generate a{" "}
+          <Text as="span" fontWeight="bold" color="hsl(182, 0%, 81%)">
+            new deposit address.
+          </Text>
+        </Text>
+        <StackDivider borderWidth={1} mx={-10} />
+        <Alert status="warning" my={6}>
+          <AlertIcon />
+          <AlertTitle>
+            Your current deposit address will no longer be valid.
+          </AlertTitle>
+        </Alert>
       </ModalBody>
-      <ModalFooter>
-        <Button onClick={onConfirmClick} variant="outline" mr="3">
-          Generate New Address
+      <ModalFooter py={6} justifyContent="space-between">
+        <Button
+          size="sm"
+          onClick={onConfirmClick}
+          variant="outline"
+          mr="3"
+          leftIcon={<Icon w={5} h={5} as={ChevronLeftIcon} />}
+        >
+          Redo Step 1
         </Button>
-        <Button onClick={closeModal}>Dismiss</Button>
+        <Button size="sm" onClick={closeModal}>
+          Stay on this page
+        </Button>
       </ModalFooter>
     </>
   )
@@ -68,5 +75,5 @@ const GenerateNewDepositAddressBase: FC<BaseModalProps> = ({ closeModal }) => {
 
 export const GenerateNewDepositAddress = withBaseModal(
   GenerateNewDepositAddressBase,
-  "Take note"
+  "Please Be Aware"
 )
