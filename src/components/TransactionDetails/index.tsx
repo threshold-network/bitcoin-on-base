@@ -1,48 +1,28 @@
 import { ComponentProps, FC } from "react"
-import {
-  BodyMd,
-  BodySm,
-  ListItem,
-  Skeleton,
-  useColorModeValue,
-} from "@threshold-network/components"
+import { Text, ListItem, Skeleton, useMultiStyleConfig } from "@chakra-ui/react"
 import { InlineTokenBalance } from "../TokenBalance"
 
 type TransactionDetailsItemProps = {
   label: string
   value?: string
-  isTotal?: boolean
-  isSubTotal?: boolean
+  variant?: "simple" | "bold" | "highlight"
 }
 
 export const TransactionDetailsItem: FC<TransactionDetailsItemProps> = ({
   label,
   value,
   children,
-  isTotal = false,
-  isSubTotal = false,
+  ...restProps
 }) => {
+  const styles = useMultiStyleConfig("TransactionDetailsItem", restProps)
+
   return (
-    <ListItem display="flex" justifyContent="space-between" alignItems="center">
-      <BodyMd
-        color={
-          isTotal
-            ? "hsl(182, 100%, 70%)"
-            : isSubTotal
-            ? "white"
-            : "hsla(0, 0%, 100%, 50%)"
-        }
-      >
-        {label}
-      </BodyMd>
+    <ListItem sx={styles.container}>
+      <Text sx={styles.label}>{label}</Text>
       {
-        <BodyMd
-          as="div"
-          color={isTotal ? "hsl(182, 100%, 70%)" : "white"}
-          fontWeight={isTotal || isSubTotal ? "bold" : "normal"}
-        >
+        <Text as="div" sx={styles.value}>
           {value ?? children}
-        </BodyMd>
+        </Text>
       }
     </ListItem>
   )
@@ -58,13 +38,9 @@ type TransactionDetailsAmountItemProps = Omit<
 
 export const TransactionDetailsAmountItem: FC<
   TransactionDetailsAmountItemProps
-> = ({ label, tokenAmount, isTotal, isSubTotal, ...restProps }) => {
+> = ({ label, tokenAmount, variant, ...restProps }) => {
   return (
-    <TransactionDetailsItem
-      label={label}
-      isTotal={isTotal}
-      isSubTotal={isSubTotal}
-    >
+    <TransactionDetailsItem label={label} variant={variant}>
       <Skeleton isLoaded={!!tokenAmount}>
         <InlineTokenBalance
           withSymbol

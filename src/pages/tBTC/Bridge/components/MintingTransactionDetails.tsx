@@ -48,7 +48,7 @@ const MintingTransactionDetails: FC<ListProps> = (props) => {
         tokenSymbol="tBTC"
         precision={6}
         higherPrecision={8}
-        isSubTotal
+        variant="bold"
       />
       <TransactionDetailsAmountItem
         label="You will receive"
@@ -56,7 +56,7 @@ const MintingTransactionDetails: FC<ListProps> = (props) => {
         tokenSymbol="tBTC"
         precision={6}
         higherPrecision={8}
-        isTotal
+        variant="highlight"
       />
     </List>
   )

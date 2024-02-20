@@ -12,6 +12,7 @@ import { Tooltip } from "./Tooltip"
 import { fonts } from "./fonts"
 import { Button } from "./Button"
 import { Alert } from "./Alert"
+import { TransactionDetailsItem } from "./TransactionDetailsItem"
 
 export const customBreakpoints = {
   "3xl": "120rem", // 1920px
@@ -66,6 +67,7 @@ const index = extendTheme({
     Tooltip,
     Button,
     Alert,
+    TransactionDetailsItem,
   },
   config: {
     initialColorMode: "dark",
