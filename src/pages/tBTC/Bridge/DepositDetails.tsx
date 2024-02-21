@@ -11,6 +11,7 @@ import { FC, useCallback, useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router"
 import ButtonLink from "../../../components/ButtonLink"
 import { TBTCTokenContractLink } from "../../../components/tBTC"
+import { Toast } from "../../../components/Toast"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
 import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
 import { useAppDispatch } from "../../../hooks/store"
@@ -31,8 +32,11 @@ export const DepositDetails: PageComponent = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { updateState } = useTbtcState()
+  const { updateState, depositDetailsStep } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
+  const [isCloseToastVisible, setIsCloseToastVisible] = useState(
+    depositDetailsStep !== "bitcoin-confirmations"
+  )
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
@@ -108,32 +112,56 @@ export const DepositDetails: PageComponent = () => {
       {(isFetching || !data) && !error && <BridgeProcessDetailsPageSkeleton />}
       {error && <>{error}</>}
       {!isFetching && !!data && !error && (
-        <VStack spacing={0}>
-          <VStack align="flex-start" alignSelf="stretch" spacing={2} zIndex={1}>
-            <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
-              Amount
-            </BodyMd>
-            <HStack align="baseline" spacing={2}>
-              <InlineTokenBalance
-                tokenAmount={amount || "0"}
-                fontWeight="black"
-                fontSize="40px"
-                lineHeight={1}
-              />
-              <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
-            </HStack>
+        <>
+          {depositDetailsStep === "bitcoin-confirmations" && (
+            <Toast
+              status="success"
+              title="Minting successfully started"
+              duration={4000}
+              onUnmount={() => setIsCloseToastVisible(true)}
+            />
+          )}
+          {isCloseToastVisible && (
+            <Toast
+              status="info"
+              title="You can safely close this window."
+              description="The minting process will keep running in the background and won't be interrupted."
+              orientation="vertical"
+              position="right"
+            />
+          )}
+          <VStack spacing={0}>
+            <VStack
+              align="flex-start"
+              alignSelf="stretch"
+              spacing={2}
+              zIndex={1}
+            >
+              <BodyMd color="hsla(0, 0%, 100%, 50%)" fontWeight="medium">
+                Amount
+              </BodyMd>
+              <HStack align="baseline" spacing={2}>
+                <InlineTokenBalance
+                  tokenAmount={amount || "0"}
+                  fontWeight="black"
+                  fontSize="40px"
+                  lineHeight={1}
+                />
+                <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
+              </HStack>
+            </VStack>
+            <StepSwitcher
+              step={mintingProgressStep}
+              confirmations={confirmations}
+              requiredConfirmations={requiredConfirmations}
+              btcTxHash={btcDepositTxHash}
+              updateStep={setMintingProgressStep}
+              amount={amount}
+              thresholdNetworkFee={thresholdNetworkFee}
+              mintingFee={mintingFee}
+            />
           </VStack>
-          <StepSwitcher
-            step={mintingProgressStep}
-            confirmations={confirmations}
-            requiredConfirmations={requiredConfirmations}
-            btcTxHash={btcDepositTxHash}
-            updateStep={setMintingProgressStep}
-            amount={amount}
-            thresholdNetworkFee={thresholdNetworkFee}
-            mintingFee={mintingFee}
-          />
-        </VStack>
+        </>
       )}
     </>
   )

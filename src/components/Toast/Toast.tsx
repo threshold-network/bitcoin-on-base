@@ -54,15 +54,26 @@ const getPositioningProps = (position: PositionType) => {
   }
 }
 
+const getMaxWidth = (position: PositionType, isDismissable: boolean) => {
+  if (position === "center" && isDismissable) {
+    return "toast-width"
+  }
+  if (position !== "center") {
+    return "toast-width-aside"
+  }
+  return "min-content"
+}
+
 const Toast: FC<AlertProps> = ({
   title,
   description,
   duration = Infinity,
-  isDismissable = true,
+  isDismissable = duration === Infinity,
   children,
   orientation = "horizontal",
   position = "center",
   icon,
+  onUnmount,
   ...restProps
 }) => {
   const [isMounted, setIsMounted] = useState(true)
@@ -75,12 +86,18 @@ const Toast: FC<AlertProps> = ({
     return () => clearTimeout(timeout)
   }, [])
 
+  useEffect(() => {
+    if (!isMounted && onUnmount) {
+      onUnmount()
+    }
+  }, [isMounted])
+
   return isMounted ? (
     <Alert
       variant="solid"
       position="fixed"
       w={{ base: `calc(100% - 2 * ${spacing[2]})`, md: "100%" }}
-      maxW="toast-width"
+      maxW={getMaxWidth(position, isDismissable)}
       boxShadow="lg"
       alignItems="center"
       whiteSpace="nowrap"
@@ -100,7 +117,11 @@ const Toast: FC<AlertProps> = ({
           >
             {title ? <AlertTitle lineHeight={5}>{title}</AlertTitle> : null}
             {description ? (
-              <AlertDescription lineHeight={5} color="hsl(0, 0%, 56%)">
+              <AlertDescription
+                lineHeight={5}
+                color="hsl(0, 0%, 56%)"
+                whiteSpace="normal"
+              >
                 {description ?? title}
               </AlertDescription>
             ) : null}

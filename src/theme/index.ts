@@ -21,6 +21,7 @@ export const customBreakpoints = {
 export const customSizes = {
   "content-max-width": "89.25rem", // 1428px
   "toast-width": "34.375rem", // 550px
+  "toast-width-aside": "25rem", // 400px
 }
 
 const index = extendTheme({
