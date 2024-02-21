@@ -77,7 +77,9 @@ const MintingFlowRouterBase = () => {
       return (
         <InitiateMinting
           utxo={utxo!}
-          onPreviousStepClick={onPreviousStepClick}
+          onPreviousStepClick={() =>
+            onPreviousStepClick(MintingStep.ProvideData)
+          }
         />
       )
     }
