@@ -30,8 +30,8 @@ const TransactionIsPending: FC<TransactionIsPendingProps> = ({
             text="View"
             id={transactionHash}
             type={ExplorerDataType.TRANSACTION}
-          />{" "}
-          transaction on Etherscan
+          />
+          &nbsp;transaction on Etherscan
         </BodySm>
       </ModalFooter>
     </>

@@ -45,7 +45,16 @@ const statusError = {
   },
 }
 
-const statusStyles = (props: AlertProps) => {
+const solidStyles = {
+  container: {
+    bg: "linear-gradient(315deg, #0A1616 0%, #090909 100%)",
+    border: "1px solid",
+    borderColor: "whiteAlpha.250",
+    rounded: "lg",
+  },
+}
+
+const subtleStatusStyles = (props: AlertProps) => {
   const { status } = props
 
   const styleMap = new Map([
@@ -56,6 +65,27 @@ const statusStyles = (props: AlertProps) => {
   ])
 
   return styleMap.get(status!) || {}
+}
+
+const solidStatusStyles = (props: AlertProps) => {
+  const { status } = props
+
+  const styles = new Map([
+    ["info", statusInfo],
+    ["warning", statusWarning],
+    ["success", statusSuccess],
+    ["error", statusError],
+  ]).get(status!)
+
+  if (styles) {
+    styles.container = Object.assign(styles.container, solidStyles.container)
+  }
+
+  if (styles && status === "info") {
+    styles.container.color = "brand.100"
+  }
+
+  return styles || {}
 }
 
 export const Alert = {
@@ -80,6 +110,7 @@ export const Alert = {
     },
   },
   variants: {
-    subtle: statusStyles,
+    subtle: subtleStatusStyles,
+    solid: solidStatusStyles,
   },
 }
