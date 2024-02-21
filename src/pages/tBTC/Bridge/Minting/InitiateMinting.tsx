@@ -1,43 +1,169 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
-import { BodyMd, Box, Button } from "@threshold-network/components"
-import { FC } from "react"
+import {
+  Badge,
+  BodyMd,
+  Box,
+  Button,
+  H5,
+  HStack,
+  VStack,
+} from "@threshold-network/components"
+import { BigNumber } from "ethers"
+import { FC, useEffect, useState } from "react"
+import { FaClock as ClockIcon } from "react-icons/fa"
+import { LabeledBadge } from "../../../../components/LabeledBadge"
+import { Toast } from "../../../../components/Toast"
+import { InlineTokenBalance } from "../../../../components/TokenBalance"
 import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWallet"
-import { ModalType } from "../../../../enums"
+import { useThreshold } from "../../../../contexts/ThresholdContext"
+import { useRevealDepositTransaction } from "../../../../hooks/tbtc"
 import { useModal } from "../../../../hooks/useModal"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
 import { MintingStep } from "../../../../types/tbtc"
+import { getDurationByNumberOfConfirmations } from "../../../../utils/tBTC"
 import { BridgeProcessCardTitle } from "../components/BridgeProcessCardTitle"
+import MintingTransactionDetails from "../components/MintingTransactionDetails"
+
+type RevealDepositErrorType = {
+  code: number
+  message: string
+}
 
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
   onPreviousStepClick: (previousStep?: MintingStep) => void
 }> = ({ utxo, onPreviousStepClick }) => {
-  const { openModal } = useModal()
+  const { updateState } = useTbtcState()
+  const threshold = useThreshold()
+  const { closeModal } = useModal()
+  const [depositRevealErrorData, setDepositRevealErrorData] =
+    useState<RevealDepositErrorType>()
 
-  const confirmDespotAndMint = async () => {
-    openModal(ModalType.TbtcMintingConfirmation, { utxo: utxo })
+  const onSuccessfulDepositReveal = () => {
+    updateState("mintingStep", MintingStep.MintingSuccess)
+    // We don't have success modal for deposit reveal so we just closing the
+    // current TransactionIsPending modal.
+    closeModal()
+  }
+
+  const onFailedDepositReveal = (error: RevealDepositErrorType) => {
+    setDepositRevealErrorData(error)
+    closeModal()
+  }
+
+  const { sendTransaction: revealDeposit } = useRevealDepositTransaction(
+    onSuccessfulDepositReveal,
+    onFailedDepositReveal
+  )
+
+  const depositedAmount = BigNumber.from(utxo.value).toString()
+  const confirmations = threshold.tbtc.minimumNumberOfConfirmationsNeeded(
+    utxo.value
+  )
+  const durationInMinutes = getDurationByNumberOfConfirmations(confirmations)
+  // Round up the minutes to the nearest half-hour
+  const hours = (Math.round(durationInMinutes / 30) * 30) / 60
+
+  const hoursSuffix = hours === 1 ? "hour" : "hours"
+  const confirmationsSuffix =
+    confirmations === 1 ? "confirmation" : "confirmations"
+
+  useEffect(() => {
+    const getEstimatedDepositFees = async () => {
+      const { treasuryFee, optimisticMintFee, amountToMint } =
+        await threshold.tbtc.getEstimatedDepositFees(depositedAmount)
+      updateState("mintingFee", optimisticMintFee)
+      updateState("thresholdNetworkFee", treasuryFee)
+      updateState("tBTCMintAmount", amountToMint)
+    }
+
+    getEstimatedDepositFees()
+  }, [depositedAmount, updateState, threshold])
+
+  const initiateMintTransaction = async () => {
+    if (depositRevealErrorData) {
+      setDepositRevealErrorData(undefined)
+      console.log("Revealing deposit failed, trying again...")
+    }
+    await revealDeposit(utxo)
   }
 
   return (
     <Box mx={{ base: 0, lg: 10 }}>
+      {depositRevealErrorData ? (
+        <Toast
+          status="error"
+          title="Error."
+          description={`Code: ${depositRevealErrorData?.code}`}
+        >
+          <Toast.CollapsibleDetails>
+            {depositRevealErrorData?.message}
+          </Toast.CollapsibleDetails>
+        </Toast>
+      ) : null}
       <BridgeProcessCardTitle
-        onPreviousStepClick={onPreviousStepClick}
         badgeText="3/3"
-        title="Initiate minting"
+        title="Initiate Minting"
+        description="
+          Receiving tBTC requires a single transaction on Base. The bridging 
+          can be initiated before you get all your Bitcoin deposit 
+          confirmations.
+        "
+        afterDescription={<Badge variant="subtle">Action on Ethereum</Badge>}
+        onPreviousStepClick={onPreviousStepClick}
       />
-      <BodyMd color="gray.500" mb={6}>
-        This step requires you to sign a transaction in your Ethereum wallet.
-      </BodyMd>
-      <BodyMd color="gray.500" mb={6}>
-        Your tBTC will arrive in your wallet in around ~3 hours.
-      </BodyMd>
+      <VStack spacing={6} mt={8}>
+        <VStack spacing={2}>
+          <H5 as="p" color="hsla(0, 0%, 100%, 50%)" fontWeight="normal">
+            Deposit received
+          </H5>
+          <Box
+            as="p"
+            fontSize="40px"
+            lineHeight="48px"
+            fontWeight="normal"
+            color="hsla(0, 0%, 100%, 50%)"
+          >
+            <InlineTokenBalance
+              fontWeight="black"
+              color="white"
+              tokenAmount={depositedAmount}
+              tokenDecimals={8}
+              precision={6}
+              higherPrecision={8}
+              displayTildeBelow={0}
+            />
+            &nbsp;BTC
+          </Box>
+        </VStack>
+        <HStack
+          px={4}
+          py={2}
+          border="1px solid #333"
+          bg="hsla(0, 0%, 0%, 30%)"
+          rounded="3xl"
+          spacing={4}
+        >
+          <BodyMd color="hsla(0, 0%, 100%, 50%)">
+            <Box as="span" color="hsl(151, 100%, 70%)">
+              +{confirmations}
+            </Box>
+            &nbsp;{confirmationsSuffix}
+          </BodyMd>
+          <LabeledBadge label="Est." icon={ClockIcon}>
+            {hours} {hoursSuffix}
+          </LabeledBadge>
+        </HStack>
+      </VStack>
+      <MintingTransactionDetails my={8} />
       <Button
-        onClick={confirmDespotAndMint}
+        onClick={initiateMintTransaction}
         isFullWidth
         data-ph-capture-attribute-button-name={
           "Confirm deposit & mint (Step 2)"
         }
       >
-        Initiate minting
+        {depositRevealErrorData ? "Try again" : "Mint"}
       </Button>
     </Box>
   )

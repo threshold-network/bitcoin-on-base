@@ -6,7 +6,6 @@ import {
   TransactionIsPending,
   TransactionIsWaitingForConfirmation,
 } from "../components/Modal/TransactionModal"
-import TbtcMintingConfirmationModal from "../components/Modal/TbtcMintingConfirmationModal"
 import {
   GenerateNewDepositAddress,
   InitiateUnminting,
@@ -19,7 +18,6 @@ export const MODAL_TYPES: Record<ModalType, ElementType> = {
   [ModalType.TransactionIsWaitingForConfirmation]:
     TransactionIsWaitingForConfirmation,
   [ModalType.TransactionFailed]: TransactionFailed,
-  [ModalType.TbtcMintingConfirmation]: TbtcMintingConfirmationModal,
   [ModalType.NewTBTCApp]: NewTBTCApp,
   [ModalType.GenerateNewDepositAddress]: GenerateNewDepositAddress,
   [ModalType.InitiateUnminting]: InitiateUnminting,

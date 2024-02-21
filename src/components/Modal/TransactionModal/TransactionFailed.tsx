@@ -1,25 +1,25 @@
-import { FC } from "react"
 import {
   Alert,
   AlertIcon,
   AlertTitle,
   Box,
+  Button,
+  Icon,
   ModalBody,
   ModalFooter,
   useDisclosure,
   VStack,
-  Button,
-  Icon,
 } from "@chakra-ui/react"
 import { BodySm } from "@threshold-network/components"
+import { FC } from "react"
+import {
+  HiOutlineMinus as MinusIcon,
+  HiOutlinePlus as PlusIcon,
+} from "react-icons/hi"
 import { ExternalHref } from "../../../enums"
 import { BaseModalProps } from "../../../types"
-import withBaseModal from "../withBaseModal"
 import Link from "../../Link"
-import {
-  HiOutlinePlus as PlusIcon,
-  HiOutlineMinus as MinusIcon,
-} from "react-icons/hi"
+import withBaseModal from "../withBaseModal"
 
 interface TransactionFailedProps extends BaseModalProps {
   transactionHash?: string
