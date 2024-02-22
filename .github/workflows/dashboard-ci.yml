@@ -15,7 +15,6 @@ on:
         type: choice
         options:
           - sepolia
-          - goerli
         default: sepolia
 
 jobs:
@@ -86,22 +85,10 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          # Temporarily we hardcode Goerli chain id (we'll need to change this
-          # to `11155111` when we switch our deployment to Sepolia.
-          CHAIN_ID: 5
+          CHAIN_ID: 11155111
           PUBLIC_URL: /
-          ETH_HOSTNAME_HTTP: |
-            ${{ github.event_name == 'push' 
-              || (github.event_name == 'workflow_dispatch' 
-              && github.event.inputs.environment == 'sepolia')
-              && secrets.SEPOLIA_ETH_HOSTNAME_HTTP 
-              || secrets.GOERLI_ETH_HOSTNAME_HTTP }}
-          ETH_HOSTNAME_WS: |
-            ${{ github.event_name == 'push'
-              || (github.event_name == 'workflow_dispatch' 
-              && github.event.inputs.environment == 'sepolia')
-              && secrets.SEPOLIA_ETH_HOSTNAME_WS
-              || secrets.GOERLI_ETH_HOSTNAME_WS }}
+          ETH_HOSTNAME_HTTP: ${{ secrets.SEPOLIA_ETH_HOSTNAME_HTTP }}
+          ETH_HOSTNAME_WS:  ${{ secrets.SEPOLIA_ETH_HOSTNAME_WS }}
           NODE_OPTIONS: --max_old_space_size=4096
           ELECTRUM_PROTOCOL: ${{ secrets.TESTNET_ELECTRUMX_PROTOCOL }}
           ELECTRUM_HOST: ${{ secrets.TESTNET_ELECTRUMX_HOST }}
