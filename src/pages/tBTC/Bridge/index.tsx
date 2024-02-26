@@ -12,12 +12,13 @@ import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
 import { TbtcBalanceCard } from "./TbtcBalanceCard"
+import { Text } from "@chakra-ui/react"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
-  const { account } = useWeb3React()
+  const { account, active } = useWeb3React()
 
   useEffect(() => {
     if (!hasUserResponded) openModal(ModalType.NewTBTCApp)
@@ -36,9 +37,18 @@ const TBTCBridge: PageComponent = () => {
   return (
     <PageLayout
       backgroundVariant="secondary"
-      renderTop={<TbtcBalanceCard />}
-      renderLeft={<MintingDepositTimeline title="Minting timeline" />}
-      renderRight={<p>TODO: Transaction history + Knowledgebase component</p>}
+      renderTop={active ? <TbtcBalanceCard /> : undefined}
+      renderLeft={
+        active ? <MintingDepositTimeline title="Minting timeline" /> : undefined
+      }
+      renderRight={
+        <>
+          {!active && <MintingDepositTimeline title="Minting timeline" />}
+          <Text mt="auto">
+            TODO: Transaction history + Knowledgebase component
+          </Text>
+        </>
+      }
     >
       <Outlet />
     </PageLayout>
