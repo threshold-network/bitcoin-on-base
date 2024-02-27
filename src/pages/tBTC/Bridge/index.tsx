@@ -44,7 +44,7 @@ const TBTCBridge: PageComponent = () => {
       renderRight={
         <>
           {!active && <MintingDepositTimeline title="Minting timeline" />}
-          <Text mt="auto">
+          <Text mt={active ? 0 : "auto"}>
             TODO: Transaction history + Knowledgebase component
           </Text>
         </>
