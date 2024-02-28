@@ -88,7 +88,7 @@ jobs:
           CHAIN_ID: 11155111
           PUBLIC_URL: /
           ETH_HOSTNAME_HTTP: ${{ secrets.SEPOLIA_ETH_HOSTNAME_HTTP }}
-          ETH_HOSTNAME_WS:  ${{ secrets.SEPOLIA_ETH_HOSTNAME_WS }}
+          ETH_HOSTNAME_WS: ${{ secrets.SEPOLIA_ETH_HOSTNAME_WS }}
           NODE_OPTIONS: --max_old_space_size=4096
           ELECTRUM_PROTOCOL: ${{ secrets.TESTNET_ELECTRUMX_PROTOCOL }}
           ELECTRUM_HOST: ${{ secrets.TESTNET_ELECTRUMX_HOST }}
