@@ -3,6 +3,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle"
 import LandingPageLayout from "./components/LandingPageLayout"
 import LandingPageContentWrapper from "./components/LandingPageContentWrapper"
 import LandingPageIntroSection from "./components/LandingPageIntroSection"
+import LandingPagePartnersSection from "./components/LandingPagePartnersSection"
 
 const LandingPage: PageComponent = ({ title = "tBTC" }) => {
   useDocumentTitle(`Threshold - ${title}`)
@@ -15,13 +16,7 @@ const LandingPage: PageComponent = ({ title = "tBTC" }) => {
     `}
     >
       <LandingPageIntroSection gridArea="intro" />
-      <LandingPageContentWrapper
-        gridArea="partners"
-        borderY="1px"
-        borderColor="inherit"
-      >
-        Partners
-      </LandingPageContentWrapper>
+      <LandingPagePartnersSection gridArea="partners" />
       <LandingPageContentWrapper gridArea="loader">
         Loader
       </LandingPageContentWrapper>
