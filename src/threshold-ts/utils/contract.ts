@@ -14,15 +14,15 @@ import TbtcTokenArtifactMainnet from "@keep-network/tbtc-v2.ts/src/lib/ethereum/
 import TbtcVaultArtifactMainnet from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/mainnet/TBTCVault.json"
 import WalletRegistryArtifactMainnet from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/mainnet/WalletRegistry.json"
 
-import BridgeArtifactGoerli from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/goerli/Bridge.json"
-import TbtcTokenArtifactGoerli from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/goerli/TBTC.json"
-import TbtcVaultArtifactGoerli from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/goerli/TBTCVault.json"
-import WalletRegistryArtifactGoerli from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/goerli/WalletRegistry.json"
+import BridgeArtifactSepolia from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/sepolia/Bridge.json"
+import TbtcTokenArtifactSepolia from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/sepolia/TBTC.json"
+import TbtcVaultArtifactSepolia from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/sepolia/TBTCVault.json"
+import WalletRegistryArtifactSepolia from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/sepolia/WalletRegistry.json"
 
-import BridgeArtifactDappDevelopmentGoerli from "../tbtc/dapp-development-goerli-artifacts/Bridge.json"
-import TbtcTokenArtifactDappDevelopmentGoerli from "../tbtc/dapp-development-goerli-artifacts/TBTC.json"
-import TbtcVaultArtifactDappDevelopmentGoerli from "../tbtc/dapp-development-goerli-artifacts/TBTCVault.json"
-import WalletRegistryArtifactDappDevelopmentGoerli from "../tbtc/dapp-development-goerli-artifacts/WalletRegistry.json"
+import BridgeArtifactDappDevelopmentSepolia from "../tbtc/dapp-development-sepolia-artifacts/Bridge.json"
+import TbtcTokenArtifactDappDevelopmentSepolia from "../tbtc/dapp-development-sepolia-artifacts/TBTC.json"
+import TbtcVaultArtifactDappDevelopmentSepolia from "../tbtc/dapp-development-sepolia-artifacts/TBTCVault.json"
+import WalletRegistryArtifactDappDevelopmentSepolia from "../tbtc/dapp-development-sepolia-artifacts/WalletRegistry.json"
 
 type ArtifactNameType = "Bridge" | "TBTCVault" | "TBTC" | "WalletRegistry"
 type ArtifactType = {
@@ -38,16 +38,16 @@ const mainnetArtifacts = new Map<ArtifactNameType, ArtifactType>([
   ["WalletRegistry", WalletRegistryArtifactMainnet],
 ])
 const testnetArtifacts = new Map<ArtifactNameType, ArtifactType>([
-  ["Bridge", BridgeArtifactGoerli],
-  ["TBTCVault", TbtcVaultArtifactGoerli],
-  ["TBTC", TbtcTokenArtifactGoerli],
-  ["WalletRegistry", WalletRegistryArtifactGoerli],
+  ["Bridge", BridgeArtifactSepolia],
+  ["TBTCVault", TbtcVaultArtifactSepolia],
+  ["TBTC", TbtcTokenArtifactSepolia],
+  ["WalletRegistry", WalletRegistryArtifactSepolia],
 ])
 const testnetDevelopmentArtifacts = new Map<ArtifactNameType, ArtifactType>([
-  ["Bridge", BridgeArtifactDappDevelopmentGoerli],
-  ["TBTCVault", TbtcVaultArtifactDappDevelopmentGoerli],
-  ["TBTC", TbtcTokenArtifactDappDevelopmentGoerli],
-  ["WalletRegistry", WalletRegistryArtifactDappDevelopmentGoerli],
+  ["Bridge", BridgeArtifactDappDevelopmentSepolia],
+  ["TBTCVault", TbtcVaultArtifactDappDevelopmentSepolia],
+  ["TBTC", TbtcTokenArtifactDappDevelopmentSepolia],
+  ["WalletRegistry", WalletRegistryArtifactDappDevelopmentSepolia],
 ])
 
 // account is not optional
@@ -123,7 +123,8 @@ export const getArtifact = (
   switch (chainId.toString()) {
     case "1":
       return mainnetArtifacts.get(artifactName)!
-    case "5":
+    case "11155111":
+      // Ethereum Sepolia testnet.
       const artifacts = shouldUseTestnetDevelopmentContracts
         ? testnetDevelopmentArtifacts
         : testnetArtifacts
@@ -133,24 +134,24 @@ export const getArtifact = (
   }
 }
 
-export const getGoerliDevelopmentContracts = (
+export const getSepoliaDevelopmentContracts = (
   signerOrProvider: Signer | providers.Provider
 ): TBTCContracts => {
   return {
     bridge: new EthereumBridge({
-      address: BridgeArtifactDappDevelopmentGoerli.address,
+      address: BridgeArtifactDappDevelopmentSepolia.address,
       signerOrProvider,
     }),
     tbtcToken: new EthereumTBTCToken({
-      address: TbtcTokenArtifactDappDevelopmentGoerli.address,
+      address: TbtcTokenArtifactDappDevelopmentSepolia.address,
       signerOrProvider,
     }),
     tbtcVault: new EthereumTBTCVault({
-      address: TbtcVaultArtifactDappDevelopmentGoerli.address,
+      address: TbtcVaultArtifactDappDevelopmentSepolia.address,
       signerOrProvider,
     }),
     walletRegistry: new EthereumWalletRegistry({
-      address: WalletRegistryArtifactDappDevelopmentGoerli.address,
+      address: WalletRegistryArtifactDappDevelopmentSepolia.address,
       signerOrProvider,
     }),
   }
