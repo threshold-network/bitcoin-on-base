@@ -34,7 +34,7 @@ const arrowIconInteractionStyles: SystemStyleObject = {
   path: { animation: `${arrowAnimation} 0.45s ease-in-out` },
 }
 
-interface LandingPageCardProps extends LinkProps {
+export interface LandingPageCardProps extends LinkProps {
   label: string
   title: string
   href: string

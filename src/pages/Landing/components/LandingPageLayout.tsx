@@ -11,6 +11,7 @@ const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
     bgSize={{ base: "contain", xl: "65%" }}
     w="full"
     py={10}
+    {...restProps}
   >
     <Grid
       mx="auto"
@@ -31,7 +32,13 @@ const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
       }}
       autoRows="min-content"
       templateColumns={{ base: "auto", xl: "repeat(2, 1fr)" }}
-      {...restProps}
+      gridTemplateAreas={{
+        xl: `
+          "intro    loader"
+          "partners loader"
+          "cards    cards "
+        `,
+      }}
     >
       {children}
     </Grid>

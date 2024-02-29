@@ -8,7 +8,7 @@ import LandingPageContentWrapper from "./LandingPageContentWrapper"
 const LandingPageIntroSection: FC<
   ComponentProps<typeof LandingPageContentWrapper>
 > = (props) => (
-  <LandingPageContentWrapper {...props}>
+  <LandingPageContentWrapper gridArea={{ xl: "intro" }} {...props}>
     <Text
       fontFamily="accent"
       fontWeight="semibold"

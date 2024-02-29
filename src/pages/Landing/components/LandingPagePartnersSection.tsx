@@ -24,7 +24,7 @@ const LandingPagePartnersSection: FC<
   ComponentProps<typeof LandingPageContentWrapper>
 > = (props) => (
   <LandingPageContentWrapper
-    gridArea="partners"
+    gridArea={{ xl: "partners" }}
     borderY="1px"
     borderColor="inherit"
     {...props}
