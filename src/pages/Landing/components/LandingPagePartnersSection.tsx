@@ -1,5 +1,5 @@
 import { ComponentProps, FC } from "react"
-import { HStack, Text, Image } from "@chakra-ui/react"
+import { Flex, Text, Image } from "@chakra-ui/react"
 import aerodromeLogoSrc from "../../../static/images/aerodrome-logo.svg"
 import fxdxLogoSrc from "../../../static/images/fxdx-logo.svg"
 import balancerLogoSrc from "../../../static/images/balancer-logo.svg"
@@ -39,7 +39,7 @@ const LandingPagePartnersSection: FC<
     >
       Pool Partners
     </Text>
-    <HStack spacing={24}>
+    <Flex wrap="wrap" columnGap={24} rowGap={12}>
       {partnersData.map(({ name, imageSrc }) => (
         <Image
           key={imageSrc}
@@ -50,7 +50,7 @@ const LandingPagePartnersSection: FC<
           maxH={7}
         />
       ))}
-    </HStack>
+    </Flex>
   </LandingPageContentWrapper>
 )
 

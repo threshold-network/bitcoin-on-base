@@ -8,7 +8,7 @@ const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
     bgImage={backgroundSrc}
     bgRepeat="no-repeat"
     bgPos="100% 0"
-    bgSize="65%"
+    bgSize={{ base: "contain", xl: "65%" }}
     w="full"
     py={10}
   >
@@ -21,6 +21,7 @@ const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
       borderColor="whiteAlpha.250"
       _before={{
         content: `" "`,
+        display: { base: "none", xl: "block" },
         position: "absolute",
         top: 0,
         left: "50%",
@@ -29,7 +30,7 @@ const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
         background: "whiteAlpha.250",
       }}
       autoRows="min-content"
-      templateColumns="repeat(2, 1fr)"
+      templateColumns={{ base: "auto", xl: "repeat(2, 1fr)" }}
       {...restProps}
     >
       {children}

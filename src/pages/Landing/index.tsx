@@ -13,21 +13,23 @@ const LandingPage: PageComponent = ({ title = "tBTC" }) => {
   useDocumentTitle(`Threshold - ${title}`)
   return (
     <LandingPageLayout
-      gridTemplateAreas={`
-      "intro    loader"
-      "partners loader"
-      "cards    cards "
-    `}
+      gridTemplateAreas={{
+        xl: `
+          "intro    loader"
+          "partners loader"
+          "cards    cards "
+        `,
+      }}
     >
-      <LandingPageIntroSection gridArea="intro" />
-      <LandingPagePartnersSection gridArea="partners" />
-      <LandingPageContentWrapper gridArea="loader">
+      <LandingPageIntroSection gridArea={{ xl: "intro" }} />
+      <LandingPagePartnersSection gridArea={{ xl: "partners" }} />
+      <LandingPageContentWrapper gridArea={{ xl: "loader" }}>
         Loader
       </LandingPageContentWrapper>
       <LandingPageContentWrapper
-        gridArea="cards"
+        gridArea={{ xl: "cards" }}
         display="grid"
-        gridTemplateColumns="inherit"
+        gridTemplateColumns={{ lg: "repeat(2, 1fr)" }}
         gap={20}
         sx={{ perspective: "1000px" }}
       >
