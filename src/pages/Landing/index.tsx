@@ -29,6 +29,7 @@ const LandingPage: PageComponent = ({ title = "tBTC" }) => {
         display="grid"
         gridTemplateColumns="inherit"
         gap={20}
+        sx={{ perspective: "1000px" }}
       >
         <LandingPageCard
           label="Bridge"
