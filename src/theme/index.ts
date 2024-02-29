@@ -28,6 +28,7 @@ const index = extendTheme({
   colors: {
     ...defaultTheme.colors,
     brand: {
+      "50": "hsl(182, 100%, 88%)",
       "100": "hsl(182, 100%, 70%)",
     },
     whiteAlpha: {
