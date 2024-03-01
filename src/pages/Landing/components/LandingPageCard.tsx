@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
   keyframes,
+  position,
 } from "@chakra-ui/react"
 import { animate, motion, useMotionValue, useTransform } from "framer-motion"
 import { CSSProperties, FC, MouseEventHandler } from "react"
@@ -46,25 +47,29 @@ const LandingPageCard: FC<LandingPageCardProps> = ({
   children,
   ...restProps
 }) => {
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const rotateX = useTransform(y, [-0.5, 0.5], ["6deg", "-6deg"])
-  const rotateY = useTransform(x, [-0.5, 0.5], ["-6deg", "6deg"])
+  const factorX = useMotionValue(0)
+  const factorY = useMotionValue(0)
+  const glareX = useMotionValue(0)
+  const glareY = useMotionValue(0)
+  const rotateX = useTransform(factorY, [-0.5, 0.5], ["-8deg", "8deg"])
+  const rotateY = useTransform(factorX, [-0.5, 0.5], ["8deg", "-8deg"])
 
   const handleMouseMove: MouseEventHandler<HTMLAnchorElement> = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    const mouseX = e.clientX - rect.x
-    const mouseY = e.clientY - rect.y
+    const newMouseX = e.clientX - rect.x
+    const newMouseY = e.clientY - rect.y
+    const newFactorX = newMouseX / rect.width - 0.5
+    const newFactorY = newMouseY / rect.height - 0.5
 
-    const newX = mouseX / rect.width - 0.5
-    const newY = mouseY / rect.height - 0.5
-    x.set(newX)
-    y.set(newY)
+    glareX.set(newMouseX)
+    glareY.set(newMouseY)
+    factorX.set(newFactorX)
+    factorY.set(newFactorY)
   }
 
   const handleMouseLeave: MouseEventHandler<HTMLAnchorElement> = () => {
-    animate(x, 0)
-    animate(y, 0)
+    animate(factorX, 0)
+    animate(factorY, 0)
   }
 
   return (
@@ -72,11 +77,22 @@ const LandingPageCard: FC<LandingPageCardProps> = ({
       as={motion.a}
       href={href}
       style={
-        { rotateX, rotateY, transformStyle: "preserve-3d" } as CSSProperties
+        {
+          rotateX,
+          rotateY,
+          "--glare-x": glareX,
+          "--glare-y": glareY,
+          transformStyle: "preserve-3d",
+        } as CSSProperties
       }
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      _hover={{ textDecoration: "none" }}
+      _hover={{
+        textDecoration: "none",
+        _before: {
+          opacity: 1,
+        },
+      }}
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
@@ -85,9 +101,24 @@ const LandingPageCard: FC<LandingPageCardProps> = ({
       borderColor="whiteAlpha.250"
       bgColor="blackAlpha.400"
       overflow="hidden"
-      backdropFilter="auto"
-      backdropBlur="12px"
       data-group
+      position="relative"
+      _before={{
+        content: '" "',
+        position: "absolute",
+        inset: 0,
+        w: 96,
+        h: 96,
+        rounded: "full",
+        bg: "whiteAlpha.300",
+        filter: "auto",
+        blur: "48px",
+        opacity: 0,
+        mixBlendMode: "soft-light",
+        transition: "opacity 0.25s ease-in-out",
+        transform:
+          "translate(calc(var(--glare-x) * 1px - 50%), calc(var(--glare-y) * 1px - 50%))",
+      }}
       {...restProps}
     >
       <Flex

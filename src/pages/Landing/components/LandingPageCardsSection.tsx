@@ -58,7 +58,7 @@ const LandingPageCardsSection: FC<
     display="grid"
     gridTemplateColumns={{ lg: "repeat(2, 1fr)" }}
     gap={20}
-    sx={{ perspective: "1000px" }}
+    sx={{ perspective: "1600px" }}
     {...props}
   >
     {cardsData.map((card, index) => (
