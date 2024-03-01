@@ -17,37 +17,37 @@ const cardsData: CardsDataType = [
     href: "#",
     children: <Image src={bobIllustration} h="full" objectFit="cover" />,
   },
-  {
-    label: "Collect NFT",
-    title: "First 1k Bitcoin on Base",
-    href: "#",
-    children: (
-      <Box
-        fontWeight="black"
-        lineHeight={0.75}
-        textAlign="center"
-        color="transparent"
-      >
-        <Text
-          mb={-8}
-          fontSize="7.5rem"
-          bgGradient="linear(to bottom, brand.100, transparent)"
-          bgClip="text"
-        >
-          FIRST
-        </Text>
-        <Text
-          mb={-10}
-          fontSize="15rem"
-          bgGradient="linear(to bottom, brand.50, transparent)"
-          bgClip="text"
-        >
-          1K
-        </Text>
-        <Image src={futuristicCog} />
-      </Box>
-    ),
-  },
+  // {
+  //   label: "Collect NFT",
+  //   title: "First 1k Bitcoin on Base",
+  //   href: "#",
+  //   children: (
+  //     <Box
+  //       fontWeight="black"
+  //       lineHeight={0.75}
+  //       textAlign="center"
+  //       color="transparent"
+  //     >
+  //       <Text
+  //         mb={-8}
+  //         fontSize="7.5rem"
+  //         bgGradient="linear(to bottom, brand.100, transparent)"
+  //         bgClip="text"
+  //       >
+  //         FIRST
+  //       </Text>
+  //       <Text
+  //         mb={-10}
+  //         fontSize="15rem"
+  //         bgGradient="linear(to bottom, brand.50, transparent)"
+  //         bgClip="text"
+  //       >
+  //         1K
+  //       </Text>
+  //       <Image src={futuristicCog} />
+  //     </Box>
+  //   ),
+  // },
 ]
 
 const LandingPageCardsSection: FC<
