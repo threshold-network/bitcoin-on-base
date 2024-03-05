@@ -86,6 +86,11 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
       txHash: data?.optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
       chain: "ethereum",
     },
+    {
+      label: "Minting completion",
+      txHash: data?.optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
+      chain: "ethereum",
+    },
   ].filter(({ txHash }) => txHash) as TransactionHistoryItemType[]
 
   return (
