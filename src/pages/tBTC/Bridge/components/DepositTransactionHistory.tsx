@@ -15,7 +15,7 @@ import {
 } from "../../../../components/ViewInBlockExplorer"
 import { ExplorerDataType } from "../../../../utils/createEtherscanLink"
 
-export type TransactionHistoryItemType = {
+export type DepositTransactionHistoryItemType = {
   label: string
   txHash?: string
   chain: Chain
@@ -25,14 +25,17 @@ interface Props {
   /**
    * Items to display in the transaction history list as block explorer links.
    */
-  items: TransactionHistoryItemType[]
+  items: DepositTransactionHistoryItemType[]
 }
 
 /**
  * Displays a list of transactions as block explorer links.
  * @return {ReactNode}
  */
-export const TransactionHistory: FC<Props> = ({ items, ...restProps }) => {
+export const DepositTransactionHistory: FC<Props> = ({
+  items,
+  ...restProps
+}) => {
   if (items.length === 0) {
     return (
       <Box>

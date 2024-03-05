@@ -11,9 +11,9 @@ import {
   BridgeProcessResourcesItemProps,
 } from "../components/BridgeProcessResources"
 import {
-  TransactionHistory,
-  TransactionHistoryItemType,
-} from "../components/TransactionHistory"
+  DepositTransactionHistory,
+  DepositTransactionHistoryItemType,
+} from "../components/DepositTransactionHistory"
 import bitcoinJuiceIllustration from "../../../../static/images/bitcoin-juice.png"
 
 export type KnowledgeBaseLinksProps = {
@@ -78,7 +78,7 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   const btcDepositTxHash = data?.btcTxHash
   const depositRevealedTxHash = data?.depositRevealedTxHash
 
-  const transactions: TransactionHistoryItemType[] = [
+  const transactions: DepositTransactionHistoryItemType[] = [
     { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },
     { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
     {
@@ -91,11 +91,11 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
       txHash: data?.optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
       chain: "ethereum",
     },
-  ].filter(({ txHash }) => txHash) as TransactionHistoryItemType[]
+  ].filter(({ txHash }) => txHash) as DepositTransactionHistoryItemType[]
 
   return (
     <VStack align="stretch" spacing={{ base: 4, lg: 52 }} {...restProps}>
-      {depositKey ? <TransactionHistory items={transactions} /> : null}
+      {depositKey ? <DepositTransactionHistory items={transactions} /> : null}
       <BridgeProcessResources items={resources} />
     </VStack>
   )
