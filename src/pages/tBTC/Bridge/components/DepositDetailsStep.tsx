@@ -36,11 +36,17 @@ export const DepositDetailsStep1: FC<
   { confirmations?: number; requiredConfirmations?: number } & CommonStepProps
 > = ({ confirmations, requiredConfirmations, onComplete }) => {
   const hasConfirmations = !!confirmations && !!requiredConfirmations
+  console.log(
+    hasConfirmations,
+    confirmations,
+    requiredConfirmations,
+    0.25 * (hasConfirmations ? confirmations / requiredConfirmations : 0)
+  )
   return (
     <BridgeProcessStep
       loaderLabel="Minting"
       loaderProgress={
-        0.25 * (hasConfirmations ? confirmations / requiredConfirmations : 1)
+        0.25 * (hasConfirmations ? confirmations / requiredConfirmations : 0)
       }
       headingPrimary="Waiting for the Bitcoin Network Confirmations..."
       headingSecondary={

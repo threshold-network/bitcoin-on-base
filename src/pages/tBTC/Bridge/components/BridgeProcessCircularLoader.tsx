@@ -112,7 +112,7 @@ export const BridgeProcessCircularLoader: FC<
           <path
             fill="#66F9FF"
             fillRule="evenodd"
-            {...getCircularSectorPathProperties(388, 388, 154, 0.25)}
+            {...getCircularSectorPathProperties(388, 388, 154, progress)}
           />
         </g>
         <motion.path
