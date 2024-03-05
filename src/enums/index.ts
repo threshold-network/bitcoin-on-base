@@ -1,7 +1,6 @@
 export * from "./env"
 export * from "./externalHref"
 export * from "./modal"
-export * from "./pool"
 export * from "./token"
 export * from "./transactionType"
 export * from "./web3"
