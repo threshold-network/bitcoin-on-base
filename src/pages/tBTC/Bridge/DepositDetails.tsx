@@ -20,7 +20,12 @@ import { useTbtcState } from "../../../hooks/useTbtcState"
 import { tbtcSlice } from "../../../store/tbtc"
 import { PageComponent } from "../../../types"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
-import { Step1, Step2, Step3, Step4 } from "./components/DepositDetailsStep"
+import {
+  DepositDetailsStep1,
+  DepositDetailsStep2,
+  DepositDetailsStep3,
+  DepositDetailsStep4,
+} from "./components/DepositDetailsStep"
 
 export const DepositDetails: PageComponent = () => {
   const { depositKey } = useParams()
@@ -248,7 +253,7 @@ const StepSwitcher: FC<StepSwitcherProps> = ({
     default:
     case "bitcoin-confirmations":
       return (
-        <Step1
+        <DepositDetailsStep1
           txHash={btcTxHash}
           confirmations={confirmations}
           requiredConfirmations={requiredConfirmations}
@@ -257,21 +262,21 @@ const StepSwitcher: FC<StepSwitcherProps> = ({
       )
     case "minting-initialized":
       return (
-        <Step2
+        <DepositDetailsStep2
           txHash={optimisticMintingRequestedTxHash}
           onComplete={onComplete}
         />
       )
     case "guardian-check":
       return (
-        <Step3
+        <DepositDetailsStep3
           txHash={optimisticMintingFinalizedTxHash}
           onComplete={onComplete}
         />
       )
     case "minting-completed":
       return (
-        <Step4
+        <DepositDetailsStep4
           txHash={optimisticMintingFinalizedTxHash}
           onComplete={onComplete}
         />

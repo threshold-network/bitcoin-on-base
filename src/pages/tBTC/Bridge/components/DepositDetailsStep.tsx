@@ -32,7 +32,7 @@ type CommonStepProps = Pick<BridgeProcessStepProps, "onComplete"> & {
   txHash?: string
 }
 
-export const Step1: FC<
+export const DepositDetailsStep1: FC<
   { confirmations?: number; requiredConfirmations?: number } & CommonStepProps
 > = ({ confirmations, requiredConfirmations, onComplete }) => {
   const hasConfirmations = !!confirmations && !!requiredConfirmations
@@ -59,7 +59,10 @@ export const Step1: FC<
   )
 }
 
-export const Step2: FC<CommonStepProps> = ({ txHash, onComplete }) => {
+export const DepositDetailsStep2: FC<CommonStepProps> = ({
+  txHash,
+  onComplete,
+}) => {
   return (
     <BridgeProcessStep
       loaderLabel="Minting"
@@ -71,7 +74,10 @@ export const Step2: FC<CommonStepProps> = ({ txHash, onComplete }) => {
   )
 }
 
-export const Step3: FC<CommonStepProps> = ({ txHash, onComplete }) => {
+export const DepositDetailsStep3: FC<CommonStepProps> = ({
+  txHash,
+  onComplete,
+}) => {
   return (
     <BridgeProcessStep
       loaderLabel="Minting"
@@ -84,7 +90,10 @@ export const Step3: FC<CommonStepProps> = ({ txHash, onComplete }) => {
   )
 }
 
-export const Step4: FC<CommonStepProps> = ({ txHash, onComplete }) => {
+export const DepositDetailsStep4: FC<CommonStepProps> = ({
+  txHash,
+  onComplete,
+}) => {
   return (
     <BridgeProcessStep
       loaderLabel="Minting"
