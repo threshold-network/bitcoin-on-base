@@ -15,29 +15,15 @@ import {
   DepositTransactionHistoryItemType,
 } from "../components/DepositTransactionHistory"
 import bitcoinJuiceIllustration from "../../../../static/images/bitcoin-juice.png"
+import { useTBTCBridgeContractAddress } from "../../../../hooks/useTBTCBridgeContractAddress"
+import { useTBTCTokenAddress } from "../../../../hooks/useTBTCTokenAddress"
+import { createLinkToBlockExplorerForChain } from "../../../../components/ViewInBlockExplorer"
+import { ExplorerDataType } from "../../../../utils/createEtherscanLink"
 
 export type KnowledgeBaseLinksProps = {
   /** NOTE: This value should be captured from URL parameters. */
   depositKey?: string
 } & StackProps
-
-const resources: BridgeProcessResourcesItemProps[] = [
-  {
-    title: "Token Contract",
-    link: ExternalHref.btcConfirmations,
-  },
-  {
-    title: "Bridge Contract",
-    link: ExternalHref.mintersAndGuardiansDocs,
-  },
-  {
-    title: "Read out documentation",
-    description: "Everything you need to know about our contracts.",
-    link: ExternalHref.mintersAndGuardiansDocs,
-    variant: "expanded",
-    imageSrc: bitcoinJuiceIllustration,
-  },
-]
 
 export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   depositKey = "",
@@ -92,6 +78,30 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
       chain: "ethereum",
     },
   ].filter(({ txHash }) => txHash) as DepositTransactionHistoryItemType[]
+
+  const resources: BridgeProcessResourcesItemProps[] = [
+    {
+      title: "Token Contract",
+      link: createLinkToBlockExplorerForChain["ethereum"](
+        useTBTCTokenAddress(),
+        ExplorerDataType.ADDRESS
+      ),
+    },
+    {
+      title: "Bridge Contract",
+      link: createLinkToBlockExplorerForChain["ethereum"](
+        useTBTCBridgeContractAddress(),
+        ExplorerDataType.ADDRESS
+      ),
+    },
+    {
+      title: "Read out documentation",
+      description: "Everything you need to know about our contracts.",
+      link: ExternalHref.mintersAndGuardiansDocs,
+      variant: "expanded",
+      imageSrc: bitcoinJuiceIllustration,
+    },
+  ]
 
   return (
     <VStack align="stretch" spacing={{ base: 4, lg: 52 }} {...restProps}>
