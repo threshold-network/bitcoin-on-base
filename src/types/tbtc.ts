@@ -7,8 +7,6 @@ export interface TbtcState {
   mintingStep: MintingStep
   depositDetailsStep: DepositDetailsStep
   // deposit data
-  mintingRequestedTxHash: string
-  mintingFinalizedTxHash: string
   btcRecoveryAddress: string
   btcDepositAddress: string
   ethAddress: string

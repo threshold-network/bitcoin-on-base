@@ -15,12 +15,7 @@ import { Toast } from "../../../components/Toast"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
 import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
 import { useAppDispatch } from "../../../hooks/store"
-import {
-  DepositData,
-  useFetchDepositDetails,
-  useSubscribeToOptimisticMintingFinalizedEventBase,
-  useSubscribeToOptimisticMintingRequestedEventBase,
-} from "../../../hooks/tbtc"
+import { DepositData, useFetchDepositDetails } from "../../../hooks/tbtc"
 import { useTbtcState } from "../../../hooks/useTbtcState"
 import { tbtcSlice } from "../../../store/tbtc"
 import { PageComponent } from "../../../types"
@@ -40,7 +35,6 @@ export const DepositDetails: PageComponent = () => {
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
-  useSubscribeToOptimisticMintingEvents(depositKey)
 
   // Cache the location state in component state.
   const [locationStateCache] = useState<{ shouldStartFromFirstStep?: boolean }>(
@@ -319,38 +313,4 @@ const StepSwitcher: FC<StepSwitcherProps> = ({
         </Box>
       )
   }
-}
-
-const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
-  const { updateState } = useTbtcState()
-
-  useSubscribeToOptimisticMintingRequestedEventBase(
-    (
-      minter,
-      depositKeyEventParam,
-      depositor,
-      amount,
-      fundingTxHash,
-      fundingOutputIndex,
-      event
-    ) => {
-      const depositKeyFromEvent = depositKeyEventParam.toHexString()
-      if (depositKeyFromEvent === depositKey) {
-        updateState("mintingRequestedTxHash", event.transactionHash)
-      }
-    },
-    undefined,
-    true
-  )
-
-  useSubscribeToOptimisticMintingFinalizedEventBase(
-    (minter, depositKeyEventParam, depositor, optimisticMintingDebt, event) => {
-      const depositKeyFromEvent = depositKeyEventParam.toHexString()
-      if (depositKeyFromEvent === depositKey) {
-        updateState("mintingFinalizedTxHash", event.transactionHash)
-      }
-    },
-    undefined,
-    true
-  )
 }

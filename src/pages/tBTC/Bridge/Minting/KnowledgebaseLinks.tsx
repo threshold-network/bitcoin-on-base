@@ -1,7 +1,11 @@
 import { StackProps, VStack } from "@chakra-ui/react"
-import { FC } from "react"
+import { FC, useState } from "react"
 import { ExternalHref } from "../../../../enums"
-import { useFetchDepositDetails } from "../../../../hooks/tbtc"
+import {
+  useFetchDepositDetails,
+  useSubscribeToOptimisticMintingFinalizedEventBase,
+  useSubscribeToOptimisticMintingRequestedEventBase,
+} from "../../../../hooks/tbtc"
 import {
   BridgeProcessResources,
   BridgeProcessResourcesItemProps,
@@ -11,9 +15,11 @@ import {
   TransactionHistoryItemType,
 } from "../components/TransactionHistory"
 import bitcoinJuiceIllustration from "../../../../static/images/bitcoin-juice.png"
-import { useTbtcState } from "../../../../hooks/useTbtcState"
 
-export type KnowledgebaseLinksProps = { depositKey?: string } & StackProps
+export type KnowledgebaseLinksProps = {
+  /** NOTE: This value should be captured from URL parameters. */
+  depositKey?: string
+} & StackProps
 
 const resources: BridgeProcessResourcesItemProps[] = [
   {
@@ -38,7 +44,37 @@ export const KnowledgebaseLinks: FC<KnowledgebaseLinksProps> = ({
   ...restProps
 }) => {
   const { data } = useFetchDepositDetails(depositKey)
-  const { mintingRequestedTxHash, mintingFinalizedTxHash } = useTbtcState()
+  const [mintingRequestedTxHash, setMintingRequestedTxHash] = useState<string>()
+  const [mintingFinalizedTxHash, setMintingFinalizedTxHash] = useState<string>()
+  useSubscribeToOptimisticMintingRequestedEventBase(
+    (
+      minter,
+      depositKeyEventParam,
+      depositor,
+      amount,
+      fundingTxHash,
+      fundingOutputIndex,
+      event
+    ) => {
+      const depositKeyFromEvent = depositKeyEventParam.toHexString()
+      if (depositKeyFromEvent === depositKey) {
+        setMintingRequestedTxHash(event.transactionHash)
+      }
+    },
+    undefined,
+    true
+  )
+
+  useSubscribeToOptimisticMintingFinalizedEventBase(
+    (minter, depositKeyEventParam, depositor, optimisticMintingDebt, event) => {
+      const depositKeyFromEvent = depositKeyEventParam.toHexString()
+      if (depositKeyFromEvent === depositKey) {
+        setMintingFinalizedTxHash(event.transactionHash)
+      }
+    },
+    undefined,
+    true
+  )
   const btcDepositTxHash = data?.btcTxHash
   const depositRevealedTxHash = data?.depositRevealedTxHash
 
