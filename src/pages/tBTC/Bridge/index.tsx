@@ -13,7 +13,7 @@ import PageLayout from "../../PageLayout"
 import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
 import { useParams } from "react-router"
 import { TbtcBalanceCard } from "./TbtcBalanceCard"
-import { KnowledgebaseLinks } from "./Minting/KnowledgebaseLinks"
+import { KnowledgeBaseLinks } from "./Minting/KnowledgeBaseLinks"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
@@ -45,7 +45,7 @@ const TBTCBridge: PageComponent = () => {
       renderLeft={<MintingDepositTimeline title="Minting timeline" />}
       renderRight={
         isDepositDetailsPageActive ? (
-          <KnowledgebaseLinks depositKey={depositKey} />
+          <KnowledgeBaseLinks depositKey={depositKey} />
         ) : null
       }
     >

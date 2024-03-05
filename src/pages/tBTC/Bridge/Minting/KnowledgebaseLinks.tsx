@@ -16,7 +16,7 @@ import {
 } from "../components/TransactionHistory"
 import bitcoinJuiceIllustration from "../../../../static/images/bitcoin-juice.png"
 
-export type KnowledgebaseLinksProps = {
+export type KnowledgeBaseLinksProps = {
   /** NOTE: This value should be captured from URL parameters. */
   depositKey?: string
 } & StackProps
@@ -39,7 +39,7 @@ const resources: BridgeProcessResourcesItemProps[] = [
   },
 ]
 
-export const KnowledgebaseLinks: FC<KnowledgebaseLinksProps> = ({
+export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   depositKey = "",
   ...restProps
 }) => {
