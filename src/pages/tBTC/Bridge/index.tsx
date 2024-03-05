@@ -36,7 +36,7 @@ const TBTCBridge: PageComponent = () => {
     )
   }, [dispatch, account])
 
-  const isDepositDetailsPageActive = !!depositKey
+  const isOnDepositDetailsPage = !!depositKey
 
   return (
     <PageLayout
@@ -44,7 +44,7 @@ const TBTCBridge: PageComponent = () => {
       renderTop={<TbtcBalanceCard />}
       renderLeft={<MintingDepositTimeline title="Minting timeline" />}
       renderRight={
-        isDepositDetailsPageActive ? (
+        isOnDepositDetailsPage ? (
           <KnowledgeBaseLinks depositKey={depositKey} />
         ) : null
       }
