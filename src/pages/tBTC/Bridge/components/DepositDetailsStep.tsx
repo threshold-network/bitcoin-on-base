@@ -21,8 +21,8 @@ const BitcoinConfirmationsSummary: FC<{
             : txConfirmations}
           {"/"}
           {minConfirmationsNeeded}
-        </Skeleton>
-        &nbsp;Bitcoin Network Confirmations
+        </Skeleton>{" "}
+        Bitcoin Network Confirmations
       </BodyMd>
     </HStack>
   )
