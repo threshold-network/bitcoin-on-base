@@ -221,16 +221,16 @@ export const SuccessStep: FC<SuccessStepProps> = ({
           <Text fontSize="2xl" lineHeight={8} color="hsl(0, 0%, 50%)">
             You received
           </Text>
-          <InlineTokenBalance
-            pb={2}
-            tokenAmount={amount}
-            higherPrecision={6}
-            tokenSymbol="tBTC"
-            color="white"
-            fontSize="4.5xl"
-            lineHeight={12}
-            fontWeight="black"
-          />
+          <Text fontSize="4.5xl" lineHeight={12} color="hsl(0, 0%, 50%)">
+            <InlineTokenBalance
+              pb={2}
+              tokenAmount={amount}
+              higherPrecision={6}
+              color="white"
+              fontWeight="black"
+            />
+            &nbsp;tBTC
+          </Text>
           <Text fontSize="md" lineHeight={6} color="white" align="center">
             Add the tBTC <TBTCTokenContractLink color="brand.100" /> to your
             Ethereum wallet.
