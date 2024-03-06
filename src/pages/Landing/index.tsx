@@ -15,7 +15,10 @@ const LandingPage: PageComponent = ({ title = "tBTC" }) => {
       <LandingPageContentWrapper gridArea={{ xl: "loader" }}>
         Loader
       </LandingPageContentWrapper>
-      <LandingPageCardsSection />
+      {/* 
+      This component will be introduced in post-MVP phases
+      <LandingPageCardsSection /> 
+      */}
     </LandingPageLayout>
   )
 }

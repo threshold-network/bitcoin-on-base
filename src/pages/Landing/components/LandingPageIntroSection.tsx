@@ -1,9 +1,11 @@
 import { ComponentProps, FC } from "react"
-import { HStack, Text } from "@chakra-ui/react"
+import { HStack, Icon, Text } from "@chakra-ui/react"
 import { Logo } from "../../../components/Logo"
 import { Bitcoin as BitcoinIcon } from "../../../static/icons/Bitcoin"
 import { Base as BaseIcon } from "../../../static/icons/Base"
 import LandingPageContentWrapper from "./LandingPageContentWrapper"
+import ButtonLink from "../../../components/ButtonLink"
+import { HiChevronRight as ChevronRightIcon } from "react-icons/hi"
 
 const LandingPageIntroSection: FC<
   ComponentProps<typeof LandingPageContentWrapper>
@@ -42,10 +44,13 @@ const LandingPageIntroSection: FC<
       fontWeight="medium"
       fontSize="3.5xl"
       lineHeight="shorter"
-      mb={5}
+      mb={12}
     >
       tBTC makes your Bitcoin work with finance and NFT apps on Base.
     </Text>
+    <ButtonLink to="/tBTC" rightIcon={<Icon as={ChevronRightIcon} />} mb={20}>
+      Mint tBTC
+    </ButtonLink>
   </LandingPageContentWrapper>
 )
 
