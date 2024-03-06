@@ -24,7 +24,7 @@ import { TBTCTokenContractLink } from "../../../../components/tBTC"
 import { TransactionDetailsAmountItem } from "../../../../components/TransactionDetails"
 import Confetti from "react-confetti"
 import { randomRange } from "../../../../utils/helpers"
-import TokenBalance from "../../../../components/TokenBalance"
+import { InlineTokenBalance } from "../../../../components/TokenBalance"
 
 const BitcoinConfirmationsSummary: FC<{
   minConfirmationsNeeded?: number
@@ -221,14 +221,15 @@ export const SuccessStep: FC<SuccessStepProps> = ({
           <Text fontSize="2xl" lineHeight={8} color="hsl(0, 0%, 50%)">
             You received
           </Text>
-          <TokenBalance
+          <InlineTokenBalance
             pb={2}
             tokenAmount={amount}
             higherPrecision={6}
             tokenSymbol="tBTC"
             color="white"
-            isLarge
-            skipActiveWalletCheck
+            fontSize="4.5xl"
+            lineHeight={12}
+            fontWeight="black"
           />
           <Text fontSize="md" lineHeight={6} color="white" align="center">
             Add the tBTC <TBTCTokenContractLink color="brand.100" /> to your

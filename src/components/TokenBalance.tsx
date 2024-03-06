@@ -24,7 +24,6 @@ export interface TokenBalanceProps {
   higherPrecision?: number
   displayTildeBelow?: number
   isEstimated?: boolean
-  skipActiveWalletCheck?: boolean
 }
 
 export const InlineTokenBalance: FC<TokenBalanceProps & BoxProps> = ({
@@ -81,11 +80,10 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
   precision,
   higherPrecision,
   children,
-  skipActiveWalletCheck = false,
   ...restProps
 }) => {
   const { active } = useWeb3React()
-  const shouldRenderTokenAmount = skipActiveWalletCheck || active
+  const shouldRenderTokenAmount = active
 
   const _tokenAmount = useMemo(() => {
     return formatTokenAmount(
