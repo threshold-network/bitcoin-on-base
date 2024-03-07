@@ -41,7 +41,9 @@ export const DepositDetailsStep1: FC<
     <BridgeProcessStep
       loaderLabel="Minting"
       loaderProgress={
-        0.25 * (hasConfirmations ? confirmations / requiredConfirmations : 0)
+        hasConfirmations
+          ? Math.min(0.25, 0.25 * (confirmations / requiredConfirmations))
+          : 0
       }
       headingPrimary="Waiting for the Bitcoin Network Confirmations..."
       headingSecondary={
