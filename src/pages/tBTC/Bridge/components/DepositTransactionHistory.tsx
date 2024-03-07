@@ -47,7 +47,7 @@ export const DepositTransactionHistory: FC<Props> = ({
 
   return (
     <Box {...restProps}>
-      <BodyMd color="white" fontWeight="medium" mb="6">
+      <BodyMd color="hsl(0, 0%, 50%)" fontWeight="medium" mb="6">
         Transaction history
       </BodyMd>
       <List spacing="2">
