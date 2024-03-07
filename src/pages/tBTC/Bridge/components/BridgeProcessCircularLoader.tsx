@@ -116,7 +116,7 @@ export const BridgeProcessCircularLoader: FC<
           />
         </g>
         <motion.path
-          // outter right wing
+          // outer right wing
           variants={rightWingAnimationVariants}
           initial="initial"
           animate="animate"
@@ -136,7 +136,7 @@ export const BridgeProcessCircularLoader: FC<
           fill="none"
         />
         <motion.path
-          // outter left wing
+          // outer left wing
           variants={leftWingAnimationVariants}
           initial="initial"
           animate="animate"

@@ -95,7 +95,7 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
       ),
     },
     {
-      title: "Read out documentation",
+      title: "Read our documentation",
       description: "Everything you need to know about our contracts.",
       link: ExternalHref.mintersAndGuardiansDocs,
       variant: "expanded",
