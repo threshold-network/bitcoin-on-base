@@ -15,10 +15,14 @@ import {
   DepositTransactionHistoryItemType,
 } from "../components/DepositTransactionHistory"
 import bitcoinJuiceIllustration from "../../../../static/images/bitcoin-juice.png"
+import coinShieldIllustration from "../../../../static/images/coin-shield.png"
+import confirmationPortalsIllustration from "../../../../static/images/confirmation-portals.png"
 import { useTBTCBridgeContractAddress } from "../../../../hooks/useTBTCBridgeContractAddress"
 import { useTBTCTokenAddress } from "../../../../hooks/useTBTCTokenAddress"
 import { createLinkToBlockExplorerForChain } from "../../../../components/ViewInBlockExplorer"
 import { ExplorerDataType } from "../../../../utils/createEtherscanLink"
+import { useTbtcState } from "../../../../hooks/useTbtcState"
+import { DepositDetailsStep } from "../../../../types"
 
 export type KnowledgeBaseLinksProps = {
   /** NOTE: This value should be captured from URL parameters. */
@@ -32,6 +36,7 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   const { data } = useFetchDepositDetails(depositKey)
   const [mintingRequestedTxHash, setMintingRequestedTxHash] = useState<string>()
   const [mintingFinalizedTxHash, setMintingFinalizedTxHash] = useState<string>()
+  const { depositDetailsStep } = useTbtcState()
   useSubscribeToOptimisticMintingRequestedEventBase(
     (
       minter,
@@ -94,14 +99,32 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
         ExplorerDataType.ADDRESS
       ),
     },
-    {
+    depositKey &&
+      depositDetailsStep === DepositDetailsStep.BitcoinConfirmations && {
+        title: "Bitcoin Confirmations Requirement",
+        description:
+          "Six confirmations typically ensure transaction validity and finality.",
+        link: ExternalHref.btcConfirmations,
+        variant: "expanded",
+        imageSrc: confirmationPortalsIllustration,
+      },
+    depositKey &&
+      depositDetailsStep === DepositDetailsStep.GuardianCheck && {
+        title: "Minters, Guardians and a secure tBTC",
+        description:
+          "A phased approach with two main roles: Minters and Guardians.",
+        link: ExternalHref.mintersAndGuardiansDocs,
+        variant: "expanded",
+        imageSrc: coinShieldIllustration,
+      },
+    !depositKey && {
       title: "Read our documentation",
       description: "Everything you need to know about our contracts.",
-      link: ExternalHref.mintersAndGuardiansDocs,
+      link: ExternalHref.thresholdBlog,
       variant: "expanded",
       imageSrc: bitcoinJuiceIllustration,
     },
-  ]
+  ].filter(Boolean) as BridgeProcessResourcesItemProps[]
 
   return (
     <VStack align="stretch" spacing={{ base: 4, lg: 52 }} {...restProps}>

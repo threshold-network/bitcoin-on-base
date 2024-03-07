@@ -36,18 +36,12 @@ const TBTCBridge: PageComponent = () => {
     )
   }, [dispatch, account])
 
-  const isOnDepositDetailsPage = !!depositKey
-
   return (
     <PageLayout
       backgroundVariant="secondary"
       renderTop={<TbtcBalanceCard />}
       renderLeft={<MintingDepositTimeline title="Minting timeline" />}
-      renderRight={
-        isOnDepositDetailsPage ? (
-          <KnowledgeBaseLinks depositKey={depositKey} />
-        ) : null
-      }
+      renderRight={<KnowledgeBaseLinks depositKey={depositKey} />}
     >
       <Outlet />
     </PageLayout>
