@@ -195,7 +195,7 @@ export const BridgeProcessCircularLoader: FC<
             y2="388.208"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#fff" />
+            <stop stopColor="#fff" />
             <stop offset="1" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
         </defs>

@@ -36,12 +36,7 @@ export const DepositDetailsStep1: FC<
   { confirmations?: number; requiredConfirmations?: number } & CommonStepProps
 > = ({ confirmations, requiredConfirmations, onComplete }) => {
   const hasConfirmations = !!confirmations && !!requiredConfirmations
-  console.log(
-    hasConfirmations,
-    confirmations,
-    requiredConfirmations,
-    0.25 * (hasConfirmations ? confirmations / requiredConfirmations : 0)
-  )
+
   return (
     <BridgeProcessStep
       loaderLabel="Minting"

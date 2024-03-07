@@ -3,7 +3,7 @@ import { Box, StackProps, HStack } from "@threshold-network/components"
 import { motion } from "framer-motion"
 
 const LoadingDot: FC = () => (
-  <motion.div
+  <motion.span
     variants={{
       initial: {
         y: "50%",
@@ -21,8 +21,8 @@ const LoadingDot: FC = () => (
       ease: "easeInOut",
     }}
   >
-    <Box w={1} h={1} rounded="full" bg="white" />
-  </motion.div>
+    <Box as="span" display="block" w={1} h={1} rounded="full" bg="white" />
+  </motion.span>
 )
 
 export const DotsLoadingIndicator: FC<StackProps> = (props) => (
@@ -31,7 +31,7 @@ export const DotsLoadingIndicator: FC<StackProps> = (props) => (
     spacing={0.5}
     w={5}
     h={5}
-    as={motion.div}
+    as={motion.span}
     variants={{
       initial: {
         transition: {

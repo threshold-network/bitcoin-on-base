@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect } from "react"
-import { BodyMd, StackProps, VStack } from "@threshold-network/components"
+import { BodyMd, Box, StackProps, VStack } from "@threshold-network/components"
 import { ONE_SEC_IN_MILISECONDS } from "../../../../utils/date"
 import { BridgeProcessIndicator } from "../../../../components/tBTC"
 import { BridgeProcessCircularLoader } from "./BridgeProcessCircularLoader"
@@ -39,12 +39,14 @@ export const BridgeProcessStep: FC<BridgeProcessStepProps> = ({
         progress={loaderProgress}
       />
       <VStack spacing={4} zIndex={1}>
-        <BodyMd color="hsl(182, 100%, 70%)">{headingPrimary}</BodyMd>
+        <Box fontSize="md" lineHeight={6} color="hsl(182, 100%, 70%)">
+          {headingPrimary}
+        </Box>
         <BridgeProcessIndicator />
         {!!headingSecondary ? (
-          <BodyMd color="hsla(0, 0%, 100%, 40%)" lineHeight={5}>
+          <Box fontSize="md" color="hsla(0, 0%, 100%, 40%)" lineHeight={5}>
             {headingSecondary}
-          </BodyMd>
+          </Box>
         ) : null}
       </VStack>
     </VStack>
