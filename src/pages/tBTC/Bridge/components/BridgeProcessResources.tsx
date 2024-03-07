@@ -1,17 +1,14 @@
 import { FC } from "react"
 import {
-  BodyMd,
-  BodySm,
   Box,
   Flex,
-  H6,
-  HStack,
   Image,
   Link,
   List,
   ListItem,
   StackProps,
-  VStack,
+  useMultiStyleConfig,
+  Text,
 } from "@threshold-network/components"
 import { TbExternalLink as ExternalLinkIcon } from "react-icons/tb"
 
@@ -29,46 +26,22 @@ export type BridgeProcessResourcesItemProps = StackProps & {
 
 export const BridgeProcessResourcesItem: FC<
   BridgeProcessResourcesItemProps
-> = ({
-  title,
-  description,
-  link,
-  imageSrc = "",
-  variant = "folded",
-  ...restProps
-}) => {
+> = ({ title, description, link, imageSrc = "", ...restProps }) => {
+  const styles = useMultiStyleConfig("BridgeProcessResourcesItem", restProps)
+  const isExpanded = restProps.variant === "expanded"
   return (
-    <VStack
-      as={Link}
-      isExternal
-      href={link}
-      spacing="3"
-      align="stretch"
-      px="4"
-      py={variant === "expanded" ? 4 : 2}
-      my={variant === "expanded" ? 3 : 0}
-      rounded="2xl"
-      border={variant === "folded" ? "1px solid #1E1E1E" : undefined}
-      bg={variant === "expanded" ? "#1E1E1E" : undefined}
-      _hover={{
-        textDecoration: "none",
-        bg: variant === "expanded" ? "#2D2D2D" : "#1E1E1E",
-      }}
-      {...restProps}
-    >
-      <HStack justify="space-between">
-        <BodySm color="white" fontWeight="bold">
-          {title}
-        </BodySm>
-        <ExternalLinkIcon size={16} color="#66F9FF" />
-      </HStack>
-      {variant === "expanded" && (
+    <Box as={Link} isExternal href={link} sx={styles.container} {...restProps}>
+      <Box sx={styles.label}>
+        {title}
+        <ExternalLinkIcon />
+      </Box>
+      {isExpanded && (
         <>
-          {description && <BodySm>{description}</BodySm>}
-          {imageSrc && <Image src={imageSrc} mx="auto" rounded="lg" />}
+          {description && <Text sx={styles.description}>{description}</Text>}
+          {imageSrc && <Image src={imageSrc} sx={styles.image} />}
         </>
       )}
-    </VStack>
+    </Box>
   )
 }
 

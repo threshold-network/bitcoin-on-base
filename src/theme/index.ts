@@ -13,6 +13,7 @@ import { fonts } from "./fonts"
 import { Button } from "./Button"
 import { Alert } from "./Alert"
 import { TransactionDetailsItem } from "./TransactionDetailsItem"
+import { BridgeProcessResourcesItem } from "./BridgeProcessResourcesItem"
 
 export const customBreakpoints = {
   "3xl": "120rem", // 1920px
@@ -69,6 +70,7 @@ const index = extendTheme({
     Button,
     Alert,
     TransactionDetailsItem,
+    BridgeProcessResourcesItem,
   },
   config: {
     initialColorMode: "dark",
