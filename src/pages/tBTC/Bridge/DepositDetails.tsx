@@ -34,9 +34,8 @@ export const DepositDetails: PageComponent = () => {
   const dispatch = useAppDispatch()
   const { updateState, depositDetailsStep } = useTbtcState()
   const { isFetching, data, error } = useFetchDepositDetails(depositKey)
-  const [isCloseToastVisible, setIsCloseToastVisible] = useState(
-    depositDetailsStep !== "bitcoin-confirmations"
-  )
+  const [isSafelyCloseInfoToastVisible, setIsSafelyCloseInfoToastVisible] =
+    useState(depositDetailsStep !== "bitcoin-confirmations")
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
@@ -117,10 +116,10 @@ export const DepositDetails: PageComponent = () => {
               status="success"
               title="Minting successfully started"
               duration={4000}
-              onUnmount={() => setIsCloseToastVisible(true)}
+              onUnmount={() => setIsSafelyCloseInfoToastVisible(true)}
             />
           )}
-          {isCloseToastVisible && (
+          {isSafelyCloseInfoToastVisible && (
             <Toast
               status="info"
               title="You can safely close this window."
