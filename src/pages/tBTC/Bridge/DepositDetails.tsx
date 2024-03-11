@@ -104,14 +104,8 @@ export const DepositDetails: PageComponent = () => {
   })
 
   useEffect(() => {
-    console.log({
-      optimisticMintingFinalizedTxHash,
-      optimisticMintingRequestedTxHash,
-      confirmations,
-      requiredConfirmations,
-    })
-    // if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
-    //   return
+    if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
+      return
 
     const step = getMintingProgressStep({
       confirmations,
