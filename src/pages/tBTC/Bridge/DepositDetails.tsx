@@ -40,12 +40,7 @@ import ViewInBlockExplorer, {
 } from "../../../components/ViewInBlockExplorer"
 import { CurveFactoryPoolId, ExternalHref } from "../../../enums"
 import { useAppDispatch } from "../../../hooks/store"
-import {
-  DepositData,
-  useFetchDepositDetails,
-  useSubscribeToOptimisticMintingFinalizedEventBase,
-  useSubscribeToOptimisticMintingRequestedEventBase,
-} from "../../../hooks/tbtc"
+import { DepositData, useFetchDepositDetails } from "../../../hooks/tbtc"
 import { useFetchExternalPoolData } from "../../../hooks/useFetchExternalPoolData"
 import { useTbtcState } from "../../../hooks/useTbtcState"
 import { tbtcSlice } from "../../../store/tbtc"
@@ -73,8 +68,6 @@ export const DepositDetails: PageComponent = () => {
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
-  const { mintingRequestedTxHash, mintingFinalizedTxHash } =
-    useSubscribeToOptimisticMintingEvents(depositKey)
 
   const depositStatusTextColor = useColorModeValue("brand.500", "brand.300")
 
@@ -92,40 +85,33 @@ export const DepositDetails: PageComponent = () => {
 
   // Extract deposit details values to use them as a dependency in hook
   // dependency array.
-  const btcDepositTxHash = data?.btcTxHash
-  const amount = data?.amount ?? "0"
-  const confirmations = data?.confirmations
-  const requiredConfirmations = data?.requiredConfirmations
-  const depositRevealedTxHash = data?.depositRevealedTxHash
-  const optimisticMintingRequestedTxHash =
-    data?.optimisticMintingRequestedTxHash
-  const optimisticMintingFinalizedTxHash =
-    data?.optimisticMintingFinalizedTxHash
-  const thresholdNetworkFee = data?.treasuryFee
-  const mintingFee = data?.optimisticMintFee
+  const {
+    btcTxHash: btcDepositTxHash,
+    amount,
+    confirmations,
+    requiredConfirmations,
+    depositRevealedTxHash,
+    optimisticMintingRequestedTxHash,
+    optimisticMintingFinalizedTxHash,
+    treasuryFee: thresholdNetworkFee,
+    optimisticMintFee: mintingFee,
+  } = data
 
   useEffect(() => {
-    if (
-      !!btcDepositTxHash &&
-      confirmations !== undefined &&
-      requiredConfirmations !== undefined &&
-      confirmations < requiredConfirmations
-    ) {
-      dispatch(
-        tbtcSlice.actions.fetchUtxoConfirmations({
-          utxo: { transactionHash: btcDepositTxHash, value: amount },
-        })
-      )
-    }
-
     return () => {
       updateState("depositDetailsStep", "bitcoin-confirmations")
     }
-  }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
+  })
 
   useEffect(() => {
-    if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
-      return
+    console.log({
+      optimisticMintingFinalizedTxHash,
+      optimisticMintingRequestedTxHash,
+      confirmations,
+      requiredConfirmations,
+    })
+    // if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
+    //   return
 
     const step = getMintingProgressStep({
       confirmations,
@@ -153,12 +139,12 @@ export const DepositDetails: PageComponent = () => {
     { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
     {
       label: "Minting Initiation",
-      txHash: data?.optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
+      txHash: data.optimisticMintingRequestedTxHash,
       chain: "ethereum",
     },
     {
       label: "Minting completion",
-      txHash: data?.optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
+      txHash: data.optimisticMintingFinalizedTxHash,
       chain: "ethereum",
     },
   ]
@@ -169,10 +155,8 @@ export const DepositDetails: PageComponent = () => {
         step: mintingProgressStep,
         updateStep: setMintingProgressStep,
         btcTxHash: btcDepositTxHash,
-        optimisticMintingRequestedTxHash:
-          optimisticMintingRequestedTxHash ?? mintingRequestedTxHash,
-        optimisticMintingFinalizedTxHash:
-          optimisticMintingFinalizedTxHash ?? mintingFinalizedTxHash,
+        optimisticMintingRequestedTxHash,
+        optimisticMintingFinalizedTxHash,
         confirmations: confirmations || txConfirmations,
         requiredConfirmations: requiredConfirmations!,
         amount: amount,
@@ -476,43 +460,6 @@ const StepSwitcher: FC = () => {
         </Box>
       )
   }
-}
-
-const useSubscribeToOptimisticMintingEvents = (depositKey?: string) => {
-  const [mintingRequestedTxHash, setMintingRequestedTxHash] = useState("")
-  const [mintingFinalizedTxHash, setMintingFinalizedTxHashTxHash] = useState("")
-
-  useSubscribeToOptimisticMintingRequestedEventBase(
-    (
-      minter,
-      depositKeyEventParam,
-      depositor,
-      amount,
-      fundingTxHash,
-      fundingOutputIndex,
-      event
-    ) => {
-      const depositKeyFromEvent = depositKeyEventParam.toHexString()
-      if (depositKeyFromEvent === depositKey) {
-        setMintingRequestedTxHash(event.transactionHash)
-      }
-    },
-    undefined,
-    true
-  )
-
-  useSubscribeToOptimisticMintingFinalizedEventBase(
-    (minter, depositKeyEventParam, depositor, optimisticMintingDebt, event) => {
-      const depositKeyFromEvent = depositKeyEventParam.toHexString()
-      if (depositKeyFromEvent === depositKey) {
-        setMintingFinalizedTxHashTxHash(event.transactionHash)
-      }
-    },
-    undefined,
-    true
-  )
-
-  return { mintingRequestedTxHash, mintingFinalizedTxHash }
 }
 
 const stepToResourceData: Record<

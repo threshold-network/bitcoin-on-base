@@ -2,24 +2,39 @@ import { useEffect, useState } from "react"
 import { useThreshold } from "../../contexts/ThresholdContext"
 import { getContractPastEvents, isEmptyOrZeroAddress } from "../../web3/utils"
 import { reverseTxHash } from "../../threshold-ts/utils"
+import { useSubscribeToOptimisticMintingEvents } from "../useSubscribeToOptimisticMintingEvents"
 
 export type DepositData = {
   depositRevealedTxHash: string
   amount: string
   btcTxHash: string
-  optimisticMintingRequestedTxHash?: string
-  optimisticMintingFinalizedTxHash?: string
+  optimisticMintingRequestedTxHash: string
+  optimisticMintingFinalizedTxHash: string
   confirmations: number
   requiredConfirmations: number
   treasuryFee: string
   optimisticMintFee: string
 }
 
+const DEFAULT_DEPOSIT_DATA: DepositData = {
+  depositRevealedTxHash: "",
+  amount: "0",
+  btcTxHash: "",
+  optimisticMintingRequestedTxHash: "",
+  optimisticMintingFinalizedTxHash: "",
+  confirmations: 0,
+  requiredConfirmations: 0,
+  treasuryFee: "",
+  optimisticMintFee: "",
+}
+
 export const useFetchDepositDetails = (depositKey: string | undefined) => {
   const threshold = useThreshold()
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState("")
-  const [depositData, setDepositData] = useState<DepositData | undefined>()
+  const [depositData, setDepositData] = useState(DEFAULT_DEPOSIT_DATA)
+  const { optimisticMintingFinalizedTxHash, optimisticMintingRequestedTxHash } =
+    useSubscribeToOptimisticMintingEvents(depositKey)
 
   useEffect(() => {
     const fetch = async () => {
@@ -99,6 +114,17 @@ export const useFetchDepositDetails = (depositKey: string | undefined) => {
       fetch()
     }
   }, [depositKey, threshold, reverseTxHash])
+
+  useEffect(() => {
+    setDepositData(
+      (prevState) =>
+        ({
+          ...prevState,
+          optimisticMintingRequestedTxHash,
+          optimisticMintingFinalizedTxHash,
+        } as DepositData)
+    )
+  }, [optimisticMintingFinalizedTxHash, optimisticMintingRequestedTxHash])
 
   return { isFetching, data: depositData, error }
 }
