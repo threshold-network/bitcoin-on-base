@@ -11,13 +11,16 @@ import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
+import { useParams } from "react-router"
 import { TbtcBalanceCard } from "./TbtcBalanceCard"
+import { KnowledgeBaseLinks } from "./Minting/KnowledgeBaseLinks"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
+  const { depositKey } = useParams()
 
   useEffect(() => {
     if (!hasUserResponded) openModal(ModalType.NewTBTCApp)
@@ -38,7 +41,7 @@ const TBTCBridge: PageComponent = () => {
       backgroundVariant="secondary"
       renderTop={<TbtcBalanceCard />}
       renderLeft={<MintingDepositTimeline title="Minting timeline" />}
-      renderRight={<p>TODO: Transaction history + Knowledgebase component</p>}
+      renderRight={<KnowledgeBaseLinks depositKey={depositKey} />}
     >
       <Outlet />
     </PageLayout>

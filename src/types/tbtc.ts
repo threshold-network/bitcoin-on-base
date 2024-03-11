@@ -53,14 +53,6 @@ export interface UseTbtcState {
   } & TbtcState
 }
 
-export type ExternalPoolData = {
-  poolName: string
-  url: string
-  address: string
-  apy: number[]
-  tvl: number
-}
-
 export { type BridgeProcess }
 
 export enum DepositDetailsStep {
