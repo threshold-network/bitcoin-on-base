@@ -3,6 +3,7 @@ import { useThreshold } from "../../contexts/ThresholdContext"
 import { getContractPastEvents, isEmptyOrZeroAddress } from "../../web3/utils"
 import { reverseTxHash } from "../../threshold-ts/utils"
 import { useSubscribeToOptimisticMintingEvents } from "../useSubscribeToOptimisticMintingEvents"
+import { useTbtcState } from "../useTbtcState"
 
 export type DepositData = {
   depositRevealedTxHash: string
@@ -35,6 +36,7 @@ export const useFetchDepositDetails = (depositKey: string | undefined) => {
   const [depositData, setDepositData] = useState(DEFAULT_DEPOSIT_DATA)
   const { optimisticMintingFinalizedTxHash, optimisticMintingRequestedTxHash } =
     useSubscribeToOptimisticMintingEvents(depositKey)
+  const { txConfirmations } = useTbtcState()
 
   useEffect(() => {
     const fetch = async () => {
@@ -82,9 +84,9 @@ export const useFetchDepositDetails = (depositKey: string | undefined) => {
         )
 
         const btcTxHash = reverseTxHash(deposit.fundingTxHash)
-        const confirmations = await threshold.tbtc.getTransactionConfirmations(
-          btcTxHash
-        )
+        const confirmations =
+          (await threshold.tbtc.getTransactionConfirmations(btcTxHash)) ??
+          txConfirmations
         const requiredConfirmations =
           threshold.tbtc.minimumNumberOfConfirmationsNeeded(deposit.amount)
 
@@ -125,6 +127,13 @@ export const useFetchDepositDetails = (depositKey: string | undefined) => {
         } as DepositData)
     )
   }, [optimisticMintingFinalizedTxHash, optimisticMintingRequestedTxHash])
+
+  useEffect(() => {
+    setDepositData((prevState) => ({
+      ...prevState,
+      confirmations: txConfirmations,
+    }))
+  }, [txConfirmations])
 
   return { isFetching, data: depositData, error }
 }
