@@ -128,7 +128,9 @@ const PageLayout: FC<PageLayoutProps> = ({
           flex={1}
         >
           {renderLeft && (
-            <Box p={hasContentMaxWidth ? 10 : 6}>{renderLeft}</Box>
+            <Box px={6} py={hasContentMaxWidth ? 10 : 6}>
+              {renderLeft}
+            </Box>
           )}
           <Box
             order={{ base: -1, lg: "unset" }}
@@ -139,7 +141,9 @@ const PageLayout: FC<PageLayoutProps> = ({
             {children}
           </Box>
           {renderRight && (
-            <Box p={hasContentMaxWidth ? 10 : 6}>{renderRight}</Box>
+            <Box px={6} py={hasContentMaxWidth ? 10 : 6}>
+              {renderRight}
+            </Box>
           )}
         </Grid>
       </FixedContainer>
