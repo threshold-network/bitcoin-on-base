@@ -197,12 +197,12 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
       >
         {title}
       </BodyLg>
-      {isOnDepositDetailsPage && (
+      {/* {isOnDepositDetailsPage && (
         // TOOD: calculate elapsed time
         <LabeledBadge icon={ClockIcon} label="Elapsed time" mb={10}>
           3 hrs
         </LabeledBadge>
-      )}
+      )} */}
       <Timeline
         items={items}
         index={currentIndex}
