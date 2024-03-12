@@ -16,10 +16,11 @@ const LabeledBadge: FC<LabeledBadgeProps> = ({
   return (
     <Flex
       as={Badge}
+      display="inline-flex"
       align="center"
       color="hsl(0, 0%, 53%)"
-      fontSize="xs"
-      lineHeight={1}
+      fontSize="sm"
+      lineHeight="3"
       fontWeight="medium"
       p={2}
       pr={3}
