@@ -23,7 +23,6 @@ export const tbtcSlice = createSlice({
   name: "tbtc",
   initialState: {
     mintingStep: MintingStep.ProvideData,
-    depositDetailsStep: DepositDetailsStep.BitcoinConfirmations,
     bridgeActivity: {
       isFetching: false,
       error: "",

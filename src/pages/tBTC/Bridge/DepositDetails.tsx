@@ -70,6 +70,12 @@ export const DepositDetails: PageComponent = () => {
   } = data
 
   useEffect(() => {
+    return () => {
+      updateState("depositDetailsStep", undefined)
+    }
+  }, [depositKey])
+
+  useEffect(() => {
     if (
       !!btcDepositTxHash &&
       confirmations !== undefined &&
@@ -81,10 +87,6 @@ export const DepositDetails: PageComponent = () => {
           utxo: { transactionHash: btcDepositTxHash, value: amount },
         })
       )
-    }
-
-    return () => {
-      updateState("depositDetailsStep", "bitcoin-confirmations")
     }
   }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
 
