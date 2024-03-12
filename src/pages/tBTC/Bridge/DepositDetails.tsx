@@ -96,25 +96,6 @@ export const DepositDetails: PageComponent = () => {
     shouldStartFromFirstStep,
   ])
 
-  const transactions: {
-    label: string
-    txHash?: string
-    chain: ViewInBlockExplorerChain
-  }[] = [
-    { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },
-    { label: "Reveal", txHash: depositRevealedTxHash, chain: "ethereum" },
-    {
-      label: "Minting Initiation",
-      txHash: data.optimisticMintingRequestedTxHash,
-      chain: "ethereum",
-    },
-    {
-      label: "Minting completion",
-      txHash: data.optimisticMintingFinalizedTxHash,
-      chain: "ethereum",
-    },
-  ]
-
   return (
     <>
       {(isFetching || !data) && !error && <BridgeProcessDetailsPageSkeleton />}
