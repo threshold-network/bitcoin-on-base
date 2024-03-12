@@ -70,10 +70,23 @@ export const DepositDetails: PageComponent = () => {
   } = data
 
   useEffect(() => {
+    if (
+      !!btcDepositTxHash &&
+      confirmations !== undefined &&
+      requiredConfirmations !== undefined &&
+      confirmations < requiredConfirmations
+    ) {
+      dispatch(
+        tbtcSlice.actions.fetchUtxoConfirmations({
+          utxo: { transactionHash: btcDepositTxHash, value: amount },
+        })
+      )
+    }
+
     return () => {
       updateState("depositDetailsStep", "bitcoin-confirmations")
     }
-  })
+  }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
 
   useEffect(() => {
     if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
