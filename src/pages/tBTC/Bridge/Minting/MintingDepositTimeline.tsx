@@ -7,7 +7,9 @@ import {
 } from "@threshold-network/components"
 import { useWeb3React } from "@web3-react/core"
 import { FC, ReactNode, useMemo } from "react"
+import { HiClock as ClockIcon } from "react-icons/hi"
 import { useLocation } from "react-router"
+import { LabeledBadge } from "../../../../components/LabeledBadge"
 import { Timeline, TimelineItemProps } from "../../../../components/Timeline"
 import { useTbtcState } from "../../../../hooks/useTbtcState"
 import {
@@ -190,11 +192,17 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
       <BodyLg
         color="hsl(0, 0%, 50%)"
         fontWeight="medium"
-        mb={isOnDepositDetailsPage || account ? 10 : 6}
+        mb={isOnDepositDetailsPage ? 2 : account ? 10 : 6}
         lineHeight={6}
       >
         {title}
       </BodyLg>
+      {/* {isOnDepositDetailsPage && (
+        // TOOD: calculate elapsed time
+        <LabeledBadge icon={ClockIcon} label="Elapsed time" mb={10}>
+          3 hrs
+        </LabeledBadge>
+      )} */}
       <Timeline
         items={items}
         index={currentIndex}

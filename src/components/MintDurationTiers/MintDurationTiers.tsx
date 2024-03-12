@@ -15,6 +15,7 @@ import { ComponentPropsWithoutRef } from "react"
 import { RangeOperatorType, CurrencyType } from "../../types"
 import { useThreshold } from "../../contexts/ThresholdContext"
 import { HiClock as ClockIcon } from "react-icons/hi"
+import { LabeledBadge } from "../LabeledBadge"
 
 type BaseProps = ComponentPropsWithoutRef<"li"> & StackProps
 type MintDurationTiersItemProps = {
@@ -100,11 +101,9 @@ const MintDurationTiers: FC<MintDurationTiersProps> = ({
                   </Box>
                 </BodyMd>
               </VStack>
-              <Flex as={Badge} align="center">
-                {/* TODO: Adjust styles when Badge changes are merged. */}
-                <Icon as={ClockIcon} mr={2} w={3.5} h={3.5} />
-                Est. {hours} {hoursSuffix}
-              </Flex>
+              <LabeledBadge icon={ClockIcon} label="Est.">
+                {hours} {hoursSuffix}
+              </LabeledBadge>
             </VStack>
           )
         })}
