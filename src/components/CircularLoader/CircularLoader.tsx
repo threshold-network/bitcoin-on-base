@@ -1,7 +1,7 @@
 import { BodyLg, Box, BoxProps } from "@threshold-network/components"
 import { motion, Transition, Variants } from "framer-motion"
 import { FC, SVGProps } from "react"
-import { DotsLoadingIndicator } from "../../../../components/DotsLoadingIndicator"
+import { DotsLoadingIndicator } from "../DotsLoadingIndicator"
 
 type GetSvgCircleArcPropertiesType = (
   centerX: number,
@@ -63,14 +63,16 @@ const getCircularSectorPathProperties: GetSvgCircleArcPropertiesType = (
   }
 }
 
-export type BridgeProcessCircularLoaderProps = BoxProps & {
+export type CircularLoaderProps = BoxProps & {
   label: string
   progress?: number
 }
 
-export const BridgeProcessCircularLoader: FC<
-  BridgeProcessCircularLoaderProps
-> = ({ label, progress = 0.375, ...restProps }) => {
+const CircularLoader: FC<CircularLoaderProps> = ({
+  label,
+  progress = 0.375,
+  ...restProps
+}) => {
   return (
     <Box
       w="full"
@@ -203,3 +205,5 @@ export const BridgeProcessCircularLoader: FC<
     </Box>
   )
 }
+
+export default CircularLoader

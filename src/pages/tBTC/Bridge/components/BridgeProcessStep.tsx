@@ -1,8 +1,8 @@
 import { FC, ReactNode, useEffect } from "react"
-import { BodyMd, Box, StackProps, VStack } from "@threshold-network/components"
+import { Box, StackProps, VStack } from "@threshold-network/components"
 import { ONE_SEC_IN_MILISECONDS } from "../../../../utils/date"
 import { BridgeProcessIndicator } from "../../../../components/tBTC"
-import { BridgeProcessCircularLoader } from "./BridgeProcessCircularLoader"
+import { CircularLoader } from "../../../../components/CircularLoader"
 
 export type BridgeProcessStepProps = {
   loaderLabel: string
@@ -34,10 +34,7 @@ export const BridgeProcessStep: FC<BridgeProcessStepProps> = ({
 
   return (
     <VStack spacing={10} {...restProps}>
-      <BridgeProcessCircularLoader
-        label={loaderLabel}
-        progress={loaderProgress}
-      />
+      <CircularLoader label={loaderLabel} progress={loaderProgress} />
       <VStack spacing={4} zIndex={1}>
         <Box fontSize="md" lineHeight={6} color="hsl(182, 100%, 70%)">
           {headingPrimary}
