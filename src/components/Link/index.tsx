@@ -7,7 +7,7 @@ import {
   LinkProps as ChakraLinkProps,
   useColorModeValue,
 } from "@threshold-network/components"
-import { FiArrowUpRight } from "react-icons/all"
+import { TbExternalLink as ExternalLinkIcon } from "react-icons/tb"
 
 interface CommonLinkProps {
   icon?: ReactElement
@@ -40,7 +40,7 @@ const Link: FC<LinkProps> = forwardRef(
         {icon ? (
           icon
         ) : isExternal ? (
-          <Icon boxSize="12px" ml="1" as={FiArrowUpRight} />
+          <Icon ml={1} w={4} h={4} as={ExternalLinkIcon} />
         ) : null}
       </ChakraLink>
     )
