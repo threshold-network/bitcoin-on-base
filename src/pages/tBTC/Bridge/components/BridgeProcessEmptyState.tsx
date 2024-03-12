@@ -27,6 +27,7 @@ export const BridgeProcessEmptyState: FC<{
         h: "full",
         maxH: "30rem", // 480px
         rounded: "full",
+        maxW: "100vw",
       }}
       _after={{
         content: "''",

@@ -129,7 +129,12 @@ const PageLayout: FC<PageLayoutProps> = ({
           flex={1}
         >
           {renderLeft && (
-            <VStack spacing={6} p={hasContentMaxWidth ? 10 : 6}>
+            <VStack
+              align="start"
+              spacing={6}
+              px={6}
+              py={hasContentMaxWidth ? 10 : 6}
+            >
               {renderLeft}
             </VStack>
           )}
@@ -142,7 +147,12 @@ const PageLayout: FC<PageLayoutProps> = ({
             {children}
           </Box>
           {renderRight && (
-            <VStack spacing={6} p={hasContentMaxWidth ? 10 : 6}>
+            <VStack
+              align="start"
+              spacing={6}
+              px={6}
+              py={hasContentMaxWidth ? 10 : 6}
+            >
               {renderRight}
             </VStack>
           )}

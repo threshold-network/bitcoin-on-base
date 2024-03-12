@@ -23,7 +23,7 @@ import { InlineTokenBalance } from "../TokenBalance"
 
 const networkIconMap = new Map<ChainID, As<unknown>>([
   [ChainID.Ethereum, EthereumDark],
-  [ChainID.Goerli, TestnetIcon],
+  [ChainID.Sepolia, TestnetIcon],
 ])
 
 interface UserPanelProps extends StackProps {

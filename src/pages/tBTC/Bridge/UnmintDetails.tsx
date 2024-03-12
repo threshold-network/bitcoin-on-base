@@ -13,6 +13,8 @@ import {
   SkeletonText,
   useColorModeValue,
 } from "@threshold-network/components"
+import ButtonLink from "../../../components/ButtonLink"
+import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
 import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
@@ -20,30 +22,26 @@ import {
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
-import ButtonLink from "../../../components/ButtonLink"
-import { BridgeProcessStep } from "./components/BridgeProcessStep"
-import { BridgeProcessResource } from "./components/BridgeProcessResource"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
+import { useThreshold } from "../../../contexts/ThresholdContext"
+import { ExternalHref } from "../../../enums"
+import { useAppDispatch } from "../../../hooks/store"
+import {
+  useFindRedemptionInBitcoinTx,
+  useSubscribeToRedemptionsCompletedEventBase,
+} from "../../../hooks/tbtc"
+import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
+import { tbtcSlice } from "../../../store/tbtc"
+import { PageComponent } from "../../../types"
+import { ExplorerDataType } from "../../../utils/createEtherscanLink"
+import { dateAs, dateToUnixTimestamp } from "../../../utils/date"
 import {
   BridgeLayout,
   BridgeLayoutAsideSection,
   BridgeLayoutMainSection,
 } from "./BridgeLayout"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { PageComponent } from "../../../types"
-import { dateToUnixTimestamp, dateAs } from "../../../utils/date"
-import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
-import { ProcessCompletedBrandGradientIcon } from "./components/BridgeProcessDetailsIcons"
-import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
+import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
-import { ExternalHref } from "../../../enums"
-import {
-  useFindRedemptionInBitcoinTx,
-  useSubscribeToRedemptionsCompletedEventBase,
-} from "../../../hooks/tbtc"
-import { useAppDispatch } from "../../../hooks/store"
-import { tbtcSlice } from "../../../store/tbtc"
-import { useThreshold } from "../../../contexts/ThresholdContext"
+import { BridgeProcessResourcesItem } from "./components/BridgeProcessResources"
 
 export const UnmintDetails: PageComponent = () => {
   const [searchParams] = useSearchParams()
@@ -187,23 +185,7 @@ export const UnmintDetails: PageComponent = () => {
                 thresholdNetworkFee={thresholdNetworkFee}
                 btcAddress={btcAddress!}
               />
-            ) : (
-              <BridgeProcessStep
-                title="Unminting in progress"
-                chain="ethereum"
-                txHash={redemptionRequestedTxHash}
-                progressBarColor="brand.500"
-                isCompleted={isProcessCompleted}
-                icon={<ProcessCompletedBrandGradientIcon />}
-                onComplete={() => setShouldDisplaySuccessStep(true)}
-                isIndeterminate
-              >
-                <BodyMd mt="6" px="3.5" mb="10" alignSelf="flex-start">
-                  Your redemption request is being processed. This will take
-                  around 3-5 hours.
-                </BodyMd>
-              </BridgeProcessStep>
-            )}
+            ) : null}
           </>
         )}
       </BridgeLayoutMainSection>
@@ -244,10 +226,11 @@ export const UnmintDetails: PageComponent = () => {
                 ))}
             </List>
             {!(shouldDisplaySuccessStep || shouldForceIsProcessCompleted) && (
-              <BridgeProcessResource
+              <BridgeProcessResourcesItem
                 title="Minters and Guardians in Optimistic Minting"
-                subtitle="A phased approach with two main roles: Minters and Guardians."
+                description="A phased approach with two main roles: Minters and Guardians."
                 link={ExternalHref.mintersAndGuardiansDocs}
+                variant="expanded"
               />
             )}
           </>

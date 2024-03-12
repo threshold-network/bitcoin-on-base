@@ -11,14 +11,16 @@ import { MintPage } from "./Mint"
 import { UnmintPage } from "./Unmint"
 import PageLayout from "../../PageLayout"
 import { MintingDepositTimeline } from "./Minting/MintingDepositTimeline"
+import { useParams } from "react-router"
 import { TbtcBalanceCard } from "./TbtcBalanceCard"
-import { Text } from "@chakra-ui/react"
+import { KnowledgeBaseLinks } from "./Minting/KnowledgeBaseLinks"
 
 const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
   const { account, active } = useWeb3React()
+  const { depositKey } = useParams()
 
   useEffect(() => {
     if (!hasUserResponded) openModal(ModalType.NewTBTCApp)
@@ -39,14 +41,19 @@ const TBTCBridge: PageComponent = () => {
       backgroundVariant="secondary"
       renderTop={active ? <TbtcBalanceCard /> : undefined}
       renderLeft={
-        active ? <MintingDepositTimeline title="Minting timeline" /> : undefined
+        active || depositKey ? (
+          <MintingDepositTimeline title="Minting timeline" />
+        ) : undefined
       }
       renderRight={
         <>
-          {!active && <MintingDepositTimeline title="Minting timeline" />}
-          <Text mt={active ? 0 : "auto"}>
-            TODO: Transaction history + Knowledgebase component
-          </Text>
+          {!(active || depositKey) && (
+            <MintingDepositTimeline
+              title="Minting timeline"
+              mb={{ base: 6, md: "92px" }}
+            />
+          )}
+          <KnowledgeBaseLinks depositKey={depositKey} />
         </>
       }
     >
