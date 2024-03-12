@@ -5,6 +5,7 @@ import {
   Grid,
   SystemStyleObject,
   useMediaQuery,
+  VStack,
 } from "@threshold-network/components"
 import { FC, ReactNode } from "react"
 import PRIMARY_BACKGROUND_PATH from "../static/images/layout-background-primary.svg"
@@ -128,9 +129,14 @@ const PageLayout: FC<PageLayoutProps> = ({
           flex={1}
         >
           {renderLeft && (
-            <Box px={6} py={hasContentMaxWidth ? 10 : 6}>
+            <VStack
+              align="start"
+              spacing={6}
+              px={6}
+              py={hasContentMaxWidth ? 10 : 6}
+            >
               {renderLeft}
-            </Box>
+            </VStack>
           )}
           <Box
             order={{ base: -1, lg: "unset" }}
@@ -141,9 +147,14 @@ const PageLayout: FC<PageLayoutProps> = ({
             {children}
           </Box>
           {renderRight && (
-            <Box px={6} py={hasContentMaxWidth ? 10 : 6}>
+            <VStack
+              align="start"
+              spacing={6}
+              px={6}
+              py={hasContentMaxWidth ? 10 : 6}
+            >
               {renderRight}
-            </Box>
+            </VStack>
           )}
         </Grid>
       </FixedContainer>

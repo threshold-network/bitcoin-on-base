@@ -51,6 +51,7 @@ const index = extendTheme({
   sizes: customSizes,
   breakpoints: customBreakpoints,
   fontSizes: {
+    "3.5xl": "2rem",
     "4.5xl": "2.5rem",
   },
   lineHeights: {
