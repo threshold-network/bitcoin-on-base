@@ -1,5 +1,5 @@
-import { FC } from "react"
 import { Box, BoxProps, Grid } from "@chakra-ui/react"
+import { FC } from "react"
 import backgroundSrc from "../../../static/images/landing-page-layout-background.svg"
 
 const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
@@ -34,8 +34,8 @@ const LandingPageLayout: FC<BoxProps> = ({ children, ...restProps }) => (
       templateColumns={{ base: "auto", xl: "repeat(2, 1fr)" }}
       gridTemplateAreas={{
         xl: `
-          "intro    loader"
-          "partners loader"
+          "intro    decorator"
+          "partners decorator"
           "cards    cards "
         `,
       }}

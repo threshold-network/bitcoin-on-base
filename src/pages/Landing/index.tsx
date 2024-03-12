@@ -2,6 +2,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle"
 import { PageComponent } from "../../types"
 import LandingPageCardsSection from "./components/LandingPageCardsSection"
 import LandingPageContentWrapper from "./components/LandingPageContentWrapper"
+import LandingPageDecorator from "./components/LandingPageDecorator"
 import LandingPageIntroSection from "./components/LandingPageIntroSection"
 import LandingPageLayout from "./components/LandingPageLayout"
 import LandingPagePartnersSection from "./components/LandingPagePartnersSection"
@@ -12,9 +13,7 @@ const LandingPage: PageComponent = ({ title = "tBTC" }) => {
     <LandingPageLayout>
       <LandingPageIntroSection />
       <LandingPagePartnersSection />
-      <LandingPageContentWrapper gridArea={{ xl: "loader" }}>
-        Loader
-      </LandingPageContentWrapper>
+      <LandingPageDecorator />
       {/* 
       This component will be introduced in post-MVP phases
       <LandingPageCardsSection /> 
