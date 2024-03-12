@@ -101,6 +101,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
         <Text
           fontSize={isLarge ? "4.5xl" : "2xl"}
           lineHeight={isLarge ? 12 : "lg"}
+          fontWeight={isLarge ? "black" : "medium"}
           {...restProps}
         >
           {shouldRenderTokenAmount ? (
@@ -119,7 +120,7 @@ const TokenBalance: FC<TokenBalanceProps & TextProps> = ({
             "--"
           )}
           {tokenSymbol && (
-            <Text as="span" color="hsl(0, 0%, 50%)" fontWeight="medium">
+            <Text as="span" color="hsl(0, 0%, 50%)" fontWeight="normal">
               {" "}
               {tokenSymbol}
             </Text>
