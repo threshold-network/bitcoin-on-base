@@ -198,6 +198,7 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
         {title}
       </BodyLg>
       {isOnDepositDetailsPage && (
+        // TOOD: calculate elapsed time
         <LabeledBadge icon={ClockIcon} label="Elapsed time" mb={10}>
           3 hrs
         </LabeledBadge>
