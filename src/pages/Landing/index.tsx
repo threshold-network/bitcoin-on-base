@@ -23,7 +23,7 @@ const LandingPage: PageComponent = ({ title = "tBTC" }) => {
 }
 
 LandingPage.route = {
-  path: "landing",
+  path: "",
   index: true,
   title: "tBTC",
   isPageEnabled: true,

@@ -38,6 +38,7 @@ import { PageComponent } from "./types"
 import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
 import getLibrary from "./web3/library"
 import { isSameETHAddress } from "./web3/utils"
+import LandingPage from "./pages/Landing"
 
 const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.TBTC)
@@ -100,9 +101,9 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="*" element={<Outlet />}>
-        <Route index element={<Navigate to="tBTC" />} />
+        <Route index element={<LandingPage {...LandingPage.route} />} />
         {pages.map(renderPageComponent)}
-        <Route path="*" element={<Navigate to="tBTC" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>
   )
