@@ -1,9 +1,12 @@
 import { ChakraProvider } from "@chakra-ui/react"
 import "@fontsource/bricolage-grotesque/800.css"
+import "@fontsource/bricolage-grotesque/600.css"
+import "@fontsource/bricolage-grotesque/500.css"
 import "@fontsource/dm-sans/400.css"
 import "@fontsource/dm-sans/500.css"
 import "@fontsource/dm-sans/600.css"
 import "@fontsource/dm-sans/700.css"
+import "@fontsource/dm-sans/900.css"
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core"
 import { ConnectorEvent, ConnectorUpdate } from "@web3-react/types"
 import { FC, Fragment, useEffect } from "react"
@@ -35,6 +38,7 @@ import { PageComponent } from "./types"
 import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
 import getLibrary from "./web3/library"
 import { isSameETHAddress } from "./web3/utils"
+import LandingPage from "./pages/Landing"
 
 const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.TBTC)
@@ -97,9 +101,9 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="*" element={<Outlet />}>
-        <Route index element={<Navigate to="tBTC" />} />
+        <Route index element={<LandingPage {...LandingPage.route} />} />
         {pages.map(renderPageComponent)}
-        <Route path="*" element={<Navigate to="tBTC" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>
   )
