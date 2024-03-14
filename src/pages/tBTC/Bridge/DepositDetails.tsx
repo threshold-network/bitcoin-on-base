@@ -39,17 +39,10 @@ export const DepositDetails: PageComponent = () => {
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
 
-  // Cache the location state in component state.
-  const [locationStateCache] = useState<{ shouldStartFromFirstStep?: boolean }>(
-    (state as { shouldStartFromFirstStep?: boolean }) || {}
-  )
-
   useEffect(() => {
     // Redirect to current path and clear the location state.
     navigate(".", { replace: true })
   }, [navigate])
-
-  const shouldStartFromFirstStep = locationStateCache?.shouldStartFromFirstStep
 
   // Extract deposit details values to use them as a dependency in hook
   // dependency array.
@@ -79,11 +72,6 @@ export const DepositDetails: PageComponent = () => {
   }, [depositKey])
 
   useEffect(() => {
-    if (shouldStartFromFirstStep) {
-      updateState("depositDetailsStep", "bitcoin-confirmations")
-      return
-    }
-
     if ((!confirmations && confirmations != 0) || !requiredConfirmations) {
       return
     }
@@ -102,7 +90,6 @@ export const DepositDetails: PageComponent = () => {
     requiredConfirmations,
     optimisticMintingFinalizedTxHash,
     optimisticMintingRequestedTxHash,
-    shouldStartFromFirstStep,
   ])
 
   return (
