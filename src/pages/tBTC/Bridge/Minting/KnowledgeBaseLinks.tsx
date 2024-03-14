@@ -35,11 +35,11 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   const btcDepositTxHash = data?.btcTxHash
   const depositRevealedTxHash = data?.depositRevealedTxHash
   const mintingRequestedTxHash =
-    data?.optimisticMintingFinalizedTxHashFromEvent ??
+    data?.optimisticMintingRequestedTxHashFromEvent ??
     data?.optimisticMintingRequestedTxHash
   const mintingFinalizedTxHash =
     data?.optimisticMintingFinalizedTxHashFromEvent ??
-    data?.optimisticMintingRequestedTxHash
+    data?.optimisticMintingFinalizedTxHash
 
   const transactions: DepositTransactionHistoryItemType[] = [
     { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },
