@@ -1,19 +1,8 @@
-import {
-  BodyLg,
-  BodyMd,
-  Box,
-  Divider,
-  HStack,
-  List,
-  VStack,
-} from "@threshold-network/components"
+import { BodyLg, BodyMd, HStack, VStack } from "@threshold-network/components"
 import { FC, useCallback, useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router"
-import ButtonLink from "../../../components/ButtonLink"
-import { TBTCTokenContractLink } from "../../../components/tBTC"
 import { Toast } from "../../../components/Toast"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
-import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
 import { useAppDispatch } from "../../../hooks/store"
 import {
   useSubscribeToOptimisticMintingFinalizedEvent,
@@ -28,6 +17,7 @@ import {
   DepositDetailsStep2,
   DepositDetailsStep3,
   DepositDetailsStep4,
+  SuccessStep,
 } from "./components/DepositDetailsStep"
 
 export const DepositDetails: PageComponent = () => {
@@ -297,39 +287,11 @@ const StepSwitcher: FC<StepSwitcherProps> = ({
       )
     case "completed":
       return (
-        <Box m={{ base: -6, lg: -10 }}>
-          <BodyLg mt="4" fontSize="20px" lineHeight="24px">
-            Success!
-          </BodyLg>
-          <BodyMd mt="2">
-            Add the tBTC <TBTCTokenContractLink /> to your Ethereum wallet.
-          </BodyMd>
-          <Divider my="4" />
-          <List spacing="2">
-            <TransactionDetailsAmountItem
-              label="Minted Amount"
-              tokenAmount={amount}
-              tokenSymbol="tBTC"
-            />
-            <TransactionDetailsAmountItem
-              label="Minting Fee"
-              tokenAmount={mintingFee}
-              tokenSymbol="tBTC"
-              precision={6}
-              higherPrecision={8}
-            />
-            <TransactionDetailsAmountItem
-              label="Threshold Network Fee"
-              tokenAmount={thresholdNetworkFee}
-              tokenSymbol="tBTC"
-              precision={6}
-              higherPrecision={8}
-            />
-          </List>
-          <ButtonLink size="lg" mt="8" mb="8" to="/tBTC" isFullWidth>
-            New mint
-          </ButtonLink>
-        </Box>
+        <SuccessStep
+          amount={amount || "0"}
+          mintingFee={mintingFee}
+          thresholdNetworkFee={thresholdNetworkFee}
+        />
       )
   }
 }

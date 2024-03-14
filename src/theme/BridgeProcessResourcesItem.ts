@@ -40,6 +40,7 @@ const baseStyle: PartsStyleObject<typeof parts> = {
   image: {
     mx: "auto",
     rounded: "lg",
+    w: "full",
   },
 }
 

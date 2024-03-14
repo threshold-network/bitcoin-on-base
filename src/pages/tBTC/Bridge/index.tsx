@@ -19,7 +19,7 @@ const TBTCBridge: PageComponent = () => {
   const { openModal } = useModal()
   const { hasUserResponded } = useTBTCTerms()
   const dispatch = useAppDispatch()
-  const { account } = useWeb3React()
+  const { account, active } = useWeb3React()
   const { depositKey } = useParams()
 
   useEffect(() => {
@@ -39,9 +39,23 @@ const TBTCBridge: PageComponent = () => {
   return (
     <PageLayout
       backgroundVariant="secondary"
-      renderTop={<TbtcBalanceCard />}
-      renderLeft={<MintingDepositTimeline title="Minting timeline" />}
-      renderRight={<KnowledgeBaseLinks depositKey={depositKey} />}
+      renderTop={active ? <TbtcBalanceCard /> : undefined}
+      renderLeft={
+        active || depositKey ? (
+          <MintingDepositTimeline title="Minting timeline" />
+        ) : undefined
+      }
+      renderRight={
+        <>
+          {!(active || depositKey) && (
+            <MintingDepositTimeline
+              title="Minting timeline"
+              mb={{ base: 6, md: "92px" }}
+            />
+          )}
+          <KnowledgeBaseLinks depositKey={depositKey} />
+        </>
+      }
     >
       <Outlet />
     </PageLayout>

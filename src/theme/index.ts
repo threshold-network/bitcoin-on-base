@@ -30,6 +30,7 @@ const index = extendTheme({
   colors: {
     ...defaultTheme.colors,
     brand: {
+      "50": "hsl(182, 100%, 88%)",
       "100": "hsl(182, 100%, 70%)",
     },
     whiteAlpha: {
@@ -51,7 +52,8 @@ const index = extendTheme({
   sizes: customSizes,
   breakpoints: customBreakpoints,
   fontSizes: {
-    "4.5xl": "2.5rem",
+    "3.5xl": "2rem", // 32px
+    "4.5xl": "2.5rem", // 40px
   },
   lineHeights: {
     12: "3rem",

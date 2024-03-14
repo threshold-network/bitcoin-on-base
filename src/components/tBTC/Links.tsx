@@ -1,15 +1,16 @@
-import { FC, ComponentProps } from "react"
+import { FC, ComponentProps, ReactElement } from "react"
 import { useTBTCBridgeContractAddress } from "../../hooks/useTBTCBridgeContractAddress"
 import { ExplorerDataType } from "../../utils/createEtherscanLink"
 import ViewInBlockExplorer from "../ViewInBlockExplorer"
 import { useTBTCTokenAddress } from "../../hooks/useTBTCTokenAddress"
+import { LinkProps } from "../Link"
 
 type Props = Omit<
   ComponentProps<typeof ViewInBlockExplorer>,
   "text" | "id" | "type"
 > & {
   text?: string
-}
+} & Pick<LinkProps, "icon">
 
 export const BridgeContractLink: FC<Props> = ({
   text = "Bridge Contract",
@@ -37,6 +38,8 @@ export const TBTCTokenContractLink: FC<Props> = ({
       id={address}
       type={ExplorerDataType.ADDRESS}
       text={text}
+      // to hide the icon
+      icon={<></>}
       {...props}
     />
   )
