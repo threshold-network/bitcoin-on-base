@@ -2,7 +2,9 @@ import { BitcoinAddressConverter } from "@keep-network/tbtc-v2.ts"
 import { TaskAbortError } from "@reduxjs/toolkit"
 import {
   getChainIdentifier,
+  getContractPastEvents,
   isPublicKeyHashTypeAddress,
+  reverseTxHash,
 } from "../../threshold-ts/utils"
 import { MintingStep } from "../../types/tbtc"
 import { ONE_SEC_IN_MILISECONDS } from "../../utils/date"
@@ -11,7 +13,11 @@ import {
   removeDataForAccount,
   TBTCLocalStorageDepositData,
 } from "../../utils/tbtcLocalStorageData"
-import { isAddress, isAddressZero } from "../../web3/utils"
+import {
+  isAddress,
+  isAddressZero,
+  isEmptyOrZeroAddress,
+} from "../../web3/utils"
 import { AppListenerEffectAPI } from "../listener"
 import { tbtcSlice } from "./tbtcSlice"
 
@@ -37,6 +43,122 @@ export const fetchBridgeactivityEffect = async (
     listenerApi.dispatch(
       tbtcSlice.actions.bridgeActivityFailed({
         error: "Could not fetch bridge activity.",
+      })
+    )
+  }
+}
+
+export const fetchDepositDetailsDataEffect = async (
+  action: ReturnType<typeof tbtcSlice.actions.requestDepositDetailsData>,
+  listenerApi: AppListenerEffectAPI
+) => {
+  const { depositKey } = action.payload
+  if (!depositKey) return
+
+  listenerApi.dispatch(tbtcSlice.actions.fetchingDepositDetailsData())
+
+  try {
+    const { depositor } =
+      (await listenerApi.extra.threshold.tbtc.bridgeContract.deposits(
+        depositKey
+      )) as {
+        depositor: string
+      }
+    if (isEmptyOrZeroAddress(depositor)) {
+      throw new Error("Deposit not found...")
+    }
+
+    const revealedDeposits =
+      await listenerApi.extra.threshold.tbtc.findAllRevealedDeposits(depositor)
+
+    const deposit = revealedDeposits.find(
+      (deposit) => deposit.depositKey === depositKey
+    )
+
+    if (!deposit) {
+      throw new Error(
+        "Could not find `DepositRevealed` event by given deposit key."
+      )
+    }
+
+    const optimisticMintingRequestedEvents = await getContractPastEvents(
+      listenerApi.extra.threshold.tbtc.vaultContract,
+      {
+        eventName: "OptimisticMintingRequested",
+        fromBlock: deposit.blockNumber,
+        filterParams: [undefined, depositKey, depositor],
+      }
+    )
+
+    const optimisticMintingFinalizedEvents = await getContractPastEvents(
+      listenerApi.extra.threshold.tbtc.vaultContract,
+      {
+        eventName: "OptimisticMintingFinalized",
+        fromBlock: deposit.blockNumber,
+        filterParams: [undefined, depositKey, depositor],
+      }
+    )
+
+    const btcTxHash = reverseTxHash(deposit.fundingTxHash).toString()
+    const confirmations =
+      await listenerApi.extra.threshold.tbtc.getTransactionConfirmations(
+        btcTxHash
+      )
+    const requiredConfirmations =
+      listenerApi.extra.threshold.tbtc.minimumNumberOfConfirmationsNeeded(
+        deposit.amount
+      )
+
+    const { treasuryFee, optimisticMintFee, amountToMint } =
+      await listenerApi.extra.threshold.tbtc.getEstimatedDepositFees(
+        deposit.amount
+      )
+
+    const depositDetailsData = {
+      btcTxHash,
+      depositRevealedTxHash: deposit.txHash,
+      amount: amountToMint,
+      treasuryFee,
+      optimisticMintFee,
+      optimisticMintingRequestedTxHash:
+        optimisticMintingRequestedEvents[0]?.transactionHash,
+      optimisticMintingFinalizedTxHash:
+        optimisticMintingFinalizedEvents[0]?.transactionHash,
+      requiredConfirmations,
+      confirmations,
+    }
+
+    const depositKeyFromStore =
+      listenerApi.getState().tbtc.depositDetails.depositKey
+
+    /**
+     * If deposit key changed in the store while data was fetching then we don't
+     * update the store with the fetched data. This is to prevent saving the
+     * data in the store after we clear the data for given deposit key (for
+     * example when we leave the deposit details page while data is fetching).
+     */
+    if (depositKey !== depositKeyFromStore) return
+    listenerApi.dispatch(
+      tbtcSlice.actions.depositDetailsDataFetched(depositDetailsData)
+    )
+
+    /**
+     * If deposit doesn't have required number of confirmations then we start
+     * listening for new confirmations.
+     */
+    if (btcTxHash && confirmations < requiredConfirmations) {
+      listenerApi.dispatch(
+        tbtcSlice.actions.fetchUtxoConfirmations({
+          utxo: { transactionHash: btcTxHash, value: deposit.amount },
+        })
+      )
+    }
+  } catch (error) {
+    console.error("Could not fetch deposit details: ", error)
+    listenerApi.subscribe()
+    listenerApi.dispatch(
+      tbtcSlice.actions.depositDetailsDataFetchFailed({
+        error: "Could not fetch deposit details.",
       })
     )
   }
@@ -205,8 +327,9 @@ export const fetchUtxoConfirmationsEffect = async (
 ) => {
   const { utxo } = action.payload
   const {
-    tbtc: { txConfirmations },
+    tbtc: { depositDetails },
   } = listenerApi.getState()
+  const confirmations = depositDetails.data?.confirmations
 
   if (!utxo) return
 
@@ -215,7 +338,7 @@ export const fetchUtxoConfirmationsEffect = async (
       utxo.value
     )
 
-  if (txConfirmations && txConfirmations >= minimumNumberOfConfirmationsNeeded)
+  if (confirmations && confirmations >= minimumNumberOfConfirmationsNeeded)
     return
 
   // Cancel any in-progress instances of this listener.
@@ -231,8 +354,8 @@ export const fetchUtxoConfirmationsEffect = async (
           )
         )
         listenerApi.dispatch(
-          tbtcSlice.actions.updateState({
-            key: "txConfirmations",
+          tbtcSlice.actions.updateDepositDetailsDataState({
+            key: "confirmations",
             value: confirmations,
           })
         )
@@ -249,13 +372,18 @@ export const fetchUtxoConfirmationsEffect = async (
   })
 
   await listenerApi.condition((action) => {
-    if (!tbtcSlice.actions.updateState.match(action)) return false
+    // stop listening for confirmations if deposit details data is cleared
+    if (tbtcSlice.actions.clearDepositDetailsData.match(action)) return true
+    if (!tbtcSlice.actions.updateDepositDetailsDataState.match(action))
+      return false
 
     const { key, value } = (
-      action as ReturnType<typeof tbtcSlice.actions.updateState>
+      action as ReturnType<
+        typeof tbtcSlice.actions.updateDepositDetailsDataState
+      >
     ).payload
     return (
-      key === "txConfirmations" && value >= minimumNumberOfConfirmationsNeeded
+      key === "confirmations" && value >= minimumNumberOfConfirmationsNeeded
     )
   })
 

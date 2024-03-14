@@ -1,8 +1,16 @@
 import { useCallback } from "react"
 import { RootState } from "../store"
-import { updateState as updateStateAction } from "../store/tbtc"
+import {
+  updateState as updateStateAction,
+  updateDepositDetailsDataState as updateDepositDetailsDataStateAction,
+} from "../store/tbtc"
 import { useAppDispatch, useAppSelector } from "./store"
-import { MintingStep, TbtcStateKey, UseTbtcState } from "../types/tbtc"
+import {
+  DepositDetailsDataStateKey,
+  MintingStep,
+  TbtcStateKey,
+  UseTbtcState,
+} from "../types/tbtc"
 
 export const useTbtcState: UseTbtcState = () => {
   const tbtcState = useAppSelector((state: RootState) => state.tbtc)
@@ -11,6 +19,12 @@ export const useTbtcState: UseTbtcState = () => {
   const updateState = useCallback(
     (key: TbtcStateKey, value: any) =>
       dispatch(updateStateAction({ key, value })),
+    [dispatch]
+  )
+
+  const updateDepositDetailsDataState = useCallback(
+    (key: DepositDetailsDataStateKey, value: any) =>
+      dispatch(updateDepositDetailsDataStateAction({ key, value })),
     [dispatch]
   )
 
@@ -26,15 +40,13 @@ export const useTbtcState: UseTbtcState = () => {
     updateState("thresholdNetworkFee", undefined)
     updateState("mintingFee", undefined)
     updateState("utxo", undefined)
-    updateState("txConfirmations", undefined)
     updateState("depositRevealedTxHash", undefined)
-    updateState("optimisticMintingRequestedTxHash", undefined)
-    updateState("optimisticMintingFinalizedTxHash", undefined)
   }, [updateState])
 
   return {
     ...tbtcState,
     updateState,
+    updateDepositDetailsDataState,
     resetDepositData,
   }
 }

@@ -5,7 +5,6 @@ import { useAppDispatch } from "../store"
 import { useTBTCVaultContract } from "./useTBTCVaultContract"
 import { useSubscribeToContractEvent } from "../../web3/hooks"
 import { useTbtcState } from "../useTbtcState"
-import { MintingStep } from "../../types/tbtc"
 import { useThreshold } from "../../contexts/ThresholdContext"
 
 type OptimisticMintingFinalizedEventCallback = (
@@ -33,38 +32,64 @@ export const useSubscribeToOptimisticMintingFinalizedEventBase = (
   )
 }
 
-export const useSubscribeToOptimisticMintingFinalizedEvent = () => {
-  const threshold = useThreshold()
-  const { updateState, utxo, mintingStep } = useTbtcState()
-  const dispatch = useAppDispatch()
-  const { account } = useWeb3React()
+/**
+ * Subscribes to optimistic minting finalized events based on the deposit key.
+ * This is used to update the deposit details data state needed for Deposit
+ * Details page.
+ * @param {string} depositKey String representing the deposit key.
+ */
+export const useSubscribeToOptimisticMintingFinalizedEvent = (
+  depositKey?: string
+) => {
+  const { updateDepositDetailsDataState } = useTbtcState()
 
   useSubscribeToOptimisticMintingFinalizedEventBase(
-    (...args) => {
-      const [, depositKey, , , event] = args
-      const depositKeyFromEvent = depositKey.toHexString()
-      const depositKeyFromUTXO = utxo
-        ? threshold.tbtc.buildDepositKey(
-            utxo.transactionHash.toString(),
-            utxo.outputIndex,
-            "big-endian"
-          )
-        : ""
-
-      if (
-        mintingStep === MintingStep.MintingSuccess &&
-        depositKeyFromEvent === depositKeyFromUTXO
-      ) {
-        updateState("optimisticMintingFinalizedTxHash", event.transactionHash)
+    (minter, depositKeyEventParam, depositor, optimisticMintingDebt, event) => {
+      const depositKeyFromEvent = depositKeyEventParam.toHexString()
+      if (depositKeyFromEvent === depositKey) {
+        updateDepositDetailsDataState(
+          "optimisticMintingFinalizedTxHashFromEvent",
+          event.transactionHash
+        )
       }
-
-      dispatch(
-        tbtcSlice.actions.optimisticMintingFinalized({
-          depositKey: depositKeyFromEvent,
-          txHash: event.transactionHash,
-        })
-      )
     },
-    [null, null, account]
+    undefined,
+    true
   )
 }
+
+/**
+ * Subscribes to optimistic minting finalized events based on the currently
+ * connected account. This is used to update the bridge activity state (for the
+ * current account) when the optimistic minting is finalized.
+ */
+export const useSubscribeToOptimisticMintingFinalizedEventForCurrentAccount =
+  () => {
+    const threshold = useThreshold()
+    const { utxo } = useTbtcState()
+    const dispatch = useAppDispatch()
+    const { account } = useWeb3React()
+
+    useSubscribeToOptimisticMintingFinalizedEventBase(
+      (...args) => {
+        const [, depositKey, , , event] = args
+        const depositKeyFromEvent = depositKey.toHexString()
+        const depositKeyFromUTXO = utxo
+          ? threshold.tbtc.buildDepositKey(
+              utxo.transactionHash.toString(),
+              utxo.outputIndex,
+              "big-endian"
+            )
+          : ""
+
+        // Updates bridge activity state if the deposit key from the event matches
+        dispatch(
+          tbtcSlice.actions.optimisticMintingFinalized({
+            depositKey: depositKeyFromEvent,
+            txHash: event.transactionHash,
+          })
+        )
+      },
+      [null, null, account]
+    )
+  }

@@ -21,13 +21,7 @@ const MintingSuccessComponent: FC = () => {
     removeDepositData()
   }, [removeDepositData])
 
-  return (
-    <Navigate
-      to={`/tBTC/mint/deposit/${depositKey}`}
-      state={{ shouldStartFromFirstStep: true }}
-      replace={true}
-    />
-  )
+  return <Navigate to={`/tBTC/mint/deposit/${depositKey}`} replace={true} />
 }
 
 export const MintingSuccess = withOnlyConnectedWallet(MintingSuccessComponent)

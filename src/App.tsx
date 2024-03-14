@@ -25,8 +25,7 @@ import { Token } from "./enums"
 import { usePosthog } from "./hooks/posthog"
 import { useSentry } from "./hooks/sentry"
 import {
-  useSubscribeToOptimisticMintingFinalizedEvent,
-  useSubscribeToOptimisticMintingRequestedEvent,
+  useSubscribeToOptimisticMintingFinalizedEventForCurrentAccount,
   useSubscribeToRedemptionRequestedEvent,
 } from "./hooks/tbtc"
 import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
@@ -43,8 +42,7 @@ import LandingPage from "./pages/Landing"
 const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.TBTC)
   useSubscribeToDepositRevealedEvent()
-  useSubscribeToOptimisticMintingFinalizedEvent()
-  useSubscribeToOptimisticMintingRequestedEvent()
+  useSubscribeToOptimisticMintingFinalizedEventForCurrentAccount()
   useSubscribeToRedemptionRequestedEvent()
 
   return <></>

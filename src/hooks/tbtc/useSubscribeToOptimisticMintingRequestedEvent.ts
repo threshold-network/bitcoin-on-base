@@ -16,7 +16,7 @@ type OptimisticMintingRequestedEventCallback = (
   event: Event
 ) => void
 
-export const useSubscribeToOptimisticMintingRequestedEventBase = (
+const useSubscribeToOptimisticMintingRequestedEventBase = (
   callback: OptimisticMintingRequestedEventCallback,
   filterParams?: any[string],
   shouldSubscribeIfUserNotConnected: boolean = false
@@ -33,37 +33,36 @@ export const useSubscribeToOptimisticMintingRequestedEventBase = (
   )
 }
 
-export const useSubscribeToOptimisticMintingRequestedEvent = () => {
-  const threshold = useThreshold()
-  const { updateState, utxo, mintingStep } = useTbtcState()
-  const { account } = useWeb3React()
+/**
+ * Subscribes to optimistic minting requested events based on the deposit key.
+ * This is used to update the deposit details data state needed for Deposit
+ * Details page.
+ * @param {string} depositKey String representing the deposit key.
+ */
+export const useSubscribeToOptimisticMintingRequestedEvent = (
+  depositKey?: string
+) => {
+  const { updateDepositDetailsDataState } = useTbtcState()
 
   useSubscribeToOptimisticMintingRequestedEventBase(
     (
-      minter: string,
-      depositKey: BigNumber,
-      depositor: string,
-      amount: BigNumber,
-      fundingTxHash: unknown,
-      fundingOutputIndex: BigNumber,
-      event: Event
+      minter,
+      depositKeyEventParam,
+      depositor,
+      amount,
+      fundingTxHash,
+      fundingOutputIndex,
+      event
     ) => {
-      const depositKeyFromEvent = depositKey.toHexString()
-      const depositKeyFromUTXO = utxo
-        ? threshold.tbtc.buildDepositKey(
-            utxo.transactionHash.toString(),
-            utxo.outputIndex,
-            "big-endian"
-          )
-        : ""
-
-      if (
-        mintingStep === MintingStep.MintingSuccess &&
-        depositKeyFromEvent === depositKeyFromUTXO
-      ) {
-        updateState("optimisticMintingRequestedTxHash", event.transactionHash)
+      const depositKeyFromEvent = depositKeyEventParam.toHexString()
+      if (depositKeyFromEvent === depositKey) {
+        updateDepositDetailsDataState(
+          "optimisticMintingRequestedTxHashFromEvent",
+          event.transactionHash
+        )
       }
     },
-    [null, null, account]
+    undefined,
+    true
   )
 }
