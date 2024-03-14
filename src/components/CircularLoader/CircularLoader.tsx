@@ -64,13 +64,16 @@ const getCircularSectorPathProperties: GetSvgCircleArcPropertiesType = (
 }
 
 export type CircularLoaderProps = BoxProps & {
-  label: string
+  label?: string
   progress?: number
+  withWings?: boolean
 }
 
 const CircularLoader: FC<CircularLoaderProps> = ({
   label,
   progress = 0.375,
+  children,
+  withWings = true,
   ...restProps
 }) => {
   return (
@@ -98,16 +101,23 @@ const CircularLoader: FC<CircularLoaderProps> = ({
         fontWeight="medium"
         color="white"
         zIndex={1}
+        textAlign="center"
       >
-        {label}&nbsp;
-        <DotsLoadingIndicator />
+        {label ? (
+          <>
+            {label}&nbsp;
+            <DotsLoadingIndicator />
+          </>
+        ) : (
+          children
+        )}
       </BodyLg>
       <Box
         as="svg"
         position="relative"
         zIndex={1}
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="170 200 437 375"
+        viewBox={withWings ? "170 200 437 375" : "218 200 340 375"}
       >
         <g mask="url(#b)">
           <circle cx="388" cy="388" r="140" fill="#fff" fillOpacity=".5" />
@@ -117,46 +127,50 @@ const CircularLoader: FC<CircularLoaderProps> = ({
             {...getCircularSectorPathProperties(388, 388, 154, progress)}
           />
         </g>
-        <motion.path
-          // outer right wing
-          variants={rightWingAnimationVariants}
-          initial="initial"
-          animate="animate"
-          transition={wingAnimationTransition}
-          stroke="url(#c)"
-          d="M468 561.708c62.96-34.02 114-116.558 114-173.5 0-56.942-51.04-139.48-114-173.5"
-          fill="none"
-        />
-        <motion.path
-          // inner right wing
-          variants={rightWingAnimationVariants}
-          initial="initial"
-          animate="animate"
-          transition={wingAnimationTransition}
-          stroke="url(#c)"
-          d="M469 526c50.258-27.059 91-92.709 91-138s-40.742-110.941-91-138"
-          fill="none"
-        />
-        <motion.path
-          // outer left wing
-          variants={leftWingAnimationVariants}
-          initial="initial"
-          animate="animate"
-          transition={wingAnimationTransition}
-          stroke="url(#d)"
-          d="M308 561.708c-62.96-34.02-114-116.558-114-173.5 0-56.942 51.04-139.48 114-173.5"
-          fill="none"
-        />
-        <motion.path
-          // inner left wing
-          variants={leftWingAnimationVariants}
-          initial="initial"
-          animate="animate"
-          transition={wingAnimationTransition}
-          stroke="url(#d)"
-          d="M307 526c-50.258-27.059-91-92.709-91-138s40.742-110.941 91-138"
-          fill="none"
-        />
+        {withWings && (
+          <>
+            <motion.path
+              // outer right wing
+              variants={rightWingAnimationVariants}
+              initial="initial"
+              animate="animate"
+              transition={wingAnimationTransition}
+              stroke="url(#c)"
+              d="M468 561.708c62.96-34.02 114-116.558 114-173.5 0-56.942-51.04-139.48-114-173.5"
+              fill="none"
+            />
+            <motion.path
+              // inner right wing
+              variants={rightWingAnimationVariants}
+              initial="initial"
+              animate="animate"
+              transition={wingAnimationTransition}
+              stroke="url(#c)"
+              d="M469 526c50.258-27.059 91-92.709 91-138s-40.742-110.941-91-138"
+              fill="none"
+            />
+            <motion.path
+              // outer left wing
+              variants={leftWingAnimationVariants}
+              initial="initial"
+              animate="animate"
+              transition={wingAnimationTransition}
+              stroke="url(#d)"
+              d="M308 561.708c-62.96-34.02-114-116.558-114-173.5 0-56.942 51.04-139.48 114-173.5"
+              fill="none"
+            />
+            <motion.path
+              // inner left wing
+              variants={leftWingAnimationVariants}
+              initial="initial"
+              animate="animate"
+              transition={wingAnimationTransition}
+              stroke="url(#d)"
+              d="M307 526c-50.258-27.059-91-92.709-91-138s40.742-110.941 91-138"
+              fill="none"
+            />
+          </>
+        )}
         <defs>
           <mask
             id="b"
