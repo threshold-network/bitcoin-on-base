@@ -192,7 +192,8 @@ export const MintingDepositTimeline: FC<MintingTimelineProps> = ({
       <BodyLg
         color="hsl(0, 0%, 50%)"
         fontWeight="medium"
-        mb={isOnDepositDetailsPage ? 2 : account ? 10 : 6}
+        // mb={isOnDepositDetailsPage ? 2 : account ? 10 : 6}
+        mb={6}
         lineHeight={6}
       >
         {title}
