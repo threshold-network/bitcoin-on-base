@@ -7,7 +7,8 @@ import {
 } from "../../threshold-ts/tbtc"
 import { UpdateStateActionPayload } from "../../types/state"
 import {
-  DepositDetailsStep,
+  DepositDetailsData,
+  DepositDetailsDataStateKey,
   MintingStep,
   TbtcState,
   TbtcStateKey,
@@ -15,9 +16,17 @@ import {
 import { startAppListening } from "../listener"
 import {
   fetchBridgeactivityEffect,
+  fetchDepositDetailsDataEffect,
   fetchUtxoConfirmationsEffect,
   findUtxoEffect,
 } from "./effects"
+
+const DEFAULT_DEPOSIT_DETAILS = {
+  depositKey: "",
+  isFetching: false,
+  error: "",
+  data: {} as DepositDetailsData,
+}
 
 export const tbtcSlice = createSlice({
   name: "tbtc",
@@ -28,6 +37,7 @@ export const tbtcSlice = createSlice({
       error: "",
       data: [] as BridgeActivity[],
     },
+    depositDetails: DEFAULT_DEPOSIT_DETAILS,
   } as TbtcState,
   reducers: {
     updateState: (
@@ -52,6 +62,42 @@ export const tbtcSlice = createSlice({
     bridgeActivityFailed: (state, action: PayloadAction<{ error: string }>) => {
       state.bridgeActivity.isFetching = false
       state.bridgeActivity.error = action.payload.error
+    },
+    requestDepositDetailsData: (
+      state,
+      action: PayloadAction<{ depositKey: string }>
+    ) => {
+      state.depositDetails.depositKey = action.payload.depositKey
+    },
+    fetchingDepositDetailsData: (state) => {
+      state.depositDetails.isFetching = true
+    },
+    depositDetailsDataFetched: (
+      state,
+      action: PayloadAction<DepositDetailsData>
+    ) => {
+      state.depositDetails.isFetching = false
+      state.depositDetails.error = ""
+      state.depositDetails.data = action.payload
+    },
+    depositDetailsDataFetchFailed: (
+      state,
+      action: PayloadAction<{ error: string }>
+    ) => {
+      state.depositDetails.isFetching = false
+      state.depositDetails.error = action.payload.error
+    },
+    updateDepositDetailsDataState: (
+      state,
+      action: PayloadAction<
+        UpdateStateActionPayload<DepositDetailsDataStateKey>
+      >
+    ) => {
+      // @ts-ignore
+      state.depositDetails.data[action.payload.key] = action.payload.value
+    },
+    clearDepositDetailsData: (state, action) => {
+      state.depositDetails = DEFAULT_DEPOSIT_DETAILS
     },
     depositRevealed: (
       state,
@@ -229,12 +275,17 @@ function findRedemptionActivity(
   }
 }
 
-export const { updateState } = tbtcSlice.actions
+export const { updateState, updateDepositDetailsDataState } = tbtcSlice.actions
 
 export const registerTBTCListeners = () => {
   startAppListening({
     actionCreator: tbtcSlice.actions.requestBridgeActivity,
     effect: fetchBridgeactivityEffect,
+  })
+
+  startAppListening({
+    actionCreator: tbtcSlice.actions.requestDepositDetailsData,
+    effect: fetchDepositDetailsDataEffect,
   })
 
   startAppListening({

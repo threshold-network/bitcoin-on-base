@@ -2,11 +2,6 @@ import { StackProps, VStack } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { ExternalHref } from "../../../../enums"
 import {
-  useFetchDepositDetails,
-  useSubscribeToOptimisticMintingFinalizedEventBase,
-  useSubscribeToOptimisticMintingRequestedEventBase,
-} from "../../../../hooks/tbtc"
-import {
   BridgeProcessResources,
   BridgeProcessResourcesItemProps,
 } from "../components/BridgeProcessResources"
@@ -33,41 +28,18 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   depositKey = "",
   ...restProps
 }) => {
-  const { data } = useFetchDepositDetails(depositKey)
-  const [mintingRequestedTxHash, setMintingRequestedTxHash] = useState<string>()
-  const [mintingFinalizedTxHash, setMintingFinalizedTxHash] = useState<string>()
-  const { depositDetailsStep } = useTbtcState()
-  useSubscribeToOptimisticMintingRequestedEventBase(
-    (
-      minter,
-      depositKeyEventParam,
-      depositor,
-      amount,
-      fundingTxHash,
-      fundingOutputIndex,
-      event
-    ) => {
-      const depositKeyFromEvent = depositKeyEventParam.toHexString()
-      if (depositKeyFromEvent === depositKey) {
-        setMintingRequestedTxHash(event.transactionHash)
-      }
-    },
-    undefined,
-    true
-  )
-
-  useSubscribeToOptimisticMintingFinalizedEventBase(
-    (minter, depositKeyEventParam, depositor, optimisticMintingDebt, event) => {
-      const depositKeyFromEvent = depositKeyEventParam.toHexString()
-      if (depositKeyFromEvent === depositKey) {
-        setMintingFinalizedTxHash(event.transactionHash)
-      }
-    },
-    undefined,
-    true
-  )
+  const {
+    depositDetails: { data },
+    depositDetailsStep,
+  } = useTbtcState()
   const btcDepositTxHash = data?.btcTxHash
   const depositRevealedTxHash = data?.depositRevealedTxHash
+  const mintingRequestedTxHash =
+    data?.optimisticMintingFinalizedTxHashFromEvent ??
+    data?.optimisticMintingRequestedTxHash
+  const mintingFinalizedTxHash =
+    data?.optimisticMintingFinalizedTxHashFromEvent ??
+    data?.optimisticMintingRequestedTxHash
 
   const transactions: DepositTransactionHistoryItemType[] = [
     { label: "Bitcoin Deposit", txHash: btcDepositTxHash, chain: "bitcoin" },

@@ -14,14 +14,14 @@ import { TBTCTokenContractLink } from "../../../components/tBTC"
 import { Toast } from "../../../components/Toast"
 import { InlineTokenBalance } from "../../../components/TokenBalance"
 import { TransactionDetailsAmountItem } from "../../../components/TransactionDetails"
-import ViewInBlockExplorer, {
-  Chain as ViewInBlockExplorerChain,
-} from "../../../components/ViewInBlockExplorer"
 import { useAppDispatch } from "../../../hooks/store"
-import { DepositData, useFetchDepositDetails } from "../../../hooks/tbtc"
+import {
+  useSubscribeToOptimisticMintingFinalizedEvent,
+  useSubscribeToOptimisticMintingRequestedEvent,
+} from "../../../hooks/tbtc"
 import { useTbtcState } from "../../../hooks/useTbtcState"
 import { tbtcSlice } from "../../../store/tbtc"
-import { PageComponent } from "../../../types"
+import { DepositDetailsData, PageComponent } from "../../../types"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
 import {
   DepositDetailsStep1,
@@ -35,10 +35,16 @@ export const DepositDetails: PageComponent = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { updateState, depositDetailsStep } = useTbtcState()
-  const { isFetching, data, error } = useFetchDepositDetails(depositKey)
+  const {
+    updateState,
+    depositDetailsStep,
+    depositDetails: { isFetching, data, error },
+  } = useTbtcState()
   const [isSafelyCloseInfoToastVisible, setIsSafelyCloseInfoToastVisible] =
     useState(depositDetailsStep !== "bitcoin-confirmations")
+
+  useSubscribeToOptimisticMintingRequestedEvent(depositKey)
+  useSubscribeToOptimisticMintingFinalizedEvent(depositKey)
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
@@ -57,42 +63,40 @@ export const DepositDetails: PageComponent = () => {
 
   // Extract deposit details values to use them as a dependency in hook
   // dependency array.
-  const {
-    btcTxHash: btcDepositTxHash,
-    amount,
-    confirmations,
-    requiredConfirmations,
-    depositRevealedTxHash,
-    optimisticMintingRequestedTxHash,
-    optimisticMintingFinalizedTxHash,
-    treasuryFee: thresholdNetworkFee,
-    optimisticMintFee: mintingFee,
-  } = data
+  const btcDepositTxHash = data?.btcTxHash
+  const amount = data?.amount ?? "0"
+  const confirmations = data?.confirmations
+  const requiredConfirmations = data?.requiredConfirmations
+  const optimisticMintingRequestedTxHash =
+    data?.optimisticMintingRequestedTxHashFromEvent ??
+    data?.optimisticMintingRequestedTxHash
+  const optimisticMintingFinalizedTxHash =
+    data?.optimisticMintingFinalizedTxHashFromEvent ??
+    data?.optimisticMintingFinalizedTxHash
+  const thresholdNetworkFee = data?.treasuryFee
+  const mintingFee = data?.optimisticMintFee
 
   useEffect(() => {
+    if (depositKey) {
+      dispatch(tbtcSlice.actions.requestDepositDetailsData({ depositKey }))
+    }
+
+    // Clear deposit details data when the depositKey is changed
     return () => {
       updateState("depositDetailsStep", undefined)
+      dispatch(tbtcSlice.actions.clearDepositDetailsData({}))
     }
   }, [depositKey])
 
   useEffect(() => {
-    if (
-      !!btcDepositTxHash &&
-      confirmations !== undefined &&
-      requiredConfirmations !== undefined &&
-      confirmations < requiredConfirmations
-    ) {
-      dispatch(
-        tbtcSlice.actions.fetchUtxoConfirmations({
-          utxo: { transactionHash: btcDepositTxHash, value: amount },
-        })
-      )
-    }
-  }, [dispatch, btcDepositTxHash, amount, confirmations, requiredConfirmations])
-
-  useEffect(() => {
-    if (!confirmations || !requiredConfirmations || shouldStartFromFirstStep)
+    if (shouldStartFromFirstStep) {
+      updateState("depositDetailsStep", "bitcoin-confirmations")
       return
+    }
+
+    if ((!confirmations && confirmations != 0) || !requiredConfirmations) {
+      return
+    }
 
     const step = getMintingProgressStep({
       confirmations,
@@ -158,6 +162,12 @@ export const DepositDetails: PageComponent = () => {
               step={mintingProgressStep}
               confirmations={confirmations}
               requiredConfirmations={requiredConfirmations}
+              optimisticMintingRequestedTxHash={
+                optimisticMintingRequestedTxHash
+              }
+              optimisticMintingFinalizedTxHash={
+                optimisticMintingFinalizedTxHash
+              }
               btcTxHash={btcDepositTxHash}
               updateStep={setMintingProgressStep}
               amount={amount}
@@ -186,7 +196,7 @@ type DepositDetailsTimelineStep =
 
 const getMintingProgressStep = (
   depositDetails?: Omit<
-    DepositData,
+    DepositDetailsData,
     | "depositRevealedTxHash"
     | "btcTxHash"
     | "amount"
