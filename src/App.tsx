@@ -1,46 +1,48 @@
-import "@fontsource/inter/700.css"
-import "@fontsource/inter/600.css"
-import "@fontsource/inter/500.css"
-import "@fontsource/inter/400.css"
-import "@fontsource/ibm-plex-mono/400.css"
-import { FC, useEffect, Fragment } from "react"
 import { ChakraProvider } from "@chakra-ui/react"
-import { Provider as ReduxProvider, useDispatch } from "react-redux"
+import "@fontsource/bricolage-grotesque/800.css"
+import "@fontsource/bricolage-grotesque/600.css"
+import "@fontsource/bricolage-grotesque/500.css"
+import "@fontsource/dm-sans/400.css"
+import "@fontsource/dm-sans/500.css"
+import "@fontsource/dm-sans/600.css"
+import "@fontsource/dm-sans/700.css"
+import "@fontsource/dm-sans/900.css"
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core"
 import { ConnectorEvent, ConnectorUpdate } from "@web3-react/types"
+import { FC, Fragment, useEffect } from "react"
+import { Provider as ReduxProvider, useDispatch } from "react-redux"
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
   Navigate,
+  Outlet,
+  Route,
+  Routes,
 } from "react-router-dom"
-import { TokenContextProvider } from "./contexts/TokenContext"
-import theme from "./theme"
-import reduxStore, { resetStoreAction } from "./store"
 import ModalRoot from "./components/Modal"
-import { PageComponent } from "./types"
-import { Token } from "./enums"
-import getLibrary from "./web3/library"
-import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
-import { pages } from "./pages"
-import { isSameETHAddress } from "./web3/utils"
 import { ThresholdProvider } from "./contexts/ThresholdContext"
-import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
+import { TokenContextProvider } from "./contexts/TokenContext"
+import { Token } from "./enums"
 import { usePosthog } from "./hooks/posthog"
-import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
+import { useSentry } from "./hooks/sentry"
 import {
-  useSubscribeToOptimisticMintingFinalizedEvent,
-  useSubscribeToOptimisticMintingRequestedEvent,
+  useSubscribeToOptimisticMintingFinalizedEventForCurrentAccount,
   useSubscribeToRedemptionRequestedEvent,
 } from "./hooks/tbtc"
-import { useSentry } from "./hooks/sentry"
+import { useSubscribeToDepositRevealedEvent } from "./hooks/tbtc/useSubsribeToDepositRevealedEvent"
+import { useSaveConnectedAddressToStore } from "./hooks/useSaveConnectedAddressToStore"
+import { pages } from "./pages"
+import reduxStore, { resetStoreAction } from "./store"
+import theme from "./theme"
+import { PageComponent } from "./types"
+import { useSubscribeToERC20TransferEvent } from "./web3/hooks/useSubscribeToERC20TransferEvent"
+import getLibrary from "./web3/library"
+import { isSameETHAddress } from "./web3/utils"
+import LandingPage from "./pages/Landing"
 
 const Web3EventHandlerComponent = () => {
   useSubscribeToERC20TransferEvent(Token.TBTC)
   useSubscribeToDepositRevealedEvent()
-  useSubscribeToOptimisticMintingFinalizedEvent()
-  useSubscribeToOptimisticMintingRequestedEvent()
+  useSubscribeToOptimisticMintingFinalizedEventForCurrentAccount()
   useSubscribeToRedemptionRequestedEvent()
 
   return <></>
@@ -97,9 +99,9 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="*" element={<Outlet />}>
-        <Route index element={<Navigate to="tBTC" />} />
+        <Route index element={<LandingPage {...LandingPage.route} />} />
         {pages.map(renderPageComponent)}
-        <Route path="*" element={<Navigate to="tBTC" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>
   )

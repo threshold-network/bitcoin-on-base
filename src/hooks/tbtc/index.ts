@@ -1,4 +1,3 @@
-export * from "./useFetchDepositDetails"
 export * from "./useFetchRecentDeposits"
 export * from "./useFetchTBTCMetrics"
 export * from "./useRedemptionEstimatedFees"

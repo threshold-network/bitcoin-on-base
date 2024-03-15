@@ -1,27 +1,25 @@
-import { FC } from "react"
 import {
   Alert,
-  AlertDescription,
   AlertIcon,
   AlertTitle,
   Box,
   Button,
-  HStack,
-  Stack,
+  Icon,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react"
-import TransactionError from "../../../static/icons/TransactionError"
 import { BodySm } from "@threshold-network/components"
+import { FC } from "react"
+import {
+  HiOutlineMinus as MinusIcon,
+  HiOutlinePlus as PlusIcon,
+} from "react-icons/hi"
 import { ExternalHref } from "../../../enums"
 import { BaseModalProps } from "../../../types"
-import ViewInBlockExplorer from "../../ViewInBlockExplorer"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import withBaseModal from "../withBaseModal"
 import Link from "../../Link"
-import ModalCloseButton from "../ModalCloseButton"
+import withBaseModal from "../withBaseModal"
 
 interface TransactionFailedProps extends BaseModalProps {
   transactionHash?: string
@@ -32,98 +30,66 @@ interface TransactionFailedProps extends BaseModalProps {
 const TransactionFailed: FC<TransactionFailedProps> = ({
   error,
   isExpandableError,
-  closeModal,
-  transactionHash,
 }) => {
   const { isOpen, onToggle } = useDisclosure()
 
-  const errorTitle = "Error"
-
   return (
     <>
-      <ModalHeader>Error</ModalHeader>
-      <ModalCloseButton />
-      <ModalBody>
-        <Box mb={6}>
-          <Alert
-            status="error"
-            mb={4}
-            zIndex={999}
-            height={isOpen ? "280px" : undefined}
-            flexDirection="column"
-            overflowY="auto"
-            css={{
-              "&::-webkit-scrollbar": {
-                width: "4px",
-                marginRight: "4px",
-              },
-              "&::-webkit-scrollbar-track": {
-                width: "6px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                background: "red",
-                borderRadius: "24px",
-              },
-            }}
+      <ModalBody p={0}>
+        <VStack spacing={0}>
+          <VStack
+            align="flex-start"
+            alignSelf="stretch"
+            spacing={4}
+            p={6}
+            pt={0}
           >
-            <HStack alignSelf="flex-start" mb={isOpen ? 6 : 0}>
+            <Alert status="error" alignSelf="stretch">
               <AlertIcon />
-              <AlertTitle display="flex">
-                {isExpandableError ? (
-                  <Stack>
-                    <BodySm wordBreak="break-word">{errorTitle}</BodySm>
-                    <BodySm
-                      onClick={onToggle}
-                      ml={4}
-                      textDecoration="underline"
-                      cursor="pointer"
-                      minW="80px"
-                    >
-                      Show {isOpen ? "Less" : "More"}
-                    </BodySm>
-                  </Stack>
-                ) : (
-                  errorTitle
-                )}
-              </AlertTitle>
-            </HStack>
-            {isOpen && (
-              <AlertDescription maxWidth="100%">
-                <BodySm mb={8}>{error}</BodySm>
-                <Link
-                  isExternal
-                  href={ExternalHref.thresholdDiscord}
-                  fontWeight="bold"
-                >
-                  Get help on discord
-                </Link>
-              </AlertDescription>
-            )}
-          </Alert>
-          {!isOpen && (
-            <Box borderRadius="md" bg="gray.50" pt={12} pb={8} mb={8}>
-              <HStack position="relative" justify="center" mb={8}>
-                <TransactionError boxSize="120px" zIndex={0} />
-              </HStack>
+              <AlertTitle display="flex">Transaction error occured</AlertTitle>
+            </Alert>
+            {isExpandableError ? (
+              <Button
+                variant="outline"
+                size="sm"
+                borderWidth={0}
+                onClick={onToggle}
+                leftIcon={<Icon as={isOpen ? MinusIcon : PlusIcon} />}
+              >
+                Show {isOpen ? "less" : "more"}
+              </Button>
+            ) : null}
+          </VStack>
+          {isExpandableError && isOpen ? (
+            <Box p={6} pb={0} borderTop="1px solid" borderColor="inherit">
+              <Box
+                bg="hsl(0, 0%, 12%)"
+                color="hsla(0, 0%, 100%, 80%)"
+                p={4}
+                fontFamily="monospace"
+                maxH="xs"
+                overflowY="scroll"
+              >
+                {error}
+              </Box>
             </Box>
-          )}
-        </Box>
-        {transactionHash && (
-          <BodySm>
-            <ViewInBlockExplorer
-              id={transactionHash}
-              type={ExplorerDataType.TRANSACTION}
-              text="View"
-            />
-            transaction on Etherscan
-          </BodySm>
-        )}
+          ) : null}
+        </VStack>
       </ModalBody>
-      <ModalFooter>
-        <Button onClick={closeModal}>Dismiss</Button>
+      <ModalFooter p={6}>
+        <BodySm>
+          Get help on&nbsp;
+          <Link
+            isExternal
+            href={ExternalHref.thresholdDiscord}
+            color="brand.100"
+          >
+            Discord
+          </Link>
+        </BodySm>
       </ModalFooter>
     </>
   )
 }
 
-export default withBaseModal(TransactionFailed)
+export default withBaseModal(TransactionFailed, "Error")

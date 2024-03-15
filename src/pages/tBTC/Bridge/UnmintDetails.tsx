@@ -1,16 +1,11 @@
 import { FC, useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
-import { IoCheckmarkSharp } from "react-icons/all"
 import {
-  Badge,
   BodyLg,
   BodyMd,
   BodySm,
-  BodyXs,
-  Box,
   Divider,
   H5,
-  Icon,
   LabelSm,
   List,
   ListItem,
@@ -18,48 +13,35 @@ import {
   SkeletonText,
   useColorModeValue,
 } from "@threshold-network/components"
-import {
-  Timeline,
-  TimelineBreakpoint,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-} from "../../../components/Timeline"
+import ButtonLink from "../../../components/ButtonLink"
+import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
 import {
   TransactionDetailsAmountItem,
   TransactionDetailsItem,
 } from "../../../components/TransactionDetails"
-import { InlineTokenBalance } from "../../../components/TokenBalance"
 import ViewInBlockExplorer, {
   Chain as ViewInBlockExplorerChain,
 } from "../../../components/ViewInBlockExplorer"
-import ButtonLink from "../../../components/ButtonLink"
-import { BridgeProcessStep } from "./components/BridgeProcessStep"
-import { BridgeProcessCardTitle } from "./components/BridgeProcessCardTitle"
-import { BridgeProcessCardSubTitle } from "./components/BridgeProcessCardSubTitle"
-import { BridgeProcessResource } from "./components/BridgeProcessResource"
-import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
+import { useThreshold } from "../../../contexts/ThresholdContext"
+import { ExternalHref } from "../../../enums"
+import { useAppDispatch } from "../../../hooks/store"
+import {
+  useFindRedemptionInBitcoinTx,
+  useSubscribeToRedemptionsCompletedEventBase,
+} from "../../../hooks/tbtc"
+import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
+import { tbtcSlice } from "../../../store/tbtc"
+import { PageComponent } from "../../../types"
+import { ExplorerDataType } from "../../../utils/createEtherscanLink"
+import { dateAs, dateToUnixTimestamp } from "../../../utils/date"
 import {
   BridgeLayout,
   BridgeLayoutAsideSection,
   BridgeLayoutMainSection,
 } from "./BridgeLayout"
-import { ExplorerDataType } from "../../../utils/createEtherscanLink"
-import { PageComponent } from "../../../types"
-import { dateToUnixTimestamp, dateAs } from "../../../utils/date"
-import { CopyAddressToClipboard } from "../../../components/CopyToClipboard"
-import { ProcessCompletedBrandGradientIcon } from "./components/BridgeProcessDetailsIcons"
-import { useFetchRedemptionDetails } from "../../../hooks/tbtc/useFetchRedemptionDetails"
+import { BridgeProcessDetailsCard } from "./components/BridgeProcessDetailsCard"
 import { BridgeProcessDetailsPageSkeleton } from "./components/BridgeProcessDetailsPageSkeleton"
-import { ExternalHref } from "../../../enums"
-import {
-  useFindRedemptionInBitcoinTx,
-  useSubscribeToRedemptionsCompletedEventBase,
-} from "../../../hooks/tbtc"
-import { useAppDispatch } from "../../../hooks/store"
-import { tbtcSlice } from "../../../store/tbtc"
-import { useThreshold } from "../../../contexts/ThresholdContext"
+import { BridgeProcessResourcesItem } from "./components/BridgeProcessResources"
 
 export const UnmintDetails: PageComponent = () => {
   const [searchParams] = useSearchParams()
@@ -196,93 +178,6 @@ export const UnmintDetails: PageComponent = () => {
         {error && <>{error}</>}
         {wasDataFetched && (
           <>
-            <BridgeProcessCardTitle bridgeProcess="unmint" />
-            <BridgeProcessCardSubTitle
-              display="flex"
-              stepText={
-                shouldDisplaySuccessStep || shouldForceIsProcessCompleted
-                  ? "Unminted"
-                  : "Unminting"
-              }
-            >
-              {!(shouldDisplaySuccessStep || shouldForceIsProcessCompleted) && (
-                <Box as="span" ml="2">
-                  {" "}
-                  - In progress...
-                </Box>
-              )}
-              <InlineTokenBalance
-                tokenAmount={requestedAmount}
-                withSymbol
-                tokenSymbol="tBTC"
-                ml="auto"
-                precision={6}
-                higherPrecision={8}
-              />
-            </BridgeProcessCardSubTitle>
-            <Timeline>
-              <Badge
-                variant="subtle"
-                size="sm"
-                bg={timelineBadgeBgColor}
-                position="absolute"
-                bottom="10px"
-                left="50%"
-                transform="translateX(-50%)"
-              >
-                usual duration - 3-5 hours
-              </Badge>
-              <TimelineItem status="active">
-                <TimelineBreakpoint>
-                  <TimelineDot position="relative">
-                    <Icon
-                      as={IoCheckmarkSharp}
-                      position="absolute"
-                      color="white"
-                      w="22px"
-                      h="22px"
-                      m="auto"
-                      left="0"
-                      right="0"
-                      textAlign="center"
-                    />
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineBreakpoint>
-                <TimelineContent>
-                  <BodyXs whiteSpace="pre-line">tBTC unwrapped</BodyXs>
-                </TimelineContent>
-              </TimelineItem>
-              <TimelineItem
-                status={
-                  isProcessCompleted || shouldForceIsProcessCompleted
-                    ? "active"
-                    : "semi-active"
-                }
-              >
-                <TimelineBreakpoint>
-                  <TimelineDot position="relative">
-                    {(isProcessCompleted || shouldForceIsProcessCompleted) && (
-                      <Icon
-                        as={IoCheckmarkSharp}
-                        position="absolute"
-                        color="white"
-                        w="22px"
-                        h="22px"
-                        m="auto"
-                        left="0"
-                        right="0"
-                        textAlign="center"
-                      />
-                    )}
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineBreakpoint>
-                <TimelineContent>
-                  <BodyXs whiteSpace="pre-line">BTC sent</BodyXs>
-                </TimelineContent>
-              </TimelineItem>
-            </Timeline>
             {shouldDisplaySuccessStep || shouldForceIsProcessCompleted ? (
               <SuccessStep
                 requestedAmount={requestedAmount}
@@ -290,23 +185,7 @@ export const UnmintDetails: PageComponent = () => {
                 thresholdNetworkFee={thresholdNetworkFee}
                 btcAddress={btcAddress!}
               />
-            ) : (
-              <BridgeProcessStep
-                title="Unminting in progress"
-                chain="ethereum"
-                txHash={redemptionRequestedTxHash}
-                progressBarColor="brand.500"
-                isCompleted={isProcessCompleted}
-                icon={<ProcessCompletedBrandGradientIcon />}
-                onComplete={() => setShouldDisplaySuccessStep(true)}
-                isIndeterminate
-              >
-                <BodyMd mt="6" px="3.5" mb="10" alignSelf="flex-start">
-                  Your redemption request is being processed. This will take
-                  around 3-5 hours.
-                </BodyMd>
-              </BridgeProcessStep>
-            )}
+            ) : null}
           </>
         )}
       </BridgeLayoutMainSection>
@@ -347,10 +226,11 @@ export const UnmintDetails: PageComponent = () => {
                 ))}
             </List>
             {!(shouldDisplaySuccessStep || shouldForceIsProcessCompleted) && (
-              <BridgeProcessResource
+              <BridgeProcessResourcesItem
                 title="Minters and Guardians in Optimistic Minting"
-                subtitle="A phased approach with two main roles: Minters and Guardians."
+                description="A phased approach with two main roles: Minters and Guardians."
                 link={ExternalHref.mintersAndGuardiansDocs}
+                variant="expanded"
               />
             )}
           </>
@@ -385,7 +265,6 @@ const SuccessStep: FC<{
           tokenDecimals={8}
           precision={6}
           higherPrecision={8}
-          withHigherPrecision
         />
         <TransactionDetailsAmountItem
           label="Threshold Network Fee"
@@ -398,7 +277,6 @@ const SuccessStep: FC<{
           <CopyAddressToClipboard
             address={btcAddress}
             chain="bitcoin"
-            withLinkToBlockExplorer
             fontSize="14px"
           />
         </TransactionDetailsItem>

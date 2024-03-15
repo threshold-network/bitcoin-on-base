@@ -19,6 +19,7 @@ export const Button = {
       pr: !!props.rightIcon ? 4 : 6,
       py: 4,
       rounded: "2xl",
+      fontWeight: "bold",
     }),
   },
   variants: {

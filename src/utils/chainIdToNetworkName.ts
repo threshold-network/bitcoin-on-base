@@ -8,7 +8,7 @@ const networkMap: NetworkMap = {
   [ChainID.Ethereum]: "Ethereum",
   // [ChainID.Ropsten]: "Ropsten Test",
   // 4: "Rinkeby",
-  [ChainID.Goerli]: "Goerli Test",
+  [ChainID.Sepolia]: "Sepolia Test",
   // 42: "Kovan",
   [ChainID.Localhost]: "Localhost",
 }
