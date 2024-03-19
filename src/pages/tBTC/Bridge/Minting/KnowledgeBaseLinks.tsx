@@ -99,7 +99,12 @@ export const KnowledgeBaseLinks: FC<KnowledgeBaseLinksProps> = ({
   ].filter(Boolean) as BridgeProcessResourcesItemProps[]
 
   return (
-    <VStack align="stretch" spacing={{ base: 4, lg: 52 }} {...restProps}>
+    <VStack
+      align="stretch"
+      w="full"
+      spacing={{ base: 4, lg: 52 }}
+      {...restProps}
+    >
       {depositKey ? <DepositTransactionHistory items={transactions} /> : null}
       <BridgeProcessResources items={resources} />
     </VStack>
