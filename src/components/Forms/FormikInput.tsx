@@ -66,7 +66,7 @@ export const FormikInput: FC<
         isInvalid={isError}
         errorBorderColor="red.300"
         placeholder={placeholder}
-        _placeholder={{ color: "hsla(0, 0%, 100%, 30%)" }}
+        _placeholder={{ color: "hsla(0, 0%, 100%, 40%)" }}
         _readOnly={{
           bg: "hsla(0, 0%, 20%, 30%)",
           borderColor: "hsl(0, 0%, 20%)",
