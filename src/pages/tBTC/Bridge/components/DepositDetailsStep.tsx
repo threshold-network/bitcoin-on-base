@@ -216,6 +216,7 @@ export const SuccessStep: FC<SuccessStepProps> = ({
         width={dimensions?.borderBox.width}
         height={dimensions?.borderBox.height}
         numberOfPieces={150}
+        gravity={0.05}
         drawShape={(ctx) => {
           // draw custom rectangular shapes with random sizes and opacity
           const width = randomRange(5, 20)

@@ -31,7 +31,7 @@ export const DepositDetails: PageComponent = () => {
     depositDetails: { isFetching, data, error },
   } = useTbtcState()
   const [isSafelyCloseInfoToastVisible, setIsSafelyCloseInfoToastVisible] =
-    useState(depositDetailsStep !== "bitcoin-confirmations")
+    useState(!!depositDetailsStep)
 
   useSubscribeToOptimisticMintingRequestedEvent(depositKey)
   useSubscribeToOptimisticMintingFinalizedEvent(depositKey)
@@ -115,7 +115,7 @@ export const DepositDetails: PageComponent = () => {
               position="right"
             />
           )}
-          <VStack spacing={0}>
+          {depositDetailsStep !== "completed" && (
             <VStack
               align="flex-start"
               alignSelf="stretch"
@@ -135,23 +135,19 @@ export const DepositDetails: PageComponent = () => {
                 <BodyLg color="hsla(0, 0%, 100%, 50%)">tBTC</BodyLg>
               </HStack>
             </VStack>
-            <StepSwitcher
-              step={mintingProgressStep}
-              confirmations={confirmations}
-              requiredConfirmations={requiredConfirmations}
-              optimisticMintingRequestedTxHash={
-                optimisticMintingRequestedTxHash
-              }
-              optimisticMintingFinalizedTxHash={
-                optimisticMintingFinalizedTxHash
-              }
-              btcTxHash={btcDepositTxHash}
-              updateStep={setMintingProgressStep}
-              amount={amount}
-              thresholdNetworkFee={thresholdNetworkFee}
-              mintingFee={mintingFee}
-            />
-          </VStack>
+          )}
+          <StepSwitcher
+            step={mintingProgressStep}
+            confirmations={confirmations}
+            requiredConfirmations={requiredConfirmations}
+            optimisticMintingRequestedTxHash={optimisticMintingRequestedTxHash}
+            optimisticMintingFinalizedTxHash={optimisticMintingFinalizedTxHash}
+            btcTxHash={btcDepositTxHash}
+            updateStep={setMintingProgressStep}
+            amount={amount}
+            thresholdNetworkFee={thresholdNetworkFee}
+            mintingFee={mintingFee}
+          />
         </>
       )}
     </>

@@ -25,5 +25,6 @@ const TransactionIsWaitingForConfirmation: FC<Props> = ({
 
 export default withBaseModal(
   TransactionIsWaitingForConfirmation,
-  "Waiting for confirmations"
+  "Waiting for confirmations",
+  true
 )

@@ -12,7 +12,8 @@ import { BaseModalProps } from "../../types"
 
 function withBaseModal<T extends BaseModalProps>(
   WrappedModalContent: ComponentType<T>,
-  label?: string
+  label?: string,
+  removeCloseButton?: boolean
 ) {
   return (props: T) => {
     return (
@@ -42,7 +43,9 @@ function withBaseModal<T extends BaseModalProps>(
                 {label}
               </Text>
             ) : null}
-            <ModalCloseButton ml="auto" position="relative" inset={0} />
+            {removeCloseButton ? null : (
+              <ModalCloseButton ml="auto" position="relative" inset={0} />
+            )}
           </ModalHeader>
           <WrappedModalContent {...props} />
         </ModalContent>

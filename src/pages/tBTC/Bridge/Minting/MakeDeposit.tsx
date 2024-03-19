@@ -23,6 +23,8 @@ import withOnlyConnectedWallet from "../../../../components/withOnlyConnectedWal
 import { ViewInBlockExplorerProps } from "../../../../components/ViewInBlockExplorer"
 import { Copy as CopyIcon } from "../../../../static/icons/Copy"
 import { MintDurationTiers } from "../../../../components/MintDurationTiers"
+import { Toast } from "../../../../components/Toast"
+import { Hourglass as HourglassIcon } from "../../../../static/icons/Hourglass"
 
 const AddressRow: FC<
   { address: string; text: string } & Pick<ViewInBlockExplorerProps, "chain">
@@ -116,60 +118,69 @@ const MakeDepositComponent: FC<{
     useTbtcState()
 
   return (
-    <Box mx={{ base: 0, xl: 10 }}>
-      <BridgeProcessCardTitle
-        onPreviousStepClick={onPreviousStepClick}
-        badgeText="2/3"
-        title="Make your BTC deposit"
-        description={
-          <>
-            Use this generated address to send minimum{" "}
-            <Text as="span" color="white">
-              0.01&nbsp;BTC
-            </Text>
-            , to mint as tBTC. This address is a uniquely generated address
-            based on the data you provided.
-          </>
-        }
-        afterDescription={
-          <Badge variant="subtle" color="hsl(33, 93%, 54%)">
-            Action on Bitcoin
-          </Badge>
-        }
+    <>
+      <Toast
+        status="info"
+        icon={HourglassIcon}
+        title="Waiting for your deposit"
+        description="The system is continuously checking for your BTC deposits"
+        isDismissable={false}
       />
-      <BTCAddressSection mt={6} btcDepositAddress={btcDepositAddress} />
-      <MintDurationTiers
-        mt={6}
-        items={[
-          {
-            amount: 0.1,
-            rangeOperator: "less",
-            currency: "BTC",
-          },
-          {
-            amount: 1,
-            rangeOperator: "less",
-            currency: "BTC",
-          },
-          {
-            amount: 1,
-            rangeOperator: "greaterOrEqual",
-            currency: "BTC",
-          },
-        ]}
-      />
-      <Stack spacing={2} mt={6}>
-        <BodySm fontWeight="medium" color="brand.100" lineHeight={1.5}>
-          Provided Addresses Recap
-        </BodySm>
-        <AddressRow text="Base address" address={ethAddress} />
-        <AddressRow
-          text="BTC Recovery address"
-          address={btcRecoveryAddress}
-          chain="bitcoin"
+      <Box mx={{ base: 0, xl: 10 }}>
+        <BridgeProcessCardTitle
+          onPreviousStepClick={onPreviousStepClick}
+          badgeText="2/3"
+          title="Make your BTC deposit"
+          description={
+            <>
+              Use this generated address to send minimum{" "}
+              <Text as="span" color="white">
+                0.01&nbsp;BTC
+              </Text>
+              , to mint as tBTC. This address is a uniquely generated address
+              based on the data you provided.
+            </>
+          }
+          afterDescription={
+            <Badge variant="subtle" color="hsl(33, 93%, 54%)">
+              Action on Bitcoin
+            </Badge>
+          }
         />
-      </Stack>
-    </Box>
+        <BTCAddressSection mt={6} btcDepositAddress={btcDepositAddress} />
+        <MintDurationTiers
+          mt={6}
+          items={[
+            {
+              amount: 0.1,
+              rangeOperator: "less",
+              currency: "BTC",
+            },
+            {
+              amount: 1,
+              rangeOperator: "less",
+              currency: "BTC",
+            },
+            {
+              amount: 1,
+              rangeOperator: "greaterOrEqual",
+              currency: "BTC",
+            },
+          ]}
+        />
+        <Stack spacing={2} mt={6}>
+          <BodySm fontWeight="medium" color="brand.100" lineHeight={1.5}>
+            Provided Addresses Recap
+          </BodySm>
+          <AddressRow text="Base address" address={ethAddress} />
+          <AddressRow
+            text="BTC Recovery address"
+            address={btcRecoveryAddress}
+            chain="bitcoin"
+          />
+        </Stack>
+      </Box>
+    </>
   )
 }
 
