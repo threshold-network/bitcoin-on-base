@@ -31,7 +31,7 @@ export const DepositDetails: PageComponent = () => {
     depositDetails: { isFetching, data, error },
   } = useTbtcState()
   const [isSafelyCloseInfoToastVisible, setIsSafelyCloseInfoToastVisible] =
-    useState(depositDetailsStep !== "bitcoin-confirmations")
+    useState(!!depositDetailsStep)
 
   useSubscribeToOptimisticMintingRequestedEvent(depositKey)
   useSubscribeToOptimisticMintingFinalizedEvent(depositKey)

@@ -11,6 +11,7 @@ import {
   Flex,
   Icon,
   Box,
+  ComponentWithAs,
 } from "@chakra-ui/react"
 import { FC, useEffect, useState } from "react"
 import { setTimeout, clearTimeout } from "../../utils/setTimeout"
@@ -34,7 +35,7 @@ export interface ToastProps {
   isDismissable?: boolean
   orientation?: "horizontal" | "vertical"
   position?: PositionType
-  icon?: IconType
+  icon?: IconType | ComponentWithAs<"svg">
 }
 type AlertProps = ToastProps &
   Omit<AlertPropsBase, "position" | "variant"> &
@@ -56,8 +57,8 @@ const getPositioningProps = (position: PositionType) => {
 }
 
 const getMaxWidth = (position: PositionType, isDismissable: boolean) => {
-  if (position === "center" && isDismissable) {
-    return "toast-width"
+  if (isDismissable && position === "center") {
+    return "toast-width-dismissable"
   }
   if (position !== "center") {
     return "toast-width-aside"
@@ -133,7 +134,11 @@ const Toast: FC<AlertProps> = ({
                     <AlertDescription
                       lineHeight={5}
                       color="hsl(0, 0%, 56%)"
-                      whiteSpace="normal"
+                      whiteSpace={
+                        orientation === "horizontal" || position === "center"
+                          ? "nowrap"
+                          : "normal"
+                      }
                     >
                       {description ?? title}
                     </AlertDescription>
