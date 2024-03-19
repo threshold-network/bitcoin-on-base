@@ -1,7 +1,7 @@
 import { ComponentProps, FC } from "react"
 import { Flex, Text, Image } from "@chakra-ui/react"
 import aerodromeLogoSrc from "../../../static/images/aerodrome-logo.svg"
-import fxdxLogoSrc from "../../../static/images/fxdx-logo.svg"
+import curveLogoSrc from "../../../static/images/curve-logo.svg"
 import balancerLogoSrc from "../../../static/images/balancer-logo.svg"
 import LandingPageContentWrapper from "./LandingPageContentWrapper"
 
@@ -11,12 +11,12 @@ const partnersData = [
     imageSrc: aerodromeLogoSrc,
   },
   {
-    name: "fxdx",
-    imageSrc: fxdxLogoSrc,
-  },
-  {
     name: "Balancer",
     imageSrc: balancerLogoSrc,
+  },
+  {
+    name: "Curve",
+    imageSrc: curveLogoSrc,
   },
 ]
 
